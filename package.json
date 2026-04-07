@@ -1,0 +1,21 @@
+{
+  "name": "@armoyu/core",
+  "version": "1.0.0",
+  "description": "Core business logic, models, and services for ARMOYU platforms.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
