@@ -10,7 +10,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "node examples/playground/serve.js",
+    "build:watch": "tsc --watch"
+
   },
   "dependencies": {
     "socket.io-client": "^4.8.1"

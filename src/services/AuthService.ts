@@ -1,18 +1,17 @@
-import { ApiClient } from '../api/ApiClient';
 import { User } from '../models/auth/User';
 import { Session } from '../models/auth/Session';
+import { BaseService } from './BaseService';
 
-
-export class AuthService {
-  private static currentUser: User | null = null;
-  private static session: Session | null = null;
+export class AuthService extends BaseService {
+  private currentUser: User | null = null;
+  private session: Session | null = null;
 
   /**
    * Authenticate a user with username and password.
    */
-  static async login(username: string, password: string): Promise<{ user: User; session: Session }> {
+  async login(username: string, password: string): Promise<{ user: User; session: Session }> {
     try {
-      const response = await ApiClient.post<{ user: any; session: any }>('/auth/login', {
+      const response = await this.client.post<{ user: any; session: any }>('/auth/login', {
         username,
         password
       });
@@ -20,9 +19,14 @@ export class AuthService {
       this.currentUser = User.fromJSON(response.user);
       this.session = Session.fromJSON(response.session);
       
-      // Store token in localStorage if available
-      if (typeof window !== 'undefined' && this.session.token) {
-        localStorage.setItem('armoyu_token', this.session.token);
+      // Update client token if session exists
+      if (this.session.token) {
+        this.client.setToken(this.session.token);
+        
+        // Store token in localStorage if available (standard browser behavior)
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('armoyu_token', this.session.token);
+        }
       }
 
       return { user: this.currentUser, session: this.session };
@@ -35,9 +39,9 @@ export class AuthService {
   /**
    * Register a new user.
    */
-  static async register(data: any): Promise<{ user: User }> {
+  async register(data: any): Promise<{ user: User }> {
     try {
-      const response = await ApiClient.post<{ user: any }>('/auth/register', data);
+      const response = await this.client.post<{ user: any }>('/auth/register', data);
       return { user: User.fromJSON(response.user) };
     } catch (error) {
       console.error('[AuthService] Registration failed:', error);
@@ -48,14 +52,15 @@ export class AuthService {
   /**
    * Logout the current user.
    */
-  static async logout(): Promise<void> {
+  async logout(): Promise<void> {
     try {
-      await ApiClient.post('/auth/logout', {});
+      await this.client.post('/auth/logout', {});
     } catch (error) {
       console.error('[AuthService] Logout API call failed:', error);
     } finally {
       this.currentUser = null;
       this.session = null;
+      this.client.setToken(null);
       if (typeof window !== 'undefined') {
         localStorage.removeItem('armoyu_token');
       }
@@ -65,27 +70,27 @@ export class AuthService {
   /**
    * Get the currently authenticated user's profile.
    */
-  static async me(): Promise<User | null> {
+  async me(): Promise<User | null> {
     try {
-      if (this.currentUser) return this.currentUser;
-
-      const response = await ApiClient.get<{ user: any }>('/auth/me');
+      const response = await this.client.get<{ user: any }>('/auth/me');
       this.currentUser = User.fromJSON(response.user);
       return this.currentUser;
     } catch (error) {
+      this.currentUser = null;
       return null;
     }
   }
 
-  static getCurrentUser(): User | null {
+  getCurrentUser(): User | null {
     return this.currentUser;
   }
 
-  static getSession(): Session | null {
+  getSession(): Session | null {
     return this.session;
   }
 
-  static isAuthenticated(): boolean {
-    return !!this.currentUser;
+  isAuthenticated(): boolean {
+    return !!this.currentUser || !!this.client;
   }
 }
+

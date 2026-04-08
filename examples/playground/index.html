@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARMOYU API App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="ar">AR</span><span class="moyu">MOYU</span>
+                <div class="subtitle">API Console App</div>
+            </div>
+
+            <!-- Global Authorization Controls -->
+            <div class="global-settings">
+                <div class="settings-title">Global Authorization</div>
+                <div class="input-group mini">
+                    <label>ARMOYU API Key</label>
+                    <input type="text" id="global-api-key" placeholder="Enter API Key...">
+                </div>
+                <div class="input-group mini">
+                    <label>Bearer Token</label>
+                    <input type="text" id="global-bearer-token" placeholder="Bearer Token...">
+                </div>
+            </div>
+
+            <nav class="nav-menu" id="side-nav">
+                <!-- Service items will be generated here dynamically -->
+            </nav>
+
+            <div class="status-panel">
+                <div class="status-group">
+                    <div class="status-indicator online" id="api-status"></div>
+                    <span class="status-label">API Status</span>
+                </div>
+                <div class="status-group">
+                    <div class="status-indicator offline" id="socket-status"></div>
+                    <span class="status-label">Socket Status</span>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Main Content area -->
+        <main class="content">
+            <header class="top-bar">
+                <h1 id="panel-title">Authentication Services</h1>
+                <div class="actions">
+                    <button id="toggle-mock" class="btn btn-secondary">Mock Mode: OFF</button>
+                    <button id="clear-console" class="btn btn-danger">Clear Console</button>
+                </div>
+            </header>
+
+            <div class="panels-container">
+                <!-- Action Workshop Panel -->
+                <section class="action-grid" id="action-panel">
+                    <!-- Actions will be injected here via JS -->
+                </section>
+
+                <!-- Console Output Panel -->
+                <section class="console-panel">
+                    <div class="console-header">
+                        <span>LIVE OUTPUT</span>
+                        <div class="console-tabs">
+                            <div class="console-tab active">JSON</div>
+                        </div>
+                    </div>
+                    <div class="console-body" id="console-output">
+                        <div class="log-entry system">Welcome to ARMOYU API Console App. Ready to intercept...</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Core App Logic -->
+    <script src="app.js"></script>
+</body>
+
+</html>

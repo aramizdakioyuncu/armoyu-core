@@ -1,13 +1,15 @@
-import { ApiClient } from '../api/ApiClient';
 import { User } from '../models/auth/User';
+import { BaseService } from './BaseService';
 
-export class UserService {
+export class UserService extends BaseService {
   /**
    * Search for users based on a query string.
    */
-  static async search(query: string): Promise<User[]> {
+  async search(query: string): Promise<User[]> {
     try {
-      const response = await ApiClient.get<any[]>(`/users/search?q=${encodeURIComponent(query)}`);
+      const response = await this.client.get<any[]>(`/users/search`, {
+        params: { q: query }
+      });
       return Array.isArray(response) ? response.map((u: any) => User.fromJSON(u)) : [];
     } catch (error) {
       console.error('[UserService] User search failed:', error);
@@ -18,9 +20,9 @@ export class UserService {
   /**
    * Get a specific user's public profile.
    */
-  static async getProfile(username: string): Promise<User | null> {
+  async getProfile(username: string): Promise<User | null> {
     try {
-      const response = await ApiClient.get<any>(`/users/${username}`);
+      const response = await this.client.get<any>(`/users/${username}`);
       return response ? User.fromJSON(response) : null;
     } catch (error) {
       console.error(`[UserService] Fetching profile for ${username} failed:`, error);
@@ -31,9 +33,9 @@ export class UserService {
   /**
    * Follow or unfollow a user.
    */
-  static async toggleFollow(userId: string): Promise<boolean> {
+  async toggleFollow(userId: string): Promise<boolean> {
     try {
-      const response = await ApiClient.post<{ following: boolean }>(`/users/${userId}/follow`, {});
+      const response = await this.client.post<{ following: boolean }>(`/users/${userId}/follow`, {});
       return response.following;
     } catch (error) {
       console.error('[UserService] Toggle follow failed:', error);
@@ -44,9 +46,9 @@ export class UserService {
   /**
    * Get a user's friends list.
    */
-  static async getFriends(userId: string): Promise<User[]> {
+  async getFriends(userId: string): Promise<User[]> {
     try {
-      const response = await ApiClient.get<any[]>(`/users/${userId}/friends`);
+      const response = await this.client.get<any[]>(`/users/${userId}/friends`);
       return Array.isArray(response) ? response.map((u: any) => User.fromJSON(u)) : [];
     } catch (error) {
       console.error('[UserService] Get friends failed:', error);
@@ -57,9 +59,9 @@ export class UserService {
   /**
    * Update the current user's profile information.
    */
-  static async updateProfile(data: Partial<User>): Promise<User | null> {
+  async updateProfile(data: Partial<User>): Promise<User | null> {
     try {
-      const response = await ApiClient.post<any>('/users/me/update', data);
+      const response = await this.client.post<any>('/users/me/update', data);
       return response ? User.fromJSON(response) : null;
     } catch (error) {
       console.error('[UserService] Update profile failed:', error);
@@ -67,3 +69,4 @@ export class UserService {
     }
   }
 }
+

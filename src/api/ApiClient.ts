@@ -1,57 +1,139 @@
 /**
  * Core API Client for the ARMOYU platform.
- * Used by all services in armoyu-core.
+ * Supports instance-based configuration and standard HTTP methods.
  */
 
-let _apiUrl = 'https://api.aramizdakioyuncu.com';
-let _token: string | null = null;
-
-export const ApiConfig = {
-  setBaseUrl(url: string) {
-    _apiUrl = url;
-  },
-  setToken(token: string | null) {
-    _token = token;
-  },
-  getToken(): string | null {
-    return _token;
+export class ApiError extends Error {
+  constructor(
+    public message: string,
+    public status?: number,
+    public statusText?: string,
+    public data?: any
+  ) {
+    super(message);
+    this.name = 'ApiError';
   }
-};
+}
+
+export interface ApiRequestOptions extends RequestInit {
+  params?: Record<string, string | number | boolean | undefined>;
+}
+
+export interface ApiConfig {
+  baseUrl: string;
+  token?: string | null;
+  headers?: Record<string, string>;
+}
 
 export class ApiClient {
-  private static async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const headers = new Headers(options.headers || {});
-    headers.set('Content-Type', 'application/json');
+  private config: ApiConfig;
 
-    if (_token) {
-      headers.set('Authorization', `Bearer ${_token}`);
-    }
-
-    const response = await fetch(`${_apiUrl}${endpoint}`, {
-      ...options,
-      headers,
-    });
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.status} - ${response.statusText}`);
-    }
-
-    return response.json();
+  constructor(config: ApiConfig) {
+    this.config = {
+      ...config,
+      headers: {
+        'Content-Type': 'application/json',
+        ...config.headers,
+      },
+    };
   }
 
-  static async get<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  private async request<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<T> {
+    const { params, ...fetchOptions } = options;
+    
+    // Build URL with query parameters
+    let url = `${this.config.baseUrl}${endpoint}`;
+    if (params) {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          searchParams.append(key, String(value));
+        }
+      });
+      const queryString = searchParams.toString();
+      if (queryString) {
+        url += (url.includes('?') ? '&' : '?') + queryString;
+      }
+    }
+
+    const headers = new Headers(this.config.headers || {});
+    if (this.config.token) {
+      headers.set('Authorization', `Bearer ${this.config.token}`);
+    }
+
+    try {
+      const response = await fetch(url, {
+        ...fetchOptions,
+        headers,
+      });
+
+      let responseData: any;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        responseData = await response.json();
+      } else {
+        responseData = await response.text();
+      }
+
+      if (!response.ok) {
+        throw new ApiError(
+          responseData?.message || `API Error: ${response.status} - ${response.statusText}`,
+          response.status,
+          response.statusText,
+          responseData
+        );
+      }
+
+      return responseData as T;
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      throw new ApiError(error instanceof Error ? error.message : 'Unknown Network Error');
+    }
+  }
+
+  async get<T>(endpoint: string, options?: ApiRequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }
 
-  static async post<T>(endpoint: string, body: unknown, options?: RequestInit): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'POST', body: JSON.stringify(body) });
+  async post<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+    return this.request<T>(endpoint, { 
+      ...options, 
+      method: 'POST', 
+      body: body ? JSON.stringify(body) : undefined 
+    });
   }
 
-  static async put<T>(endpoint: string, body: unknown, options?: RequestInit): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'PUT', body: JSON.stringify(body) });
+  async put<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+    return this.request<T>(endpoint, { 
+      ...options, 
+      method: 'PUT', 
+      body: body ? JSON.stringify(body) : undefined 
+    });
   }
 
-  static async delete<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  async patch<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+    return this.request<T>(endpoint, { 
+      ...options, 
+      method: 'PATCH', 
+      body: body ? JSON.stringify(body) : undefined 
+    });
+  }
+
+  async delete<T>(endpoint: string, options?: ApiRequestOptions): Promise<T> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
+
+  setToken(token: string | null) {
+    this.config.token = token;
+  }
+
+  setBaseUrl(url: string) {
+    this.config.baseUrl = url;
+  }
 }
+
+// Default instance for shared use
+export const defaultApiClient = new ApiClient({
+  baseUrl: 'https://api.aramizdakioyuncu.com'
+});
+
