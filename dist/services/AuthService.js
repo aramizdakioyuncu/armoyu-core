@@ -1,24 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-const ApiClient_1 = require("../api/ApiClient");
 const User_1 = require("../models/auth/User");
 const Session_1 = require("../models/auth/Session");
-class AuthService {
+const BaseService_1 = require("./BaseService");
+class AuthService extends BaseService_1.BaseService {
+    constructor() {
+        super(...arguments);
+        this.currentUser = null;
+        this.session = null;
+    }
     /**
      * Authenticate a user with username and password.
      */
-    static async login(username, password) {
+    async login(username, password) {
         try {
-            const response = await ApiClient_1.ApiClient.post('/auth/login', {
-                username,
-                password
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+            const response = await this.client.post('/0/0/0', formData);
+            // Handle raw response if it's still a string (though ApiClient should have parsed it)
+            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            const icerik = this.handleResponse(data);
+            // ARMOYU Login logic: Token is inside the 'aciklama' field (as a string or object)
+            let token = '';
+            if (typeof data.aciklama === 'string') {
+                // Only treat as token if it doesn't contain spaces/special characters (not a sentence like "Giriş Başarılı")
+                const isStrictToken = /^[a-zA-Z0-9.\-_=]+$/.test(data.aciklama);
+                if (isStrictToken) {
+                    token = data.aciklama;
+                }
+            }
+            else if (data.aciklama && typeof data.aciklama === 'object') {
+                token = data.aciklama.token || data.aciklama.session_token || '';
+            }
+            this.currentUser = User_1.User.fromJSON(icerik);
+            this.session = new Session_1.Session({
+                user: this.currentUser,
+                token: token || (icerik === null || icerik === void 0 ? void 0 : icerik.token) || (icerik === null || icerik === void 0 ? void 0 : icerik.session_token) || null
             });
-            this.currentUser = User_1.User.fromJSON(response.user);
-            this.session = Session_1.Session.fromJSON(response.session);
-            // Store token in localStorage if available
-            if (typeof window !== 'undefined' && this.session.token) {
-                localStorage.setItem('armoyu_token', this.session.token);
+            // Update client token for all subsequent requests
+            if (this.session.token) {
+                this.client.setToken(this.session.token);
+                // Store token in localStorage if available (standard browser behavior)
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem('armoyu_token', this.session.token);
+                }
             }
             return { user: this.currentUser, session: this.session };
         }
@@ -30,10 +57,11 @@ class AuthService {
     /**
      * Register a new user.
      */
-    static async register(data) {
+    async register(data) {
         try {
-            const response = await ApiClient_1.ApiClient.post('/auth/register', data);
-            return { user: User_1.User.fromJSON(response.user) };
+            const response = await this.client.post('/auth/register', data);
+            const icerik = this.handleResponse(response);
+            return { user: User_1.User.fromJSON(icerik.user) };
         }
         catch (error) {
             console.error('[AuthService] Registration failed:', error);
@@ -43,9 +71,9 @@ class AuthService {
     /**
      * Logout the current user.
      */
-    static async logout() {
+    async logout() {
         try {
-            await ApiClient_1.ApiClient.post('/auth/logout', {});
+            await this.client.post('/auth/logout', {});
         }
         catch (error) {
             console.error('[AuthService] Logout API call failed:', error);
@@ -53,6 +81,7 @@ class AuthService {
         finally {
             this.currentUser = null;
             this.session = null;
+            this.client.setToken(null);
             if (typeof window !== 'undefined') {
                 localStorage.removeItem('armoyu_token');
             }
@@ -61,28 +90,28 @@ class AuthService {
     /**
      * Get the currently authenticated user's profile.
      */
-    static async me() {
+    async me() {
         try {
-            if (this.currentUser)
-                return this.currentUser;
-            const response = await ApiClient_1.ApiClient.get('/auth/me');
-            this.currentUser = User_1.User.fromJSON(response.user);
+            const response = await this.client.get('/auth/me');
+            const icerik = this.handleResponse(response);
+            // Robust mapping: handle direct user object or nested { user: {...} }
+            const userData = icerik && (icerik.user || icerik);
+            this.currentUser = userData ? User_1.User.fromJSON(userData) : null;
             return this.currentUser;
         }
         catch (error) {
+            this.currentUser = null;
             return null;
         }
     }
-    static getCurrentUser() {
+    getCurrentUser() {
         return this.currentUser;
     }
-    static getSession() {
+    getSession() {
         return this.session;
     }
-    static isAuthenticated() {
-        return !!this.currentUser;
+    isAuthenticated() {
+        return !!this.currentUser || !!this.client;
     }
 }
 exports.AuthService = AuthService;
-AuthService.currentUser = null;
-AuthService.session = null;

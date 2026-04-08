@@ -1,30 +1,31 @@
 import { User } from '../models/auth/User';
 import { Session } from '../models/auth/Session';
-export declare class AuthService {
-    private static currentUser;
-    private static session;
+import { BaseService } from './BaseService';
+export declare class AuthService extends BaseService {
+    private currentUser;
+    private session;
     /**
      * Authenticate a user with username and password.
      */
-    static login(username: string, password: string): Promise<{
+    login(username: string, password: string): Promise<{
         user: User;
         session: Session;
     }>;
     /**
      * Register a new user.
      */
-    static register(data: any): Promise<{
+    register(data: any): Promise<{
         user: User;
     }>;
     /**
      * Logout the current user.
      */
-    static logout(): Promise<void>;
+    logout(): Promise<void>;
     /**
      * Get the currently authenticated user's profile.
      */
-    static me(): Promise<User | null>;
-    static getCurrentUser(): User | null;
-    static getSession(): Session | null;
-    static isAuthenticated(): boolean;
+    me(): Promise<User | null>;
+    getCurrentUser(): User | null;
+    getSession(): Session | null;
+    isAuthenticated(): boolean;
 }

@@ -6,6 +6,7 @@ import { BlogService } from '../services/BlogService';
 import { ShopService } from '../services/ShopService';
 import { ForumService } from '../services/ForumService';
 import { SupportService } from '../services/SupportService';
+import { RuleService } from '../services/RuleService';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -19,6 +20,7 @@ export class ArmoyuApi {
   public shop: ShopService;
   public forum: ForumService;
   public support: SupportService;
+  public rules: RuleService;
 
   private client: ApiClient;
 
@@ -28,10 +30,13 @@ export class ArmoyuApi {
       this.client = new ApiClient({
         baseUrl: config.baseUrl,
         token: config.token || null,
+        apiKey: config.apiKey || null,
         headers: config.headers || {},
       });
     } else {
       this.client = defaultApiClient;
+      if (config && config.token) this.client.setToken(config.token);
+      if (config && config.apiKey) this.client.setApiKey(config.apiKey);
     }
 
     // Initialize services with the api client
@@ -42,6 +47,7 @@ export class ArmoyuApi {
     this.shop = new ShopService(this.client);
     this.forum = new ForumService(this.client);
     this.support = new SupportService(this.client);
+    this.rules = new RuleService(this.client);
   }
 
   /**
@@ -52,10 +58,17 @@ export class ArmoyuApi {
   }
 
   /**
-   * Set a new base URL for the API.
+   * Set a new API key for bot/rule services.
    */
-  setBaseUrl(url: string) {
-    this.client.setBaseUrl(url);
+  setApiKey(key: string | null) {
+    this.client.setApiKey(key);
+  }
+
+  /**
+   * Get the last raw JSON response received from the API.
+   */
+  get lastResponse(): any {
+    return (this.client as any).lastRawResponse;
   }
 }
 

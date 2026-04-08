@@ -15,6 +15,7 @@ export * from './services/BlogService';
 export * from './services/ShopService';
 export * from './services/ForumService';
 export * from './services/SupportService';
+export * from './services/RuleService';
 
 
 /**

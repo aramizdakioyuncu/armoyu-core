@@ -29,6 +29,7 @@ export * from './shop/Order';
 export * from './shop/CartItem';
 export * from './core/PlatformStats';
 export * from './core/SystemSettings';
+export * from './core/Rule';
 export * from './social/SupportTicket';
 export * from './content/Game';
 export * from './content/Media';

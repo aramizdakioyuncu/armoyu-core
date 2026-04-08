@@ -15,24 +15,45 @@ export class ApiError extends Error {
   }
 }
 
+export enum HttpMethod {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
+}
+
 export interface ApiRequestOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>;
+  method?: HttpMethod | string;
 }
 
 export interface ApiConfig {
   baseUrl: string;
   token?: string | null;
+  apiKey?: string | null;
   headers?: Record<string, string>;
+}
+
+/**
+ * Standard API Response structure for ARMOYU legacy and bot APIs.
+ */
+export interface StandardApiResponse<T = any> {
+  durum: number;
+  aciklama: string | any;
+  aciklamadetay?: number;
+  icerik: T;
+  zaman: string;
 }
 
 export class ApiClient {
   private config: ApiConfig;
+  public lastRawResponse: any = null;
 
   constructor(config: ApiConfig) {
     this.config = {
       ...config,
       headers: {
-        'Content-Type': 'application/json',
         ...config.headers,
       },
     };
@@ -57,14 +78,35 @@ export class ApiClient {
     }
 
     const headers = new Headers(this.config.headers || {});
+    
+    // Default to JSON body handling if it's a plain object
+    let requestBody: any = options.body;
+    if (options.body && typeof options.body === 'object' && 
+        !(options.body instanceof URLSearchParams) && 
+        !(typeof FormData !== 'undefined' && options.body instanceof FormData)) {
+      headers.set('Content-Type', 'application/json');
+      requestBody = JSON.stringify(options.body);
+    }
+    
     if (this.config.token) {
-      headers.set('Authorization', `Bearer ${this.config.token}`);
+      // Validate token to avoid 'non ISO-8859-1' errors in headers
+      const isAscii = /^[ -~]*$/.test(this.config.token);
+      if (isAscii) {
+        headers.set('Authorization', `Bearer ${this.config.token}`);
+      } else {
+        console.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
+      }
+    }
+    
+    if (this.config.apiKey) {
+      headers.set('X-API-KEY', this.config.apiKey);
     }
 
     try {
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
+        body: requestBody
       });
 
       let responseData: any;
@@ -72,18 +114,27 @@ export class ApiClient {
       if (contentType && contentType.includes('application/json')) {
         responseData = await response.json();
       } else {
-        responseData = await response.text();
+        const text = await response.text();
+        try {
+          // Robust JSON parsing for some ARMOYU API endpoints that return JSON but with wrong Content-Type
+          responseData = JSON.parse(text);
+        } catch {
+          responseData = text;
+        }
       }
 
       if (!response.ok) {
+        this.lastRawResponse = responseData;
+        const errorMsg = responseData?.aciklama || responseData?.message || `API Error: ${response.status} - ${response.statusText}`;
         throw new ApiError(
-          responseData?.message || `API Error: ${response.status} - ${response.statusText}`,
+          errorMsg,
           response.status,
           response.statusText,
           responseData
         );
       }
 
+      this.lastRawResponse = responseData;
       return responseData as T;
     } catch (error) {
       if (error instanceof ApiError) throw error;
@@ -92,39 +143,47 @@ export class ApiClient {
   }
 
   async get<T>(endpoint: string, options?: ApiRequestOptions): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'GET' });
+    return this.request<T>(endpoint, { ...options, method: HttpMethod.GET });
   }
 
-  async post<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+  async post<T>(endpoint: string, body?: any, options?: ApiRequestOptions): Promise<T> {
     return this.request<T>(endpoint, { 
       ...options, 
-      method: 'POST', 
-      body: body ? JSON.stringify(body) : undefined 
+      method: HttpMethod.POST, 
+      body: body
     });
   }
 
-  async put<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+  async put<T>(endpoint: string, body?: any, options?: ApiRequestOptions): Promise<T> {
     return this.request<T>(endpoint, { 
       ...options, 
-      method: 'PUT', 
-      body: body ? JSON.stringify(body) : undefined 
+      method: HttpMethod.PUT, 
+      body: body
     });
   }
 
-  async patch<T>(endpoint: string, body?: unknown, options?: ApiRequestOptions): Promise<T> {
+  async patch<T>(endpoint: string, body?: any, options?: ApiRequestOptions): Promise<T> {
     return this.request<T>(endpoint, { 
       ...options, 
-      method: 'PATCH', 
-      body: body ? JSON.stringify(body) : undefined 
+      method: HttpMethod.PATCH, 
+      body: body
     });
   }
 
   async delete<T>(endpoint: string, options?: ApiRequestOptions): Promise<T> {
-    return this.request<T>(endpoint, { ...options, method: 'DELETE' });
+    return this.request<T>(endpoint, { ...options, method: HttpMethod.DELETE });
   }
 
   setToken(token: string | null) {
     this.config.token = token;
+  }
+
+  setApiKey(key: string | null) {
+    this.config.apiKey = key;
+  }
+
+  getApiKey(): string | null {
+    return this.config.apiKey || null;
   }
 
   setBaseUrl(url: string) {

@@ -45,6 +45,7 @@ __exportStar(require("./shop/Order"), exports);
 __exportStar(require("./shop/CartItem"), exports);
 __exportStar(require("./core/PlatformStats"), exports);
 __exportStar(require("./core/SystemSettings"), exports);
+__exportStar(require("./core/Rule"), exports);
 __exportStar(require("./social/SupportTicket"), exports);
 __exportStar(require("./content/Game"), exports);
 __exportStar(require("./content/Media"), exports);

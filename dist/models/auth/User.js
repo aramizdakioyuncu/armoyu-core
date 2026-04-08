@@ -65,32 +65,27 @@ class User {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static fromJSON(json) {
+        const avatarData = json.avatar || {};
+        const bannerData = json.banner || {};
+        const detailInfo = json.detailInfo || {};
+        const userRole = json.userRole || {};
         return new User({
-            id: json.id || json.id_user || '',
-            username: json.username || '',
-            displayName: json.displayName || json.name || json.username || '',
-            avatar: json.avatar || json.avatar_url || '',
-            banner: json.banner || json.banner_url || 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=2574&auto=format&fit=crop',
-            bio: json.bio || '',
-            role: json.role ? Role_1.Role.fromJSON(json.role) : null,
-            verified: json.verified || false,
-            level: json.level || json.user_level || 1,
-            xp: json.xp || json.experience || 0,
-            popScore: json.popScore || 0,
-            groups: json.groups || [],
+            id: String(json.owner_ID || json.playerID || json.id || json.id_user || json.user_id || ''),
+            username: json.username || json.user_name || json.owner_username || json.oyuncu_ad || '',
+            displayName: json.displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || '',
+            avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || '') : avatarData,
+            banner: typeof bannerData === 'object' ? (bannerData.media_URL || bannerData.media_bigURL || bannerData.media_minURL || '') : bannerData,
+            bio: detailInfo.about || json.bio || json.oyuncu_bio || '',
+            role: userRole.roleName ? Role_1.Role.fromJSON({ name: userRole.roleName, color: userRole.roleColor }) : (json.role ? Role_1.Role.fromJSON(json.role) : null),
+            verified: json.verified || (json.oyuncu_onay === 1) || false,
+            level: Number(json.level || json.oyuncu_seviye || 1),
+            xp: Number(json.levelXP || json.xp || json.user_xp || 0),
+            popScore: Number(json.popScore || json.user_popscore || 0),
+            groups: json.groups || json.user_groups || [],
             friends: Array.isArray(json.friends) ? json.friends.map((f) => {
-                // Shallow conversion to avoid infinite recursion
                 if (f instanceof User)
                     return f;
-                return new User({
-                    id: f.id || f.id_user || '',
-                    username: f.username || '',
-                    displayName: f.displayName || f.name || f.username || '',
-                    avatar: f.avatar || f.avatar_url || '',
-                    role: f.role ? Role_1.Role.fromJSON(f.role) : null,
-                    verified: f.verified || false,
-                    level: f.level || 1
-                });
+                return User.fromJSON(f);
             }) : [],
         });
     }

@@ -7,12 +7,13 @@ export class SupportService extends BaseService {
    */
   async createTicket(subject: string, message: string, category: string): Promise<SupportTicket> {
     try {
-      const response = await this.client.post<{ ticket: any }>('/social/support/tickets', {
+      const response = await this.client.post<any>('/social/support/tickets', {
         subject,
         message,
         category
       });
-      return SupportTicket.fromJSON(response.ticket);
+      const icerik = this.handleResponse<{ ticket: any }>(response);
+      return SupportTicket.fromJSON(icerik.ticket);
     } catch (error) {
       console.error('[SupportService] Failed to create ticket:', error);
       throw error;
@@ -24,8 +25,9 @@ export class SupportService extends BaseService {
    */
   async getMyTickets(): Promise<SupportTicket[]> {
     try {
-      const response = await this.client.get<{ tickets: any[] }>('/social/support/my-tickets');
-      return response.tickets.map(t => SupportTicket.fromJSON(t));
+      const response = await this.client.get<any>('/social/support/my-tickets');
+      const icerik = this.handleResponse<{ tickets: any[] }>(response);
+      return icerik.tickets.map(t => SupportTicket.fromJSON(t));
     } catch (error) {
       console.error('[SupportService] Failed to fetch user tickets:', error);
       return [];
@@ -38,7 +40,8 @@ export class SupportService extends BaseService {
   async getTicketDetails(ticketId: string): Promise<SupportTicket | null> {
     try {
       const response = await this.client.get<any>(`/social/support/tickets/${ticketId}`);
-      return SupportTicket.fromJSON(response);
+      const icerik = this.handleResponse<any>(response);
+      return SupportTicket.fromJSON(icerik);
     } catch (error) {
       console.error(`[SupportService] Failed to fetch ticket ${ticketId}:`, error);
       return null;

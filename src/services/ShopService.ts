@@ -8,10 +8,11 @@ export class ShopService extends BaseService {
    */
   async getProducts(category?: string, searchTerm?: string): Promise<Product[]> {
     try {
-      const response = await this.client.get<{ products: any[] }>('/shop/products', {
+      const response = await this.client.get<any>('/shop/products', {
         params: { category, q: searchTerm }
       });
-      return response.products.map(p => Product.fromJSON(p));
+      const icerik = this.handleResponse<{ products: any[] }>(response);
+      return icerik.products.map(p => Product.fromJSON(p));
     } catch (error) {
       console.error('[ShopService] Failed to fetch products:', error);
       return [];
@@ -24,7 +25,8 @@ export class ShopService extends BaseService {
   async getProductDetails(productId: string): Promise<Product | null> {
     try {
       const response = await this.client.get<any>(`/shop/products/${productId}`);
-      return Product.fromJSON(response);
+      const icerik = this.handleResponse<any>(response);
+      return Product.fromJSON(icerik);
     } catch (error) {
       console.error(`[ShopService] Failed to fetch product ${productId}:`, error);
       return null;
@@ -36,8 +38,9 @@ export class ShopService extends BaseService {
    */
   async createOrder(items: { productId: number; quantity: number }[]): Promise<Order> {
     try {
-      const response = await this.client.post<{ order: any }>('/shop/orders', { items });
-      return Order.fromJSON(response.order);
+      const response = await this.client.post<any>('/shop/orders', { items });
+      const icerik = this.handleResponse<{ order: any }>(response);
+      return Order.fromJSON(icerik.order);
     } catch (error) {
       console.error('[ShopService] Order creation failed:', error);
       throw error;

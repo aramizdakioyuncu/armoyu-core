@@ -11,15 +11,36 @@ export class AuthService extends BaseService {
    */
   async login(username: string, password: string): Promise<{ user: User; session: Session }> {
     try {
-      const response = await this.client.post<{ user: any; session: any }>('/auth/login', {
-        username,
-        password
-      });
+      const formData = new FormData();
+      formData.append('username', username);
+      formData.append('password', password);
 
-      this.currentUser = User.fromJSON(response.user);
-      this.session = Session.fromJSON(response.session);
+      const response = await this.client.post<any>('/0/0/0', formData);
+
+      // Handle raw response if it's still a string (though ApiClient should have parsed it)
+      const data = typeof response === 'string' ? JSON.parse(response) : response;
       
-      // Update client token if session exists
+      const icerik = this.handleResponse<any>(data);
+      
+      // ARMOYU Login logic: Token is inside the 'aciklama' field (as a string or object)
+      let token = '';
+      if (typeof data.aciklama === 'string') {
+        // Only treat as token if it doesn't contain spaces/special characters (not a sentence like "Giriş Başarılı")
+        const isStrictToken = /^[a-zA-Z0-9.\-_=]+$/.test(data.aciklama);
+        if (isStrictToken) {
+          token = data.aciklama;
+        }
+      } else if (data.aciklama && typeof data.aciklama === 'object') {
+        token = data.aciklama.token || data.aciklama.session_token || '';
+      }
+      
+      this.currentUser = User.fromJSON(icerik);
+      this.session = new Session({ 
+        user: this.currentUser, 
+        token: token || icerik?.token || icerik?.session_token || null 
+      });
+      
+      // Update client token for all subsequent requests
       if (this.session.token) {
         this.client.setToken(this.session.token);
         
@@ -41,8 +62,9 @@ export class AuthService extends BaseService {
    */
   async register(data: any): Promise<{ user: User }> {
     try {
-      const response = await this.client.post<{ user: any }>('/auth/register', data);
-      return { user: User.fromJSON(response.user) };
+      const response = await this.client.post<any>('/auth/register', data);
+      const icerik = this.handleResponse<{ user: any }>(response);
+      return { user: User.fromJSON(icerik.user) };
     } catch (error) {
       console.error('[AuthService] Registration failed:', error);
       throw error;
@@ -72,8 +94,13 @@ export class AuthService extends BaseService {
    */
   async me(): Promise<User | null> {
     try {
-      const response = await this.client.get<{ user: any }>('/auth/me');
-      this.currentUser = User.fromJSON(response.user);
+      const response = await this.client.get<any>('/auth/me');
+      const icerik = this.handleResponse<any>(response);
+      
+      // Robust mapping: handle direct user object or nested { user: {...} }
+      const userData = icerik && (icerik.user || icerik);
+      this.currentUser = userData ? User.fromJSON(userData) : null;
+      
       return this.currentUser;
     } catch (error) {
       this.currentUser = null;

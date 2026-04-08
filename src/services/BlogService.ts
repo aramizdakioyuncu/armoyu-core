@@ -7,10 +7,11 @@ export class BlogService extends BaseService {
    */
   async getNews(page: number = 1, limit: number = 10): Promise<News[]> {
     try {
-      const response = await this.client.get<{ news: any[] }>('/content/news', {
+      const response = await this.client.get<any>('/content/news', {
         params: { page, limit }
       });
-      return response.news.map(n => News.fromJSON(n));
+      const icerik = this.handleResponse<{ news: any[] }>(response);
+      return icerik.news.map(n => News.fromJSON(n));
     } catch (error) {
       console.error('[BlogService] Failed to fetch news:', error);
       return [];
@@ -23,7 +24,8 @@ export class BlogService extends BaseService {
   async getNewsBySlug(slug: string): Promise<News | null> {
     try {
       const response = await this.client.get<any>(`/content/news/${slug}`);
-      return News.fromJSON(response);
+      const icerik = this.handleResponse<any>(response);
+      return News.fromJSON(icerik);
     } catch (error) {
       console.error(`[BlogService] Failed to fetch news article ${slug}:`, error);
       return null;
@@ -35,10 +37,11 @@ export class BlogService extends BaseService {
    */
   async searchNews(query: string): Promise<News[]> {
     try {
-      const response = await this.client.get<{ news: any[] }>('/content/news/search', {
+      const response = await this.client.get<any>('/content/news/search', {
         params: { q: query }
       });
-      return response.news.map(n => News.fromJSON(n));
+      const icerik = this.handleResponse<{ news: any[] }>(response);
+      return icerik.news.map(n => News.fromJSON(n));
     } catch (error) {
       console.error('[BlogService] News search failed:', error);
       return [];

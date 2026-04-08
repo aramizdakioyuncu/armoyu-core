@@ -1,23 +1,28 @@
 import { User } from '../models/auth/User';
-export declare class UserService {
+import { BaseService } from './BaseService';
+export declare class UserService extends BaseService {
+    constructor(client: any);
     /**
      * Search for users based on a query string.
      */
-    static search(query: string): Promise<User[]>;
+    search(query: string): Promise<User[]>;
     /**
-     * Get a specific user's public profile.
+     * Get a specific user's public profile using the bot API.
      */
-    static getProfile(username: string): Promise<User | null>;
+    getUserByUsername(username: string): Promise<User | null>;
+    /**
+     * Get a specific user's public profile (Legacy API).
+     */
     /**
      * Follow or unfollow a user.
      */
-    static toggleFollow(userId: string): Promise<boolean>;
+    toggleFollow(userId: string): Promise<boolean>;
     /**
      * Get a user's friends list.
      */
-    static getFriends(userId: string): Promise<User[]>;
+    getFriends(userId: string): Promise<User[]>;
     /**
      * Update the current user's profile information.
      */
-    static updateProfile(data: Partial<User>): Promise<User | null>;
+    updateProfile(data: Partial<User>): Promise<User | null>;
 }

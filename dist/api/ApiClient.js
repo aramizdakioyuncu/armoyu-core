@@ -1,50 +1,154 @@
 "use strict";
 /**
  * Core API Client for the ARMOYU platform.
- * Used by all services in armoyu-core.
+ * Supports instance-based configuration and standard HTTP methods.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiClient = exports.ApiConfig = void 0;
-let _apiUrl = 'https://api.aramizdakioyuncu.com';
-let _token = null;
-exports.ApiConfig = {
-    setBaseUrl(url) {
-        _apiUrl = url;
-    },
-    setToken(token) {
-        _token = token;
-    },
-    getToken() {
-        return _token;
+exports.defaultApiClient = exports.ApiClient = exports.HttpMethod = exports.ApiError = void 0;
+class ApiError extends Error {
+    constructor(message, status, statusText, data) {
+        super(message);
+        this.message = message;
+        this.status = status;
+        this.statusText = statusText;
+        this.data = data;
+        this.name = 'ApiError';
     }
-};
+}
+exports.ApiError = ApiError;
+var HttpMethod;
+(function (HttpMethod) {
+    HttpMethod["GET"] = "GET";
+    HttpMethod["POST"] = "POST";
+    HttpMethod["PUT"] = "PUT";
+    HttpMethod["PATCH"] = "PATCH";
+    HttpMethod["DELETE"] = "DELETE";
+})(HttpMethod || (exports.HttpMethod = HttpMethod = {}));
 class ApiClient {
-    static async request(endpoint, options = {}) {
-        const headers = new Headers(options.headers || {});
-        headers.set('Content-Type', 'application/json');
-        if (_token) {
-            headers.set('Authorization', `Bearer ${_token}`);
+    constructor(config) {
+        this.lastRawResponse = null;
+        this.config = {
+            ...config,
+            headers: {
+                ...config.headers,
+            },
+        };
+    }
+    async request(endpoint, options = {}) {
+        const { params, ...fetchOptions } = options;
+        // Build URL with query parameters
+        let url = `${this.config.baseUrl}${endpoint}`;
+        if (params) {
+            const searchParams = new URLSearchParams();
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    searchParams.append(key, String(value));
+                }
+            });
+            const queryString = searchParams.toString();
+            if (queryString) {
+                url += (url.includes('?') ? '&' : '?') + queryString;
+            }
         }
-        const response = await fetch(`${_apiUrl}${endpoint}`, {
+        const headers = new Headers(this.config.headers || {});
+        // Default to JSON body handling if it's a plain object
+        let requestBody = options.body;
+        if (options.body && typeof options.body === 'object' &&
+            !(options.body instanceof URLSearchParams) &&
+            !(typeof FormData !== 'undefined' && options.body instanceof FormData)) {
+            headers.set('Content-Type', 'application/json');
+            requestBody = JSON.stringify(options.body);
+        }
+        if (this.config.token) {
+            // Validate token to avoid 'non ISO-8859-1' errors in headers
+            const isAscii = /^[ -~]*$/.test(this.config.token);
+            if (isAscii) {
+                headers.set('Authorization', `Bearer ${this.config.token}`);
+            }
+            else {
+                console.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
+            }
+        }
+        if (this.config.apiKey) {
+            headers.set('X-API-KEY', this.config.apiKey);
+        }
+        try {
+            const response = await fetch(url, {
+                ...fetchOptions,
+                headers,
+                body: requestBody
+            });
+            let responseData;
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+                responseData = await response.json();
+            }
+            else {
+                const text = await response.text();
+                try {
+                    // Robust JSON parsing for some ARMOYU API endpoints that return JSON but with wrong Content-Type
+                    responseData = JSON.parse(text);
+                }
+                catch {
+                    responseData = text;
+                }
+            }
+            if (!response.ok) {
+                this.lastRawResponse = responseData;
+                const errorMsg = (responseData === null || responseData === void 0 ? void 0 : responseData.aciklama) || (responseData === null || responseData === void 0 ? void 0 : responseData.message) || `API Error: ${response.status} - ${response.statusText}`;
+                throw new ApiError(errorMsg, response.status, response.statusText, responseData);
+            }
+            this.lastRawResponse = responseData;
+            return responseData;
+        }
+        catch (error) {
+            if (error instanceof ApiError)
+                throw error;
+            throw new ApiError(error instanceof Error ? error.message : 'Unknown Network Error');
+        }
+    }
+    async get(endpoint, options) {
+        return this.request(endpoint, { ...options, method: HttpMethod.GET });
+    }
+    async post(endpoint, body, options) {
+        return this.request(endpoint, {
             ...options,
-            headers,
+            method: HttpMethod.POST,
+            body: body
         });
-        if (!response.ok) {
-            throw new Error(`API Error: ${response.status} - ${response.statusText}`);
-        }
-        return response.json();
     }
-    static async get(endpoint, options) {
-        return this.request(endpoint, { ...options, method: 'GET' });
+    async put(endpoint, body, options) {
+        return this.request(endpoint, {
+            ...options,
+            method: HttpMethod.PUT,
+            body: body
+        });
     }
-    static async post(endpoint, body, options) {
-        return this.request(endpoint, { ...options, method: 'POST', body: JSON.stringify(body) });
+    async patch(endpoint, body, options) {
+        return this.request(endpoint, {
+            ...options,
+            method: HttpMethod.PATCH,
+            body: body
+        });
     }
-    static async put(endpoint, body, options) {
-        return this.request(endpoint, { ...options, method: 'PUT', body: JSON.stringify(body) });
+    async delete(endpoint, options) {
+        return this.request(endpoint, { ...options, method: HttpMethod.DELETE });
     }
-    static async delete(endpoint, options) {
-        return this.request(endpoint, { ...options, method: 'DELETE' });
+    setToken(token) {
+        this.config.token = token;
+    }
+    setApiKey(key) {
+        this.config.apiKey = key;
+    }
+    getApiKey() {
+        return this.config.apiKey || null;
+    }
+    setBaseUrl(url) {
+        this.config.baseUrl = url;
     }
 }
 exports.ApiClient = ApiClient;
+// Default instance for shared use
+exports.defaultApiClient = new ApiClient({
+    baseUrl: 'https://api.aramizdakioyuncu.com'
+});

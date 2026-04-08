@@ -1,18 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SocialService = void 0;
-const ApiClient_1 = require("../api/ApiClient");
 const Post_1 = require("../models/social/Post");
 const Notification_1 = require("../models/social/Notification");
+const BaseService_1 = require("./BaseService");
 const SocketService_1 = require("./SocketService");
-class SocialService {
+class SocialService extends BaseService_1.BaseService {
     /**
      * Fetch the social feed (posts from follows/groups).
      */
-    static async getFeed(page = 1) {
+    async getFeed(page = 1) {
         try {
-            const response = await ApiClient_1.ApiClient.get(`/social/feed?page=${page}`);
-            return response.map(p => Post_1.Post.fromJSON(p));
+            const response = await this.client.get(`/0/0/sosyal/liste/${page}/`);
+            const icerik = this.handleResponse(response);
+            return icerik.map(p => Post_1.Post.fromJSON(p));
         }
         catch (error) {
             console.error('[SocialService] Fetching feed failed:', error);
@@ -22,11 +23,12 @@ class SocialService {
     /**
      * Create a new post.
      */
-    static async createPost(content, media) {
+    async createPost(content, media) {
         try {
-            const response = await ApiClient_1.ApiClient.post('/social/posts', { content, media });
-            const post = Post_1.Post.fromJSON(response);
-            // Notify via socket
+            const response = await this.client.post('/social/posts', { content, media });
+            const icerik = this.handleResponse(response);
+            const post = Post_1.Post.fromJSON(icerik);
+            // Notify via socket if connected
             SocketService_1.socketService.emit('post', post);
             return post;
         }
@@ -38,12 +40,13 @@ class SocialService {
     /**
      * Like or unlike a post.
      */
-    static async toggleLike(postId) {
+    async toggleLike(postId) {
         try {
-            const response = await ApiClient_1.ApiClient.post(`/social/posts/${postId}/like`, {});
+            const response = await this.client.post(`/social/posts/${postId}/like`, {});
+            const icerik = this.handleResponse(response);
             // Emit socket event for real-time update
-            SocketService_1.socketService.emit('post_like', { postId, liked: response.liked });
-            return response.liked;
+            SocketService_1.socketService.emit('post_like', { postId, liked: icerik.liked });
+            return icerik.liked;
         }
         catch (error) {
             console.error('[SocialService] Toggle like failed:', error);
@@ -53,10 +56,10 @@ class SocialService {
     /**
      * Add a comment to a post.
      */
-    static async addComment(postId, content) {
+    async addComment(postId, content) {
         try {
-            const response = await ApiClient_1.ApiClient.post(`/social/posts/${postId}/comments`, { content });
-            return response;
+            const response = await this.client.post(`/social/posts/${postId}/comments`, { content });
+            return this.handleResponse(response);
         }
         catch (error) {
             console.error('[SocialService] Adding comment failed:', error);
@@ -66,10 +69,11 @@ class SocialService {
     /**
      * Get user notifications.
      */
-    static async getNotifications() {
+    async getNotifications() {
         try {
-            const response = await ApiClient_1.ApiClient.get('/social/notifications');
-            return response.map(n => Notification_1.Notification.fromJSON(n));
+            const response = await this.client.get('/social/notifications');
+            const icerik = this.handleResponse(response);
+            return icerik.map(n => Notification_1.Notification.fromJSON(n));
         }
         catch (error) {
             console.error('[SocialService] Fetching notifications failed:', error);
@@ -79,9 +83,10 @@ class SocialService {
     /**
      * Mark a notification as read.
      */
-    static async markNotificationAsRead(notificationId) {
+    async markNotificationAsRead(notificationId) {
         try {
-            await ApiClient_1.ApiClient.post(`/social/notifications/${notificationId}/read`, {});
+            const response = await this.client.post(`/social/notifications/${notificationId}/read`, {});
+            this.handleResponse(response);
         }
         catch (error) {
             console.error('[SocialService] Marking notification as read failed:', error);

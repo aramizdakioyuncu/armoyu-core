@@ -7,8 +7,8 @@ export class ForumService extends BaseService {
    */
   async getCategories(): Promise<any[]> {
     try {
-      const response = await this.client.get<any[]>('/community/forums/categories');
-      return response;
+      const response = await this.client.get<any>('/community/forums/categories');
+      return this.handleResponse<any[]>(response);
     } catch (error) {
       console.error('[ForumService] Failed to fetch categories:', error);
       return [];
@@ -20,10 +20,10 @@ export class ForumService extends BaseService {
    */
   async getTopics(categoryId: number, page: number = 1): Promise<any[]> {
     try {
-      const response = await this.client.get<any[]>(`/community/forums/categories/${categoryId}/topics`, {
+      const response = await this.client.get<any>(`/community/forums/categories/${categoryId}/topics`, {
         params: { page }
       });
-      return response;
+      return this.handleResponse<any[]>(response);
     } catch (error) {
       console.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
       return [];
@@ -35,10 +35,11 @@ export class ForumService extends BaseService {
    */
   async createTopic(categoryId: number, title: string, content: string): Promise<any> {
     try {
-      return await this.client.post(`/community/forums/categories/${categoryId}/topics`, {
+      const response = await this.client.post<any>(`/community/forums/categories/${categoryId}/topics`, {
         title,
         content
       });
+      return this.handleResponse<any>(response);
     } catch (error) {
       console.error('[ForumService] Topic creation failed:', error);
       throw error;
@@ -50,7 +51,8 @@ export class ForumService extends BaseService {
    */
   async deleteTopic(topicId: number): Promise<void> {
     try {
-      await this.client.delete(`/community/forums/topics/${topicId}`);
+      const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
+      this.handleResponse(response);
     } catch (error) {
       console.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
       throw error;

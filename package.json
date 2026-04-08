@@ -1,6 +1,6 @@
 {
   "name": "@armoyu/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Core business logic, models, and services for ARMOYU platforms.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -8,16 +8,20 @@
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "build": "tsc",
-    "dev": "node examples/playground/serve.js",
+    "dev": "cd examples/console && npm run dev",
+    "build:bundle": "esbuild src/index.ts --bundle --outfile=dist/armoyu-core.bundle.js --platform=browser --global-name=ArmoyuCore --minify",
     "build:watch": "tsc --watch"
-
   },
   "dependencies": {
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "esbuild": "^0.28.0",
     "typescript": "^5.0.0"
   }
 }
