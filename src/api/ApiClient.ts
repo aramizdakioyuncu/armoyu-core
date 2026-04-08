@@ -99,7 +99,13 @@ export class ApiClient {
     }
     
     if (this.config.apiKey) {
-      headers.set('X-API-KEY', this.config.apiKey);
+      // Validate apiKey to avoid 'non ISO-8859-1' errors in headers
+      const isAscii = /^[ -~]*$/.test(this.config.apiKey);
+      if (isAscii) {
+        headers.set('X-API-KEY', this.config.apiKey);
+      } else {
+        console.warn('[ApiClient] API Key contains invalid characters, skipping X-API-KEY header.');
+      }
     }
 
     try {
