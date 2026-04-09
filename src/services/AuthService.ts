@@ -1,10 +1,16 @@
 import { User } from '../models/auth/User';
 import { Session } from '../models/auth/Session';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export class AuthService extends BaseService {
   private currentUser: User | null = null;
   private session: Session | null = null;
+
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
 
   /**
    * Authenticate a user with username and password.
@@ -43,16 +49,11 @@ export class AuthService extends BaseService {
       // Update client token for all subsequent requests
       if (this.session.token) {
         this.client.setToken(this.session.token);
-        
-        // Store token in localStorage if available (standard browser behavior)
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('armoyu_token', this.session.token);
-        }
       }
 
       return { user: this.currentUser, session: this.session };
     } catch (error) {
-      console.error('[AuthService] Login failed:', error);
+      this.logger.error('[AuthService] Login failed:', error);
       throw error;
     }
   }
@@ -66,7 +67,7 @@ export class AuthService extends BaseService {
       const icerik = this.handleResponse<{ user: any }>(response);
       return { user: User.fromJSON(icerik.user) };
     } catch (error) {
-      console.error('[AuthService] Registration failed:', error);
+      this.logger.error('[AuthService] Registration failed:', error);
       throw error;
     }
   }
@@ -78,14 +79,11 @@ export class AuthService extends BaseService {
     try {
       await this.client.post('/auth/logout', {});
     } catch (error) {
-      console.error('[AuthService] Logout API call failed:', error);
+      this.logger.error('[AuthService] Logout API call failed:', error);
     } finally {
       this.currentUser = null;
       this.session = null;
       this.client.setToken(null);
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('armoyu_token');
-      }
     }
   }
 

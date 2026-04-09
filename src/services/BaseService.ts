@@ -1,7 +1,11 @@
 import { ApiClient, StandardApiResponse } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export abstract class BaseService {
-  constructor(protected client: ApiClient) {}
+  constructor(
+    protected client: ApiClient,
+    protected logger: ArmoyuLogger
+  ) {}
 
   /**
    * Universal response handler for ARMOYU standard responses.

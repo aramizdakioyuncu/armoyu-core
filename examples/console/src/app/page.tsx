@@ -26,10 +26,13 @@ export default function DevelopersPortalLanding() {
     if (savedUser) setUser(JSON.parse(savedUser));
 
     // Initialize API for the portal login
-    apiRef.current = new ArmoyuApi({
-      baseUrl: `/api/proxy`,
-      apiKey: savedKey || ''
-    });
+    try {
+      apiRef.current = new ArmoyuApi(savedKey || 'portal-init', {
+        baseUrl: `/api/proxy`
+      });
+    } catch {
+      // Fallback if needed, but mandatory key is enforced
+    }
   }, []);
 
   const handlePortalAuth = async (u: string, p: string) => {

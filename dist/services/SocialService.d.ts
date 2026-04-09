@@ -1,7 +1,12 @@
 import { Post } from '../models/social/Post';
 import { Notification } from '../models/social/Notification';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
+import { SocketService } from './SocketService';
 export declare class SocialService extends BaseService {
+    private socket;
+    constructor(client: ApiClient, logger: ArmoyuLogger, socket: SocketService);
     /**
      * Fetch the social feed (posts from follows/groups).
      */

@@ -1,9 +1,14 @@
 import { Post } from '../models/social/Post';
 import { Notification } from '../models/social/Notification';
 import { BaseService } from './BaseService';
-import { socketService } from './SocketService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
+import { SocketService } from './SocketService';
 
 export class SocialService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger, private socket: SocketService) {
+    super(client, logger);
+  }
   /**
    * Fetch the social feed (posts from follows/groups).
    */
@@ -13,7 +18,7 @@ export class SocialService extends BaseService {
       const icerik = this.handleResponse<any[]>(response);
       return icerik.map(p => Post.fromJSON(p));
     } catch (error) {
-      console.error('[SocialService] Fetching feed failed:', error);
+      this.logger.error('[SocialService] Fetching feed failed:', error);
       return [];
     }
   }
@@ -28,11 +33,11 @@ export class SocialService extends BaseService {
       const post = Post.fromJSON(icerik);
       
       // Notify via socket if connected
-      socketService.emit('post', post);
+      this.socket.emit('post', post);
       
       return post;
     } catch (error) {
-      console.error('[SocialService] Creating post failed:', error);
+      this.logger.error('[SocialService] Creating post failed:', error);
       return null;
     }
   }
@@ -46,11 +51,11 @@ export class SocialService extends BaseService {
       const icerik = this.handleResponse<{ liked: boolean }>(response);
       
       // Emit socket event for real-time update
-      socketService.emit('post_like', { postId, liked: icerik.liked });
+      this.socket.emit('post_like', { postId, liked: icerik.liked });
       
       return icerik.liked;
     } catch (error) {
-      console.error('[SocialService] Toggle like failed:', error);
+      this.logger.error('[SocialService] Toggle like failed:', error);
       return false;
     }
   }
@@ -63,7 +68,7 @@ export class SocialService extends BaseService {
       const response = await this.client.post<any>(`/social/posts/${postId}/comments`, { content });
       return this.handleResponse<any>(response);
     } catch (error) {
-      console.error('[SocialService] Adding comment failed:', error);
+      this.logger.error('[SocialService] Adding comment failed:', error);
       return null;
     }
   }
@@ -77,7 +82,7 @@ export class SocialService extends BaseService {
       const icerik = this.handleResponse<any[]>(response);
       return icerik.map(n => Notification.fromJSON(n));
     } catch (error) {
-      console.error('[SocialService] Fetching notifications failed:', error);
+      this.logger.error('[SocialService] Fetching notifications failed:', error);
       return [];
     }
   }
@@ -90,7 +95,7 @@ export class SocialService extends BaseService {
       const response = await this.client.post<any>(`/social/notifications/${notificationId}/read`, {});
       this.handleResponse(response);
     } catch (error) {
-      console.error('[SocialService] Marking notification as read failed:', error);
+      this.logger.error('[SocialService] Marking notification as read failed:', error);
     }
   }
 }

@@ -1,6 +1,7 @@
 export * from './models/index';
 export * from './api/ApiClient';
 export * from './api/ArmoyuApi';
+export * from './api/Logger';
 export * from './services/BaseService';
 export * from './services/AuthService';
 export * from './services/UserService';

@@ -2,6 +2,7 @@
  * Core API Client for the ARMOYU platform.
  * Supports instance-based configuration and standard HTTP methods.
  */
+import { ArmoyuLogger } from './Logger';
 export declare class ApiError extends Error {
     message: string;
     status?: number | undefined;
@@ -25,6 +26,7 @@ export interface ApiConfig {
     token?: string | null;
     apiKey?: string | null;
     headers?: Record<string, string>;
+    logger?: ArmoyuLogger;
 }
 /**
  * Standard API Response structure for ARMOYU legacy and bot APIs.
@@ -39,6 +41,7 @@ export interface StandardApiResponse<T = any> {
 export declare class ApiClient {
     private config;
     lastRawResponse: any;
+    private logger;
     constructor(config: ApiConfig);
     private request;
     get<T>(endpoint: string, options?: ApiRequestOptions): Promise<T>;
@@ -51,4 +54,3 @@ export declare class ApiClient {
     getApiKey(): string | null;
     setBaseUrl(url: string): void;
 }
-export declare const defaultApiClient: ApiClient;

@@ -1,10 +1,11 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ApiClient = exports.HttpMethod = exports.ApiError = void 0;
 /**
  * Core API Client for the ARMOYU platform.
  * Supports instance-based configuration and standard HTTP methods.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.defaultApiClient = exports.ApiClient = exports.HttpMethod = exports.ApiError = void 0;
+const Logger_1 = require("./Logger");
 class ApiError extends Error {
     constructor(message, status, statusText, data) {
         super(message);
@@ -33,6 +34,7 @@ class ApiClient {
                 ...config.headers,
             },
         };
+        this.logger = config.logger || new Logger_1.ConsoleLogger();
     }
     async request(endpoint, options = {}) {
         const { params, ...fetchOptions } = options;
@@ -66,7 +68,7 @@ class ApiClient {
                 headers.set('Authorization', `Bearer ${this.config.token}`);
             }
             else {
-                console.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
+                this.logger.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
             }
         }
         if (this.config.apiKey) {
@@ -76,7 +78,7 @@ class ApiClient {
                 headers.set('X-API-KEY', this.config.apiKey);
             }
             else {
-                console.warn('[ApiClient] API Key contains invalid characters, skipping X-API-KEY header.');
+                this.logger.warn('[ApiClient] API Key contains invalid characters, skipping X-API-KEY header.');
             }
         }
         try {
@@ -155,7 +157,3 @@ class ApiClient {
     }
 }
 exports.ApiClient = ApiClient;
-// Default instance for shared use
-exports.defaultApiClient = new ApiClient({
-    baseUrl: 'https://api.aramizdakioyuncu.com'
-});

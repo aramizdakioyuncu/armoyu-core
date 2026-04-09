@@ -19,6 +19,7 @@ __exportStar(require("./models/index"), exports);
 // API Core
 __exportStar(require("./api/ApiClient"), exports);
 __exportStar(require("./api/ArmoyuApi"), exports);
+__exportStar(require("./api/Logger"), exports);
 // Services
 __exportStar(require("./services/BaseService"), exports);
 __exportStar(require("./services/AuthService"), exports);

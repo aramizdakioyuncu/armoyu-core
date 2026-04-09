@@ -1,7 +1,12 @@
 import { Forum } from '../models/community/Forum';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export class ForumService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
   /**
    * Get all forum categories.
    */
@@ -10,7 +15,7 @@ export class ForumService extends BaseService {
       const response = await this.client.get<any>('/community/forums/categories');
       return this.handleResponse<any[]>(response);
     } catch (error) {
-      console.error('[ForumService] Failed to fetch categories:', error);
+      this.logger.error('[ForumService] Failed to fetch categories:', error);
       return [];
     }
   }
@@ -25,7 +30,7 @@ export class ForumService extends BaseService {
       });
       return this.handleResponse<any[]>(response);
     } catch (error) {
-      console.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
+      this.logger.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
       return [];
     }
   }
@@ -41,7 +46,7 @@ export class ForumService extends BaseService {
       });
       return this.handleResponse<any>(response);
     } catch (error) {
-      console.error('[ForumService] Topic creation failed:', error);
+      this.logger.error('[ForumService] Topic creation failed:', error);
       throw error;
     }
   }
@@ -54,7 +59,7 @@ export class ForumService extends BaseService {
       const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
       this.handleResponse(response);
     } catch (error) {
-      console.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
+      this.logger.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
       throw error;
     }
   }

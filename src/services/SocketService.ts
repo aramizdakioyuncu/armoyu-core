@@ -1,3 +1,5 @@
+import { ArmoyuLogger, ConsoleLogger } from '../api/Logger';
+
 export type SocketEvent =
   | 'message'
   | 'status'
@@ -15,13 +17,15 @@ type SocketListener = (data: unknown) => void;
  * A production-ready WebSocket service for the ARMOYU platform.
  * Connects to the standalone armoyu-socket-server.
  */
-class SocketService {
-  private socket: unknown = null;
+export class SocketService {
+  private socket: any = null;
   public isConnected: boolean = false;
   private listeners: Map<SocketEvent, SocketListener[]> = new Map();
   private socketUrl: string = 'https://socket.armoyu.com';
+  private logger: ArmoyuLogger;
 
-  constructor() {
+  constructor(logger?: ArmoyuLogger) {
+    this.logger = logger || new ConsoleLogger('[SocketService]');
     // Initialize only on the client side
     if (typeof window !== 'undefined') {
       this.connect();
@@ -36,7 +40,7 @@ class SocketService {
     try {
       // Dynamic import to avoid SSR issues
       const { io } = await import('socket.io-client');
-      console.log('[SocketService] Connecting to socket server...');
+      this.logger.info('Connecting to socket server:', this.socketUrl);
 
       const sock = io(this.socketUrl, {
         transports: ['websocket'],
@@ -47,13 +51,13 @@ class SocketService {
       this.socket = sock;
 
       sock.on('connect', () => {
-        console.log('[SocketService] Connected! ID:', sock.id);
+        this.logger.info('Connected! ID:', sock.id);
         this.isConnected = true;
         this.emitInternal('connect', { status: 'online', socketId: sock.id });
       });
 
       sock.on('disconnect', () => {
-        console.log('[SocketService] Disconnected.');
+        this.logger.info('Disconnected.');
         this.isConnected = false;
         this.emitInternal('disconnect', { status: 'offline' });
       });
@@ -74,7 +78,7 @@ class SocketService {
         });
       });
     } catch (err) {
-      console.error('[SocketService] Connection failed:', err);
+      this.logger.error('Connection failed:', err);
     }
   }
 
@@ -104,9 +108,7 @@ class SocketService {
     if (sock && (this.isConnected || sock.connected)) {
       sock.emit(event, data);
     } else {
-      console.warn(`[SocketService] Cannot emit '${event}', not connected.`);
+      this.logger.warn(`Cannot emit '${event}', not connected.`);
     }
   }
 }
-
-export const socketService = new SocketService();

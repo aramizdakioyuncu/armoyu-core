@@ -1,7 +1,12 @@
 import { SupportTicket } from '../models/social/SupportTicket';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export class SupportService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
   /**
    * Create a new support ticket.
    */
@@ -15,7 +20,7 @@ export class SupportService extends BaseService {
       const icerik = this.handleResponse<{ ticket: any }>(response);
       return SupportTicket.fromJSON(icerik.ticket);
     } catch (error) {
-      console.error('[SupportService] Failed to create ticket:', error);
+      this.logger.error('[SupportService] Failed to create ticket:', error);
       throw error;
     }
   }
@@ -29,7 +34,7 @@ export class SupportService extends BaseService {
       const icerik = this.handleResponse<{ tickets: any[] }>(response);
       return icerik.tickets.map(t => SupportTicket.fromJSON(t));
     } catch (error) {
-      console.error('[SupportService] Failed to fetch user tickets:', error);
+      this.logger.error('[SupportService] Failed to fetch user tickets:', error);
       return [];
     }
   }
@@ -43,7 +48,7 @@ export class SupportService extends BaseService {
       const icerik = this.handleResponse<any>(response);
       return SupportTicket.fromJSON(icerik);
     } catch (error) {
-      console.error(`[SupportService] Failed to fetch ticket ${ticketId}:`, error);
+      this.logger.error(`[SupportService] Failed to fetch ticket ${ticketId}:`, error);
       return null;
     }
   }

@@ -24,6 +24,14 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// --- Enums ---
+enum LogType {
+  REQUEST = 'req',
+  RESPONSE = 'res',
+  ERROR = 'err',
+  INFO = 'info'
+}
+
 // --- Icons Mapping ---
 const SERVICE_ICONS: Record<string, any> = {
   auth: Shield,
@@ -148,10 +156,18 @@ export default function Dashboard() {
     localStorage.setItem('armoyu_test_token', testToken);
 
     if (apiKey) {
-      apiRef.current = new ArmoyuApi({
+      // Create a custom logger that bridges library logs to the UI console
+      const customLogger = {
+        info: (msg: string, ...args: any[]) => addLog(LogType.INFO, msg, args.length ? args : null),
+        warn: (msg: string, ...args: any[]) => addLog(LogType.INFO, msg, args.length ? args : null),
+        error: (msg: string, ...args: any[]) => addLog(LogType.ERROR, msg, args.length ? args : null),
+        debug: (msg: string, ...args: any[]) => console.debug(`[SDK-DEBUG] ${msg}`, ...args)
+      };
+
+      apiRef.current = new ArmoyuApi(apiKey, {
         baseUrl: `/api/proxy`,
-        apiKey: apiKey,
-        token: testToken
+        token: testToken,
+        logger: customLogger
       });
     }
   }, [apiKey, testToken]);
@@ -162,18 +178,18 @@ export default function Dashboard() {
     }
   }, [logs]);
 
-  const addLog = (type: 'req' | 'res' | 'err', title: string, data: any, meta?: any) => {
+  const addLog = (type: LogType, title: string, data: any, meta?: any) => {
     setLogs(prev => [...prev, { id: Date.now(), type, title, data, meta, time: new Date().toLocaleTimeString() }]);
   };
 
   const handleExecute = async (action: any) => {
     if (!apiRef.current) {
-      addLog('err', "Initialization Error", { message: "System failed to initialize. Try re-entering the API Key." });
+      addLog(LogType.ERROR, "Initialization Error", { message: "System failed to initialize. Try re-entering the API Key." });
       return;
     }
 
     setLoading(action.id);
-    addLog('req', `Executing ${action.name}`, { id: action.id, endpoint: action.endpoint, inputs });
+    addLog(LogType.REQUEST, `Executing ${action.name}`, { id: action.id, endpoint: action.endpoint, inputs });
 
     try {
       let result: any;
@@ -220,14 +236,14 @@ export default function Dashboard() {
         } 
       }));
 
-      addLog('res', `Success: ${action.name}`, null, { 
+      addLog(LogType.RESPONSE, `Success: ${action.name}`, null, { 
         status: 1, 
         aciklama: rawResponse?.aciklama || "İşlem Başarılı",
         endpoint: action.endpoint
       });
     } catch (err: any) {
       const rawError = (apiRef.current as any)?.lastResponse || { message: err.message, data: err.data };
-      addLog('err', `Error: ${action.name}`, rawError, {
+      addLog(LogType.ERROR, `Error: ${action.name}`, rawError, {
         status: 0,
         aciklama: err.message,
         endpoint: action.endpoint
@@ -237,23 +253,36 @@ export default function Dashboard() {
     }
   };
 
-  const handleLogout = async () => {
+  const handleTestLogout = async () => {
     if (apiRef.current) {
       await apiRef.current.auth.logout();
     }
+    // Clear only Test session
+    localStorage.removeItem('armoyu_test_token');
+    localStorage.removeItem('armoyu_test_user');
+    
+    setTestUser(null);
+    setTestToken('');
+    
+    addLog(LogType.INFO, 'Test Session Ended', { message: 'The test user session has been cleared. You are still in the dashboard.' });
+  };
+
+  const handlePortalLogout = async () => {
     // Clear Portal session
     document.cookie = "armoyu_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     localStorage.removeItem('armoyu_token');
     localStorage.removeItem('armoyu_portal_user');
     
-    // Clear Test session
+    // Clear everything else too
     localStorage.removeItem('armoyu_test_token');
     localStorage.removeItem('armoyu_test_user');
     
     setPortalUser(null);
     setTestUser(null);
     setTestToken('');
-    router.push('/');
+    
+    // Force full reload to / to ensure all state is cleared and middleware is triggered
+    window.location.href = '/';
   };
 
   return (
@@ -266,7 +295,7 @@ export default function Dashboard() {
         token={testToken}
         setToken={setTestToken}
         user={testUser}
-        onLogout={handleLogout}
+        onLogout={handleTestLogout}
         config={CONFIG}
         serviceIcons={SERVICE_ICONS}
       />
@@ -275,7 +304,7 @@ export default function Dashboard() {
         <Navbar 
           user={portalUser} 
           apiKey={apiKey} 
-          onLogout={handleLogout} 
+          onLogout={handlePortalLogout} 
           onNavigateAuth={() => setActiveService('auth')}
           activeServiceTitle={(CONFIG as any)[activeService].title}
           icon={SERVICE_ICONS[activeService] || Zap}
@@ -437,17 +466,21 @@ export default function Dashboard() {
                 logs.map(log => (
                   <div key={log.id} className={cn(
                     "p-4 rounded-xl border leading-relaxed",
-                    log.type === 'req' ? "bg-white/5 border-white/10" :
-                      log.type === 'res' ? "bg-emerald-500/5 border-emerald-500/20" : "bg-red-500/5 border-red-500/20"
+                    log.type === LogType.REQUEST ? "bg-white/5 border-white/10" :
+                      log.type === LogType.RESPONSE ? "bg-emerald-500/5 border-emerald-500/20" : 
+                        log.type === LogType.INFO ? "bg-blue-500/5 border-blue-500/20" : "bg-red-500/5 border-red-500/20"
                   )}>
                     <div className="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
                       <div className="flex items-center gap-2">
-                        {log.type === 'req' ? <Globe className="w-3.5 h-3.5 text-gray-400" /> :
-                          log.type === 'res' ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> :
+                        {log.type === LogType.REQUEST ? <Globe className="w-3.5 h-3.5 text-gray-400" /> :
+                          log.type === LogType.RESPONSE ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> :
+                            log.type === LogType.INFO ? <Zap className="w-3.5 h-3.5 text-blue-500" /> :
                             <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
                         <span className={cn(
                           "font-black uppercase tracking-tighter",
-                          log.type === 'req' ? "text-gray-300" : log.type === 'res' ? "text-emerald-500" : "text-red-500"
+                          log.type === LogType.REQUEST ? "text-gray-300" : 
+                          log.type === LogType.RESPONSE ? "text-emerald-500" : 
+                          log.type === LogType.INFO ? "text-blue-500" : "text-red-500"
                         )}>
                           {log.type}
                         </span>

@@ -1,7 +1,12 @@
 import { News } from '../models/content/News';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export class BlogService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
   /**
    * Get all news articles.
    */
@@ -13,7 +18,7 @@ export class BlogService extends BaseService {
       const icerik = this.handleResponse<{ news: any[] }>(response);
       return icerik.news.map(n => News.fromJSON(n));
     } catch (error) {
-      console.error('[BlogService] Failed to fetch news:', error);
+      this.logger.error('[BlogService] Failed to fetch news:', error);
       return [];
     }
   }
@@ -27,7 +32,7 @@ export class BlogService extends BaseService {
       const icerik = this.handleResponse<any>(response);
       return News.fromJSON(icerik);
     } catch (error) {
-      console.error(`[BlogService] Failed to fetch news article ${slug}:`, error);
+      this.logger.error(`[BlogService] Failed to fetch news article ${slug}:`, error);
       return null;
     }
   }
@@ -43,7 +48,7 @@ export class BlogService extends BaseService {
       const icerik = this.handleResponse<{ news: any[] }>(response);
       return icerik.news.map(n => News.fromJSON(n));
     } catch (error) {
-      console.error('[BlogService] News search failed:', error);
+      this.logger.error('[BlogService] News search failed:', error);
       return [];
     }
   }

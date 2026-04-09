@@ -5,8 +5,8 @@ const User_1 = require("../models/auth/User");
 const Session_1 = require("../models/auth/Session");
 const BaseService_1 = require("./BaseService");
 class AuthService extends BaseService_1.BaseService {
-    constructor() {
-        super(...arguments);
+    constructor(client, logger) {
+        super(client, logger);
         this.currentUser = null;
         this.session = null;
     }
@@ -42,15 +42,11 @@ class AuthService extends BaseService_1.BaseService {
             // Update client token for all subsequent requests
             if (this.session.token) {
                 this.client.setToken(this.session.token);
-                // Store token in localStorage if available (standard browser behavior)
-                if (typeof window !== 'undefined') {
-                    localStorage.setItem('armoyu_token', this.session.token);
-                }
             }
             return { user: this.currentUser, session: this.session };
         }
         catch (error) {
-            console.error('[AuthService] Login failed:', error);
+            this.logger.error('[AuthService] Login failed:', error);
             throw error;
         }
     }
@@ -64,7 +60,7 @@ class AuthService extends BaseService_1.BaseService {
             return { user: User_1.User.fromJSON(icerik.user) };
         }
         catch (error) {
-            console.error('[AuthService] Registration failed:', error);
+            this.logger.error('[AuthService] Registration failed:', error);
             throw error;
         }
     }
@@ -76,15 +72,12 @@ class AuthService extends BaseService_1.BaseService {
             await this.client.post('/auth/logout', {});
         }
         catch (error) {
-            console.error('[AuthService] Logout API call failed:', error);
+            this.logger.error('[AuthService] Logout API call failed:', error);
         }
         finally {
             this.currentUser = null;
             this.session = null;
             this.client.setToken(null);
-            if (typeof window !== 'undefined') {
-                localStorage.removeItem('armoyu_token');
-            }
         }
     }
     /**

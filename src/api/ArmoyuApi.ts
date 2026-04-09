@@ -1,4 +1,5 @@
-import { ApiClient, ApiConfig, defaultApiClient } from './ApiClient';
+import { ApiClient, ApiConfig } from './ApiClient';
+import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { AuthService } from '../services/AuthService';
 import { UserService } from '../services/UserService';
 import { SocialService } from '../services/SocialService';
@@ -7,6 +8,7 @@ import { ShopService } from '../services/ShopService';
 import { ForumService } from '../services/ForumService';
 import { SupportService } from '../services/SupportService';
 import { RuleService } from '../services/RuleService';
+import { SocketService } from '../services/SocketService';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -21,33 +23,38 @@ export class ArmoyuApi {
   public forum: ForumService;
   public support: SupportService;
   public rules: RuleService;
+  public socket: SocketService;
 
   private client: ApiClient;
+  private logger: ArmoyuLogger;
 
-  constructor(config?: Partial<ApiConfig>) {
-    // Use provided config or default client
-    if (config && config.baseUrl) {
-      this.client = new ApiClient({
-        baseUrl: config.baseUrl,
-        token: config.token || null,
-        apiKey: config.apiKey || null,
-        headers: config.headers || {},
-      });
-    } else {
-      this.client = defaultApiClient;
-      if (config && config.token) this.client.setToken(config.token);
-      if (config && config.apiKey) this.client.setApiKey(config.apiKey);
+  constructor(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>) {
+    if (!apiKey || apiKey.trim() === '') {
+      throw new Error('ArmoyuApi: API Key is required.');
     }
 
-    // Initialize services with the api client
-    this.auth = new AuthService(this.client);
-    this.users = new UserService(this.client);
-    this.social = new SocialService(this.client);
-    this.blog = new BlogService(this.client);
-    this.shop = new ShopService(this.client);
-    this.forum = new ForumService(this.client);
-    this.support = new SupportService(this.client);
-    this.rules = new RuleService(this.client);
+    this.logger = config?.logger || new ConsoleLogger();
+    const baseUrl = config?.baseUrl || 'https://api.aramizdakioyuncu.com';
+
+    this.client = new ApiClient({
+      baseUrl: baseUrl,
+      token: config?.token || null,
+      apiKey: apiKey,
+      headers: config?.headers || {},
+      logger: this.logger
+    });
+
+    // Initialize services with the api client and logger
+    this.socket = new SocketService(this.logger);
+    
+    this.auth = new AuthService(this.client, this.logger);
+    this.users = new UserService(this.client, this.logger);
+    this.social = new SocialService(this.client, this.logger, this.socket);
+    this.blog = new BlogService(this.client, this.logger);
+    this.shop = new ShopService(this.client, this.logger);
+    this.forum = new ForumService(this.client, this.logger);
+    this.support = new SupportService(this.client, this.logger);
+    this.rules = new RuleService(this.client, this.logger);
   }
 
   /**
@@ -65,6 +72,17 @@ export class ArmoyuApi {
   }
 
   /**
+   * Update the global API configuration.
+   */
+  setConfig(config: Partial<ApiConfig>) {
+    if (config.apiKey !== undefined) this.client.setApiKey(config.apiKey);
+    if (config.token !== undefined) this.client.setToken(config.token);
+    if (config.baseUrl !== undefined) this.client.setBaseUrl(config.baseUrl);
+    
+    // Also update current config reference if needed (optional since client handles it)
+  }
+
+  /**
    * Get the last raw JSON response received from the API.
    */
   get lastResponse(): any {
@@ -72,5 +90,4 @@ export class ArmoyuApi {
   }
 }
 
-// Global singleton instance for easy access
-export const armoyu = new ArmoyuApi();
+

@@ -2,6 +2,7 @@
  * Core API Client for the ARMOYU platform.
  * Supports instance-based configuration and standard HTTP methods.
  */
+import { ArmoyuLogger, ConsoleLogger } from './Logger';
 
 export class ApiError extends Error {
   constructor(
@@ -33,6 +34,7 @@ export interface ApiConfig {
   token?: string | null;
   apiKey?: string | null;
   headers?: Record<string, string>;
+  logger?: ArmoyuLogger;
 }
 
 /**
@@ -49,6 +51,7 @@ export interface StandardApiResponse<T = any> {
 export class ApiClient {
   private config: ApiConfig;
   public lastRawResponse: any = null;
+  private logger: ArmoyuLogger;
 
   constructor(config: ApiConfig) {
     this.config = {
@@ -57,6 +60,7 @@ export class ApiClient {
         ...config.headers,
       },
     };
+    this.logger = config.logger || new ConsoleLogger();
   }
 
   private async request<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<T> {
@@ -94,7 +98,7 @@ export class ApiClient {
       if (isAscii) {
         headers.set('Authorization', `Bearer ${this.config.token}`);
       } else {
-        console.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
+        this.logger.warn('[ApiClient] Token contains invalid characters, skipping Authorization header.');
       }
     }
     
@@ -104,7 +108,7 @@ export class ApiClient {
       if (isAscii) {
         headers.set('X-API-KEY', this.config.apiKey);
       } else {
-        console.warn('[ApiClient] API Key contains invalid characters, skipping X-API-KEY header.');
+        this.logger.warn('[ApiClient] API Key contains invalid characters, skipping X-API-KEY header.');
       }
     }
 
@@ -196,9 +200,4 @@ export class ApiClient {
     this.config.baseUrl = url;
   }
 }
-
-// Default instance for shared use
-export const defaultApiClient = new ApiClient({
-  baseUrl: 'https://api.aramizdakioyuncu.com'
-});
 

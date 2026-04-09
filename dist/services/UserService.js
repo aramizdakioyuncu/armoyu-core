@@ -4,9 +4,10 @@ exports.UserService = void 0;
 const User_1 = require("../models/auth/User");
 const BaseService_1 = require("./BaseService");
 class UserService extends BaseService_1.BaseService {
-    constructor(client) {
-        super(client);
-        console.log('[UserService] Initialized with methods:', Object.getOwnPropertyNames(UserService.prototype));
+    constructor(client, logger) {
+        var _a, _b;
+        super(client, logger);
+        (_b = (_a = this.logger).debug) === null || _b === void 0 ? void 0 : _b.call(_a, '[UserService] Initialized');
     }
     /**
      * Search for users based on a query string.
@@ -20,7 +21,7 @@ class UserService extends BaseService_1.BaseService {
             return Array.isArray(icerik) ? icerik.map((u) => User_1.User.fromJSON(u)) : [];
         }
         catch (error) {
-            console.error('[UserService] User search failed:', error);
+            this.logger.error('[UserService] User search failed:', error);
             return [];
         }
     }
@@ -28,7 +29,7 @@ class UserService extends BaseService_1.BaseService {
      * Get a specific user's public profile using the bot API.
      */
     async getUserByUsername(username) {
-        console.log('[UserService] Getting profile for:', username);
+        this.logger.info('[UserService] Getting profile for:', username);
         try {
             const formData = new FormData();
             formData.append('oyuncubakusername', username);
@@ -37,7 +38,7 @@ class UserService extends BaseService_1.BaseService {
             return icerik ? User_1.User.fromJSON(icerik) : null;
         }
         catch (error) {
-            console.error(`[UserService] Fetching profile for ${username} failed:`, error);
+            this.logger.error(`[UserService] Fetching profile for ${username} failed:`, error);
             return null;
         }
     }
@@ -54,7 +55,7 @@ class UserService extends BaseService_1.BaseService {
             return icerik.following;
         }
         catch (error) {
-            console.error('[UserService] Toggle follow failed:', error);
+            this.logger.error('[UserService] Toggle follow failed:', error);
             return false;
         }
     }
@@ -68,7 +69,7 @@ class UserService extends BaseService_1.BaseService {
             return Array.isArray(icerik) ? icerik.map((u) => User_1.User.fromJSON(u)) : [];
         }
         catch (error) {
-            console.error('[UserService] Get friends failed:', error);
+            this.logger.error('[UserService] Get friends failed:', error);
             return [];
         }
     }
@@ -82,7 +83,7 @@ class UserService extends BaseService_1.BaseService {
             return icerik ? User_1.User.fromJSON(icerik) : null;
         }
         catch (error) {
-            console.error('[UserService] Update profile failed:', error);
+            this.logger.error('[UserService] Update profile failed:', error);
             return null;
         }
     }

@@ -1,11 +1,15 @@
 import { BaseService } from './BaseService';
 import { Rule } from '../models/core/Rule';
-import { HttpMethod } from '../api/ApiClient';
+import { ApiClient, HttpMethod } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 /**
  * Service for handling ARMOYU Rule-related API interactions.
  */
 export class RuleService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
   /**
    * Universal method to call rule endpoints with standardized prefix.
    */
@@ -31,7 +35,7 @@ export class RuleService extends BaseService {
           return await this.client.get<T>(endpoint);
       }
     } catch (error) {
-      console.error(`[RuleService] Request to ${path} failed:`, error);
+      this.logger.error(`[RuleService] Request to ${path} failed:`, error);
       throw error;
     }
   }
@@ -49,7 +53,7 @@ export class RuleService extends BaseService {
       }
       return [];
     } catch (error) {
-      console.error('[RuleService] getRules failed:', error);
+      this.logger.error('[RuleService] getRules failed:', error);
       return [];
     }
   }

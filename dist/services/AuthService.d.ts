@@ -1,9 +1,12 @@
 import { User } from '../models/auth/User';
 import { Session } from '../models/auth/Session';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 export declare class AuthService extends BaseService {
     private currentUser;
     private session;
+    constructor(client: ApiClient, logger: ArmoyuLogger);
     /**
      * Authenticate a user with username and password.
      */

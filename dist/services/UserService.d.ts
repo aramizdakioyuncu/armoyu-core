@@ -1,7 +1,9 @@
 import { User } from '../models/auth/User';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 export declare class UserService extends BaseService {
-    constructor(client: any);
+    constructor(client: ApiClient, logger: ArmoyuLogger);
     /**
      * Search for users based on a query string.
      */

@@ -1,8 +1,13 @@
 import { Product } from '../models/shop/Product';
 import { Order } from '../models/shop/Order';
 import { BaseService } from './BaseService';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
 
 export class ShopService extends BaseService {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+  }
   /**
    * Get all products with optional filters.
    */
@@ -14,7 +19,7 @@ export class ShopService extends BaseService {
       const icerik = this.handleResponse<{ products: any[] }>(response);
       return icerik.products.map(p => Product.fromJSON(p));
     } catch (error) {
-      console.error('[ShopService] Failed to fetch products:', error);
+      this.logger.error('[ShopService] Failed to fetch products:', error);
       return [];
     }
   }
@@ -28,7 +33,7 @@ export class ShopService extends BaseService {
       const icerik = this.handleResponse<any>(response);
       return Product.fromJSON(icerik);
     } catch (error) {
-      console.error(`[ShopService] Failed to fetch product ${productId}:`, error);
+      this.logger.error(`[ShopService] Failed to fetch product ${productId}:`, error);
       return null;
     }
   }
@@ -42,7 +47,7 @@ export class ShopService extends BaseService {
       const icerik = this.handleResponse<{ order: any }>(response);
       return Order.fromJSON(icerik.order);
     } catch (error) {
-      console.error('[ShopService] Order creation failed:', error);
+      this.logger.error('[ShopService] Order creation failed:', error);
       throw error;
     }
   }

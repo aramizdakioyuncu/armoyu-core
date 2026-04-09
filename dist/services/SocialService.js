@@ -4,8 +4,11 @@ exports.SocialService = void 0;
 const Post_1 = require("../models/social/Post");
 const Notification_1 = require("../models/social/Notification");
 const BaseService_1 = require("./BaseService");
-const SocketService_1 = require("./SocketService");
 class SocialService extends BaseService_1.BaseService {
+    constructor(client, logger, socket) {
+        super(client, logger);
+        this.socket = socket;
+    }
     /**
      * Fetch the social feed (posts from follows/groups).
      */
@@ -16,7 +19,7 @@ class SocialService extends BaseService_1.BaseService {
             return icerik.map(p => Post_1.Post.fromJSON(p));
         }
         catch (error) {
-            console.error('[SocialService] Fetching feed failed:', error);
+            this.logger.error('[SocialService] Fetching feed failed:', error);
             return [];
         }
     }
@@ -29,11 +32,11 @@ class SocialService extends BaseService_1.BaseService {
             const icerik = this.handleResponse(response);
             const post = Post_1.Post.fromJSON(icerik);
             // Notify via socket if connected
-            SocketService_1.socketService.emit('post', post);
+            this.socket.emit('post', post);
             return post;
         }
         catch (error) {
-            console.error('[SocialService] Creating post failed:', error);
+            this.logger.error('[SocialService] Creating post failed:', error);
             return null;
         }
     }
@@ -45,11 +48,11 @@ class SocialService extends BaseService_1.BaseService {
             const response = await this.client.post(`/social/posts/${postId}/like`, {});
             const icerik = this.handleResponse(response);
             // Emit socket event for real-time update
-            SocketService_1.socketService.emit('post_like', { postId, liked: icerik.liked });
+            this.socket.emit('post_like', { postId, liked: icerik.liked });
             return icerik.liked;
         }
         catch (error) {
-            console.error('[SocialService] Toggle like failed:', error);
+            this.logger.error('[SocialService] Toggle like failed:', error);
             return false;
         }
     }
@@ -62,7 +65,7 @@ class SocialService extends BaseService_1.BaseService {
             return this.handleResponse(response);
         }
         catch (error) {
-            console.error('[SocialService] Adding comment failed:', error);
+            this.logger.error('[SocialService] Adding comment failed:', error);
             return null;
         }
     }
@@ -76,7 +79,7 @@ class SocialService extends BaseService_1.BaseService {
             return icerik.map(n => Notification_1.Notification.fromJSON(n));
         }
         catch (error) {
-            console.error('[SocialService] Fetching notifications failed:', error);
+            this.logger.error('[SocialService] Fetching notifications failed:', error);
             return [];
         }
     }
@@ -89,7 +92,7 @@ class SocialService extends BaseService_1.BaseService {
             this.handleResponse(response);
         }
         catch (error) {
-            console.error('[SocialService] Marking notification as read failed:', error);
+            this.logger.error('[SocialService] Marking notification as read failed:', error);
         }
     }
 }
