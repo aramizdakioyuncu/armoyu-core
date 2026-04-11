@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2026-04-12
+
+### 🔧 Bug Fixes & Refactoring
+- **Critical Exports Fix**: Added missing `SocialService`, `ChatService`, `EventService`, `SearchService`, and `BusinessService` to the main `index.ts`.
+- **Model Visibility**: Fixed missing `UserBadge` export in `models/index.ts`.
+- **Namespace Resolution**: Ensured all 17 services are now correctly reachable from the library's root entry point.
+
 ## [1.1.2] - 2026-04-12
 
 ### ✨ Modernization & Audit

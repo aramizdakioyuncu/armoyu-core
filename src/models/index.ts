@@ -1,6 +1,7 @@
 export * from './auth/User';
 export * from './auth/Role';
 export * from './auth/Session';
+export * from './auth/UserBadge';
 export * from './social/Post';
 export * from './social/Comment';
 export * from './social/Story';
@@ -40,3 +41,4 @@ export * from './social/NotificationEnums';
 export * from './social/SearchEnums';
 export * from './social/AuthEnums';
 export * from './social/MediaEnums';
+

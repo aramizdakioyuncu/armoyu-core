@@ -33,3 +33,8 @@ __exportStar(require("./services/RuleService"), exports);
 __exportStar(require("./services/ManagementService"), exports);
 __exportStar(require("./services/SiteInformationService"), exports);
 __exportStar(require("./services/GroupService"), exports);
+__exportStar(require("./services/SocialService"), exports);
+__exportStar(require("./services/ChatService"), exports);
+__exportStar(require("./services/SearchService"), exports);
+__exportStar(require("./services/EventService"), exports);
+__exportStar(require("./services/BusinessService"), exports);

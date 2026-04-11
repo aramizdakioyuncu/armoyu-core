@@ -17,6 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./auth/User"), exports);
 __exportStar(require("./auth/Role"), exports);
 __exportStar(require("./auth/Session"), exports);
+__exportStar(require("./auth/UserBadge"), exports);
 __exportStar(require("./social/Post"), exports);
 __exportStar(require("./social/Comment"), exports);
 __exportStar(require("./social/Story"), exports);

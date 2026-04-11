@@ -19,6 +19,11 @@ export * from './services/RuleService';
 export * from './services/ManagementService';
 export * from './services/SiteInformationService';
 export * from './services/GroupService';
+export * from './services/SocialService';
+export * from './services/ChatService';
+export * from './services/SearchService';
+export * from './services/EventService';
+export * from './services/BusinessService';
 
 
 /**

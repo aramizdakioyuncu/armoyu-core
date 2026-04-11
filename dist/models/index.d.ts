@@ -1,6 +1,7 @@
 export * from './auth/User';
 export * from './auth/Role';
 export * from './auth/Session';
+export * from './auth/UserBadge';
 export * from './social/Post';
 export * from './social/Comment';
 export * from './social/Story';
