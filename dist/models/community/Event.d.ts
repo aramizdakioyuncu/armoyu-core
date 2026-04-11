@@ -1,26 +1,43 @@
+export interface EventOrganizer {
+    id: number;
+    displayName: string;
+    avatar: string;
+}
+/**
+ * Represents an ARMOYU platform event (tournament, meeting, etc.)
+ */
 export declare class ArmoyuEvent {
-    id: string;
-    title: string;
-    status: string;
-    banner: string;
+    id: number;
+    name: string;
+    status: number;
+    link: string;
+    thumbnail: string;
+    image?: string;
+    gameId: number;
+    gameName: string;
+    gameLogo: string;
+    gameBanner: string;
+    organizers: EventOrganizer[];
+    type: string;
     date: string;
-    location: string;
+    participantType: string;
     participantLimit: number;
+    groupPlayerLimit: number;
     currentParticipants: number;
+    location: string;
     description: string;
-    rules: string[];
-    admins: any[];
-    game: string;
-    rewards: string;
-    isHot: boolean;
-    isLive: boolean;
-    participants: any[];
-    participationType: 'INDIVIDUAL' | 'GROUP' | 'BOTH';
-    minODP: number;
-    hasStats: boolean;
-    template: 'STANDARD' | 'TOURNAMENT' | 'TRAINING';
-    teams: any[];
-    leaderboard: any[];
+    rules: string;
     constructor(data: Partial<ArmoyuEvent>);
-    static fromJSON(json: any): ArmoyuEvent;
+    /**
+     * Instantiates an ArmoyuEvent object from a JSON object.
+     */
+    static fromJSON(json: Record<string, any>): ArmoyuEvent;
+    /**
+     * Checks if the event has space for more participants.
+     */
+    hasSpace(): boolean;
+    /**
+     * Returns a formatted progress string for participants (e.g. "12/16").
+     */
+    getParticipantProgress(): string;
 }

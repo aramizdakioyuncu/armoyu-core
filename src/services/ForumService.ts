@@ -3,17 +3,23 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 
+/**
+ * Service for managing forum categories, topics, and discussions.
+ * @checked 2026-04-12
+ */
 export class ForumService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
   }
+
   /**
    * Get all forum categories.
    */
-  async getCategories(): Promise<any[]> {
+  async getCategories(): Promise<Forum[]> {
     try {
       const response = await this.client.get<any>('/community/forums/categories');
-      return this.handleResponse<any[]>(response);
+      const icerik = this.handleResponse<any[]>(response);
+      return Array.isArray(icerik) ? icerik.map(f => Forum.fromJSON(f)) : [];
     } catch (error) {
       this.logger.error('[ForumService] Failed to fetch categories:', error);
       return [];

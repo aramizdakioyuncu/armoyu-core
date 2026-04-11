@@ -3,6 +3,10 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 
+/**
+ * Service for managing platform support tickets and user assistance.
+ * @checked 2026-04-12
+ */
 export class SupportService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);

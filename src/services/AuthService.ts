@@ -3,7 +3,12 @@ import { Session } from '../models/auth/Session';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { PasswordResetPreference } from '../models/social/AuthEnums';
 
+/**
+ * Service for managing user authentication, registration, and session lifecycle.
+ * @checked 2026-04-12
+ */
 export class AuthService extends BaseService {
   private currentUser: User | null = null;
   private session: Session | null = null;
@@ -21,7 +26,7 @@ export class AuthService extends BaseService {
       formData.append('username', username);
       formData.append('password', password);
 
-      const response = await this.client.post<any>('/0/0/0', formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0'), formData);
 
       // Handle raw response if it's still a string (though ApiClient should have parsed it)
       const data = typeof response === 'string' ? JSON.parse(response) : response;
@@ -59,16 +64,89 @@ export class AuthService extends BaseService {
   }
 
   /**
-   * Register a new user.
+   * Register a new user (Legacy).
    */
-  async register(data: any): Promise<{ user: User }> {
+  async register(params: {
+    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+  }): Promise<boolean> {
     try {
-      const response = await this.client.post<any>('/auth/register', data);
-      const icerik = this.handleResponse<{ user: any }>(response);
-      return { user: User.fromJSON(icerik.user) };
+      const formData = new FormData();
+      formData.append('kullaniciadi', params.username);
+      formData.append('ad', params.firstName);
+      formData.append('soyad', params.lastName);
+      formData.append('email', params.email);
+      formData.append('parola', params.password);
+      formData.append('parolakontrol', params.password);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/kayit-ol/0/0/0/0/'), formData);
+      const data = typeof response === 'string' ? JSON.parse(response) : response;
+      this.handleResponse<any>(data);
+      
+      return data && Number(data.durum) === 1;
     } catch (error) {
       this.logger.error('[AuthService] Registration failed:', error);
-      throw error;
+      return false;
+    }
+  }
+
+  /**
+   * Request a password reset (Legacy).
+   */
+  async forgotPassword(params: {
+    username: string;
+    email: string;
+    birthday: string;
+    preference: PasswordResetPreference | string;
+  }): Promise<boolean> {
+    try {
+      const formData = new FormData();
+      formData.append('kullaniciadi', params.username);
+      formData.append('email', params.email);
+      formData.append('dogumtarihi', params.birthday);
+      formData.append('sifirlamatercihi', params.preference);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/sifremi-unuttum/0/0/0/0/'), formData);
+      const data = typeof response === 'string' ? JSON.parse(response) : response;
+      this.handleResponse<any>(data);
+      
+      return data && Number(data.durum) === 1;
+    } catch (error) {
+      this.logger.error('[AuthService] Forgot password request failed:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Verify and complete password reset (Legacy).
+   */
+  async verifyPasswordReset(params: {
+    username: string;
+    email: string;
+    birthday: string;
+    code: string;
+    newPassword: string;
+  }): Promise<boolean> {
+    try {
+      const formData = new FormData();
+      formData.append('kullaniciadi', params.username);
+      formData.append('email', params.email);
+      formData.append('dogumtarihi', params.birthday);
+      formData.append('dogrulamakodu', params.code);
+      formData.append('sifre', params.newPassword);
+      formData.append('sifretekrar', params.newPassword);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/sifremi-unuttum-dogrula/0/0/0/0/'), formData);
+      const data = typeof response === 'string' ? JSON.parse(response) : response;
+      this.handleResponse<any>(data);
+      
+      return data && Number(data.durum) === 1;
+    } catch (error) {
+      this.logger.error('[AuthService] Verify password reset failed:', error);
+      return false;
     }
   }
 

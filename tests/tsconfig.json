@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "rootDir": "..",
+    "paths": {
+      "@armoyu/core": ["../src/index"]
+    }
+  },
+  "include": [
+    "**/*"
+  ]
+}

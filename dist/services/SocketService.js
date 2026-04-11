@@ -37,7 +37,8 @@ exports.SocketService = void 0;
 const Logger_1 = require("../api/Logger");
 /**
  * A production-ready WebSocket service for the ARMOYU platform.
- * Connects to the standalone armoyu-socket-server.
+ * Connects to the standalone armoyu-socket-server for real-time updates.
+ * @checked 2026-04-12
  */
 class SocketService {
     constructor(logger) {

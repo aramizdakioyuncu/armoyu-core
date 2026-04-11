@@ -6,6 +6,16 @@ exports.ApiClient = exports.HttpMethod = exports.ApiError = void 0;
  * Supports instance-based configuration and standard HTTP methods.
  */
 const Logger_1 = require("./Logger");
+const AuthService_1 = require("../services/AuthService");
+const UserService_1 = require("../services/UserService");
+const EventService_1 = require("../services/EventService");
+const GroupService_1 = require("../services/GroupService");
+const SiteInformationService_1 = require("../services/SiteInformationService");
+const ManagementService_1 = require("../services/ManagementService");
+const RuleService_1 = require("../services/RuleService");
+const BusinessService_1 = require("../services/BusinessService");
+const ChatService_1 = require("../services/ChatService");
+const SocialService_1 = require("../services/SocialService");
 class ApiError extends Error {
     constructor(message, status, statusText, data) {
         super(message);
@@ -35,6 +45,16 @@ class ApiClient {
             },
         };
         this.logger = config.logger || new Logger_1.ConsoleLogger();
+        this.auth = new AuthService_1.AuthService(this, this.logger);
+        this.users = new UserService_1.UserService(this, this.logger);
+        this.events = new EventService_1.EventService(this, this.logger);
+        this.groups = new GroupService_1.GroupService(this, this.logger);
+        this.siteInfo = new SiteInformationService_1.SiteInformationService(this, this.logger);
+        this.management = new ManagementService_1.ManagementService(this, this.logger);
+        this.rules = new RuleService_1.RuleService(this, this.logger);
+        this.business = new BusinessService_1.BusinessService(this, this.logger);
+        this.chat = new ChatService_1.ChatService(this, this.logger);
+        this.social = new SocialService_1.SocialService(this, this.logger);
     }
     async request(endpoint, options = {}) {
         const { params, ...fetchOptions } = options;
@@ -154,6 +174,9 @@ class ApiClient {
     }
     setBaseUrl(url) {
         this.config.baseUrl = url;
+    }
+    getBaseUrl() {
+        return this.config.baseUrl;
     }
 }
 exports.ApiClient = ApiClient;

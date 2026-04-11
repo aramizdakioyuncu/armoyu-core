@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Shield, Users, MessageSquare, Newspaper,
   ShoppingBag, Scale, LifeBuoy, Zap,
-  Terminal, Globe, Trash2, CheckCircle2, AlertCircle,
+  Terminal, Globe, Info, Trash2, CheckCircle2, AlertCircle,
   Lock, Send, RefreshCw
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -41,6 +41,11 @@ const SERVICE_ICONS: Record<string, any> = {
   shop: ShoppingBag,
   rules: Scale,
   support: LifeBuoy,
+  search: Terminal,
+  events: Globe,
+  siteInfo: Info,
+  groups: Users,
+  management: Shield,
 };
 
 // --- Helper Components ---
@@ -70,7 +75,7 @@ const ResultTree = ({ data, label, initialOpen = false }: { data: any, label?: s
         className="flex items-center gap-2 hover:bg-white/5 rounded px-1 -ml-1 transition-all group"
       >
         <div className={cn("w-3 h-3 flex items-center justify-center text-[8px] transition-transform", isOpen ? "rotate-90" : "rotate-0")}>
-          ▶
+          
         </div>
         {label && <span className="text-gray-400 font-bold text-[11px]">{label}:</span>}
         <span className="text-[10px] text-gray-600 font-mono">
@@ -95,6 +100,9 @@ const CONFIG = {
     title: "AuthService",
     actions: [
       { id: "login", name: "Login", method: "POST", endpoint: "/0/0/0", inputs: ["username", "password"], desc: "Bot-based authentication flow", auth: false },
+      { id: "register", name: "Register", method: "POST", endpoint: "/kayit-ol/0/0/0/0/", inputs: ["username", "firstName", "lastName", "email", "password"], desc: "Create a new account", auth: false },
+      { id: "forgotPassword", name: "Forgot Password", method: "POST", endpoint: "/sifremi-unuttum/0/0/0/0/", inputs: ["username", "email", "birthday", "preference"], desc: "Recover account access", auth: false },
+      { id: "verifyPasswordReset", name: "Verify Reset", method: "POST", endpoint: "/sifremi-unuttum-dogrula/0/0/0/0/", inputs: ["username", "email", "birthday", "code", "newPassword"], desc: "Complete password recovery", auth: false },
       { id: "me", name: "Get Me", method: "GET", endpoint: "/me", inputs: [], desc: "Fetch current user profile", auth: true }
     ]
   },
@@ -108,24 +116,135 @@ const CONFIG = {
   users: {
     title: "UserService",
     actions: [
-      { id: "getUser", name: "Get Profile", method: "POST", endpoint: "/0/0/0/", inputs: ["oyuncubakusername"], desc: "Lookup any user profile", auth: false }
+      { id: "getUser", name: "Get Profile", method: "POST", endpoint: "/0/0/0/", inputs: ["oyuncubakusername"], desc: "Fetch public profile by username", auth: false },
+      { id: "addFriend", name: "Add Friend", method: "POST", endpoint: "/0/0/arkadas-ol/0/0/", inputs: ["oyuncubakid"], desc: "Send friend request", auth: true },
+      { id: "removeFriend", name: "Remove Friend", method: "POST", endpoint: "/0/0/arkadas-cikar/0/0/", inputs: ["oyuncubakid"], desc: "Remove friend connection", auth: true },
+      { id: "respondToFriendRequest", name: "Respond to Friend", method: "POST", endpoint: "/0/0/arkadas-cevap/0/0/", inputs: ["oyuncubakid", "cevap"], desc: "Accept (1) or Decline (0) request", auth: true },
+      { id: "updatePrivatePersonalInfo", name: "Update Private Info", method: "POST", endpoint: "/0/0/profil/ozelbilgiler/0/", inputs: ["firstName", "lastName", "email", "birthday", "phoneNumber", "countryID", "provinceID", "passwordControl"], desc: "Update sensitive profile data", auth: true },
+      { id: "getUserSchools", name: "Get Schools", method: "POST", endpoint: "/0/0/okullarim/0/0/", inputs: ["oyuncubakid"], desc: "Fetch education history", auth: true },
+      { id: "getSchoolDetail", name: "School Detail", method: "POST", endpoint: "/0/0/okullar/detay/0/", inputs: ["okulID"], desc: "Fetch specific school info", auth: true },
+      { id: "getFriendsList", name: "Get Friends List", method: "POST", endpoint: "/0/0/arkadaslarim/0/0/", inputs: ["oyuncubakid", "page", "limit"], desc: "Fetch friends for a player", auth: true },
+      { id: "getInvitationsList", name: "Get Invitations", method: "POST", endpoint: "/0/0/davetliste/0/", inputs: ["page"], desc: "Fetch pending requests", auth: true },
+      { id: "refreshInviteCode", name: "Refresh Invite Code", method: "POST", endpoint: "/0/0/davetkodyenile/0/", inputs: [], desc: "Regenerate your invite code", auth: true },
+      { id: "requestEmailVerificationUrl", name: "Request Email Verification", method: "POST", endpoint: "/0/0/profil/maildogrulamaURL/", inputs: ["userID"], desc: "Trigger verification email", auth: true },
+      { id: "pokeFriend", name: "Poke Friend", method: "POST", endpoint: "/0/0/arkadas-durt/0/0/", inputs: ["oyuncubakid"], desc: "Nudge a friend", auth: true },
+      { id: "setFavoriteTeam", name: "Set Favorite Team", method: "POST", endpoint: "/0/0/profil/favoritakimsec/0/", inputs: ["favoritakimID"], desc: "Update team preference", auth: true },
+      { id: "getUserMedia", name: "Get Media", method: "POST", endpoint: "/0/0/medya/0/0/", inputs: ["oyuncubakid", "limit", "page", "kategori"], desc: "Fetch player photos/videos", auth: true },
+      { id: "getSocialProfile", name: "Social Profile", method: "POST", endpoint: "/0/0/sosyal/profil/0/", inputs: ["oyuncubakid"], desc: "Fetch social profile data", auth: true },
+      { id: "getNotifications", name: "Get Notifications", method: "POST", endpoint: "/0/0/bildirim/0/0/", inputs: [], desc: "Fetch latest alerts", auth: true },
+      { id: "getNotificationsHistory", name: "Notifications History", method: "POST", endpoint: "/0/0/bildirimler/0/0/", inputs: ["page", "limit", "kategori", "kategoridetay"], desc: "Fetch filtered alert history", auth: true },
+      { id: "updateAvatar", name: "Update Avatar", method: "POST", endpoint: "/0/0/avatar-guncelle/0/0/", inputs: ["resim"], desc: "Upload new profile picture", auth: true },
+      { id: "resetAvatar", name: "Reset Avatar", method: "POST", endpoint: "/0/0/avatar-varsayilan/0/0/", inputs: [], desc: "Revert to default avatar", auth: true },
+      { id: "resetBanner", name: "Reset Banner", method: "POST", endpoint: "/0/0/banner-varsayilan/0/0/", inputs: [], desc: "Revert to default banner", auth: true },
+      { id: "updateBackground", name: "Update Background", method: "POST", endpoint: "/0/0/arkaplan-guncelle/0/0/", inputs: ["resim"], desc: "Upload new profile background", auth: true },
+      { id: "rotateMedia", name: "Rotate Media", method: "POST", endpoint: "/0/0/medya/donder/0/", inputs: ["fotografID", "derece"], desc: "Rotate a photo by degree", auth: true },
+      { id: "deleteMedia", name: "Delete Media", method: "POST", endpoint: "/0/0/medya/sil/0/", inputs: ["medyaID"], desc: "Remove a gallery item", auth: true },
+      { id: "uploadMedia", name: "Upload Media", method: "POST", endpoint: "/0/0/medya/yukle/0/", inputs: ["media[]", "category"], desc: "Upload photos/videos to gallery", auth: true },
+      { id: "getNotificationSettings", name: "Get Notification Settings", method: "POST", endpoint: "/0/0/bildirimler/ayarlar/liste/", inputs: [], desc: "Fetch alert preferences", auth: true },
+      { id: "updateNotificationSettings", name: "Update Notification Settings", method: "POST", endpoint: "/deneme/deneme/bildirimler/ayarlar/0/", inputs: ["notificationSettings"], desc: "Update alerts (e.g. key=value)", auth: true },
+      { id: "getXpRankings", name: "XP Rankings", method: "POST", endpoint: "/0/0/xpsiralama/0/0/", inputs: ["sayfa"], desc: "View experience leaderboard", auth: true },
+      { id: "getPopRankings", name: "Popularity Rankings", method: "POST", endpoint: "/0/0/popsiralama/0/0/", inputs: ["sayfa"], desc: "View popularity leaderboard", auth: true }
     ]
   },
   social: {
     title: "SocialService",
     actions: [
-      { id: "getFeed", name: "News Feed", method: "GET", endpoint: "/0/0/sosyal/liste/1/", inputs: ["page"], desc: "Community activity feed", auth: false }
+      { id: "getPosts", name: "List Posts", method: "POST", endpoint: "/0/0/sosyal/liste/0/", inputs: ["postID", "category", "categorydetail"], desc: "Fetch social feed or specific post", auth: true },
+      { id: "createPost", name: "Create Post", method: "POST", endpoint: "/0/0/sosyal/olustur/0/", inputs: ["sosyalicerik", "paylasimfoto[]"], desc: "Create new post with media IDs", auth: true },
+      { id: "deletePost", name: "Delete Post", method: "POST", endpoint: "/0/0/sosyal/sil/0/", inputs: ["postID"], desc: "Remove a post", auth: true },
+      { id: "getLikers", name: "List Likers", method: "POST", endpoint: "/0/0/sosyal/begenenler/0/", inputs: ["postID", "yorumID"], desc: "See who liked a post or comment", auth: true },
+      { id: "removeLike", name: "Remove Like", method: "POST", endpoint: "/0/0/sosyal/begeni-sil/0/", inputs: ["postID", "yorumID", "kategori"], desc: "Undo a like", auth: true },
+      { id: "addLike", name: "Add Like", method: "POST", endpoint: "/0/0/sosyal/begen/0/", inputs: ["postID", "kategori"], desc: "Express interest", auth: true },
+      { id: "getComments", name: "List Comments", method: "POST", endpoint: "/0/0/sosyal/yorumlar/0/", inputs: ["postID"], desc: "Fetch comments for a post", auth: true },
+      { id: "createComment", name: "Create Comment", method: "POST", endpoint: "/0/0/sosyal/yorum-olustur/0/", inputs: ["postID", "yorumicerik", "kategori", "kimeyanit"], desc: "Post a new comment", auth: true },
+      { id: "deleteComment", name: "Delete Comment", method: "POST", endpoint: "/0/0/sosyal/yorum-sil/0/", inputs: ["yorumID"], desc: "Remove a comment", auth: true },
+      { id: "getSocialNotifications", name: "Post Notifications", method: "POST", endpoint: "/0/0/sosyal/bildirim/0/", inputs: ["postID", "bildirikategori"], desc: "Fetch social alerts for a post", auth: true }
+    ]
+  },
+  blog: {
+    title: "BlogService",
+    actions: [
+      { id: "getNews", name: "Get News", method: "POST", endpoint: "/0/0/haberler/0/0/", inputs: [], desc: "Fetch platform news", auth: false }
+    ]
+  },
+  search: {
+    title: "SearchService",
+    actions: [
+      { id: "globalSearch", name: "Global Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["query"], desc: "Search across the entire platform", auth: false }
+    ]
+  },
+  events: {
+    title: "EventService",
+    actions: [
+      { id: "getEvents", name: "List Events", method: "POST", endpoint: "/0/0/etkinlikler/liste/0/", inputs: ["oyunID", "etkinlikdurum", "sayfa", "limit"], desc: "Fetch platform events with filters", auth: false },
+      { id: "getEventDetail", name: "Event Detail", method: "POST", endpoint: "/0/0/etkinlikler/detay/", inputs: ["eventID"], desc: "Get detailed event info", auth: false },
+      { id: "joinEvent", name: "Join Event", method: "POST", endpoint: "/0/0/etkinlikler/katilim/0/", inputs: ["eventId"], desc: "Toggle event participation", auth: true },
+      { id: "respondToEvent", name: "Respond to Event", method: "POST", endpoint: "/0/0/etkinlikler/katilma/0/", inputs: ["eventId", "cevap"], desc: "Respond yes/no to event", auth: true },
+      { id: "getEventTeams", name: "List Event Teams", method: "POST", endpoint: "/0/0/etkinlikler/takimlar/0/", inputs: ["eventId"], desc: "Fetch teams in an event", auth: false }
+    ]
+  },
+  siteInfo: {
+    title: "SiteInformationService",
+    actions: [
+      { id: "getAboutContent", name: "About Content", method: "POST", endpoint: "/0/0/hakkimizda/0/0/", inputs: ["category"], desc: "Fetch site information (About Us, etc.)", auth: false },
+      { id: "getPrivacyPolicy", name: "Privacy Policy", method: "POST", endpoint: "/0/0/gizlilik-sozlesmesi/0/0/", inputs: ["category"], desc: "Fetch privacy policy content", auth: false },
+      { id: "getTermsOfService", name: "Terms of Service", method: "POST", endpoint: "/0/0/hizmetsartlari-kullanicipolitikalari/0/0/", inputs: ["category"], desc: "Fetch terms and policies", auth: false },
+      { id: "getStatistics", name: "Statistics", method: "POST", endpoint: "/0/0/istatistik/0/0/", inputs: ["category"], desc: "Fetch platform metrics", auth: false },
+      { id: "getSessionLogs", name: "Session Logs", method: "POST", endpoint: "/0/0/istatistik/0/0/", inputs: [], desc: "Fetch user login history", auth: true },
+      { id: "getSiteMessages", name: "Site Messages", method: "POST", endpoint: "/0/0/sitemesaji/0/0/", inputs: ["oyuncubakid"], desc: "Fetch player messages", auth: true },
+      { id: "searchTags", name: "Search Tags", method: "POST", endpoint: "/0/0/etiketler/0/0/", inputs: ["etiket", "page", "limit"], desc: "Find content by keyword", auth: true },
+      { id: "search", name: "General Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["oyuncuadi", "kategori", "kategoridetay", "page", "limit"], desc: "Search players, groups, etc.", auth: true },
+      { id: "getSiteMessageDetail", name: "Site Message Detail", method: "POST", endpoint: "/0/0/sitemesajidetay/0/0/", inputs: [], desc: "Fetch detailed message content", auth: true }
+    ]
+  },
+  groups: {
+    title: "GroupService",
+    actions: [
+      { id: "getUserGroups", name: "Get Groups", method: "POST", endpoint: "/0/0/gruplarim/0/0/", inputs: ["oyuncubakid"], desc: "Fetch groups for a player", auth: true },
+      { id: "getGroups", name: "List All Groups", method: "POST", endpoint: "/0/0/gruplar/liste/0/", inputs: ["kategori", "sayfa"], desc: "Discover clans and social groups", auth: true },
+      { id: "getGroupDetail", name: "Group Detail", method: "POST", endpoint: "/0/0/gruplar/0/0/", inputs: ["grupID", "groupname"], desc: "Fetch specific group information", auth: true },
+      { id: "inviteToGroup", name: "Invite to Group", method: "POST", endpoint: "/0/0/gruplar/davetet/0/", inputs: ["grupID", "users[]"], desc: "Invite members by ID", auth: true },
+      { id: "updateGroupMedia", name: "Update Group Media", method: "POST", endpoint: "/0/0/gruplar/medya/0/", inputs: ["groupID", "category", "media"], desc: "Upload group logo or banner", auth: true },
+      { id: "leaveGroup", name: "Leave Group", method: "POST", endpoint: "/0/0/gruplar/ayril/0/", inputs: ["grupID"], desc: "Exit a group or clan", auth: true },
+      { id: "getGroupMembers", name: "List Group Members", method: "POST", endpoint: "/0/0/gruplar/uyeler/0/", inputs: ["groupname"], desc: "View group member roster", auth: true },
+      { id: "kickFromGroup", name: "Kick Member", method: "POST", endpoint: "/0/0/gruplar/gruptanat/0/", inputs: ["grupID", "userID"], desc: "Remove a user from the group", auth: true },
+      { id: "updateGroupSettings", name: "Update Settings", method: "POST", endpoint: "/0/0/gruplar/ayarlar/0/", inputs: ["grupID", "baslik", "grupetiket", "aciklama", "discordlink", "website", "alimdurum"], desc: "Modify group profile and status", auth: true },
+      { id: "respondToInvitation", name: "Respond to Invitation", method: "POST", endpoint: "/0/0/gruplar-davetcevap/0/0/", inputs: ["grupID", "cevap"], desc: "Accept (1) or Decline (0) invitation", auth: true }
+    ]
+  },
+  business: {
+    title: "BusinessService",
+    actions: [
+      { id: "getUserSchools", name: "Get Schools", method: "POST", endpoint: "/0/0/okullarim/0/0/", inputs: ["oyuncubakid"], desc: "Fetch schools for a player", auth: true },
+      { id: "getUserStations", name: "Get Stations", method: "POST", endpoint: "/0/0/istasyonlarim/0/0/", inputs: ["oyuncubakid"], desc: "Fetch locations/stations for a player", auth: true }
+    ]
+  },
+  chat: {
+    title: "ChatService",
+    actions: [
+      { id: "sendMessage", name: "Send Message", method: "POST", endpoint: "/0/0/sohbetgonder/0/0/", inputs: ["userId", "content", "type"], desc: "Send private/group message", auth: true },
+      { id: "getChatHistory", name: "Chat History", method: "POST", endpoint: "/0/0/sohbet/0/0/", inputs: ["userId", "page", "limit"], desc: "Fetch messages with a user", auth: true },
+      { id: "getFriendsChat", name: "Friends Chat", method: "POST", endpoint: "/0/0/sohbet/arkadaslarim/0/", inputs: ["page", "limit"], desc: "Fetch recent chat list", auth: true },
+      { id: "getChatDetail", name: "Chat Detail", method: "POST", endpoint: "/0/0/sohbetdetay/0/0/", inputs: ["chatId", "type"], desc: "Fetch detailed chat info", auth: true }
+    ]
+  },
+  management: {
+    title: "ManagementService",
+    actions: [
+      { id: "getManagementContent", name: "Management Panel", method: "POST", endpoint: "/0/0/yonetim-paneli/0/0/", inputs: ["category"], desc: "Fetch admin panel metrics", auth: true },
+      { id: "getMeetings", name: "List Meetings", method: "POST", endpoint: "/0/0/yonetim-paneli/0/0/", inputs: [], desc: "Fetch meeting records", auth: true }
     ]
   }
 };
 
 export default function Dashboard() {
   const router = useRouter();
-  const [activeService, setActiveService] = useState('auth');
+  const [activeService, setActiveService] = useState<string>('auth');
   const [apiKey, setApiKey] = useState('');
   const [testToken, setTestToken] = useState('');
   const [logs, setLogs] = useState<any[]>([]);
   const [inputs, setInputs] = useState<Record<string, string>>({});
+  const [files, setFiles] = useState<Record<string, File | File[]>>({});
   const [actionResults, setActionResults] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState<string | null>(null);
   
@@ -178,8 +297,11 @@ export default function Dashboard() {
     }
   }, [logs]);
 
+  const logCounterRef = useRef(0);
+
   const addLog = (type: LogType, title: string, data: any, meta?: any) => {
-    setLogs(prev => [...prev, { id: Date.now(), type, title, data, meta, time: new Date().toLocaleTimeString() }]);
+    const id = `${Date.now()}-${logCounterRef.current++}`;
+    setLogs(prev => [...prev, { id, type, title, data, meta, time: new Date().toLocaleTimeString() }]);
   };
 
   const handleExecute = async (action: any) => {
@@ -199,9 +321,38 @@ export default function Dashboard() {
         if (action.id === 'login') {
           const authResult = await api.auth.login(inputs.username, inputs.password);
           result = authResult;
-          setTestToken(api.auth.getSession()?.token || '');
+          
+          const newToken = authResult.session?.token;
+          if (newToken) {
+            setTestToken(newToken);
+            localStorage.setItem('armoyu_test_token', newToken);
+          }
+          
           setTestUser(authResult.user);
           localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.user));
+        } else if (action.id === 'register') {
+          result = await api.auth.register({
+            username: inputs.username,
+            firstName: inputs.firstName,
+            lastName: inputs.lastName,
+            email: inputs.email,
+            password: inputs.password
+          });
+        } else if (action.id === 'forgotPassword') {
+          result = await api.auth.forgotPassword({
+            username: inputs.username,
+            email: inputs.email,
+            birthday: inputs.birthday,
+            preference: inputs.preference
+          });
+        } else if (action.id === 'verifyPasswordReset') {
+          result = await api.auth.verifyPasswordReset({
+            username: inputs.username,
+            email: inputs.email,
+            birthday: inputs.birthday,
+            code: inputs.code,
+            newPassword: inputs.newPassword
+          });
         } else if (action.id === 'me') {
           const profile = await api.auth.me();
           result = profile;
@@ -211,6 +362,96 @@ export default function Dashboard() {
       } else if (activeService === 'users') {
         if (action.id === 'getUser') {
           result = await api.users.getUserByUsername(inputs.oyuncubakusername);
+        } else if (action.id === 'addFriend') {
+          result = await api.users.addFriend(Number(inputs.oyuncubakid));
+        } else if (action.id === 'removeFriend') {
+          result = await api.users.removeFriend(Number(inputs.oyuncubakid));
+        } else if (action.id === 'respondToFriendRequest') {
+          result = await api.users.respondToFriendRequest(Number(inputs.oyuncubakid), Number(inputs.cevap));
+        } else if (action.id === 'updatePrivatePersonalInfo') {
+          result = await api.users.updatePrivatePersonalInfo({
+            firstName: inputs.firstName,
+            lastName: inputs.lastName,
+            email: inputs.email,
+            birthday: inputs.birthday,
+            phoneNumber: inputs.phoneNumber,
+            countryID: inputs.countryID ? Number(inputs.countryID) : undefined,
+            provinceID: inputs.provinceID ? Number(inputs.provinceID) : undefined,
+            passwordControl: inputs.passwordControl || ''
+          });
+        } else if (action.id === 'getUserSchools') {
+          result = await api.users.getUserSchools(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        } else if (action.id === 'getSchoolDetail') {
+          result = await api.users.getSchoolDetail(Number(inputs.okulID));
+        } else if (action.id === 'getFriendsList') {
+          result = await api.users.getFriendsList({
+            userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
+            page: inputs.page ? Number(inputs.page) : undefined,
+            limit: inputs.limit ? Number(inputs.limit) : undefined
+          });
+        } else if (action.id === 'getInvitationsList') {
+          result = await api.users.getInvitationsList(inputs.page ? Number(inputs.page) : 1);
+        } else if (action.id === 'refreshInviteCode') {
+          result = await api.users.refreshInviteCode();
+        } else if (action.id === 'requestEmailVerificationUrl') {
+          result = await api.users.requestEmailVerificationUrl(inputs.userID ? Number(inputs.userID) : undefined);
+        } else if (action.id === 'pokeFriend') {
+          result = await api.users.pokeFriend(Number(inputs.oyuncubakid));
+        } else if (action.id === 'setFavoriteTeam') {
+          result = await api.users.setFavoriteTeam(Number(inputs.favoritakimID));
+        } else if (action.id === 'getUserMedia') {
+          result = await api.users.getUserMedia({
+            userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
+            limit: inputs.limit ? Number(inputs.limit) : 50,
+            page: inputs.page ? Number(inputs.page) : 1,
+            category: inputs.kategori || 'all'
+          });
+        } else if (action.id === 'getSocialProfile') {
+          result = await api.users.getSocialProfile(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        } else if (action.id === 'getNotifications') {
+          result = await api.users.getNotifications();
+        } else if (action.id === 'getNotificationsHistory') {
+          result = await api.users.getNotificationsHistory(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : 20,
+            inputs.kategori,
+            inputs.kategoridetay
+          );
+        } else if (action.id === 'updateAvatar') {
+          const file = files.resim;
+          if (!file) throw new Error("Please select an image file first");
+          result = await api.users.updateAvatar(file);
+        } else if (action.id === 'resetAvatar') {
+          result = await api.users.resetAvatar();
+        } else if (action.id === 'resetBanner') {
+          result = await api.users.resetBanner();
+        } else if (action.id === 'updateBackground') {
+          const file = files.resim;
+          if (!file) throw new Error("Please select an image file first");
+          result = await api.users.updateBackground(file);
+        } else if (action.id === 'rotateMedia') {
+          result = await api.users.rotateMedia(Number(inputs.fotografID), Number(inputs.derece));
+        } else if (action.id === 'deleteMedia') {
+          result = await api.users.deleteMedia(Number(inputs.medyaID));
+        } else if (action.id === 'uploadMedia') {
+          const mediaFiles = files['media[]'];
+          if (!mediaFiles) throw new Error("Please select at least one media file");
+          result = await api.users.uploadMedia(Array.isArray(mediaFiles) ? mediaFiles : [mediaFiles], inputs.category);
+        } else if (action.id === 'getNotificationSettings') {
+          result = await api.users.getNotificationSettings();
+        } else if (action.id === 'updateNotificationSettings') {
+          // Parse "key=value,key2=value2" or just "key=value"
+          const settings: Record<string, number> = {};
+          const pairs = inputs.notificationSettings.split(',').map(p => p.trim());
+          pairs.forEach(pair => {
+            const [key, value] = pair.split('=');
+            if (key && value !== undefined) settings[key] = Number(value);
+          });
+          result = await api.users.updateNotificationSettings(settings);
+        } else if (action.id === 'getXpRankings') {
+          result = await api.users.getXpRankings(inputs.sayfa ? Number(inputs.sayfa) : 1);
+        } else if (action.id === 'getPopRankings') {
+          result = await api.users.getPopRankings(inputs.sayfa ? Number(inputs.sayfa) : 1);
         }
       } else if (activeService === 'rules') {
         if (action.id === 'getRules') {
@@ -218,9 +459,174 @@ export default function Dashboard() {
         } else if (action.id === 'createRule') {
           result = await api.rules.createRule(inputs.text, inputs.penalty);
         }
+      } else if (activeService === 'blog') {
+        if (action.id === 'getNews') {
+          result = await api.blog.getNewsLegacy();
+        }
       } else if (activeService === 'social') {
-        if (action.id === 'getFeed') {
-          result = await api.social.getFeed(Number(inputs.page) || 1);
+        if (action.id === 'getPosts') {
+          result = await api.social.getPosts({
+            postId: inputs.postID ? Number(inputs.postID) : undefined,
+            category: inputs.category,
+            categoryDetail: inputs.categorydetail
+          });
+        } else if (action.id === 'createPost') {
+          const mediaIds = inputs['paylasimfoto[]'] ? inputs['paylasimfoto[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id)) : undefined;
+          result = await api.social.createPost(inputs.sosyalicerik, mediaIds);
+        } else if (action.id === 'deletePost') {
+          result = await api.social.deletePost(inputs.postID);
+        } else if (action.id === 'getLikers') {
+          result = await api.social.getLikers({
+            postId: inputs.postID,
+            commentId: inputs.yorumID
+          });
+        } else if (action.id === 'removeLike') {
+          result = await api.social.removeLike({
+            postId: inputs.postID,
+            commentId: inputs.yorumID,
+            category: inputs.kategori
+          });
+        } else if (action.id === 'addLike') {
+          result = await api.social.addLike({
+            postId: inputs.postID,
+            category: inputs.kategori
+          });
+        } else if (action.id === 'getComments') {
+          result = await api.social.getComments(inputs.postID);
+        } else if (action.id === 'createComment') {
+          result = await api.social.createComment({
+            postId: inputs.postID,
+            content: inputs.yorumicerik,
+            category: inputs.kategori,
+            replyTo: inputs.kimeyanit
+          });
+        } else if (action.id === 'deleteComment') {
+          result = await api.social.deleteComment(inputs.yorumID);
+        } else if (action.id === 'getSocialNotifications') {
+          result = await api.social.getSocialNotifications({
+            postId: inputs.postID,
+            category: inputs.bildirikategori
+          });
+        }
+      } else if (activeService === 'search') {
+        if (action.id === 'globalSearch') {
+          result = await api.search.globalSearch(inputs.query);
+        }
+      } else if (activeService === 'events') {
+        if (action.id === 'getEvents') {
+          result = await api.events.getEvents({
+            gameId: inputs.oyunID ? Number(inputs.oyunID) : undefined,
+            status: inputs.etkinlikdurum,
+            page: inputs.sayfa ? Number(inputs.sayfa) : 0,
+            limit: inputs.limit ? Number(inputs.limit) : undefined
+          });
+        } else if (action.id === 'getEventDetail') {
+          result = await api.events.getEventDetail({
+            eventId: inputs.eventID ? Number(inputs.eventID) : undefined
+          });
+        } else if (action.id === 'joinEvent') {
+          result = await api.events.joinEvent(Number(inputs.eventId));
+        } else if (action.id === 'respondToEvent') {
+          result = await api.events.respondToEvent(Number(inputs.eventId), inputs.cevap as any);
+        } else if (action.id === 'getEventTeams') {
+          result = await api.events.getEventTeams(Number(inputs.eventId));
+        }
+      } else if (activeService === 'siteInfo') {
+        if (action.id === 'getAboutContent') {
+          result = await api.siteInfo.getAboutContent(inputs.category || 'home');
+        } else if (action.id === 'getPrivacyPolicy') {
+          result = await api.siteInfo.getPrivacyPolicy(inputs.category || 'home');
+        } else if (action.id === 'getTermsOfService') {
+          result = await api.siteInfo.getTermsOfService(inputs.category || 'home');
+        } else if (action.id === 'getStatistics') {
+          result = await api.siteInfo.getStatistics(inputs.category || 'aktifoyuncu');
+        } else if (action.id === 'getSessionLogs') {
+          result = await api.siteInfo.getSessionLogs();
+        } else if (action.id === 'getSiteMessages') {
+          result = await api.siteInfo.getSiteMessages(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        } else if (action.id === 'searchTags') {
+          result = await api.siteInfo.searchTags({
+            tag: inputs.etiket,
+            page: inputs.page ? Number(inputs.page) : undefined,
+            limit: inputs.limit ? Number(inputs.limit) : undefined
+          });
+        } else if (action.id === 'getSiteMessageDetail') {
+          result = await api.siteInfo.getSiteMessageDetail(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        }
+      } else if (activeService === 'groups') {
+        if (action.id === 'getUserGroups') {
+          result = await api.groups.getUserGroups(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        } else if (action.id === 'getGroups') {
+          result = await api.groups.getGroups({
+            category: inputs.kategori,
+            page: inputs.sayfa ? Number(inputs.sayfa) : undefined
+          });
+        } else if (action.id === 'getGroupDetail') {
+          result = await api.groups.getGroupDetail({
+            groupId: inputs.grupID ? Number(inputs.grupID) : undefined,
+            groupName: inputs.groupname
+          });
+        } else if (action.id === 'inviteToGroup') {
+          const userIds = inputs['users[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id));
+          result = await api.groups.inviteToGroup(Number(inputs.grupID), userIds);
+        } else if (action.id === 'updateGroupMedia') {
+          const file = files.media;
+          if (!file) throw new Error("Please select a media file first");
+          result = await api.groups.updateGroupMedia(Number(inputs.groupID), inputs.category, Array.isArray(file) ? file[0] : file);
+        } else if (action.id === 'leaveGroup') {
+          result = await api.groups.leaveGroup(Number(inputs.grupID));
+        } else if (action.id === 'getGroupMembers') {
+          result = await api.groups.getGroupMembers(inputs.groupname);
+        } else if (action.id === 'kickFromGroup') {
+          result = await api.groups.kickFromGroup(Number(inputs.grupID), Number(inputs.userID));
+        } else if (action.id === 'updateGroupSettings') {
+          result = await api.groups.updateGroupSettings({
+            groupId: Number(inputs.grupID),
+            title: inputs.baslik,
+            tag: inputs.grupetiket,
+            description: inputs.aciklama,
+            discord: inputs.discordlink,
+            website: inputs.website,
+            recruitmentStatus: inputs.alimdurum
+          });
+        } else if (action.id === 'respondToInvitation') {
+          result = await api.groups.respondToInvitation(Number(inputs.grupID), Number(inputs.cevap));
+        }
+      } else if (activeService === 'business') {
+        if (action.id === 'getUserSchools') {
+          result = await api.business.getUserSchools(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        } else if (action.id === 'getUserStations') {
+          result = await api.business.getUserStations(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+        }
+      } else if (activeService === 'chat') {
+        if (action.id === 'sendMessage') {
+          result = await api.chat.sendMessage({
+            userId: Number(inputs.userId),
+            content: inputs.content,
+            type: inputs.type
+          });
+        } else if (action.id === 'getChatHistory') {
+          result = await api.chat.getChatHistory({
+            userId: Number(inputs.userId),
+            page: inputs.page ? Number(inputs.page) : undefined,
+            limit: inputs.limit ? Number(inputs.limit) : undefined
+          });
+        } else if (action.id === 'getFriendsChat') {
+          result = await api.chat.getFriendsChat({
+            page: inputs.page ? Number(inputs.page) : undefined,
+            limit: inputs.limit ? Number(inputs.limit) : undefined
+          });
+        } else if (action.id === 'getChatDetail') {
+          result = await api.chat.getChatDetail({
+            chatId: Number(inputs.chatId),
+            type: inputs.type
+          });
+        }
+      } else if (activeService === 'management') {
+        if (action.id === 'getManagementContent') {
+          result = await api.management.getManagementContent(inputs.category || 'home');
+        } else if (action.id === 'getMeetings') {
+          result = await api.management.getMeetings();
         }
       }
 
@@ -238,7 +644,7 @@ export default function Dashboard() {
 
       addLog(LogType.RESPONSE, `Success: ${action.name}`, null, { 
         status: 1, 
-        aciklama: rawResponse?.aciklama || "İşlem Başarılı",
+        aciklama: rawResponse?.aciklama || "lem Baarl",
         endpoint: action.endpoint
       });
     } catch (err: any) {
@@ -327,10 +733,17 @@ export default function Dashboard() {
                       </span>
                       <h3 className="text-lg font-bold text-gray-200">{action.name}</h3>
                       {action.auth && (
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-[9px] font-black text-red-500 tracking-widest ml-1">
-                          <Lock className="w-2.5 h-2.5" />
-                          AUTH REQUIRED
-                        </div>
+                        testToken ? (
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[9px] font-black text-emerald-500 tracking-widest ml-1">
+                            <CheckCircle2 className="w-2.5 h-2.5" />
+                            AUTHORIZED
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20 text-[9px] font-black text-red-500 tracking-widest ml-1">
+                            <Lock className="w-2.5 h-2.5" />
+                            AUTH REQUIRED
+                          </div>
+                        )
                       )}
                     </div>
                     <p className="text-sm text-gray-500 max-w-xl">{action.desc}</p>
@@ -351,13 +764,30 @@ export default function Dashboard() {
                     {action.inputs.map((input: string) => (
                       <div key={input} className="space-y-1.5">
                         <label className="text-[10px] font-bold text-gray-500 uppercase ml-1">{input}</label>
-                        <input
-                          type={input === 'password' ? 'password' : 'text'}
-                          className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-cyan-500/30 outline-none transition-all text-white"
-                          placeholder={`Enter ${input}...`}
-                          value={inputs[input] || ''}
-                          onChange={(e) => setInputs(prev => ({ ...prev, [input]: e.target.value }))}
-                        />
+                        {input === 'resim' || input === 'media[]' || input === 'media' ? (
+                          <input
+                            type="file"
+                            multiple={input === 'media[]'}
+                            className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-cyan-500/30 outline-none transition-all text-white"
+                            onChange={(e) => {
+                              if (input === 'media[]') {
+                                const filesArray = Array.from(e.target.files || []);
+                                if (filesArray.length > 0) setFiles(prev => ({ ...prev, [input]: filesArray }));
+                              } else {
+                                const file = e.target.files?.[0];
+                                if (file) setFiles(prev => ({ ...prev, [input]: file }));
+                              }
+                            }}
+                          />
+                        ) : (
+                          <input
+                            type={input === 'password' ? 'password' : 'text'}
+                            className="w-full bg-white/5 border border-white/5 rounded-xl px-4 py-3 text-sm focus:border-cyan-500/30 outline-none transition-all text-white"
+                            placeholder={`Enter ${input}...`}
+                            value={inputs[input] || ''}
+                            onChange={(e) => setInputs(prev => ({ ...prev, [input]: e.target.value }))}
+                          />
+                        )}
                       </div>
                     ))}
                   </div>
@@ -484,7 +914,7 @@ export default function Dashboard() {
                         )}>
                           {log.type}
                         </span>
-                        <span className="text-gray-600 opacity-50">•</span>
+                        <span className="text-gray-600 opacity-50"></span>
                         <span className="text-gray-400 font-bold">{log.title}</span>
                       </div>
                       <span className="text-[9px] text-gray-600 font-bold">{log.time}</span>

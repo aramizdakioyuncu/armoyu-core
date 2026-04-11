@@ -1,6 +1,11 @@
 import { ApiClient, StandardApiResponse } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 
+/**
+ * Abstract base class for all services.
+ * Provides shared utilities for response handling and bot path resolution.
+ * @checked 2026-04-12
+ */
 export abstract class BaseService {
   constructor(
     protected client: ApiClient,
@@ -27,5 +32,28 @@ export abstract class BaseService {
 
     // Fallback for non-standard responses
     return response as T;
+  }
+
+  /**
+   * Builds the correct path for bot-based endpoints by automatically prepending 
+   * the /botlar/[apiKey] prefix if it's missing.
+   * 
+   * @param path The relative path (e.g. /0/0/arama/0/0/)
+   * @returns Resolved path with bot prefix if necessary
+   */
+  protected resolveBotPath(path: string): string {
+    const apiKey = this.client.getApiKey();
+    const baseUrl = this.client.getBaseUrl();
+    
+    // If we have an API key and the path is a legacy bot path starting with /0/
+    // and it doesn't already contain /botlar/ AND the baseUrl doesn't already contain /botlar/
+    if (apiKey && path.startsWith('/0/') && !path.includes('/botlar/')) {
+      // Check if baseUrl already handles the botlar prefix
+      if (!baseUrl.includes('/botlar/')) {
+        return `/botlar/${apiKey}${path}`;
+      }
+    }
+
+    return path;
   }
 }

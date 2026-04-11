@@ -3,7 +3,8 @@ export type SocketEvent = 'message' | 'status' | 'typing' | 'notification' | 'po
 type SocketListener = (data: unknown) => void;
 /**
  * A production-ready WebSocket service for the ARMOYU platform.
- * Connects to the standalone armoyu-socket-server.
+ * Connects to the standalone armoyu-socket-server for real-time updates.
+ * @checked 2026-04-12
  */
 export declare class SocketService {
     private socket;

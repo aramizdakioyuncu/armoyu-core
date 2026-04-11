@@ -3,6 +3,10 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 
+/**
+ * Service for managing platform news, blogs, and articles.
+ * @checked 2026-04-12
+ */
 export class BlogService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
@@ -19,6 +23,20 @@ export class BlogService extends BaseService {
       return icerik.news.map(n => News.fromJSON(n));
     } catch (error) {
       this.logger.error('[BlogService] Failed to fetch news:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get news articles using the legacy bot-based endpoint.
+   */
+  async getNewsLegacy(): Promise<News[]> {
+    try {
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/0/0/'), {});
+      const icerik = this.handleResponse<any[]>(response);
+      return Array.isArray(icerik) ? icerik.map(n => News.fromJSON(n)) : [];
+    } catch (error) {
+      this.logger.error('[BlogService] Failed to fetch legacy news:', error);
       return [];
     }
   }

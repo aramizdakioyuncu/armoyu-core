@@ -5,6 +5,7 @@ import { ArmoyuLogger } from '../api/Logger';
 
 /**
  * Service for handling ARMOYU Rule-related API interactions.
+ * @checked 2026-04-12
  */
 export class RuleService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
@@ -17,7 +18,7 @@ export class RuleService extends BaseService {
     const normalizedPath = path.startsWith('/') ? path : '/' + path;
     
     // /0/0 represents the category/sub-path for bot rules
-    const endpoint = `/0/0${normalizedPath}`;
+    const endpoint = this.resolveBotPath(`/0/0${normalizedPath}`);
     
     try {
       switch (method) {

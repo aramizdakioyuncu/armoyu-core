@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Notification = void 0;
 const Group_1 = require("../community/Group");
 const NotificationSender_1 = require("./NotificationSender");
+const NotificationEnums_1 = require("./NotificationEnums");
 /**
  * Represents a Notification in the aramizdakioyuncu.com platform.
  */
@@ -12,7 +13,7 @@ class Notification {
         var _a;
         this.id = '';
         this.type = 'SYSTEM_ALERT';
-        this.category = 'SYSTEM';
+        this.category = NotificationEnums_1.NotificationCategory.SYSTEM;
         this.title = '';
         this.message = '';
         this.context = ''; // Detailed context (snippet of comment, etc)
@@ -54,7 +55,7 @@ class Notification {
             this.message = `${this.group.name} grubuna davet edildin.`;
         }
         // Default to system sender if not provided for system notifications
-        if (this.category === 'SYSTEM') {
+        if (this.category === NotificationEnums_1.NotificationCategory.SYSTEM) {
             if (!this.sender)
                 this.sender = NotificationSender_1.NotificationSender.system();
             this.isClickable = false;
@@ -69,7 +70,7 @@ class Notification {
         return new Notification({
             id: json.id || '',
             type: json.type || 'SYSTEM_ALERT',
-            category: json.category || 'SYSTEM',
+            category: json.category || NotificationEnums_1.NotificationCategory.SYSTEM,
             title: json.title || '',
             message: json.message || '',
             context: json.context || '',

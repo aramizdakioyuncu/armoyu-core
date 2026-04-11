@@ -5,13 +5,15 @@ export * from './api/Logger';
 export * from './services/BaseService';
 export * from './services/AuthService';
 export * from './services/UserService';
-export * from './services/SocialService';
 export * from './services/SocketService';
 export * from './services/BlogService';
 export * from './services/ShopService';
 export * from './services/ForumService';
 export * from './services/SupportService';
 export * from './services/RuleService';
+export * from './services/ManagementService';
+export * from './services/SiteInformationService';
+export * from './services/GroupService';
 /**
  * Global Platform Statistics
  */

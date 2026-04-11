@@ -1,6 +1,6 @@
 {
   "name": "@armoyu/core",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Core business logic, models, and services for ARMOYU platforms.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -15,7 +15,9 @@
     "build": "tsc",
     "dev": "cd examples/console && npm run dev",
     "build:bundle": "esbuild src/index.ts --bundle --outfile=dist/armoyu-core.bundle.js --platform=browser --global-name=ArmoyuCore --minify",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "test": "npx tsx --env-file=.env tests/user-enrichment.test.ts && npx tsx --env-file=.env tests/news-enrichment.test.ts && npx tsx --env-file=.env tests/search-enrichment.test.ts && npx tsx --env-file=.env tests/event-enrichment.test.ts",
+    "test:api": "npx tsx --env-file=.env tests/api.test.ts"
   },
   "dependencies": {
     "build": "^0.1.4",
@@ -23,6 +25,7 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/node": "^25.6.0",
     "esbuild": "^0.28.0",
     "typescript": "^5.0.0"
   }

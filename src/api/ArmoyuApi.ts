@@ -2,13 +2,17 @@ import { ApiClient, ApiConfig } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { AuthService } from '../services/AuthService';
 import { UserService } from '../services/UserService';
-import { SocialService } from '../services/SocialService';
 import { BlogService } from '../services/BlogService';
 import { ShopService } from '../services/ShopService';
 import { ForumService } from '../services/ForumService';
 import { SupportService } from '../services/SupportService';
 import { RuleService } from '../services/RuleService';
 import { SocketService } from '../services/SocketService';
+import { SearchService } from '../services/SearchService';
+import { EventService } from '../services/EventService';
+import { ManagementService } from '../services/ManagementService';
+import { SiteInformationService } from '../services/SiteInformationService';
+import { GroupService } from '../services/GroupService';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -17,13 +21,17 @@ import { SocketService } from '../services/SocketService';
 export class ArmoyuApi {
   public auth: AuthService;
   public users: UserService;
-  public social: SocialService;
   public blog: BlogService;
   public shop: ShopService;
   public forum: ForumService;
   public support: SupportService;
   public rules: RuleService;
   public socket: SocketService;
+  public search: SearchService;
+  public events: EventService;
+  public siteInfo: SiteInformationService;
+  public groups: GroupService;
+  public management: ManagementService;
 
   private client: ApiClient;
   private logger: ArmoyuLogger;
@@ -46,15 +54,20 @@ export class ArmoyuApi {
 
     // Initialize services with the api client and logger
     this.socket = new SocketService(this.logger);
-    
+
     this.auth = new AuthService(this.client, this.logger);
     this.users = new UserService(this.client, this.logger);
-    this.social = new SocialService(this.client, this.logger, this.socket);
+
     this.blog = new BlogService(this.client, this.logger);
     this.shop = new ShopService(this.client, this.logger);
     this.forum = new ForumService(this.client, this.logger);
     this.support = new SupportService(this.client, this.logger);
     this.rules = new RuleService(this.client, this.logger);
+    this.search = new SearchService(this.client, this.logger);
+    this.events = new EventService(this.client, this.logger);
+    this.siteInfo = new SiteInformationService(this.client, this.logger);
+    this.groups = new GroupService(this.client, this.logger);
+    this.management = new ManagementService(this.client, this.logger);
   }
 
   /**
@@ -78,7 +91,7 @@ export class ArmoyuApi {
     if (config.apiKey !== undefined) this.client.setApiKey(config.apiKey);
     if (config.token !== undefined) this.client.setToken(config.token);
     if (config.baseUrl !== undefined) this.client.setBaseUrl(config.baseUrl);
-    
+
     // Also update current config reference if needed (optional since client handles it)
   }
 

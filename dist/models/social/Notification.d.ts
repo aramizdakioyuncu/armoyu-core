@@ -1,6 +1,7 @@
 import { Group } from '../community/Group';
 import { Post } from './Post';
-import { NotificationSender, NotificationType, NotificationCategory } from './NotificationSender';
+import { NotificationSender } from './NotificationSender';
+import { NotificationType, NotificationCategory } from './NotificationEnums';
 /**
  * Represents a Notification in the aramizdakioyuncu.com platform.
  */

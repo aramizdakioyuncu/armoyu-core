@@ -1,34 +1,95 @@
-import { Post } from '../models/social/Post';
-import { Notification } from '../models/social/Notification';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { SocketService } from './SocketService';
+import { Post } from '../models/social/Post';
+/**
+ * Service for managing social interactions, posts, feed, likes, and comments.
+ * @checked 2026-04-12
+ */
 export declare class SocialService extends BaseService {
-    private socket;
-    constructor(client: ApiClient, logger: ArmoyuLogger, socket: SocketService);
+    constructor(client: ApiClient, logger: ArmoyuLogger);
     /**
-     * Fetch the social feed (posts from follows/groups).
+     * Fetches posts from the social feed or a specific post by ID (Legacy).
+     *
+     * @param params Query parameters (postId, category, categoryDetail)
+     * @returns List of posts or a single post
      */
-    getFeed(page?: number): Promise<Post[]>;
+    getPosts(params?: {
+        postId?: number;
+        category?: string;
+        categoryDetail?: string | number;
+    }): Promise<Post[] | Post | null>;
     /**
-     * Create a new post.
+     * Creates a new social post (Legacy).
+     *
+     * @param content The text content of the post
+     * @param mediaIds Optional array of media IDs associated with the post
      */
-    createPost(content: string, media?: any[]): Promise<Post | null>;
+    createPost(content: string, mediaIds?: number[]): Promise<any>;
     /**
-     * Like or unlike a post.
+     * Deletes a social post (Legacy).
+     *
+     * @param postId The ID of the post to delete
      */
-    toggleLike(postId: string): Promise<boolean>;
+    deletePost(postId: number | string): Promise<any>;
     /**
-     * Add a comment to a post.
+     * Fetches the list of users who liked a specific post or comment (Legacy).
+     *
+     * @param params Identification parameters (postId or commentId)
      */
-    addComment(postId: string, content: string): Promise<any>;
+    getLikers(params: {
+        postId?: number | string;
+        commentId?: number | string;
+    }): Promise<any>;
     /**
-     * Get user notifications.
+     * Removes a like from a post or comment (Legacy).
+     *
+     * @param params Query parameters (postId, commentId, category)
      */
-    getNotifications(): Promise<Notification[]>;
+    removeLike(params: {
+        postId: number | string;
+        commentId?: number | string;
+        category?: string;
+    }): Promise<any>;
     /**
-     * Mark a notification as read.
+     * Adds a like to a post or comment (Legacy).
+     *
+     * @param params Query parameters (postId, category)
      */
-    markNotificationAsRead(notificationId: string): Promise<void>;
+    addLike(params: {
+        postId: number | string;
+        category?: string;
+    }): Promise<any>;
+    /**
+     * Fetches comments for a specific post (Legacy).
+     *
+     * @param postId The ID of the post
+     */
+    getComments(postId: number | string): Promise<any>;
+    /**
+     * Fetches specific social notifications (Legacy).
+     *
+     * @param params Query parameters (postId, category)
+     */
+    getSocialNotifications(params: {
+        postId: number | string;
+        category?: string;
+    }): Promise<any>;
+    /**
+     * Creates a new comment on a post (Legacy).
+     *
+     * @param params Comment parameters (postId, content, category, replyTo)
+     */
+    createComment(params: {
+        postId: number | string;
+        content: string;
+        category?: string;
+        replyTo?: number | string;
+    }): Promise<any>;
+    /**
+     * Deletes a comment (Legacy).
+     *
+     * @param commentId The ID of the comment to delete
+     */
+    deleteComment(commentId: number | string): Promise<any>;
 }

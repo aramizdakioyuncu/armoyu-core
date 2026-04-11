@@ -1,102 +1,231 @@
-import { Post } from '../models/social/Post';
-import { Notification } from '../models/social/Notification';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { SocketService } from './SocketService';
+import { Post } from '../models/social/Post';
 
+/**
+ * Service for managing social interactions, posts, feed, likes, and comments.
+ * @checked 2026-04-12
+ */
 export class SocialService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, private socket: SocketService) {
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
   }
-  /**
-   * Fetch the social feed (posts from follows/groups).
-   */
-  async getFeed(page: number = 1): Promise<Post[]> {
-    try {
-      const response = await this.client.get<any>(`/0/0/sosyal/liste/${page}/`);
-      const icerik = this.handleResponse<any[]>(response);
-      return icerik.map(p => Post.fromJSON(p));
-    } catch (error) {
-      this.logger.error('[SocialService] Fetching feed failed:', error);
-      return [];
-    }
-  }
 
   /**
-   * Create a new post.
+   * Fetches posts from the social feed or a specific post by ID (Legacy).
+   * 
+   * @param params Query parameters (postId, category, categoryDetail)
+   * @returns List of posts or a single post
    */
-  async createPost(content: string, media?: any[]): Promise<Post | null> {
+  async getPosts(params: { postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<Post[] | Post | null> {
     try {
-      const response = await this.client.post<any>('/social/posts', { content, media });
-      const icerik = this.handleResponse<any>(response);
-      const post = Post.fromJSON(icerik);
-      
-      // Notify via socket if connected
-      this.socket.emit('post', post);
-      
-      return post;
-    } catch (error) {
-      this.logger.error('[SocialService] Creating post failed:', error);
-      return null;
-    }
-  }
+      const formData = new FormData();
+      if (params.postId !== undefined) {
+        formData.append('postID', params.postId.toString());
+      }
+      if (params.category !== undefined) {
+        formData.append('category', params.category);
+      }
+      if (params.categoryDetail !== undefined) {
+        formData.append('categorydetail', params.categoryDetail.toString());
+      }
 
-  /**
-   * Like or unlike a post.
-   */
-  async toggleLike(postId: string): Promise<boolean> {
-    try {
-      const response = await this.client.post<any>(`/social/posts/${postId}/like`, {});
-      const icerik = this.handleResponse<{ liked: boolean }>(response);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/liste/0/'), formData);
       
-      // Emit socket event for real-time update
-      this.socket.emit('post_like', { postId, liked: icerik.liked });
-      
-      return icerik.liked;
-    } catch (error) {
-      this.logger.error('[SocialService] Toggle like failed:', error);
-      return false;
-    }
-  }
+      if (response && response.durum === 1) {
+        if (Array.isArray(response.icerik)) {
+          return response.icerik.map((p: any) => Post.fromJSON(p));
+        } else if (response.icerik && typeof response.icerik === 'object') {
+          return Post.fromJSON(response.icerik);
+        }
+      }
 
-  /**
-   * Add a comment to a post.
-   */
-  async addComment(postId: string, content: string): Promise<any> {
-    try {
-      const response = await this.client.post<any>(`/social/posts/${postId}/comments`, { content });
       return this.handleResponse<any>(response);
     } catch (error) {
-      this.logger.error('[SocialService] Adding comment failed:', error);
+      this.logger.error(`[SocialService] Fetching posts failed:`, error);
       return null;
     }
   }
 
   /**
-   * Get user notifications.
+   * Creates a new social post (Legacy).
+   * 
+   * @param content The text content of the post
+   * @param mediaIds Optional array of media IDs associated with the post
    */
-  async getNotifications(): Promise<Notification[]> {
+  async createPost(content: string, mediaIds?: number[]): Promise<any> {
     try {
-      const response = await this.client.get<any>('/social/notifications');
-      const icerik = this.handleResponse<any[]>(response);
-      return icerik.map(n => Notification.fromJSON(n));
+      const formData = new FormData();
+      formData.append('sosyalicerik', content);
+      
+      if (mediaIds && mediaIds.length > 0) {
+        mediaIds.forEach(id => {
+          formData.append('paylasimfoto[]', id.toString());
+        });
+      }
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/olustur/0/'), formData);
+      return this.handleResponse<any>(response);
     } catch (error) {
-      this.logger.error('[SocialService] Fetching notifications failed:', error);
-      return [];
+      this.logger.error(`[SocialService] Creating post failed:`, error);
+      return null;
     }
   }
 
   /**
-   * Mark a notification as read.
+   * Deletes a social post (Legacy).
+   * 
+   * @param postId The ID of the post to delete
    */
-  async markNotificationAsRead(notificationId: string): Promise<void> {
+  async deletePost(postId: number | string): Promise<any> {
     try {
-      const response = await this.client.post<any>(`/social/notifications/${notificationId}/read`, {});
-      this.handleResponse(response);
+      const formData = new FormData();
+      formData.append('postID', postId.toString());
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/sil/0/'), formData);
+      return this.handleResponse<any>(response);
     } catch (error) {
-      this.logger.error('[SocialService] Marking notification as read failed:', error);
+      this.logger.error(`[SocialService] Deleting post ${postId} failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Fetches the list of users who liked a specific post or comment (Legacy).
+   * 
+   * @param params Identification parameters (postId or commentId)
+   */
+  async getLikers(params: { postId?: number | string, commentId?: number | string }): Promise<any> {
+    try {
+      const formData = new FormData();
+      if (params.postId !== undefined) {
+        formData.append('postID', params.postId.toString());
+      }
+      if (params.commentId !== undefined) {
+        formData.append('yorumID', params.commentId.toString());
+      }
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begenenler/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Fetching likers failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Removes a like from a post or comment (Legacy).
+   * 
+   * @param params Query parameters (postId, commentId, category)
+   */
+  async removeLike(params: { postId: number | string, commentId?: number | string, category?: string }): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('postID', params.postId.toString());
+      formData.append('yorumID', params.commentId?.toString() || '');
+      formData.append('kategori', params.category || 'post');
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begeni-sil/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Removing like failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Adds a like to a post or comment (Legacy).
+   * 
+   * @param params Query parameters (postId, category)
+   */
+  async addLike(params: { postId: number | string, category?: string }): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('postID', params.postId.toString());
+      formData.append('kategori', params.category || 'post');
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begen/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Adding like failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Fetches comments for a specific post (Legacy).
+   * 
+   * @param postId The ID of the post
+   */
+  async getComments(postId: number | string): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('postID', postId.toString());
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorumlar/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Fetching comments for ${postId} failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Fetches specific social notifications (Legacy).
+   * 
+   * @param params Query parameters (postId, category)
+   */
+  async getSocialNotifications(params: { postId: number | string, category?: string }): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('postID', params.postId.toString());
+      formData.append('bildirikategori', params.category || '');
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/bildirim/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Fetching social notifications failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Creates a new comment on a post (Legacy).
+   * 
+   * @param params Comment parameters (postId, content, category, replyTo)
+   */
+  async createComment(params: { postId: number | string, content: string, category?: string, replyTo?: number | string }): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('postID', params.postId.toString());
+      formData.append('yorumicerik', params.content);
+      formData.append('kategori', params.category || 'sosyal');
+      formData.append('kimeyanit', params.replyTo?.toString() || '0');
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-olustur/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Creating comment failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Deletes a comment (Legacy).
+   * 
+   * @param commentId The ID of the comment to delete
+   */
+  async deleteComment(commentId: number | string): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('yorumID', commentId.toString());
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-sil/0/'), formData);
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error(`[SocialService] Deleting comment ${commentId} failed:`, error);
+      return null;
     }
   }
 }
-

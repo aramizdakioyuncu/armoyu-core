@@ -28,8 +28,15 @@ async function handleProxy(req: NextRequest, pathSegments: string[]) {
     return NextResponse.json({ durum: 0, aciklama: 'X-API-KEY header missing' }, { status: 400 });
   }
 
-  // ARMOYU API structure: https://api.armoyu.com/botlar/{apiKey}/{endpoint}
-  const targetUrl = `https://api.armoyu.com/botlar/${apiKey}${endpoint}`;
+  // Determine target URL - If endpoint already starts with /botlar, don't prepend it again
+  const targetDomain = 'https://api.aramizdakioyuncu.com';
+  let targetUrl = '';
+  
+  if (endpoint.startsWith('/botlar/')) {
+    targetUrl = `${targetDomain}${endpoint}`;
+  } else {
+    targetUrl = `${targetDomain}/botlar/${apiKey}${endpoint}`;
+  }
 
   const method = req.method;
   const headers = new Headers();

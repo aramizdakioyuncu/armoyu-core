@@ -1,0 +1,324 @@
+﻿[ARMOYU] [UserService] Initialized
+{
+  "durum": 1,
+  "aciklama": "Liste getiriliyor.",
+  "aciklamadetay": 10,
+  "icerik": [
+    {
+      "#": 1,
+      "event_ID": 346,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/okey/etkinlik/okey-etkinligi1716995531",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f869c697-5f3f-49b6-b40a-aa9143effe00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cc8ce813-bc87-416e-58f0-f46f24f6ae00/thumbnail",
+      "event_name": "Okey Etkinli─şi",
+      "event_gameID": 2561,
+      "event_gamename": "Okey",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/okey.png",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/okey.png",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "30.05.2024 19:30",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 16,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 14,
+      "event_location": "2561",
+      "event_description": "Katlamal─▒, e┼şe katlama yok.\r\nYandan al─▒nan ta┼şla seri a├ğ─▒l─▒rsa ta┼ş─▒n 10 kat─▒ ceza.  (Eli a├ğ─▒kken ald─▒ysa ceza yok.)\r\n├çift a├ğ─▒l─▒rsa ta┼ş─▒n 20 kat─▒ ceza (Eli a├ğ─▒kken ald─▒ysa ceza yok.)\r\n─░┼şlek atmaya ve okey atmaya 100 ceza.\r\n50 yan 1 ├╝st├╝ seri ve 7 ├ğifte 100 siler\r\n60 yan 1 ├╝st├╝ ve 9 ├ğifte 200 siler.\r\nG├Âsterge el ba┼ş─▒nda geldiyse ├ğift i├ğin kullan─▒labilir.\r\n\r\n\r\nAkropol Cafede oynayaca─ş─▒z \r\nMasalara demlik ├ğay al─▒nacak Masa ba┼ş─▒ 200Ôé║\r\n\r\nKi┼şi ba┼ş─▒ 50Ôé║ ye denk geliyor",
+      "event_rules": "1. **D├╝r├╝stl├╝k ve Adalet:**\r\n   - Oyun boyunca d├╝r├╝st olun ve hile yapmaktan ka├ğ─▒n─▒n.\r\n   - Kurallar─▒ ihlal etmeden oyunu oynay─▒n ve her zaman adil bir oyun sergileyin.\r\n\r\n2. **Sayg─▒ ve Nezaket:**\r\n   - T├╝m oyunculara kar┼ş─▒ sayg─▒l─▒ ve nazik davran─▒n.\r\n   - K├╝f├╝r, hakaret veya a┼şa─ş─▒lay─▒c─▒ dil kullanmaktan ka├ğ─▒n─▒n.\r\n\r\n3. **Sab─▒r ve Anlay─▒┼ş:**\r\n   - Oyunun her a┼şamas─▒nda sab─▒rl─▒ olun. Di─şer oyuncular─▒n hamlelerini yapmalar─▒ i├ğin yeterli s├╝re tan─▒y─▒n.\r\n   - Oyunu ├Â─şrenmekte veya oynamakta zorlanan oyunculara anlay─▒┼ş g├Âsterin ve gerekirse yard─▒mc─▒ olun.\r\n\r\n4. **Sessizlik ve Dikkat:**\r\n   - Oyuna odaklan─▒n ve gereksiz g├╝r├╝lt├╝ veya dikkat da─ş─▒t─▒c─▒ hareketlerden ka├ğ─▒n─▒n.\r\n   - Di─şer oyuncular─▒ rahats─▒z edecek ┼şekilde konu┼şmay─▒n veya sohbet etmeyin.\r\n\r\n5. **─░leti┼şim:**\r\n   - Oyuncularla a├ğ─▒k ve anla┼ş─▒l─▒r bir ┼şekilde ileti┼şim kurun.\r\n   - Oyunun kurallar─▒ veya bir hamle hakk─▒nda sorular─▒n─▒z varsa, bunu sayg─▒l─▒ bir ┼şekilde sorun.\r\n\r\n6. **Kibar Olma:**\r\n   - Oyunu kazansan─▒z da kaybetseniz de kibarl─▒─ş─▒n─▒z─▒ koruyun.\r\n   - Di─şer oyuncular─▒n iyi hamlelerini takdir edin ve tebrik edin.\r\n\r\n7. **Zaman─▒nda Gelme ve Haz─▒r Olma:**\r\n   - Oyuna belirtilen zamanda ba┼şlay─▒n ve oyuna zaman─▒nda kat─▒l─▒n.\r\n   - Oyun s─▒ras─▒nda telefon veya di─şer cihazlarla ilgilenmekten ka├ğ─▒n─▒n.\r\n\r\n8. **Kurallara Uyma:**\r\n   - Oyun ba┼şlamadan ├Ânce belirlenen kurallara sad─▒k kal─▒n ve oyunu kurallar─▒na g├Âre oynay─▒n.\r\n   - Olas─▒ anla┼şmazl─▒klar─▒ kurallara g├Âre ├ğ├Âz├╝n ve hakem kararlar─▒na sayg─▒ g├Âsterin.\r\n\r\n9. **Temizlik ve D├╝zen:**\r\n   - Oyun alan─▒n─▒ temiz ve d├╝zenli tutun.\r\n   - Oyun malzemelerine zarar vermekten ka├ğ─▒n─▒n ve onlar─▒ dikkatli kullan─▒n.\r\n\r\nBu kurallar, okey oyununu daha keyifli ve adil hale getirmek i├ğin t├╝m oyuncular─▒n uymas─▒ gereken temel davran─▒┼ş standartlar─▒n─▒ belirler. ─░yi bir oyun ge├ğirmeniz dile─şiyle!"
+    },
+    {
+      "#": 2,
+      "event_ID": 345,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/galatasaray-konyaspor-mac-izleme-etkinligi1716717952",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2cb617fa-e2b5-4968-bb21-6f07cb22df00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/be7028c7-9ee4-4502-f014-d0735d40ed00/thumbnail",
+      "event_name": "Galatasaray - Konyaspor Ma├ğ izleme etkinli─şi",
+      "event_gameID": 1680,
+      "event_gamename": "Futbol",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "26.05.2024 19:00",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 10,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 10,
+      "event_location": "1680",
+      "event_description": "19.00dan ├Ânce etkinlik noktas─▒nda olal─▒m ,tan─▒┼şal─▒m sohbet edelim sonradan rahats─▒zl─▒k vermeyelim\r\nEtkinli─şe d─▒┼şar─▒dan arkada┼ş getirmemeye dikkat edelim arkada┼şlar─▒m─▒z kat─▒l butonuna basarak listeye kat─▒ls─▒nlar\r\n\r\nFORMASI OLANLAR FORMALARINI G─░YS─░N FOTO─ŞRAF ├çEK─░NECE─Ş─░Z\r\n\r\nMa├ğ izleme ├╝creti : yok",
+      "event_rules": "Sayg─▒l─▒ Ol!: Herkesin farkl─▒ tak─▒mlar─▒ destekleyebilece─şini ve bu tutkunun ki┼şisel oldu─şunu unutmay─▒n. Kar┼ş─▒l─▒kl─▒ sayg─▒ ve nezaket i├ğinde olun. K├╝f├╝r etmek, taciz etmek veya ba┼şkalar─▒na sald─▒rmak kesinlikle yasakt─▒r.\r\n\r\nAlkol Kullanma!: Alkol kullan─▒m─▒ etkinlik alan─▒nda yasakt─▒r.\r\n\r\nKesici ve Delici Aletler Getirme!: G├╝venlik ├Ânlemleri kapsam─▒nda kesici veya delici aletlerin etkinlik alan─▒na getirilmesi kesinlikle yasakt─▒r.\r\n\r\n├çevreyi Temiz Tut!: Etkinlik alan─▒n─▒ temiz tutmak her kat─▒l─▒mc─▒n─▒n sorumlulu─şundad─▒r. ├ç├Âpleri belirlenen yerlere atmak ve ├ğevreyi kirletmekten ka├ğ─▒nmak ├Ânemlidir.\r\n\r\nRahats─▒z Edici G├╝r├╝lt├╝ Yapma!: Di─şer izleyicilerin rahats─▒z olmamas─▒ i├ğin g├╝r├╝lt├╝ seviyesini makul d├╝zeyde tutun."
+    },
+    {
+      "#": 3,
+      "event_ID": 344,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/voleybol/etkinlik/sivas-kardesler-tepesi-piknik1716671122",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/97a2d898-2906-4382-0e34-d56b6ad09000/thumbnail",
+      "event_fotodetail": null,
+      "event_name": "S─░VAS Karde┼şler Tepesi Piknik",
+      "event_gameID": 1681,
+      "event_gamename": "Voleybol",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/voleybol.png",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/voleybol.png",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "26.05.2024 10:00",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 20,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 14,
+      "event_location": "1681",
+      "event_description": "Saat 10.00 da yurtlardan ├ğ─▒k─▒┼ş yapaca─ş─▒z.\r\n---AKI┼Ş---\r\n1. 11.00'da Kahvalt─▒ yapaca─ş─▒z\r\n2. 14.00'a kadar sohbet , oyun , fubol , voleybol UNO vb\r\n3. 14.00'da ate┼ş yak─▒lacak \r\n4. 15.00'da tavuklar pi┼şmeye ba┼şlayacak\r\n5. Ak┼şam─▒nda ma├ğ izlemeye gelmek isteyenlerle ma├ğa gidilecek. \r\n",
+      "event_rules": "1. Zaman─▒nda Gelin: Etkinlik program─▒na uygun olarak belirlenen saatte gelin. Ge├ğ kalmak, di─şer kat─▒l─▒mc─▒lar─▒n planlar─▒n─▒ aksatabilir.\r\n\r\n2. Geri D├Ân├╝┼ş├╝me Dikkat Edin: ├ç├Âplerinizi geri d├Ân├╝┼ş├╝m kutular─▒na at─▒n. Do─şay─▒ korumak hepimizin sorumlulu─şu.\r\n\r\n3. Sessizli─şe Sayg─▒ G├Âsterin: Di─şer kat─▒l─▒mc─▒lar─▒n keyfini bozmamak i├ğin y├╝ksek sesle konu┼şmaktan veya y├╝ksek m├╝zik a├ğmaktan ka├ğ─▒n─▒n.\r\n\r\n4. Ki┼şisel Alanlara Sayg─▒ G├Âsterin: Herkesin kendine ait bir alan─▒ vard─▒r. Ba┼şkalar─▒n─▒n ├Âzel e┼şyalar─▒na izinsiz dokunmay─▒n.\r\n\r\n5. Yard─▒mc─▒ Olun: ─░htiyac─▒ olan arkada┼şlar─▒n─▒za yard─▒mc─▒ olun. Birlikte haz─▒rl─▒k yaparken i┼ş birli─şi i├ğinde ├ğal─▒┼ş─▒n.\r\n\r\n6. Plana Uyun: Etkinlik program─▒na sad─▒k kal─▒n. Belirlenen etkinlik saatlerine ve aktivitelere kat─▒l─▒m g├Âsterin.\r\n\r\n7. ─░zin Al─▒n: Ba┼şkas─▒na ait bir e┼şyay─▒ veya malzemeyi kullanmadan ├Ânce izin isteyin.\r\n\r\n8. Temizlik Kurallar─▒na Uyun: Yeme─şinizi yedikten sonra alan─▒n─▒z─▒ temizleyin. Piknik alan─▒n─▒ buldu─şunuz gibi b─▒rak─▒n.\r\n\r\n9. Olumlu ve Sayg─▒l─▒ ─░leti┼şim: Herkesle olumlu ve nazik bir ┼şekilde ileti┼şim kurun. Tart─▒┼şmalardan ka├ğ─▒n─▒n ve birbirinizin g├Âr├╝┼şlerine sayg─▒ g├Âsterin.\r\n\r\n10. Aciliyet Durumlar─▒ ─░├ğin Bilgilendirme: Bir acil durumda organizat├Ârleri bilgilendirin ve gerekli talimatlar─▒ takip edin."
+    },
+    {
+      "#": 4,
+      "event_ID": 343,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/derbi-heyecani!1715718267",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/135fd7c7-7b9c-4a1a-aa09-09f178773500/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/781346c4-97e9-4640-dc12-473120206700/thumbnail",
+      "event_name": "Derbi Heyecan─▒!",
+      "event_gameID": 1680,
+      "event_gamename": "Futbol",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        },
+        {
+          "player_ID": 12025,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4aa76fb4-c709-433c-3b4c-aaec51a93a00/thumbnail",
+          "player_displayname": "Bet├╝l ┼Şenyayla"
+        },
+        {
+          "player_ID": 10915,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a7648d94-79a5-4b4e-5eb4-de61c0172e00/thumbnail",
+          "player_displayname": "Engin Ku┼şkovan"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "19.05.2024 19:00",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 20,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 14,
+      "event_location": "1680",
+      "event_description": "19.00dan ├Ânce etkinlik noktas─▒nda olal─▒m ,tan─▒┼şal─▒m sohbet edelim sonradan rahats─▒zl─▒k vermeyelim\r\nEtkinli─şe d─▒┼şar─▒dan arkada┼ş getirmemeye dikkat edelim arkada┼şlar─▒m─▒z kat─▒l butonuna basarak listeye kat─▒ls─▒nlar\r\n\r\nFORMASI OLANLAR FORMALARINI G─░YS─░N FOTO─ŞRAF ├çEK─░NECE─Ş─░Z\r\n\r\nMa├ğ izleme ├╝creti : 65Ôé║\r\n4 defa servis olacak ├ğay al─▒rsan─▒z 20 *4 = 80\r\n\r\nToplam 145Ôé║ ",
+      "event_rules": "Sayg─▒l─▒ Ol!: Herkesin farkl─▒ tak─▒mlar─▒ destekleyebilece─şini ve bu tutkunun ki┼şisel oldu─şunu unutmay─▒n. Kar┼ş─▒l─▒kl─▒ sayg─▒ ve nezaket i├ğinde olun. K├╝f├╝r etmek, taciz etmek veya ba┼şkalar─▒na sald─▒rmak kesinlikle yasakt─▒r.\r\n\r\nAlkol Kullanma!: Alkol kullan─▒m─▒ etkinlik alan─▒nda yasakt─▒r.\r\n\r\nKesici ve Delici Aletler Getirme!: G├╝venlik ├Ânlemleri kapsam─▒nda kesici veya delici aletlerin etkinlik alan─▒na getirilmesi kesinlikle yasakt─▒r.\r\n\r\n├çevreyi Temiz Tut!: Etkinlik alan─▒n─▒ temiz tutmak her kat─▒l─▒mc─▒n─▒n sorumlulu─şundad─▒r. ├ç├Âpleri belirlenen yerlere atmak ve ├ğevreyi kirletmekten ka├ğ─▒nmak ├Ânemlidir.\r\n\r\nRahats─▒z Edici G├╝r├╝lt├╝ Yapma!: Di─şer izleyicilerin rahats─▒z olmamas─▒ i├ğin g├╝r├╝lt├╝ seviyesini makul d├╝zeyde tutun."
+    },
+    {
+      "#": 5,
+      "event_ID": 327,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/kadi-burhaneddin-sonbahar-turnuvasi1699440534",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/37a508a3-9ea5-4892-09e3-394e96966c00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8ecce8bb-1827-4613-e044-52f205815700/thumbnail",
+      "event_name": "KADI BURHANEDD─░N SONBAHAR TURNUVASI",
+      "event_gameID": 1680,
+      "event_gamename": "Futbol",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+      "event_organizer": [
+        {
+          "player_ID": 11214,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fa610da3-94d5-4b1f-8b6d-505e46fb5700/thumbnail",
+          "player_displayname": "Atakan Eyig├╝n"
+        },
+        {
+          "player_ID": 11520,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/26c08e59-7050-4faf-0565-33fad9966a00/thumbnail",
+          "player_displayname": "├ûmer Faruk Kaya"
+        }
+      ],
+      "event_type": "gruplu",
+      "event_date": "12.11.2023 17:00",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 16,
+      "event_participantgroupplayerlimit": 10,
+      "event_participantcurrent": 16,
+      "event_location": "1680",
+      "event_description": "De─şerli Oyuncular, Turnuvam─▒za sadece tak─▒mla kat─▒labilirsiniz tek bir oyuncu kat─▒l─▒m yapamaz. Tak─▒m─▒n─▒za yedek oyuncu eklemeyi unutmay─▒n─▒z sonradan ekleyemeyeceksiniz.\r\n\r\nMa├ğ saatlerimiz ak┼şam saat 21.00 - 23.00 aralar─▒nda ger├ğekle┼şecektir\r\n\r\nTurnuva ba┼şlad─▒ktan sonra tak─▒ma oyuncu almak i┼şlemleri kapanacakt─▒r.\r\n\r\nMa├ğlar─▒n─▒z─▒n saatini ka├ğ─▒rmay─▒n en az 10dk ├Ânceden haz─▒r olun.\r\n\r\nYoklama al─▒ncakt─▒r liste harici oyuncu sokmak yasak l├╝tfen dikkat edelim.\r\n\r\nG├╝nde birden fazla ma├ğ olan g├╝nlerde ma├ğlar─▒n erken bitmesi durumunda rakip tak─▒m─▒n onay─▒ al─▒nd─▒ktan sonra di─şer ma├ğa ge├ği┼ş yap─▒labilir.\r\n\r\nKURA ├çEK─░L─░┼Ş─░:\r\n12.11.2023 Pazar g├╝n├╝ 19.00 HASB─░HAL ODASI nda ger├ğekle┼şecektir.",
+      "event_rules": "KAVGA ├çIKARAN OYUNCU VEYA TAKIM ─░├ç─░N YURT M├£D├£RL├£─Ş├£ TARAFINDAN ─░DAR─░ ─░┼ŞLEM BA┼ŞLATILACAKTIR.\r\n\r\nKAVGA ├çIKARAN OYUNCULAR YURTTAN ATILAB─░L─░R!\r\n\r\n\r\n1- Oyuncular aras─▒ k├╝f├╝r argo rahats─▒z edici kelimeler kullanmak YASAKTIR.\r\n(Kavga ├ğ─▒karmaya ├ğal─▒┼şan tak─▒m elenir. Rakip tak─▒mdan kar┼ş─▒l─▒k gelirse iki tak─▒m elenmi┼ş olur.)\r\n\r\n2- Oyuncu Say─▒s─▒ 7 olmak zorundad─▒r. 3 yedek olabilir (7 + 3)\r\n\r\n3- Elektrik Kesintisi gibi nedenler olmad─▒k├ğa ma├ğ tekrar oynanmayacakt─▒r.\r\n\r\n4- Ma├ğ saatinden ├Ânce haz─▒r olunmal─▒d─▒r ma├ğ saatinde hal─▒ sahada olmayan veya eksik oyuncusu olan tak─▒m ELENECEKT─░R.(maksimum 10dk beklenir.)\r\n\r\n5- Turnuva ba┼şlad─▒ktan sonra tak─▒m kadrosu kesinlikle de─şi┼ştirilemez(YEDEK oyuncular─▒ listeye ekleyin)\r\n\r\n6- Bir Oyuncu birden fazla tak─▒mda bulunamaz.\r\n\r\n7- Ma├ğlar 50 dakika oynanacakt─▒r. (20 dakika +10 dakika mola + 20 dakika) ekstra uzatma YOK devam─▒nda PENALTI ile ma├ğ bitirilecek.\r\n\r\n8- Kaleler Yaz─▒-Tura at─▒larak belirlenecek.\r\n\r\n9- K─▒rm─▒z─▒ kart alan oyuncu sonraki ma├ğa KATILAMAZ.\r\n\r\n10- Forma yaz─▒ tura ile belirlenecek.\r\n\r\n11- Hakeme haber vermeden kaleci de─şi┼şikli─şi yapmak YASAKTIR (Haber vermeden de─şi┼şiklik yaparsan─▒z el say─▒l─▒r!).\r\n\r\nOyun i├ği Kurallar\r\n\r\n1- Ma├ğ esnas─▒nda 2 k─▒rm─▒z─▒ kart g├Âren tak─▒m ma─şlup olmu┼ş say─▒l─▒r.\r\n2- Geri pas var.\r\n3- Oyuncular ma├ğtan ├ğ─▒karsa tekrar giremez.\r\n4- Ta├ğ yok."
+    },
+    {
+      "#": 6,
+      "event_ID": 322,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/yillar-sonra1684525594",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/05076c5a-1602-4f3f-257b-516a83d2dd00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/0110ef90-2919-4116-cd88-ee0946a0f900/thumbnail",
+      "event_name": "Frankfurt - Poznan",
+      "event_gameID": 895,
+      "event_gamename": "Euro Truck Simulator 2",
+      "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "20.05.2023 22:30",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 0,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 7,
+      "event_location": "895",
+      "event_description": "Puan─▒n─▒z─▒n d├╝┼şmemesi i├ğin s─▒ralar─▒m─▒za sahip ├ğ─▒kal─▒m.\r\n\r\nYetkili konu┼şurken konu┼şmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yakla┼şt─▒─ş─▒nda yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konu┼şmamaya dikkat edelim.\r\n\r\nArac─▒n─▒z park halindeyken kick yememek i├ğin ara s─▒ra chat ekran─▒na bir nokta(.) yazman─▒z ├Ânerilir.\r\n\r\nYetkilinin komutlar─▒n─▒ ka├ğ─▒rmaman─▒z i├ğin oyun radyosunun sesini k─▒sman─▒z ├Ânerilir.\r\n\r\nHerhangi bir kaza durumunda ÔÇ£/fixÔÇØ komutunu kullanarak veya otomatik kay─▒ttan konvoya yeti┼şmeye ├ğal─▒┼ş─▒n.",
+      "event_rules": "1) Konvoy saatinden en az 20 dakika ├Ânce oyunda olman─▒z ve discord etkinlik bekleme odas─▒na kat─▒lman─▒z gerekmektedir. Bu s├╝re zarf─▒nda kat─▒lmazsan─▒z konvoya kat─▒lamazs─▒n─▒z ve yok yaz─▒l─▒rs─▒n─▒z.\r\n\r\n2) Konvoy yetkilisinin talimatlar─▒na g├Âre sollama yapabilirsiniz. Onun haricinde sollama yapmak KES─░NL─░KLE yasakt─▒r. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n3) Mesafenizi h─▒z─▒n─▒za g├Âre 1,5 - 2 t─▒r mesafe olacak ┼şeklinde ayarlay─▒n─▒z. Aksi durumda a┼şamal─▒ cezaland─▒rma uygulanacakt─▒r.\r\n\r\n4) Konvoy yetkilisinin s├Âz├╝ne dikkat edilmelidir. Aksi durumda a┼şamal─▒ cezaland─▒rma uygulanacakt─▒r.\r\n\r\n5) DORSE ba─şlamadan GELMEK YASAKTIR.\r\n\r\n6) 1 DORSEDEN fazlas─▒ YASAKTIR.\r\n\r\n7) Etkinli─şe TIR HAR─░C─░ (Scout , binek ara├ğlar vb.) ile gelmek YASAKTIR.\r\n\r\n8) Konvoya siteden kat─▒l demeden etkinli─şe kat─▒lmaya ├ğal─▒┼şan oyunculara CEZA verilecektir. ─░LER─░ SEV─░YEDE uygulanacakt─▒r.\r\n\r\n9)Etkinlik saatinden ├Ânce s├Âylenen/y├╝klenen g├Âreseldeki yerde olman─▒z gerekmetedir. Aksi takdirde sizi beklemeden etkinlik ba┼şlar.Hatta etkinli─şe gelmedi say─▒l─▒rs─▒n─▒z."
+    },
+    {
+      "#": 7,
+      "event_ID": 318,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/league-of-legends/etkinlik/bahar-turnuvasi1683306729",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8a33bdde-dc6c-4e03-9985-95d03abcee00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6299b17-e264-41c1-9f07-4231ddfeb000/thumbnail",
+      "event_name": "Bahar Turnuvas─▒",
+      "event_gameID": 1562,
+      "event_gamename": "League of Legends",
+      "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.jpg",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.png",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        },
+        {
+          "player_ID": 81,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+          "player_displayname": "Bar─▒┼ş M├╝ft├╝o─şlu"
+        },
+        {
+          "player_ID": 11324,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a85249fa-bc44-47be-41a8-a273b027d100/thumbnail",
+          "player_displayname": "Nazdem K."
+        }
+      ],
+      "event_type": "gruplu",
+      "event_date": "15.05.2023 21:30",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 8,
+      "event_participantgroupplayerlimit": 8,
+      "event_participantcurrent": 8,
+      "event_location": "1562",
+      "event_description": "De─şerli Oyuncular, Turnuvam─▒za sadece tak─▒mla kat─▒labilirsiniz tek bir oyuncu kat─▒l─▒m yapamaz.\r\n\r\nTak─▒m─▒n─▒za yedek oyuncu eklemeyi unutmay─▒n─▒z sonradan ekleyemeyeceksiniz.\r\n\r\nTurnuva ba┼şlad─▒ktan sonra tak─▒ma oyuncu almak i┼şlemleri kapanacakt─▒r.\r\n\r\nMa├ğlar─▒n─▒z─▒n saatini ka├ğ─▒rmay─▒n en az 15dk ├Ânceden haz─▒r durumda discord olunuz.\r\naramizdakioyuncu.com/discord\r\n\r\nMa├ğ sonunda ─░statistiklerin ekran g├Âr├╝nt├╝s├╝n├╝ al─▒p saklamakta fayda var herhangi bir aksakl─▒kta elinizde belge olur \r\n\r\nDiscord kullanmak zorunlu olup sunucumuzda gruba ├Âzel oda kurulacak\r\n\r\nG├╝nde birden fazla ma├ğ olan g├╝nlerde ma├ğlar─▒n erken bitmesi durumunda rakip tak─▒m─▒n onay─▒ al─▒nd─▒ktan sonra di─şer ma├ğa ge├ği┼ş yap─▒labilir.\r\n\r\nSihirdar d├╝zeni ma├ğ listesine g├Âre yap─▒lacak soldaki tak─▒m solda sa─şdaki tak─▒m sa─şda oynayacak.\r\n\r\nMa├ğ saatleri : \r\nAk┼şam saat 20.00-00.00 aras─▒na kadar ma├ğlar─▒ oynataca─ş─▒z",
+      "event_rules": "1- Sunucu kaynakl─▒ sorun olmad─▒─ş─▒ s├╝rece ma├ğlar tekrarlanmayacakt─▒r. \r\n\r\n2- Oyuncular birbirlerine sayg─▒l─▒ davranmal─▒ kavga halinde olmamal─▒. All Chatten ez , kolay ve benzeri kelimeler gibi rakibi tahrik edecek ┼şekilde yakla┼şmas─▒ durumunda bunu yapan oyuncunun tak─▒m─▒ ma├ğ─▒ h├╝kmen ma─şlup tamamlam─▒┼ş┬ásay─▒lacakt─▒r.\r\n\r\n3- Etkinli─şe kat─▒lan oyuncular─▒n Hesab─▒ ba─şla butonuna t─▒klayarak sadece lol kullan─▒c─▒ ad─▒n─▒ girmelidir (Sistemsel hatalarda yard─▒mc─▒ olunacakt─▒r).\r\n\r\n4- En fazla 5 oyuncu 3 yedek olabilir  (5 + 3)\r\n\r\n5- Yedeklere ├Âd├╝l verilmez. Sadece 5 asil oyuncuya ├Âd├╝ller teslim edilir. (oyuncu ba┼ş─▒ 850RP)\r\n\r\n6-  Ma├ğ saatinde discord sunucusunda olmayan veya eksik olan tak─▒m kaybetmi┼ş say─▒l─▒r.(max 15dk beklenir.)\r\n https://armoyu.com/discord\r\n\r\n7- Turnuva ba┼şlad─▒ktan sonra tak─▒m kadrosu DE─Ş─░┼ŞT─░R─░LMEZ\r\n\r\n8- Bir oyuncu birden fazla tak─▒mda BULUNAMAZ.\r\n\r\n9- ├ûd├╝l teslim turnuvan─▒n gidi┼şat─▒na g├Âre belli olacakt─▒r.\r\n\r\n10- Turnuva lig usul├╝ ger├ğekle┼ştirilecektir. \r\n\r\n11- Ma├ğlar sona erdikten sonra s─▒ralaman─▒n birinci ve ikinci tak─▒mlar─▒ kendi aralar─▒nda en fazla 3 ma├ğl─▒k final oyunu oynar. (2 galibiyet alan kazan─▒r)\r\n\r\n12- Oyun odalar─▒ turnuva moduna ayarlanacakt─▒r. \r\n\r\n\r\nARMOYU kurallarda de─şi┼şiklik haklar─▒n─▒ sakl─▒ tutar."
+    },
+    {
+      "#": 8,
+      "event_ID": 314,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/assetto-corsa/etkinlik/assetto-modlu1680290982",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/664f0827-6279-461a-be90-18b404c3ef00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b2b85b9e-ed77-4d8f-64c5-1798d5f43800/thumbnail",
+      "event_name": "Assetto Modlu",
+      "event_gameID": 896,
+      "event_gamename": "Assetto Corsa",
+      "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/244210/header.jpg?t=1568751918",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/assetto-corsa.jpg",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "02.04.2023 22:30",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 0,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 3,
+      "event_location": "896",
+      "event_description": "Da─ş T─▒rman─▒┼ş─▒ Yapaca─ş─▒z u├ğurumlardan u├ğmamaya dikkat edelim haritay─▒ ve ara├ğlar─▒ discord ├╝zerinden indirin",
+      "event_rules": "1:  Yetkililere kar─▒┼şmak YASAKTIR, verilen/yaz─▒lan kurallara uyulmal─▒, aksi taktirde cezalar uygulanacakt─▒r.\r\n\r\n2:  Pilotlar etraf─▒ndaki oyunculara SAYGILI olmal─▒d─▒r. Aralar─▒nda  herhangi bir at─▒┼şma olmamal─▒d─▒r. Herhangi bir ┼şikayet oldu─şunda hem k─▒┼şk─▒rtan hem de ┼şikayet edilen taraf i├ğin ceza i┼şlenecektir.\r\n\r\n3:  Yetkililer , pilotlar aras─▒nda herhangi bir kontak s├Âz konusu olmu┼şsa bunu inceleyip (video / foto─şraf / tarafs─▒z ┼şahitler/ pilotlar) , ceza uygulama yetkisine sahiptirler.\r\n\r\n4:  Teknik aksakl─▒klar( Sunucunun P─░NG / Sunucu elektrik kesintisi / Siber sald─▒r─▒lar) hari├ğ ma├ğ tekrar edilmeyecektir.\r\n\r\n5:  Herhangi bir sebepten dolay─▒ turnuvadan men edilen bir pilot hi├ğ bir surette ├Âd├╝l/ kat─▒l─▒m belgesi / sertifika belgesi talep edemez.\r\n\r\n6:  Yar─▒┼ş ba┼ş─▒ belirlenen ├Âd├╝ller periyodik olarak pilotlara iletilecektir.\r\n\r\n7:  Ki┼şisel olu┼şan teknik hatalar pilotun sorumlulu─şundad─▒r. Bu gibi durumlar kronik hale gelir ise y├Ânetim pilotun yar─▒┼şlara kat─▒lmas─▒na izin vermez ve uyar─▒r.\r\n\r\n8: Yar─▒┼ş─▒n % 50'lik k─▒sm─▒ ge├ğildikten sonra sunucuda herhangi genel bir teknik ar─▒za olu┼şursa, yar─▒┼ş o anki s─▒ralamada tescil edilir. Do─şru s─▒ralama bilgisi olmad─▒─ş─▒ takdirde tekrar veya iptal edilir.\r\n\r\n9: Yar─▒┼ş bilgilendirmesi site yolu ile (SMS / Mail) g├Ânderilecek. s─▒ralama turlar─▒na kat─▒lmaya hak kazanacakt─▒r. Kat─▒l─▒m─▒n yo─şun olmas─▒ halinde siteme kay─▒t olma  s─▒ras─▒ esas al─▒nacakt─▒r. S─▒ralama turlar─▒ yar─▒┼ş g├╝n├╝ yap─▒lacak, saat ve sunucu ┼şifre bilgisi site ├╝zerinden veya https://armoyu.com/discord adresimizden mesaj yolu ile iletilecektir."
+    },
+    {
+      "#": 9,
+      "event_ID": 313,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/euroo-truckk1680290941",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/636bf30a-5e58-4ee9-5031-a0e77785ca00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a79ea742-9eec-4b6c-45cc-441846ecf500/thumbnail",
+      "event_name": "Kassel - Z├╝rich",
+      "event_gameID": 895,
+      "event_gamename": "Euro Truck Simulator 2",
+      "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "01.04.2023 22:40",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 0,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 9,
+      "event_location": "895",
+      "event_description": "Puan─▒n─▒z─▒n d├╝┼şmemesi i├ğin s─▒ralar─▒m─▒za sahip ├ğ─▒kal─▒m.\r\nYetkili konu┼şurken konu┼şmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yakla┼şt─▒─ş─▒nda yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konu┼şmamaya dikkat edelim.\r\n\r\nArac─▒n─▒z park halindeyken kick yememek i├ğin ara s─▒ra chat ekran─▒na bir nokta(.) yazman─▒z ├Ânerilir.\r\n\r\nYetkilinin komutlar─▒n─▒ ka├ğ─▒rmaman─▒z i├ğin oyun radyosunun sesini k─▒sman─▒z ├Ânerilir.\r\n\r\nHerhangi bir kaza durumunda ÔÇ£/fixÔÇØ komutunu kullanarak veya otomatik kay─▒ttan konvoya yeti┼şmeye ├ğal─▒┼ş─▒n.",
+      "event_rules": "1) Konvoy saatinden en az 20 dakika ├Ânce oyunda olman─▒z ve discord etkinlik bekleme odas─▒na kat─▒lman─▒z gerekmektedir. Bu s├╝re zarf─▒nda kat─▒lmazsan─▒z konvoya kat─▒lamazs─▒n─▒z ve yok yaz─▒l─▒rs─▒n─▒z.\r\n\r\n2) Konvoy yetkilisinin talimatlar─▒na g├Âre sollama yapabilirsiniz. Onun haricinde sollama yapmak KES─░NL─░KLE yasakt─▒r. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n3) Mesafenizi h─▒z─▒n─▒za g├Âre 1,5 - 2 t─▒r mesafe olacak ┼şeklinde ayarlay─▒n─▒z. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n4) Konvoy yetkilisinin s├Âz├╝ne dikkat edilmelidir. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n5) Oyun esnas─▒nda Konvoy Yetkililerinin komutlar─▒na uyman─▒z gerekmektedir. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n6) DORSE ba─şlamadan GELMEK YASAKTIR.\r\n\r\n7) 1 DORSEDEN fazlas─▒ YASAKTIR.\r\n\r\n8) Etkinli─şe TIR HAR─░C─░ (Scout , binek ara├ğlar vb.) ile gelmek YASAKTIR.\r\n\r\n9) Konvoya siteden kat─▒l demeden etkinli─şe kat─▒lmaya ├ğal─▒┼şan oyunculara CEZA verilecektir. ─░LER─░ SEV─░YEDE uygulanacakt─▒r.\r\n"
+    },
+    {
+      "#": 10,
+      "event_ID": 309,
+      "event_status": 0,
+      "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/gel-bahtimin-kar-beyazi1678949358",
+      "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ca81396e-b8df-44f6-f99f-c38af8931c00/thumbnail",
+      "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b2dfdbea-afb3-4035-14fe-9075ff67d000/thumbnail",
+      "event_name": "M├╝nih - Poznan",
+      "event_gameID": 895,
+      "event_gamename": "Euro Truck Simulator 2",
+      "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+      "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+      "event_organizer": [
+        {
+          "player_ID": 1,
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+          "player_displayname": "Berkay Tikeno─şlu"
+        }
+      ],
+      "event_type": "bireysel",
+      "event_date": "18.03.2023 22:50",
+      "event_participanttype": "herkes",
+      "event_participantlimit": 0,
+      "event_participantgroupplayerlimit": 0,
+      "event_participantcurrent": 7,
+      "event_location": "895",
+      "event_description": "Puan─▒n─▒z─▒n d├╝┼şmemesi i├ğin s─▒ralar─▒m─▒za sahip ├ğ─▒kal─▒m.\r\nYetkili konu┼şurken konu┼şmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yakla┼şt─▒─ş─▒nda yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konu┼şmamaya dikkat edelim.\r\n\r\nArac─▒n─▒z park halindeyken kick yememek i├ğin ara s─▒ra chat ekran─▒na bir nokta(.) yazman─▒z ├Ânerilir.\r\n\r\nYetkilinin komutlar─▒n─▒ ka├ğ─▒rmaman─▒z i├ğin oyun radyosunun sesini k─▒sman─▒z ├Ânerilir.\r\n\r\nHerhangi bir kaza durumunda ÔÇ£/fixÔÇØ komutunu kullanarak veya otomatik kay─▒ttan konvoya yeti┼şmeye ├ğal─▒┼ş─▒n.",
+      "event_rules": "1) Konvoy saatinden en az 20 dakika ├Ânce oyunda olman─▒z ve discord etkinlik bekleme odas─▒na kat─▒lman─▒z gerekmektedir. Bu s├╝re zarf─▒nda kat─▒lmazsan─▒z konvoya kat─▒lamazs─▒n─▒z ve yok yaz─▒l─▒rs─▒n─▒z.\r\n\r\n2) Konvoy yetkilisinin talimatlar─▒na g├Âre sollama yapabilirsiniz. Onun haricinde sollama yapmak KES─░NL─░KLE yasakt─▒r. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n3) Mesafenizi h─▒z─▒n─▒za g├Âre 1,5 - 2 t─▒r mesafe olacak ┼şeklinde ayarlay─▒n─▒z. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n4) Konvoy yetkilisinin s├Âz├╝ne dikkat edilmelidir. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n5) Oyun esnas─▒nda Konvoy Yetkililerinin komutlar─▒na uyman─▒z gerekmektedir. Aksi durumda A┼şamal─▒ Cezaland─▒rma uygulanacakt─▒r.\r\n\r\n6) DORSE ba─şlamadan GELMEK YASAKTIR.\r\n\r\n7) 1 DORSEDEN fazlas─▒ YASAKTIR.\r\n\r\n8) Etkinli─şe TIR HAR─░C─░ (Scout , binek ara├ğlar vb.) ile gelmek YASAKTIR.\r\n\r\n9) Konvoya siteden kat─▒l demeden etkinli─şe kat─▒lmaya ├ğal─▒┼şan oyunculara CEZA verilecektir. ─░LER─░ SEV─░YEDE uygulanacakt─▒r.\r\n"
+    }
+  ],
+  "zaman": "11.04.2026 22:48:57"
+}

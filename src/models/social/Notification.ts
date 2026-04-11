@@ -1,7 +1,8 @@
 import { User } from '../auth/User';
 import { Group } from '../community/Group';
 import { Post } from './Post';
-import { NotificationSender, NotificationType, NotificationCategory } from './NotificationSender';
+import { NotificationSender } from './NotificationSender';
+import { NotificationType, NotificationCategory } from './NotificationEnums';
 
 /**
  * Represents a Notification in the aramizdakioyuncu.com platform.
@@ -9,7 +10,7 @@ import { NotificationSender, NotificationType, NotificationCategory } from './No
 export class Notification {
   id: string = '';
   type: NotificationType = 'SYSTEM_ALERT';
-  category: NotificationCategory = 'SYSTEM';
+  category: NotificationCategory = NotificationCategory.SYSTEM;
   title: string = '';
   message: string = '';
   context: string = ''; // Detailed context (snippet of comment, etc)
@@ -66,7 +67,7 @@ export class Notification {
     }
 
     // Default to system sender if not provided for system notifications
-    if (this.category === 'SYSTEM') {
+    if (this.category === NotificationCategory.SYSTEM) {
       if (!this.sender) this.sender = NotificationSender.system();
       this.isClickable = false;
       this.link = ''; // System messages shouldn't have links usually
@@ -81,7 +82,7 @@ export class Notification {
     return new Notification({
       id: json.id || '',
       type: json.type || 'SYSTEM_ALERT',
-      category: json.category || 'SYSTEM',
+      category: json.category || NotificationCategory.SYSTEM,
       title: json.title || '',
       message: json.message || '',
       context: json.context || '',

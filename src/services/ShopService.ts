@@ -4,6 +4,10 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 
+/**
+ * Service for managing the platform store, products, and purchase orders.
+ * @checked 2026-04-12
+ */
 export class ShopService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);

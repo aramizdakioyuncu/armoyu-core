@@ -1,5 +1,8 @@
 import { Role } from './Role';
 import { NotificationSender } from '../social/NotificationSender';
+import { Team } from '../community/Team';
+import { UserBadge } from './UserBadge';
+import { Game } from '../social/Game';
 export interface CareerEvent {
     id: string;
     date: string;
@@ -28,7 +31,7 @@ export declare class User {
     myPosts: any[];
     career: CareerEvent[];
     zodiac?: string;
-    favoriteTeam?: any;
+    favoriteTeam?: Team | null;
     punishmentCount: number;
     distrustScore: number;
     odp: number;
@@ -38,6 +41,39 @@ export declare class User {
     followingCount: number;
     viewsCount: number;
     socials: Record<string, string>;
+    firstName: string;
+    lastName: string;
+    isOnline: boolean;
+    lastSeen: string;
+    gender: string;
+    birthday: string;
+    email?: string;
+    phoneNumber?: string;
+    rankTitle: string;
+    badges: UserBadge[];
+    rating: number;
+    memberNumber: string;
+    levelColor: string;
+    headerImage: string;
+    age: number;
+    inviteCode: string;
+    lastLoginAt: string;
+    registeredAt: string;
+    country: string;
+    city: string;
+    jobTitle: string;
+    defaultGroupId: string;
+    friendCount: number;
+    postCount: number;
+    awardCount: number;
+    mutualFriendsCount: number;
+    gameCount: number;
+    isFriend: boolean;
+    isFollowing: boolean;
+    friendStatusText: string;
+    xpTarget: number;
+    popularGames: Game[];
+    mutualFriends: User[];
     constructor(data: Partial<User>);
     /**
      * Adds a new event to the user's career timeline.
@@ -47,6 +83,22 @@ export declare class User {
      * Returns the absolute URL to the user's profile page.
      */
     getProfileUrl(): string;
+    /**
+     * Returns the user's full name (combining firstName and lastName).
+     */
+    getFullName(): string;
+    /**
+     * Returns the user's name (displayName preferred, falls back to getFullName or username).
+     */
+    getName(): string;
+    /**
+     * Returns whether the user is currently online.
+     */
+    isUserOnline(): boolean;
+    /**
+     * Returns a percentage (0-100) of progress to the next level.
+     */
+    getXpProgress(): number;
     /**
      * Converts the user to a standardized notification sender.
      */

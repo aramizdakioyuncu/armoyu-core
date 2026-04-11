@@ -4,6 +4,10 @@ exports.AuthService = void 0;
 const User_1 = require("../models/auth/User");
 const Session_1 = require("../models/auth/Session");
 const BaseService_1 = require("./BaseService");
+/**
+ * Service for managing user authentication, registration, and session lifecycle.
+ * @checked 2026-04-12
+ */
 class AuthService extends BaseService_1.BaseService {
     constructor(client, logger) {
         super(client, logger);
@@ -18,7 +22,7 @@ class AuthService extends BaseService_1.BaseService {
             const formData = new FormData();
             formData.append('username', username);
             formData.append('password', password);
-            const response = await this.client.post('/0/0/0', formData);
+            const response = await this.client.post(this.resolveBotPath('/0/0/0'), formData);
             // Handle raw response if it's still a string (though ApiClient should have parsed it)
             const data = typeof response === 'string' ? JSON.parse(response) : response;
             const icerik = this.handleResponse(data);
@@ -51,17 +55,67 @@ class AuthService extends BaseService_1.BaseService {
         }
     }
     /**
-     * Register a new user.
+     * Register a new user (Legacy).
      */
-    async register(data) {
+    async register(params) {
         try {
-            const response = await this.client.post('/auth/register', data);
-            const icerik = this.handleResponse(response);
-            return { user: User_1.User.fromJSON(icerik.user) };
+            const formData = new FormData();
+            formData.append('kullaniciadi', params.username);
+            formData.append('ad', params.firstName);
+            formData.append('soyad', params.lastName);
+            formData.append('email', params.email);
+            formData.append('parola', params.password);
+            formData.append('parolakontrol', params.password);
+            const response = await this.client.post(this.resolveBotPath('/kayit-ol/0/0/0/0/'), formData);
+            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            this.handleResponse(data);
+            return data && Number(data.durum) === 1;
         }
         catch (error) {
             this.logger.error('[AuthService] Registration failed:', error);
-            throw error;
+            return false;
+        }
+    }
+    /**
+     * Request a password reset (Legacy).
+     */
+    async forgotPassword(params) {
+        try {
+            const formData = new FormData();
+            formData.append('kullaniciadi', params.username);
+            formData.append('email', params.email);
+            formData.append('dogumtarihi', params.birthday);
+            formData.append('sifirlamatercihi', params.preference);
+            const response = await this.client.post(this.resolveBotPath('/sifremi-unuttum/0/0/0/0/'), formData);
+            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            this.handleResponse(data);
+            return data && Number(data.durum) === 1;
+        }
+        catch (error) {
+            this.logger.error('[AuthService] Forgot password request failed:', error);
+            return false;
+        }
+    }
+    /**
+     * Verify and complete password reset (Legacy).
+     */
+    async verifyPasswordReset(params) {
+        try {
+            const formData = new FormData();
+            formData.append('kullaniciadi', params.username);
+            formData.append('email', params.email);
+            formData.append('dogumtarihi', params.birthday);
+            formData.append('dogrulamakodu', params.code);
+            formData.append('sifre', params.newPassword);
+            formData.append('sifretekrar', params.newPassword);
+            const response = await this.client.post(this.resolveBotPath('/sifremi-unuttum-dogrula/0/0/0/0/'), formData);
+            const data = typeof response === 'string' ? JSON.parse(response) : response;
+            this.handleResponse(data);
+            return data && Number(data.durum) === 1;
+        }
+        catch (error) {
+            this.logger.error('[AuthService] Verify password reset failed:', error);
+            return false;
         }
     }
     /**

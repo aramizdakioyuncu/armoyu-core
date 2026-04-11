@@ -3,6 +3,16 @@
  * Supports instance-based configuration and standard HTTP methods.
  */
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
+import { AuthService } from '../services/AuthService';
+import { UserService } from '../services/UserService';
+import { EventService } from '../services/EventService';
+import { GroupService } from '../services/GroupService';
+import { SiteInformationService } from '../services/SiteInformationService';
+import { ManagementService } from '../services/ManagementService';
+import { RuleService } from '../services/RuleService';
+import { BusinessService } from '../services/BusinessService';
+import { ChatService } from '../services/ChatService';
+import { SocialService } from '../services/SocialService';
 
 export class ApiError extends Error {
   constructor(
@@ -52,6 +62,17 @@ export class ApiClient {
   private config: ApiConfig;
   public lastRawResponse: any = null;
   private logger: ArmoyuLogger;
+  
+  public readonly auth: AuthService;
+  public readonly users: UserService;
+  public readonly events: EventService;
+  public readonly groups: GroupService;
+  public readonly siteInfo: SiteInformationService;
+  public readonly management: ManagementService;
+  public readonly rules: RuleService;
+  public readonly business: BusinessService;
+  public readonly chat: ChatService;
+  public readonly social: SocialService;
 
   constructor(config: ApiConfig) {
     this.config = {
@@ -61,6 +82,17 @@ export class ApiClient {
       },
     };
     this.logger = config.logger || new ConsoleLogger();
+
+    this.auth = new AuthService(this, this.logger);
+    this.users = new UserService(this, this.logger);
+    this.events = new EventService(this, this.logger);
+    this.groups = new GroupService(this, this.logger);
+    this.siteInfo = new SiteInformationService(this, this.logger);
+    this.management = new ManagementService(this, this.logger);
+    this.rules = new RuleService(this, this.logger);
+    this.business = new BusinessService(this, this.logger);
+    this.chat = new ChatService(this, this.logger);
+    this.social = new SocialService(this, this.logger);
   }
 
   private async request<T>(endpoint: string, options: ApiRequestOptions = {}): Promise<T> {
@@ -198,6 +230,10 @@ export class ApiClient {
 
   setBaseUrl(url: string) {
     this.config.baseUrl = url;
+  }
+
+  getBaseUrl(): string {
+    return this.config.baseUrl;
   }
 }
 

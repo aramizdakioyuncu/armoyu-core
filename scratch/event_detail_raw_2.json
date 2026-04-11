@@ -1,0 +1,38 @@
+﻿[ARMOYU] [UserService] Initialized
+{
+  "durum": 1,
+  "aciklama": "Etkinlik detay─▒ getiriliyor.",
+  "aciklamadetay": null,
+  "icerik": {
+    "event_ID": 345,
+    "event_status": 0,
+    "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/galatasaray-konyaspor-mac-izleme-etkinligi1716717952",
+    "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2cb617fa-e2b5-4968-bb21-6f07cb22df00/thumbnail",
+    "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/be7028c7-9ee4-4502-f014-d0735d40ed00/thumbnail",
+    "event_name": "Galatasaray - Konyaspor Ma├ğ izleme etkinli─şi",
+    "event_gameID": 1680,
+    "event_gamename": "Futbol",
+    "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+    "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+    "event_organizer": [
+      {
+        "player_ID": 1,
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "player_displayname": "Berkay Tikeno─şlu"
+      }
+    ],
+    "event_type": "bireysel",
+    "event_date": "26.05.2024 19:00",
+    "event_participanttype": "herkes",
+    "event_participantlimit": 10,
+    "event_participantgroupplayerlimit": 0,
+    "event_participantcurrent": 10,
+    "event_location": "1680",
+    "event_description": "19.00dan ├Ânce etkinlik noktas─▒nda olal─▒m ,tan─▒┼şal─▒m sohbet edelim sonradan rahats─▒zl─▒k vermeyelim\r\nEtkinli─şe d─▒┼şar─▒dan arkada┼ş getirmemeye dikkat edelim arkada┼şlar─▒m─▒z kat─▒l butonuna basarak listeye kat─▒ls─▒nlar\r\n\r\nFORMASI OLANLAR FORMALARINI G─░YS─░N FOTO─ŞRAF ├çEK─░NECE─Ş─░Z\r\n\r\nMa├ğ izleme ├╝creti : yok",
+    "event_rules": "Sayg─▒l─▒ Ol!: Herkesin farkl─▒ tak─▒mlar─▒ destekleyebilece─şini ve bu tutkunun ki┼şisel oldu─şunu unutmay─▒n. Kar┼ş─▒l─▒kl─▒ sayg─▒ ve nezaket i├ğinde olun. K├╝f├╝r etmek, taciz etmek veya ba┼şkalar─▒na sald─▒rmak kesinlikle yasakt─▒r.\r\n\r\nAlkol Kullanma!: Alkol kullan─▒m─▒ etkinlik alan─▒nda yasakt─▒r.\r\n\r\nKesici ve Delici Aletler Getirme!: G├╝venlik ├Ânlemleri kapsam─▒nda kesici veya delici aletlerin etkinlik alan─▒na getirilmesi kesinlikle yasakt─▒r.\r\n\r\n├çevreyi Temiz Tut!: Etkinlik alan─▒n─▒ temiz tutmak her kat─▒l─▒mc─▒n─▒n sorumlulu─şundad─▒r. ├ç├Âpleri belirlenen yerlere atmak ve ├ğevreyi kirletmekten ka├ğ─▒nmak ├Ânemlidir.\r\n\r\nRahats─▒z Edici G├╝r├╝lt├╝ Yapma!: Di─şer izleyicilerin rahats─▒z olmamas─▒ i├ğin g├╝r├╝lt├╝ seviyesini makul d├╝zeyde tutun.",
+    "dlc": [],
+    "files": [],
+    "detail": []
+  },
+  "zaman": "11.04.2026 22:59:56"
+}

@@ -3,6 +3,16 @@
  * Supports instance-based configuration and standard HTTP methods.
  */
 import { ArmoyuLogger } from './Logger';
+import { AuthService } from '../services/AuthService';
+import { UserService } from '../services/UserService';
+import { EventService } from '../services/EventService';
+import { GroupService } from '../services/GroupService';
+import { SiteInformationService } from '../services/SiteInformationService';
+import { ManagementService } from '../services/ManagementService';
+import { RuleService } from '../services/RuleService';
+import { BusinessService } from '../services/BusinessService';
+import { ChatService } from '../services/ChatService';
+import { SocialService } from '../services/SocialService';
 export declare class ApiError extends Error {
     message: string;
     status?: number | undefined;
@@ -42,6 +52,16 @@ export declare class ApiClient {
     private config;
     lastRawResponse: any;
     private logger;
+    readonly auth: AuthService;
+    readonly users: UserService;
+    readonly events: EventService;
+    readonly groups: GroupService;
+    readonly siteInfo: SiteInformationService;
+    readonly management: ManagementService;
+    readonly rules: RuleService;
+    readonly business: BusinessService;
+    readonly chat: ChatService;
+    readonly social: SocialService;
     constructor(config: ApiConfig);
     private request;
     get<T>(endpoint: string, options?: ApiRequestOptions): Promise<T>;
@@ -53,4 +73,5 @@ export declare class ApiClient {
     setApiKey(key: string | null): void;
     getApiKey(): string | null;
     setBaseUrl(url: string): void;
+    getBaseUrl(): string;
 }
