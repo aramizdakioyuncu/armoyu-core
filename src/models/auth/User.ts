@@ -35,6 +35,16 @@ export class User {
   punishmentCount: number = 0;
   distrustScore: number = 1.0; // Starts at 1.0 (Safe)
   odp: number = 50; // Player Rating Score (0-100)
+  createdAt: string = '';
+  location: string = '';
+  
+  // Stats
+  followerCount: number = 0;
+  followingCount: number = 0;
+  viewsCount: number = 0;
+
+  // Socials
+  socials: Record<string, string> = {};
 
   constructor(data: Partial<User>) {
     Object.assign(this, data);
@@ -80,10 +90,10 @@ export class User {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): User {
-    const avatarData = json.avatar || {};
-    const bannerData = json.banner || {};
-    const detailInfo = json.detailInfo || {};
-    const userRole = json.userRole || {};
+    const avatarData = json.avatar || json.oyuncu_avatar || {};
+    const bannerData = json.banner || json.oyuncu_kapak || json.kapak || {};
+    const detailInfo = json.detailInfo || json.oyuncu_bilgi || json.detail_info || {};
+    const userRole = json.userRole || json.oyuncu_rutbe || {};
 
     return new User({
       id: String(json.owner_ID || json.playerID || json.id || json.id_user || json.user_id || ''),
@@ -91,7 +101,7 @@ export class User {
       displayName: json.displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || '',
       avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || '') : avatarData,
       banner: typeof bannerData === 'object' ? (bannerData.media_URL || bannerData.media_bigURL || bannerData.media_minURL || '') : bannerData,
-      bio: detailInfo.about || json.bio || json.oyuncu_bio || '',
+      bio: detailInfo.about || detailInfo.aciklama || json.bio || json.oyuncu_bio || json.aciklama || json.description || '',
       role: userRole.roleName ? Role.fromJSON({ name: userRole.roleName, color: userRole.roleColor }) : (json.role ? Role.fromJSON(json.role) : null),
       verified: json.verified || (json.oyuncu_onay === 1) || false,
       level: Number(json.level || json.oyuncu_seviye || 1),
@@ -102,6 +112,22 @@ export class User {
         if (f instanceof User) return f;
         return User.fromJSON(f);
       }) : [],
+      followerCount: Number(json.followerCount || json.follower_count || json.oyuncu_takipci || 0),
+      followingCount: Number(json.followingCount || json.following_count || json.oyuncu_takip_edilen || 0),
+      viewsCount: Number(json.viewsCount || json.views_count || json.oyuncu_goruntulenme || 0),
+      zodiac: json.zodiac || json.burc || detailInfo.zodiac || '',
+      favoriteTeam: json.favoriteTeam || json.favorite_team || json.favori_takim || detailInfo.favorite_team || null,
+      createdAt: json.createdAt || json.created_at || json.kayit_tarihi || detailInfo.created_at || '',
+      location: detailInfo.location || json.location || json.sehir || detailInfo.city || '',
+      socials: {
+        discord: detailInfo.discord || json.discord || '',
+        steam: detailInfo.steam || json.steam || '',
+        instagram: detailInfo.instagram || json.instagram || '',
+        twitter: detailInfo.twitter || json.twitter || '',
+        facebook: detailInfo.facebook || json.facebook || '',
+        linkedin: detailInfo.linkedin || json.linkedin || '',
+        ...(json.socials || json.social_media || detailInfo.socials || {})
+      }
     });
   }
 }

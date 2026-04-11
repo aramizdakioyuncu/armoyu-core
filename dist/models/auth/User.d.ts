@@ -32,6 +32,12 @@ export declare class User {
     punishmentCount: number;
     distrustScore: number;
     odp: number;
+    createdAt: string;
+    location: string;
+    followerCount: number;
+    followingCount: number;
+    viewsCount: number;
+    socials: Record<string, string>;
     constructor(data: Partial<User>);
     /**
      * Adds a new event to the user's career timeline.
