@@ -180,7 +180,7 @@ export class User {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): User {
-    const avatarData = json.avatar || json.oyuncu_avatar || {};
+    const avatarData = json.avatar || json.oyuncu_avatar || json.oyuncuminnakavatar || {};
     const bannerData = json.banner || json.oyuncu_kapak || json.kapak || {};
     const wallpaperData = json.wallpaper || {};
     const detailInfo = json.detailInfo || json.oyuncu_bilgi || json.detail_info || {};
@@ -192,9 +192,9 @@ export class User {
     const banHistory = json.banHistory || {};
 
     return new User({
-      id: String(json.playerID || json.id || json.owner_ID || json.id_user || json.user_id || ''),
-      username: json.username || json.user_name || json.owner_username || json.oyuncu_ad || '',
-      displayName: json.displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || '',
+      id: String(json.playerID || json.id || json.owner_ID || json.id_user || json.user_id || json.oyuncuID || ''),
+      username: json.username || json.user_name || json.owner_username || json.oyuncu_ad || json.oyuncukullaniciad || json.oyuncukullaniciadi || '',
+      displayName: json.displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || '',
       firstName: json.firstName || '',
       lastName: json.lastName || '',
       avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || '') : avatarData,

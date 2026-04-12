@@ -16,11 +16,11 @@ export class LocationService extends BaseService {
   /**
    * Fetches the list of countries (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page The page number (sayfa) - MANDATORY
    * @param limit Results limit
    * @returns List of countries
    */
-  async getCountries(page: number = 1, limit?: number): Promise<Country[]> {
+  async getCountries(page: number, limit?: number): Promise<Country[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -42,12 +42,12 @@ export class LocationService extends BaseService {
   /**
    * Fetches the list of provinces/cities for a specific country (Legacy).
    * 
+   * @param page The page number (sayfa) - MANDATORY
    * @param countryId The ID of the country (countryID)
-   * @param page The page number (sayfa)
    * @param limit Results limit
    * @returns List of provinces
    */
-  async getProvinces(countryId: number | string = 212, page: number = 1, limit?: number): Promise<Province[]> {
+  async getProvinces(page: number, countryId: number | string = 212, limit?: number): Promise<Province[]> {
     try {
       const formData = new FormData();
       formData.append('countryID', countryId.toString());

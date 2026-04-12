@@ -34,14 +34,17 @@ export class ChatService extends BaseService {
   /**
    * Fetches the chat history with a specific user (Legacy).
    * 
-   * @param params Query and pagination parameters
+   * @param page The page number - MANDATORY
+   * @param params Query and pagination parameters (userId, limit)
    */
-  async getChatHistory(params: { userId: number, page?: number, limit?: number }): Promise<any> {
+  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', params.userId.toString());
-      formData.append('sayfa', (params.page || 1).toString());
-      formData.append('limit', (params.limit || 30).toString());
+      formData.append('sayfa', page.toString());
+      if (params.limit !== undefined) {
+        formData.append('limit', params.limit.toString());
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/0/0/'), formData);
       return this.handleResponse<any>(response);
@@ -54,13 +57,16 @@ export class ChatService extends BaseService {
   /**
    * Fetches the list of recent chats/friends to chat with (Legacy).
    * 
-   * @param params Pagination parameters
+   * @param page The page number - MANDATORY
+   * @param params Pagination parameters (limit)
    */
-  async getFriendsChat(params: { page?: number, limit?: number } = {}): Promise<any> {
+  async getFriendsChat(page: number, params: { limit?: number } = {}): Promise<any> {
     try {
       const formData = new FormData();
-      formData.append('sayfa', (params.page || 1).toString());
-      formData.append('limit', (params.limit || 30).toString());
+      formData.append('sayfa', page.toString());
+      if (params.limit !== undefined) {
+        formData.append('limit', params.limit.toString());
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/arkadaslarim/0/'), formData);
       return this.handleResponse<any>(response);

@@ -14,12 +14,16 @@ export class StoryService extends BaseService {
   /**
    * Fetches stories (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page The page number (sayfa) - MANDATORY
+   * @param limit Results limit
    */
-  async getStories(page: number = 1): Promise<any> {
+  async getStories(page: number, limit?: number): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/0/0/'), formData);
       return this.handleResponse<any>(response);
@@ -104,12 +108,18 @@ export class StoryService extends BaseService {
   /**
    * Fetches the viewers of a story (Legacy).
    * 
+   * @param page The page number (sayfa) - MANDATORY
    * @param storyId The ID of the story
+   * @param limit Results limit
    */
-  async getStoryViewers(storyId: number | string): Promise<any> {
+  async getStoryViewers(page: number, storyId: number | string, limit?: number): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/goruntuleyenler/0/'), formData);
       return this.handleResponse<any>(response);
@@ -122,12 +132,18 @@ export class StoryService extends BaseService {
   /**
    * Fetches the users who liked a story (Legacy).
    * 
+   * @param page The page number (sayfa) - MANDATORY
    * @param storyId The ID of the story
+   * @param limit Results limit
    */
-  async getStoryLikers(storyId: number | string): Promise<any> {
+  async getStoryLikers(page: number, storyId: number | string, limit?: number): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/begenenler/0/'), formData);
       return this.handleResponse<any>(response);

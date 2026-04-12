@@ -19,7 +19,7 @@ export class PollService extends BaseService {
    * @param limit Optional results limit
    * @returns List of polls
    */
-  async getPolls(page: number = 1, limit?: number): Promise<Poll[]> {
+  async getPolls(page: number, limit?: number): Promise<Poll[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

@@ -15,12 +15,20 @@ export class BlockService extends BaseService {
   /**
    * Fetches the list of blocked users (Legacy).
    * 
+   * @param page The page number - MANDATORY
+   * @param limit Results limit
    * @returns List of blocked users
    */
-  async getBlockedUsers(): Promise<BlockedUser[]> {
+  async getBlockedUsers(page: number, limit?: number): Promise<BlockedUser[]> {
     try {
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
+
       const url = this.resolveBotPath('/0/0/engel/0/0/');
-      const response = await this.client.post<any>(url, {});
+      const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
       return Array.isArray(data) ? data.map(item => BlockedUser.fromJSON(item)) : [];

@@ -13,14 +13,17 @@ export class BlogService extends BaseService {
   }
   /**
    * Get all news articles.
+   * 
+   * @param page The page number - MANDATORY
+   * @param limit Results limit
    */
-  async getNews(page: number = 1, limit: number = 10): Promise<News[]> {
+  async getNews(page: number, limit?: number): Promise<News[]> {
     try {
       const response = await this.client.get<any>('/content/news', {
         params: { page, limit }
       });
       const icerik = this.handleResponse<{ news: any[] }>(response);
-      return icerik.news.map(n => News.fromJSON(n));
+      return (icerik.news || []).map(n => News.fromJSON(n));
     } catch (error) {
       this.logger.error('[BlogService] Failed to fetch news:', error);
       return [];
@@ -29,10 +32,19 @@ export class BlogService extends BaseService {
 
   /**
    * Get news articles using the legacy bot-based endpoint.
+   * 
+   * @param page The page number - MANDATORY
+   * @param limit Results limit
    */
-  async getNewsLegacy(): Promise<News[]> {
+  async getNewsLegacy(page: number, limit?: number): Promise<News[]> {
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/0/0/'), {});
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/0/0/'), formData);
       const icerik = this.handleResponse<any[]>(response);
       return Array.isArray(icerik) ? icerik.map(n => News.fromJSON(n)) : [];
     } catch (error) {
@@ -57,14 +69,18 @@ export class BlogService extends BaseService {
 
   /**
    * Search news articles.
+   * 
+   * @param page The page number - MANDATORY
+   * @param query The search query
+   * @param limit Results limit
    */
-  async searchNews(query: string): Promise<News[]> {
+  async searchNews(page: number, query: string, limit?: number): Promise<News[]> {
     try {
       const response = await this.client.get<any>('/content/news/search', {
-        params: { q: query }
+        params: { q: query, page, limit }
       });
       const icerik = this.handleResponse<{ news: any[] }>(response);
-      return icerik.news.map(n => News.fromJSON(n));
+      return (icerik.news || []).map(n => News.fromJSON(n));
     } catch (error) {
       this.logger.error('[BlogService] News search failed:', error);
       return [];

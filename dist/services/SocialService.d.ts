@@ -11,10 +11,12 @@ export declare class SocialService extends BaseService {
     /**
      * Fetches posts from the social feed or a specific post by ID (Legacy).
      *
-     * @param params Query parameters (postId, category, categoryDetail)
+     * @param page The page number (sayfa) - MANDATORY
+     * @param params Additional query parameters (limit, postId, category, categoryDetail)
      * @returns List of posts or a single post
      */
-    getPosts(params?: {
+    getPosts(page: number, params?: {
+        limit?: number;
         postId?: number;
         category?: string;
         categoryDetail?: string | number;

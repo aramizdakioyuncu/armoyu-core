@@ -15,12 +15,18 @@ export class SocialService extends BaseService {
   /**
    * Fetches posts from the social feed or a specific post by ID (Legacy).
    * 
-   * @param params Query parameters (postId, category, categoryDetail)
+   * @param page The page number (sayfa) - MANDATORY
+   * @param params Additional query parameters (limit, postId, category, categoryDetail)
    * @returns List of posts or a single post
    */
-  async getPosts(params: { postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<Post[] | Post | null> {
+  async getPosts(page: number, params: { limit?: number, postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<Post[] | Post | null> {
     try {
       const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      
+      if (params.limit !== undefined) {
+        formData.append('limit', params.limit.toString());
+      }
       if (params.postId !== undefined) {
         formData.append('postID', params.postId.toString());
       }

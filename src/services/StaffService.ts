@@ -16,16 +16,20 @@ export class StaffService extends BaseService {
   /**
    * Fetches the official team members (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page The page number (sayfa) - MANDATORY
    * @param category Optional staff category (e.g. 'okul-temsilcileri')
+   * @param limit Results limit
    * @returns List of staff members
    */
-  async getStaff(page: number = 1, category?: string): Promise<TeamMember[]> {
+  async getStaff(page: number, category?: string, limit?: number): Promise<TeamMember[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       if (category !== undefined) {
         formData.append('category', category);
+      }
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
       }
 
       const url = this.resolveBotPath('/0/0/ekibimiz/0/0/');
@@ -69,11 +73,11 @@ export class StaffService extends BaseService {
   /**
    * Fetches the list of staff applications (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page The page number (sayfa) - MANDATORY
    * @param limit Results limit
    * @returns List of applications
    */
-  async getApplications(page: number = 1, limit?: number): Promise<StaffApplication[]> {
+  async getApplications(page: number, limit?: number): Promise<StaffApplication[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
