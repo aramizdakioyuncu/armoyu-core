@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - 2026-04-12
+
+### 🔧 Bug Fixes & Refactoring
+- **Post Metrics Mapping**: Added top-level `likesCount` and `commentsCount` properties to the `Post` model.
+- **API Synchronization**: Fully mapped `begenisay` (likes) and `yorumsay` (comments) from the legacy API to the `Post` model for better frontend compatibility.
+- **Service Integration**: Consolidated `SocialService`, `ChatService`, and `BusinessService` into the main `ArmoyuApi` entry point.
+
 ## [1.1.3] - 2026-04-12
 
 ### 🔧 Bug Fixes & Refactoring
@@ -28,3 +35,4 @@ All notable changes to this project will be documented in this file.
 
 ### ➕ Services Modernized
 - `AuthService`, `BaseService`, `BlogService`, `BusinessService`, `ChatService`, `EventService`, `ForumService`, `GroupService`, `ManagementService`, `RuleService`, `SearchService`, `ShopService`, `SiteInformationService`, `SocialService`, `SocketService`, `SupportService`, `UserService`.
+

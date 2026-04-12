@@ -12,6 +12,8 @@ class Post {
         this.content = '';
         this.media = [];
         this.createdAt = '';
+        this.likesCount = 0;
+        this.commentsCount = 0;
         this.stats = { likes: 0, comments: 0, reposts: 0, shares: 0 };
         this.hashtags = [];
         this.isPending = false;
@@ -26,17 +28,23 @@ class Post {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static fromJSON(json) {
+        const likes = Number(json.begenisay || 0);
+        const comments = Number(json.yorumsay || 0);
+        const reposts = Number(json.repostsay || 0);
+        const shares = Number(json.sikayetsay || 0);
         return new Post({
             id: String(json.postID || json.id || ''),
             author: (json.owner || json.author) ? User_1.User.fromJSON(json.owner || json.author) : null,
             content: json.paylasimicerik || json.content || '',
             media: Array.isArray(json.paylasimfoto) ? json.paylasimfoto.map((f) => ({ type: 'image', url: f.fotourl || f.fotoufakurl })) : (Array.isArray(json.media) ? json.media : []),
             createdAt: json.paylasimzaman || json.createdAt || json.created_at || '',
+            likesCount: likes,
+            commentsCount: comments,
             stats: {
-                likes: Number(json.begenisay || 0),
-                comments: Number(json.yorumsay || 0),
-                reposts: Number(json.repostsay || 0),
-                shares: Number(json.sikayetsay || 0),
+                likes,
+                comments,
+                reposts,
+                shares,
             },
             hashtags: json.hashtags || [],
             likeList: Array.isArray(json.paylasimilkucbegenen) ? json.paylasimilkucbegenen.map(User_1.User.fromJSON) : (Array.isArray(json.likeList) ? json.likeList.map(User_1.User.fromJSON) : []),

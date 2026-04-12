@@ -26,6 +26,8 @@ export declare class Post {
     content: string;
     media: PostMedia[];
     createdAt: string;
+    likesCount: number;
+    commentsCount: number;
     stats: PostStats;
     hashtags: string[];
     isPending: boolean;

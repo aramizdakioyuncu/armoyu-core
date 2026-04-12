@@ -13,6 +13,9 @@ import { EventService } from '../services/EventService';
 import { ManagementService } from '../services/ManagementService';
 import { SiteInformationService } from '../services/SiteInformationService';
 import { GroupService } from '../services/GroupService';
+import { SocialService } from '../services/SocialService';
+import { ChatService } from '../services/ChatService';
+import { BusinessService } from '../services/BusinessService';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -31,6 +34,9 @@ export class ArmoyuApi {
   public events: EventService;
   public siteInfo: SiteInformationService;
   public groups: GroupService;
+  public social: SocialService;
+  public chat: ChatService;
+  public business: BusinessService;
   public management: ManagementService;
 
   private client: ApiClient;
@@ -67,6 +73,9 @@ export class ArmoyuApi {
     this.events = new EventService(this.client, this.logger);
     this.siteInfo = new SiteInformationService(this.client, this.logger);
     this.groups = new GroupService(this.client, this.logger);
+    this.social = new SocialService(this.client, this.logger);
+    this.chat = new ChatService(this.client, this.logger);
+    this.business = new BusinessService(this.client, this.logger);
     this.management = new ManagementService(this.client, this.logger);
   }
 
