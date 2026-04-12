@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.7] - 2026-04-12
+
+### ✨ Library Expansion
+- **Dedicated Services**: Introduced 7 new specialized services: `PollService`, `BlockService`, `StationService`, `TeamService`, `StaffService`, `LocationService`, and `PaymentService`.
+- **Payment & Billing**: Added `PaymentService` for automated invoice retrieval and payment processing.
+- **Staff Management**: Implemented full recruitment workflow support (`api.staff.apply` and `api.staff.getApplications`).
+- **Geographical Data**: Added `LocationService` for country and province/city lookups.
+- **Interactive Features**: Added support for creating and answering polls via `PollService`.
+- **Hobby & Business Units**: Added `StationService` to manage platform stations and detailed equipment/menu data.
+
+### ➕ Models Added
+- `Poll`, `PollOption`, `BlockedUser`, `PlatformStation`, `StationEquipment`, `PlatformTeam`, `TeamMember`, `StaffApplication`, `Country`, `Province`, `Invoice`.
+
+## [1.1.6] - 2026-04-12
+
+### ➕ Features
+- **Professional Stories**: Extracted story management from `SocialService` into a dedicated `StoryService` (api.stories). Added support for viewing, liking, and viewer tracking.
+- **Project Tracking**: Implemented `ProjectService` (api.projects) for managing development projects and scoreboards.
+
+## [1.1.5] - 2026-04-12
+
+### ➕ Features
+- **Advanced Rankings**: Implemented `RankedUser` model and integrated XP/Popularity rankings into `UserService`.
+- **Business Integration**: Enhanced `BusinessService` with workplace and school participation methods.
+
 ## [1.1.4] - 2026-04-12
 
 ### 🔧 Bug Fixes & Refactoring

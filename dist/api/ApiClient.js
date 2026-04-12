@@ -16,6 +16,15 @@ const RuleService_1 = require("../services/RuleService");
 const BusinessService_1 = require("../services/BusinessService");
 const ChatService_1 = require("../services/ChatService");
 const SocialService_1 = require("../services/SocialService");
+const ProjectService_1 = require("../services/ProjectService");
+const StoryService_1 = require("../services/StoryService");
+const PollService_1 = require("../services/PollService");
+const BlockService_1 = require("../services/BlockService");
+const StationService_1 = require("../services/StationService");
+const TeamService_1 = require("../services/TeamService");
+const StaffService_1 = require("../services/StaffService");
+const LocationService_1 = require("../services/LocationService");
+const PaymentService_1 = require("../services/PaymentService");
 class ApiError extends Error {
     constructor(message, status, statusText, data) {
         super(message);
@@ -53,6 +62,15 @@ class ApiClient {
         this.management = new ManagementService_1.ManagementService(this, this.logger);
         this.rules = new RuleService_1.RuleService(this, this.logger);
         this.business = new BusinessService_1.BusinessService(this, this.logger);
+        this.projects = new ProjectService_1.ProjectService(this, this.logger);
+        this.stories = new StoryService_1.StoryService(this, this.logger);
+        this.polls = new PollService_1.PollService(this, this.logger);
+        this.blocks = new BlockService_1.BlockService(this, this.logger);
+        this.stations = new StationService_1.StationService(this, this.logger);
+        this.teams = new TeamService_1.TeamService(this, this.logger);
+        this.staff = new StaffService_1.StaffService(this, this.logger);
+        this.locations = new LocationService_1.LocationService(this, this.logger);
+        this.payments = new PaymentService_1.PaymentService(this, this.logger);
         this.chat = new ChatService_1.ChatService(this, this.logger);
         this.social = new SocialService_1.SocialService(this, this.logger);
     }

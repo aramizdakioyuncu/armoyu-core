@@ -33,11 +33,11 @@ class Post {
         const reposts = Number(json.repostsay || 0);
         const shares = Number(json.sikayetsay || 0);
         return new Post({
-            id: String(json.postID || json.id || ''),
+            id: String(json.postID || json.id || json.post_ID || json.paylasimID || json.paylasim_ID || ''),
             author: (json.owner || json.author) ? User_1.User.fromJSON(json.owner || json.author) : null,
-            content: json.paylasimicerik || json.content || '',
-            media: Array.isArray(json.paylasimfoto) ? json.paylasimfoto.map((f) => ({ type: 'image', url: f.fotourl || f.fotoufakurl })) : (Array.isArray(json.media) ? json.media : []),
-            createdAt: json.paylasimzaman || json.createdAt || json.created_at || '',
+            content: json.paylasimicerik || json.content || json.post_content || '',
+            media: Array.isArray(json.paylasimfoto) ? json.paylasimfoto.map((f) => ({ type: 'image', url: f.fotourl || f.fotoufakurl || f.foto_URL })) : (Array.isArray(json.media) ? json.media : []),
+            createdAt: json.paylasimzaman || json.createdAt || json.created_at || json.post_date || '',
             likesCount: likes,
             commentsCount: comments,
             stats: {

@@ -16,6 +16,15 @@ import { GroupService } from '../services/GroupService';
 import { SocialService } from '../services/SocialService';
 import { ChatService } from '../services/ChatService';
 import { BusinessService } from '../services/BusinessService';
+import { ProjectService } from '../services/ProjectService';
+import { StoryService } from '../services/StoryService';
+import { PollService } from '../services/PollService';
+import { BlockService } from '../services/BlockService';
+import { StationService } from '../services/StationService';
+import { TeamService } from '../services/TeamService';
+import { StaffService } from '../services/StaffService';
+import { LocationService } from '../services/LocationService';
+import { PaymentService } from '../services/PaymentService';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -37,6 +46,15 @@ export class ArmoyuApi {
   public social: SocialService;
   public chat: ChatService;
   public business: BusinessService;
+  public projects: ProjectService;
+  public stories: StoryService;
+  public polls: PollService;
+  public blocks: BlockService;
+  public stations: StationService;
+  public teams: TeamService;
+  public staff: StaffService;
+  public locations: LocationService;
+  public payments: PaymentService;
   public management: ManagementService;
 
   private client: ApiClient;
@@ -76,6 +94,15 @@ export class ArmoyuApi {
     this.social = new SocialService(this.client, this.logger);
     this.chat = new ChatService(this.client, this.logger);
     this.business = new BusinessService(this.client, this.logger);
+    this.projects = new ProjectService(this.client, this.logger);
+    this.stories = new StoryService(this.client, this.logger);
+    this.polls = new PollService(this.client, this.logger);
+    this.blocks = new BlockService(this.client, this.logger);
+    this.stations = new StationService(this.client, this.logger);
+    this.teams = new TeamService(this.client, this.logger);
+    this.staff = new StaffService(this.client, this.logger);
+    this.locations = new LocationService(this.client, this.logger);
+    this.payments = new PaymentService(this.client, this.logger);
     this.management = new ManagementService(this.client, this.logger);
   }
 

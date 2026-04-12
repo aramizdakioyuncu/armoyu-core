@@ -12,7 +12,7 @@
 ## ✨ Features
 
 - **🛡️ 100% Type Safe**: Built from the ground up with TypeScript for a rock-solid developer experience.
-- **🧩 Modular Architecture**: 17+ specialized services covering everything from Chat to Shop management.
+- **🧩 Modular Architecture**: 24+ specialized services covering everything from Chat to Staff management.
 - **⚡ Real-time Ready**: Built-in support for SocketService for instant messaging and notifications.
 - **🔄 Legacy Bridge**: Seamlessly communicates with legacy bot APIs with automated path resolution and response handling.
 - **📦 Zero Bloat**: Minimal dependencies, focused purely on data and business logic.
@@ -43,10 +43,16 @@ const api = new ArmoyuApi('YOUR_API_KEY', {
 const { user, session } = await api.auth.login('username', 'password');
 
 // 3. Interact with services
-const profile = await api.users.getUserByUsername('oyuncubak');
-console.log(`Welcome back, ${profile?.firstName}! 🎮`);
+const staff = await api.staff.getStaff(1, 'okul-temsilcileri');
+console.log(`There are ${staff.length} school representatives! 🎓`);
 
-// 4. Social interactions
+// 4. Fetch geographical data
+const countries = await api.locations.getCountries(1);
+
+// 5. Payments & Billing
+const invoices = await api.payments.getInvoices();
+
+// 6. Social interactions
 const feed = await api.social.getPosts({ category: 'sosyal' });
 ```
 
@@ -58,8 +64,18 @@ const feed = await api.social.getPosts({ category: 'sosyal' });
 | :--- | :--- | :--- |
 | **AuthService** | Identity | Login, Registration, and Session lifecycle. |
 | **SocialService** | Community | Posts, Comments, Likes, and Shares. |
+| **StoryService** | Social | Professional story/status management. |
 | **ChatService** | Communication | Real-time messaging and chat history. |
 | **UserService** | Profile | Global player profiles, Friendships, and Media. |
+| **StaffService** | Management | Official team list and recruitment applications. |
+| **LocationService** | Geography | Countries and Provinces/Cities lookups. |
+| **PaymentService** | Billing | Invoices, Payments, and Financial records. |
+| **PollService** | Community | Interactive surveys and voting management. |
+| **BlockService** | Security | User blacklists and interaction restrictions. |
+| **StationService** | Business | Hobby units, Menu/Equipment, and Locations. |
+| **TeamService** | Content | Official sports and community teams. |
+| **ProjectService** | Content | Development projects and scoreboards. |
+| **BusinessService** | Economy | Workplace and school participation. |
 | **EventService** | Esports | Tournaments, Matches, and Participations. |
 | **ForumService** | Content | Community discussions and Category management. |
 | **GroupService** | Social | Clan management, Invites, and Group settings. |

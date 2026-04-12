@@ -13,6 +13,15 @@ import { RuleService } from '../services/RuleService';
 import { BusinessService } from '../services/BusinessService';
 import { ChatService } from '../services/ChatService';
 import { SocialService } from '../services/SocialService';
+import { ProjectService } from '../services/ProjectService';
+import { StoryService } from '../services/StoryService';
+import { PollService } from '../services/PollService';
+import { BlockService } from '../services/BlockService';
+import { StationService } from '../services/StationService';
+import { TeamService } from '../services/TeamService';
+import { StaffService } from '../services/StaffService';
+import { LocationService } from '../services/LocationService';
+import { PaymentService } from '../services/PaymentService';
 
 export class ApiError extends Error {
   constructor(
@@ -71,6 +80,15 @@ export class ApiClient {
   public readonly management: ManagementService;
   public readonly rules: RuleService;
   public readonly business: BusinessService;
+  public readonly projects: ProjectService;
+  public readonly stories: StoryService;
+  public readonly polls: PollService;
+  public readonly blocks: BlockService;
+  public readonly stations: StationService;
+  public readonly teams: TeamService;
+  public readonly staff: StaffService;
+  public readonly locations: LocationService;
+  public readonly payments: PaymentService;
   public readonly chat: ChatService;
   public readonly social: SocialService;
 
@@ -91,6 +109,15 @@ export class ApiClient {
     this.management = new ManagementService(this, this.logger);
     this.rules = new RuleService(this, this.logger);
     this.business = new BusinessService(this, this.logger);
+    this.projects = new ProjectService(this, this.logger);
+    this.stories = new StoryService(this, this.logger);
+    this.polls = new PollService(this, this.logger);
+    this.blocks = new BlockService(this, this.logger);
+    this.stations = new StationService(this, this.logger);
+    this.teams = new TeamService(this, this.logger);
+    this.staff = new StaffService(this, this.logger);
+    this.locations = new LocationService(this, this.logger);
+    this.payments = new PaymentService(this, this.logger);
     this.chat = new ChatService(this, this.logger);
     this.social = new SocialService(this, this.logger);
   }

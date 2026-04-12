@@ -1,4 +1,5 @@
 import { User } from '../models/auth/User';
+import { RankedUser } from '../models/auth/RankedUser';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -146,14 +147,6 @@ export declare class UserService extends BaseService {
      * @param category Optional category filter (kategori)
      * @param subCategory Optional sub-category filter (kategoridetay)
      */
-    /**
-     * Fetches the paginated notifications history for the current user (Legacy).
-     *
-     * @param page The page number (sayfa)
-     * @param limit The number of items per page
-     * @param category Optional category filter (kategori)
-     * @param subCategory Optional sub-category filter (kategoridetay)
-     */
     getNotificationsHistory(page?: number, limit?: number, category?: NotificationCategory | string, subCategory?: NotificationSubCategory | string): Promise<any>;
     /**
      * Updates the user's avatar (Legacy).
@@ -172,20 +165,9 @@ export declare class UserService extends BaseService {
     /**
      * Updates the user's profile background (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
-     */
-    /**
-     * Updates the user's profile background (Legacy).
-     *
      * @param image The image file to upload (File, Blob, or File[])
      */
     updateBackground(image: File | Blob | File[]): Promise<any>;
-    /**
-     * Rotates a photo by a specified degree (Legacy).
-     *
-     * @param photoId The ID of the photo to rotate
-     * @param degree The rotation degree (e.g. -1 for clockwise, 90, 180, etc.)
-     */
     /**
      * Rotates a photo by a specified degree (Legacy).
      *
@@ -205,12 +187,6 @@ export declare class UserService extends BaseService {
      * @param files Array of File or Blob objects
      * @param category Optional category for the upload
      */
-    /**
-     * Uploads one or more media files (Legacy).
-     *
-     * @param files Array of File or Blob objects
-     * @param category Optional category for the upload
-     */
     uploadMedia(files: (File | Blob)[], category?: MediaCategory | string): Promise<any>;
     /**
      * Fetches the user's notification settings (Legacy).
@@ -223,15 +199,15 @@ export declare class UserService extends BaseService {
      */
     updateNotificationSettings(settings: Record<string, boolean | number>): Promise<any>;
     /**
-     * Fetches the platform-wide XP rankings (Legacy).
+     * Fetches the XP rankings (leaderboard) (Legacy).
      *
-     * @param page The page number (sayfa)
+     * @param page Ranking page number
      */
-    getXpRankings(page?: number): Promise<any>;
+    getXpRankings(page?: number): Promise<RankedUser[]>;
     /**
-     * Fetches the platform-wide Popularity rankings (Legacy).
+     * Fetches the popularity rankings (Legacy).
      *
-     * @param page The page number (sayfa)
+     * @param page Ranking page number
      */
-    getPopRankings(page?: number): Promise<any>;
+    getPopRankings(page?: number): Promise<RankedUser[]>;
 }

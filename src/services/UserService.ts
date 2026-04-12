@@ -1,4 +1,5 @@
 import { User } from '../models/auth/User';
+import { RankedUser } from '../models/auth/RankedUser';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -403,14 +404,6 @@ export class UserService extends BaseService {
    * @param category Optional category filter (kategori)
    * @param subCategory Optional sub-category filter (kategoridetay)
    */
-  /**
-   * Fetches the paginated notifications history for the current user (Legacy).
-   * 
-   * @param page The page number (sayfa)
-   * @param limit The number of items per page
-   * @param category Optional category filter (kategori)
-   * @param subCategory Optional sub-category filter (kategoridetay)
-   */
   async getNotificationsHistory(
     page: number = 1, 
     limit: number = 20, 
@@ -487,11 +480,6 @@ export class UserService extends BaseService {
   /**
    * Updates the user's profile background (Legacy).
    * 
-   * @param image The image file to upload (File or Blob)
-   */
-  /**
-   * Updates the user's profile background (Legacy).
-   * 
    * @param image The image file to upload (File, Blob, or File[])
    */
   async updateBackground(image: File | Blob | File[]): Promise<any> {
@@ -510,12 +498,6 @@ export class UserService extends BaseService {
     }
   }
 
-  /**
-   * Rotates a photo by a specified degree (Legacy).
-   * 
-   * @param photoId The ID of the photo to rotate
-   * @param degree The rotation degree (e.g. -1 for clockwise, 90, 180, etc.)
-   */
   /**
    * Rotates a photo by a specified degree (Legacy).
    * 
@@ -554,12 +536,6 @@ export class UserService extends BaseService {
     }
   }
 
-  /**
-   * Uploads one or more media files (Legacy).
-   * 
-   * @param files Array of File or Blob objects
-   * @param category Optional category for the upload
-   */
   /**
    * Uploads one or more media files (Legacy).
    * 
@@ -617,39 +593,44 @@ export class UserService extends BaseService {
   }
 
   /**
-   * Fetches the platform-wide XP rankings (Legacy).
+   * Fetches the XP rankings (leaderboard) (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page Ranking page number
    */
-  async getXpRankings(page: number = 1): Promise<any> {
+  async getXpRankings(page: number = 1): Promise<RankedUser[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/xpsiralama/0/0/'), formData);
-      return this.handleResponse<any>(response);
+      const url = this.resolveBotPath('/0/0/xpsiralama/0/0/');
+      const apiResponse = await this.client.post<any>(url, formData);
+      const data = this.handleResponse<any[]>(apiResponse);
+      
+      return Array.isArray(data) ? data.map((u: any) => RankedUser.fromJSON(u)) : [];
     } catch (error) {
-      this.logger.error(`[UserService] Fetching XP rankings failed:`, error);
-      return null;
+      this.logger.error('[UserService] Fetching XP rankings failed:', error);
+      return [];
     }
   }
 
   /**
-   * Fetches the platform-wide Popularity rankings (Legacy).
+   * Fetches the popularity rankings (Legacy).
    * 
-   * @param page The page number (sayfa)
+   * @param page Ranking page number
    */
-  async getPopRankings(page: number = 1): Promise<any> {
+  async getPopRankings(page: number = 1): Promise<RankedUser[]> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/popsiralama/0/0/'), formData);
-      return this.handleResponse<any>(response);
+      const url = this.resolveBotPath('/0/0/popsiralama/0/0/');
+      const apiResponse = await this.client.post<any>(url, formData);
+      const data = this.handleResponse<any[]>(apiResponse);
+      
+      return Array.isArray(data) ? data.map((u: any) => RankedUser.fromJSON(u)) : [];
     } catch (error) {
-      this.logger.error(`[UserService] Fetching POP rankings failed:`, error);
-      return null;
+      this.logger.error('[UserService] Fetching popularity rankings failed:', error);
+      return [];
     }
   }
 }
-

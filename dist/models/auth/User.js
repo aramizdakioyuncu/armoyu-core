@@ -159,6 +159,7 @@ class User {
         const jobData = json.job || {};
         const countryData = detailInfo.country || {};
         const provinceData = detailInfo.province || {};
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const banHistory = json.banHistory || {};
         return new User({
             id: String(json.playerID || json.id || json.owner_ID || json.id_user || json.user_id || ''),
@@ -182,7 +183,7 @@ class User {
             age: Number(detailInfo.age || 0),
             inviteCode: detailInfo.inviteCode || '',
             lastLoginAt: detailInfo.lastloginDate || '',
-            registeredAt: json.registeredDate || json.created_at || '',
+            registeredAt: json.registeredAt || json.registeredDate || json.created_at || '',
             country: countryData.country_name || '',
             city: provinceData.province_name || detailInfo.location || json.location || json.sehir || '',
             jobTitle: jobData.job_name || '',

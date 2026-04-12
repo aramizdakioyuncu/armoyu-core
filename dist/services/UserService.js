@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const User_1 = require("../models/auth/User");
+const RankedUser_1 = require("../models/auth/RankedUser");
 const BaseService_1 = require("./BaseService");
 const MediaEnums_1 = require("../models/social/MediaEnums");
 /**
@@ -373,14 +374,6 @@ class UserService extends BaseService_1.BaseService {
      * @param category Optional category filter (kategori)
      * @param subCategory Optional sub-category filter (kategoridetay)
      */
-    /**
-     * Fetches the paginated notifications history for the current user (Legacy).
-     *
-     * @param page The page number (sayfa)
-     * @param limit The number of items per page
-     * @param category Optional category filter (kategori)
-     * @param subCategory Optional sub-category filter (kategoridetay)
-     */
     async getNotificationsHistory(page = 1, limit = 20, category, subCategory) {
         try {
             const formData = new FormData();
@@ -449,11 +442,6 @@ class UserService extends BaseService_1.BaseService {
     /**
      * Updates the user's profile background (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
-     */
-    /**
-     * Updates the user's profile background (Legacy).
-     *
      * @param image The image file to upload (File, Blob, or File[])
      */
     async updateBackground(image) {
@@ -471,12 +459,6 @@ class UserService extends BaseService_1.BaseService {
             return null;
         }
     }
-    /**
-     * Rotates a photo by a specified degree (Legacy).
-     *
-     * @param photoId The ID of the photo to rotate
-     * @param degree The rotation degree (e.g. -1 for clockwise, 90, 180, etc.)
-     */
     /**
      * Rotates a photo by a specified degree (Legacy).
      *
@@ -513,12 +495,6 @@ class UserService extends BaseService_1.BaseService {
             return null;
         }
     }
-    /**
-     * Uploads one or more media files (Legacy).
-     *
-     * @param files Array of File or Blob objects
-     * @param category Optional category for the upload
-     */
     /**
      * Uploads one or more media files (Legacy).
      *
@@ -574,37 +550,41 @@ class UserService extends BaseService_1.BaseService {
         }
     }
     /**
-     * Fetches the platform-wide XP rankings (Legacy).
+     * Fetches the XP rankings (leaderboard) (Legacy).
      *
-     * @param page The page number (sayfa)
+     * @param page Ranking page number
      */
     async getXpRankings(page = 1) {
         try {
             const formData = new FormData();
             formData.append('sayfa', page.toString());
-            const response = await this.client.post(this.resolveBotPath('/0/0/xpsiralama/0/0/'), formData);
-            return this.handleResponse(response);
+            const url = this.resolveBotPath('/0/0/xpsiralama/0/0/');
+            const apiResponse = await this.client.post(url, formData);
+            const data = this.handleResponse(apiResponse);
+            return Array.isArray(data) ? data.map((u) => RankedUser_1.RankedUser.fromJSON(u)) : [];
         }
         catch (error) {
-            this.logger.error(`[UserService] Fetching XP rankings failed:`, error);
-            return null;
+            this.logger.error('[UserService] Fetching XP rankings failed:', error);
+            return [];
         }
     }
     /**
-     * Fetches the platform-wide Popularity rankings (Legacy).
+     * Fetches the popularity rankings (Legacy).
      *
-     * @param page The page number (sayfa)
+     * @param page Ranking page number
      */
     async getPopRankings(page = 1) {
         try {
             const formData = new FormData();
             formData.append('sayfa', page.toString());
-            const response = await this.client.post(this.resolveBotPath('/0/0/popsiralama/0/0/'), formData);
-            return this.handleResponse(response);
+            const url = this.resolveBotPath('/0/0/popsiralama/0/0/');
+            const apiResponse = await this.client.post(url, formData);
+            const data = this.handleResponse(apiResponse);
+            return Array.isArray(data) ? data.map((u) => RankedUser_1.RankedUser.fromJSON(u)) : [];
         }
         catch (error) {
-            this.logger.error(`[UserService] Fetching POP rankings failed:`, error);
-            return null;
+            this.logger.error('[UserService] Fetching popularity rankings failed:', error);
+            return [];
         }
     }
 }

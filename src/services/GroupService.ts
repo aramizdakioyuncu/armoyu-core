@@ -1,6 +1,7 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { Group } from '../models/community/Group';
 
 /**
  * Service for managing groups, clans, and social communities.
@@ -37,7 +38,7 @@ export class GroupService extends BaseService {
    * 
    * @param userId Optional user ID to view groups for
    */
-  async getUserGroups(userId?: number): Promise<any> {
+  async getUserGroups(userId?: number): Promise<Group[]> {
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -45,10 +46,11 @@ export class GroupService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplarim/0/0/'), formData);
-      return this.handleResponse<any>(response);
+      const data = this.handleResponse<any[]>(response);
+      return Array.isArray(data) ? data.map((g: any) => Group.fromJSON(g)) : [];
     } catch (error) {
       this.logger.error(`[GroupService] Fetching player groups failed:`, error);
-      return null;
+      return [];
     }
   }
 
@@ -57,7 +59,7 @@ export class GroupService extends BaseService {
    * 
    * @param params Filtering and pagination options
    */
-  async getGroups(params: { category?: string | number, page?: number } = {}): Promise<any> {
+  async getGroups(params: { category?: string | number, page?: number } = {}): Promise<Group[]> {
     try {
       const formData = new FormData();
       if (params.category !== undefined) {
@@ -66,10 +68,11 @@ export class GroupService extends BaseService {
       formData.append('sayfa', (params.page || 1).toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/liste/0/'), formData);
-      return this.handleResponse<any>(response);
+      const data = this.handleResponse<any[]>(response);
+      return Array.isArray(data) ? data.map((g: any) => Group.fromJSON(g)) : [];
     } catch (error) {
       this.logger.error(`[GroupService] Fetching groups list failed:`, error);
-      return null;
+      return [];
     }
   }
 
@@ -78,7 +81,7 @@ export class GroupService extends BaseService {
    * 
    * @param params Identification for the group (id or name)
    */
-  async getGroupDetail(params: { groupId?: number, groupName?: string }): Promise<any> {
+  async getGroupDetail(params: { groupId?: number, groupName?: string }): Promise<Group | null> {
     try {
       const formData = new FormData();
       if (params.groupId !== undefined) {
@@ -89,7 +92,8 @@ export class GroupService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/0/0/'), formData);
-      return this.handleResponse<any>(response);
+      const data = this.handleResponse<any>(response);
+      return data ? Group.fromJSON(data) : null;
     } catch (error) {
       this.logger.error(`[GroupService] Fetching group detail failed:`, error);
       return null;
