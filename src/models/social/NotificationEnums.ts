@@ -5,9 +5,9 @@ export enum NotificationCategory {
   FRIENDSHIP = 'arkadaslik',
   GROUPS = 'gruplar',
   SYSTEM = 'system',
-  BLOG = 'blog',
   FORUM = 'forum',
-  STORE = 'store'
+  STORE = 'store',
+  SOCIAL = 'sosyal'
 }
 
 /**

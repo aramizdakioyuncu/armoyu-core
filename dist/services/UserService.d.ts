@@ -158,9 +158,9 @@ export declare class UserService extends BaseService {
     /**
      * Updates the user's avatar (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
+     * @param image The image file to upload (File, Blob, or File[])
      */
-    updateAvatar(image: File | Blob): Promise<any>;
+    updateAvatar(image: File | Blob | File[]): Promise<any>;
     /**
      * Resets the user's avatar to default (Legacy).
      */
@@ -177,9 +177,9 @@ export declare class UserService extends BaseService {
     /**
      * Updates the user's profile background (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
+     * @param image The image file to upload (File, Blob, or File[])
      */
-    updateBackground(image: File | Blob): Promise<any>;
+    updateBackground(image: File | Blob | File[]): Promise<any>;
     /**
      * Rotates a photo by a specified degree (Legacy).
      *

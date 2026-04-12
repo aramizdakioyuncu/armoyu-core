@@ -403,12 +403,15 @@ class UserService extends BaseService_1.BaseService {
     /**
      * Updates the user's avatar (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
+     * @param image The image file to upload (File, Blob, or File[])
      */
     async updateAvatar(image) {
         try {
+            const file = Array.isArray(image) ? image[0] : image;
+            if (!file)
+                return null;
             const formData = new FormData();
-            formData.append('resim', image);
+            formData.append('resim', file);
             const response = await this.client.post(this.resolveBotPath('/0/0/avatar-guncelle/0/0/'), formData);
             return this.handleResponse(response);
         }
@@ -451,12 +454,15 @@ class UserService extends BaseService_1.BaseService {
     /**
      * Updates the user's profile background (Legacy).
      *
-     * @param image The image file to upload (File or Blob)
+     * @param image The image file to upload (File, Blob, or File[])
      */
     async updateBackground(image) {
         try {
+            const file = Array.isArray(image) ? image[0] : image;
+            if (!file)
+                return null;
             const formData = new FormData();
-            formData.append('resim', image);
+            formData.append('resim', file);
             const response = await this.client.post(this.resolveBotPath('/0/0/arkaplan-guncelle/0/0/'), formData);
             return this.handleResponse(response);
         }
