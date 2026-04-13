@@ -23,7 +23,7 @@ export class ChatService extends BaseService {
       formData.append('icerik', params.content);
       formData.append('turu', params.type || 'ozel');
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbetgonder/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/sohbetgonder/0/0/'), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[ChatService] Sending message failed:`, error);
@@ -46,7 +46,7 @@ export class ChatService extends BaseService {
         formData.append('limit', params.limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/sohbet/0/0/'), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[ChatService] Fetching chat history failed:`, error);
@@ -68,7 +68,7 @@ export class ChatService extends BaseService {
         formData.append('limit', params.limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/arkadaslarim/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/sohbet/arkadaslarim/0/'), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
@@ -87,7 +87,7 @@ export class ChatService extends BaseService {
       formData.append('sohbetID', params.chatId.toString());
       formData.append('sohbetturu', params.type || 'grup');
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbetdetay/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/sohbetdetay/0/0/'), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[ChatService] Fetching chat detail failed:`, error);

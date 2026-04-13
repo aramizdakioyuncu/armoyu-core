@@ -27,7 +27,9 @@ export abstract class BaseService {
       }
       
       // If durum is not 1, throw the API error message
-      throw new Error(standardResponse.aciklama || 'API Execution Error');
+      const errorMsg = standardResponse.aciklama || 'API Execution Error';
+      this.logger.error(`[BaseService] API Error (${standardResponse.durum}): ${errorMsg}`, standardResponse);
+      throw new Error(errorMsg);
     }
 
     // Fallback for non-standard responses
