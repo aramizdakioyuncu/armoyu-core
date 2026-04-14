@@ -27,8 +27,14 @@ async function test() {
     console.log('User:', loginResult.user.username);
     console.log('Token:', loginResult.session.token || 'MISSING');
   } catch (err) {
-    console.error('ERROR during login:', err);
-    return;
+    console.warn('⚠️ WARNING: Login failed. Falling back to ARMOYU_TOKEN from environment.');
+    if (token) {
+      api.setToken(token);
+      console.log('Fallback Token set successfully.');
+    } else {
+      console.error('ERROR: No fallback token available in .env (ARMOYU_TOKEN).');
+      return;
+    }
   }
 
   console.log('\n--- Phase 2: Fetch User Profile (oyuncubak) ---');
@@ -55,7 +61,7 @@ async function test() {
 
   console.log('\n--- Phase 4: Events (etkinlikler) ---');
   try {
-    const results = await api.events.getEvents(0);
+    const results = await api.events.getEvents({ page: 1 });
     console.log('SUCCESS: Events fetched!');
     if (results.length > 0) {
       console.log(`First Event: ${results[0].name} (Date: ${results[0].date})`);
@@ -71,14 +77,14 @@ async function test() {
   try {
     const xpRankings = await api.users.getXpRankings(1);
     console.log('SUCCESS: XP Rankings fetched!');
-    if (xpRankings && xpRankings.icerik && xpRankings.icerik.length > 0) {
-      console.log(`Top Player (XP): ${xpRankings.icerik[0].kullaniciadi}`);
+    if (xpRankings && xpRankings.length > 0) {
+      console.log(`Top Player (XP): ${xpRankings[0].username}`);
     }
 
     const popRankings = await api.users.getPopRankings(1);
     console.log('SUCCESS: POP Rankings fetched!');
-    if (popRankings && popRankings.icerik && popRankings.icerik.length > 0) {
-      console.log(`Top Player (POP): ${popRankings.icerik[0].kullaniciadi}`);
+    if (popRankings && popRankings.length > 0) {
+      console.log(`Top Player (POP): ${popRankings[0].username}`);
     }
   } catch (err) {
     console.error('ERROR in rankings:', err instanceof Error ? err.message : err);

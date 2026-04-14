@@ -32,8 +32,14 @@ export abstract class BaseService {
       throw new Error(errorMsg);
     }
 
-    // Fallback for non-standard responses
-    return response as T;
+    // ARMOYU SECURITY FIX: No longer allowing fallback for non-standard responses
+    // This prevents empty objects or malformed error responses from being treated as success.
+    const message = (response && typeof response === 'object') 
+      ? (response.aciklama || JSON.stringify(response)) 
+      : String(response || 'Bilinmeyen API Hatası');
+      
+    this.logger.error(`[BaseService] Invalid API Response Format: ${message}`);
+    throw new Error(`API Hatası (Format): ${message}`);
   }
 
   /**

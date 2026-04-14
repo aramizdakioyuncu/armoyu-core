@@ -30,9 +30,13 @@ export class AuthService extends BaseService {
 
       // Handle raw response if it's still a string (though ApiClient should have parsed it)
       const data = typeof response === 'string' ? JSON.parse(response) : response;
-      
+
       const icerik = this.handleResponse<any>(data);
-      
+
+      if (!icerik) {
+        throw new Error('API Hatası: Kullanıcı bilgileri alınamadı.');
+      }
+
       // ARMOYU Login logic: Token is inside the 'aciklama' field (as a string or object)
       let token = '';
       if (typeof data.aciklama === 'string') {
@@ -44,17 +48,30 @@ export class AuthService extends BaseService {
       } else if (data.aciklama && typeof data.aciklama === 'object') {
         token = data.aciklama.token || data.aciklama.session_token || '';
       }
-      
+
       this.currentUser = User.fromJSON(icerik);
-      this.session = new Session({ 
-        user: this.currentUser, 
-        token: token || icerik?.token || icerik?.session_token || null 
-      });
       
-      // Update client token for all subsequent requests
-      if (this.session.token) {
-        this.client.setToken(this.session.token);
+      // ARMOYU Login logic: Token can be in 'aciklama' OR inside 'icerik'
+      const extractedToken = token || icerik?.token || icerik?.session_token || null;
+      
+      // EXTRA VALIDATION: Ensure we have a valid user ID and a token
+      if (!this.currentUser.id || !extractedToken) {
+        this.logger.error('[AuthService] Login failed validation:', { 
+          hasId: !!this.currentUser.id, 
+          hasToken: !!extractedToken,
+          aciklama: data.aciklama,
+          icerikItems: Object.keys(icerik || {})
+        });
+        throw new Error('Geçersiz kullanıcı bilgileri veya token alınamadı.');
       }
+
+      this.session = new Session({
+        user: this.currentUser,
+        token: extractedToken
+      });
+
+      // Update client token for all subsequent requests
+      this.client.setToken(this.session.token);
 
       return { user: this.currentUser, session: this.session };
     } catch (error) {
@@ -85,7 +102,7 @@ export class AuthService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/kayit-ol/0/0/0/0/'), formData);
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
-      
+
       return data && Number(data.durum) === 1;
     } catch (error) {
       this.logger.error('[AuthService] Registration failed:', error);
@@ -112,7 +129,7 @@ export class AuthService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/sifremi-unuttum/0/0/0/0/'), formData);
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
-      
+
       return data && Number(data.durum) === 1;
     } catch (error) {
       this.logger.error('[AuthService] Forgot password request failed:', error);
@@ -142,7 +159,7 @@ export class AuthService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/sifremi-unuttum-dogrula/0/0/0/0/'), formData);
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
-      
+
       return data && Number(data.durum) === 1;
     } catch (error) {
       this.logger.error('[AuthService] Verify password reset failed:', error);
@@ -172,11 +189,11 @@ export class AuthService extends BaseService {
     try {
       const response = await this.client.get<any>('/auth/me');
       const icerik = this.handleResponse<any>(response);
-      
+
       // Robust mapping: handle direct user object or nested { user: {...} }
       const userData = icerik && (icerik.user || icerik);
       this.currentUser = userData ? User.fromJSON(userData) : null;
-      
+
       return this.currentUser;
     } catch (error) {
       this.currentUser = null;

@@ -5,12 +5,17 @@ import { RankedUser } from '../src/models/auth/RankedUser';
  * Script to verify the RankedUser mapping and service integration.
  */
 async function verify() {
-  const apiKey = '5121eab7d46f1120f9527393ea19a0e9';
-  const token = '5221d07eb0049191ed17b3d1ea773941aa3ab1960c9696c64de2281766d13df2';
+  const apiKey = process.env.ARMOYU_API_KEY;
+  const token = process.env.ARMOYU_TOKEN;
+
+  if (!apiKey) {
+    console.error('ERROR: ARMOYU_API_KEY environment variable is not set.');
+    return;
+  }
 
   const api = new ArmoyuApi(apiKey, {
     baseUrl: 'https://api.aramizdakioyuncu.com',
-    token: token
+    token: token || null
   });
 
   console.log('--- Verifying XP Rankings (using UserService) ---');

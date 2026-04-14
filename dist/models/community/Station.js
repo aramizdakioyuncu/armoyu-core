@@ -106,23 +106,44 @@ class Station {
         }
     }
     static fromJSON(json) {
-        var _a, _b, _c;
+        if (!json)
+            return new Station({});
+        // Handle potential metadata objects (Station_URL, etc.)
+        const urlMetadata = json.Station_URL || json.station_URL || json.durak_URL || json.durakURL || {};
+        const hasUrlMetadata = typeof urlMetadata === 'object' && Object.keys(urlMetadata).length > 0;
+        // Resolve Logo
+        const logoField = json.Station_logo || json.station_logo || json.durak_logo || json.avatar || {};
+        let logoData = logoField;
+        if (hasUrlMetadata) {
+            const metadataLogo = urlMetadata.Station_logo || urlMetadata.station_logo || urlMetadata.durak_logo || urlMetadata.logo;
+            if (metadataLogo)
+                logoData = metadataLogo;
+        }
+        // Resolve Banner
+        const bannerData = json.Banner || json.banner || json.durak_kapak || json.wallpaper || {};
+        // Resolve Slug
+        let slug = json.slug || json.url || '';
+        if (hasUrlMetadata) {
+            slug = urlMetadata.url || urlMetadata.slug || slug;
+            if (typeof urlMetadata === 'string' && !slug)
+                slug = urlMetadata;
+        }
         return new Station({
-            id: json.id || '',
-            name: json.name || '',
-            slug: json.slug || '',
+            id: String(json.id || json.durakID || ''),
+            name: json.name || json.durak_ad || '',
+            slug: String(slug),
             type: json.type || 'YEMEK',
-            description: json.description || '',
-            location: json.location || '',
-            logo: json.logo || '',
-            banner: json.banner || '',
-            rating: json.rating || 0,
-            reviewCount: json.reviewCount || 0,
+            description: json.description || json.aciklama || '',
+            location: json.location || json.adres || '',
+            logo: typeof logoData === 'object' ? (logoData.media_minURL || logoData.media_URL || logoData.url || '') : logoData,
+            banner: typeof bannerData === 'object' ? (bannerData.media_URL || bannerData.media_bigURL || bannerData.url || '') : bannerData,
+            rating: Number(json.rating || json.puan || 0),
+            reviewCount: Number(json.reviewCount || json.yorum_sayisi || 0),
             owner: json.owner ? User_1.User.fromJSON(json.owner) : null,
-            products: ((_a = json.products) === null || _a === void 0 ? void 0 : _a.map((p) => StationProduct.fromJSON(p))) || [],
-            equipment: ((_b = json.equipment) === null || _b === void 0 ? void 0 : _b.map((e) => WorkstationEquipment.fromJSON(e))) || [],
+            products: Array.isArray(json.products) ? json.products.map((p) => StationProduct.fromJSON(p)) : [],
+            equipment: Array.isArray(json.equipment) ? json.equipment.map((e) => WorkstationEquipment.fromJSON(e)) : [],
             pricing: json.pricing,
-            coupons: ((_c = json.coupons) === null || _c === void 0 ? void 0 : _c.map((c) => StationCoupon.fromJSON(c))) || [],
+            coupons: Array.isArray(json.coupons) ? json.coupons.map((c) => StationCoupon.fromJSON(c)) : [],
             facilities: json.facilities,
         });
     }

@@ -1,0 +1,368 @@
+{
+  "durum": 1,
+  "aciklama": "Grup Liste getiriliyor.",
+  "aciklamadetay": null,
+  "icerik": [
+    {
+      "#": 1,
+      "group_ID": 366,
+      "group_name": "İttihat ve Terakki",
+      "group_shortname": "İttihat Ruhu",
+      "group_joinstatus": 1,
+      "group_description": null,
+      "group_registered": "22.05.2024",
+      "group_membercount": 25,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": null,
+        "group_discord": null
+      },
+      "group_URL": "ittihat-ve-terakki",
+      "group_owner": {
+        "player_ID": 11310,
+        "player_displayname": "Emirhan Akkuş",
+        "player_userlogin": "akkusemirhan",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logo1716409430.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logoufaklik1716409430.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logominnak1716409430.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresim1716409447.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresimufaklik1716409447.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresimminnak1716409447.jpg"
+      }
+    },
+    {
+      "#": 2,
+      "group_ID": 358,
+      "group_name": "Komünist Anime Kızları Birleşme Derneği",
+      "group_shortname": "KAKBD",
+      "group_joinstatus": 1,
+      "group_description": "Onii chan uWu :3",
+      "group_registered": "21.05.2024",
+      "group_membercount": 22,
+      "group_category": "Yazılım & Geliştirme",
+      "group_categorydetail": "Robotik Kodlama",
+      "group_defaultgame": null,
+      "group_social": {
+        "group_website": "null",
+        "group_discord": "null"
+      },
+      "group_URL": "komunist-anime-kizlari-birlesme-dernegi",
+      "group_owner": {
+        "player_ID": 11663,
+        "player_displayname": "Mel Cobain",
+        "player_userlogin": "Melly",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6ad3cf60-fb7a-414e-d596-467124dd0c00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logo1716380224.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logoufaklik1716380224.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logominnak1716380224.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresim1716380243.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresimufaklik1716380243.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresimminnak1716380243.jpg"
+      }
+    },
+    {
+      "#": 3,
+      "group_ID": 1,
+      "group_name": "CZAL Hack Team",
+      "group_shortname": "CZAL HT",
+      "group_joinstatus": 0,
+      "group_description": "Türk Yazılımcı ve Robotikciler ile toplandık Kendimizi Geliştirmek için çaba gösteriyoruz Biz Fatsa Cahit Zarifoğlu Anadolu Lisesinde kurulduk ve çalışmalarımıza devam ediyoruz sende bize katılmak istersen bize mail atabilirsin Okulumuzu İnternette araştırabilirsiniz.",
+      "group_registered": "14.10.2018",
+      "group_membercount": 19,
+      "group_category": "Yazılım & Geliştirme",
+      "group_categorydetail": "Robotik Kodlama",
+      "group_defaultgame": null,
+      "group_social": {
+        "group_website": "https://fatsaczal.meb.k12.tr/tema/index.php",
+        "group_discord": "discord"
+      },
+      "group_URL": "czal-hack-team",
+      "group_owner": {
+        "player_ID": 10010,
+        "player_displayname": "Yusuf Dinç",
+        "player_userlogin": "antikor",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogo1655550694.png",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogoufaklik1655550694.png",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogominnak1655550694.png"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbanner1655551019.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerufaklik1655551019.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerminnak1655551019.jpg"
+      }
+    },
+    {
+      "#": 4,
+      "group_ID": 163,
+      "group_name": "YEDİHİLAL FUTBOL TAKIMI",
+      "group_shortname": "YEHİ",
+      "group_joinstatus": 1,
+      "group_description": ".",
+      "group_registered": "17.11.2022",
+      "group_membercount": 17,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "yedihilal-futbol-takimi",
+      "group_owner": {
+        "player_ID": 11408,
+        "player_displayname": "Abdullah Çınar",
+        "player_userlogin": "Abdullah8397",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f6dbb1df-43d3-4589-41f8-e492a75d6c00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogo1668710699.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogoufaklik1668710699.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogominnak1668710699.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbanner1668711059.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbannerufaklik1668711059.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbannerminnak1668711059.jpg"
+      }
+    },
+    {
+      "#": 5,
+      "group_ID": 116,
+      "group_name": "RIHTIM",
+      "group_shortname": "RTM",
+      "group_joinstatus": 1,
+      "group_description": "Denizin verdiği huzur ile içinizi ferahlatacak bir yaşam sizi bekliyor",
+      "group_registered": "13.03.2022",
+      "group_membercount": 16,
+      "group_category": "E-Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Minecraft",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "rihtim",
+      "group_owner": {
+        "player_ID": 1,
+        "player_displayname": "Berkay Tikenoğlu",
+        "player_userlogin": "berkaytikenoglu",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogo1664915337.png",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogoufaklik1664915337.png",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogominnak1664915337.png"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbanner1661124266.png",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerufaklik1661124266.png",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerminnak1661124266.png"
+      }
+    },
+    {
+      "#": 6,
+      "group_ID": 93,
+      "group_name": "House of Lords",
+      "group_shortname": "HOL",
+      "group_joinstatus": 1,
+      "group_description": ":D",
+      "group_registered": "24.12.2021",
+      "group_membercount": 12,
+      "group_category": "E-Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "League of Legends",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "house-of-lords",
+      "group_owner": {
+        "player_ID": 10905,
+        "player_displayname": "Emir Baki Ekim",
+        "player_userlogin": "Meliodas",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906orijinal166483472760.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906ufaklik166483472760.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906minnak166483472760.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566orijinal166483472659.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566ufaklik166483472659.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566minnak166483472659.jpg"
+      }
+    },
+    {
+      "#": 7,
+      "group_ID": 160,
+      "group_name": "DOĞU SK",
+      "group_shortname": "DSK",
+      "group_joinstatus": 1,
+      "group_description": ".",
+      "group_registered": "13.11.2022",
+      "group_membercount": 11,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "dogu-sk",
+      "group_owner": {
+        "player_ID": 11406,
+        "player_displayname": "Maşallah Kaya",
+        "player_userlogin": "Masallah",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d7011fa1-a570-4c72-a5e1-4ea87ded1c00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogo1669581459.png",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogoufaklik1669581459.png",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogominnak1669581459.png"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbanner1669581557.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbannerufaklik1669581557.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbannerminnak1669581557.jpg"
+      }
+    },
+    {
+      "#": 8,
+      "group_ID": 177,
+      "group_name": "PATNOS SPOR",
+      "group_shortname": "PTNS",
+      "group_joinstatus": 1,
+      "group_description": ".",
+      "group_registered": "04.12.2022",
+      "group_membercount": 11,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "patnos-spor",
+      "group_owner": {
+        "player_ID": 11587,
+        "player_displayname": "Fırat Yeğin",
+        "player_userlogin": "firat0404",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a808fc82-8f9d-4995-a6e4-9c2bf1667e00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogo1670102947.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogoufaklik1670102947.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogominnak1670102947.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbanner1670102896.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbannerufaklik1670102896.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbannerminnak1670102896.jpg"
+      }
+    },
+    {
+      "#": 9,
+      "group_ID": 305,
+      "group_name": "YOZGATSPOR66",
+      "group_shortname": "YS66",
+      "group_joinstatus": 1,
+      "group_description": null,
+      "group_registered": "10.11.2023",
+      "group_membercount": 10,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": null,
+        "group_discord": null
+      },
+      "group_URL": "yozgatspor66",
+      "group_owner": {
+        "player_ID": 11867,
+        "player_displayname": "Hüseyin Çakır",
+        "player_userlogin": "CakmaHaaland",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b1c4ca59-e5b8-4d8f-a941-321c0bdcbc00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogo1699617398.png",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogoufaklik1699617398.png",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogominnak1699617398.png"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbanner1699617479.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbannerufaklik1699617479.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbannerminnak1699617479.jpg"
+      }
+    },
+    {
+      "#": 10,
+      "group_ID": 312,
+      "group_name": "CASPER FC",
+      "group_shortname": "CSPR",
+      "group_joinstatus": 1,
+      "group_description": "",
+      "group_registered": "10.11.2023",
+      "group_membercount": 10,
+      "group_category": "Spor",
+      "group_categorydetail": "Takım",
+      "group_defaultgame": "Futbol",
+      "group_social": {
+        "group_website": "",
+        "group_discord": ""
+      },
+      "group_URL": "casper-fc",
+      "group_owner": {
+        "player_ID": 11893,
+        "player_displayname": "Metin Kibar",
+        "player_userlogin": "metinkibar046",
+        "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+      },
+      "group_logo": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogo1699696958.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogoufaklik1699696958.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogominnak1699696958.jpg"
+      },
+      "group_banner": {
+        "media_ID": 0,
+        "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbanner1699698164.jpg",
+        "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbannerufaklik1699698164.jpg",
+        "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbannerminnak1699698164.jpg"
+      }
+    }
+  ],
+  "zaman": "15.04.2026 00:31:14"
+}

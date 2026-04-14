@@ -151,6 +151,8 @@ class User {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static fromJSON(json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        if (!json)
+            return new User({});
         const avatarData = json.avatar || json.oyuncu_avatar || json.oyuncuminnakavatar || {};
         const bannerData = json.banner || json.oyuncu_kapak || json.kapak || {};
         const wallpaperData = json.wallpaper || {};
@@ -162,12 +164,12 @@ class User {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const banHistory = json.banHistory || {};
         return new User({
-            id: String(json.playerID || json.id || json.owner_ID || json.id_user || json.user_id || json.oyuncuID || ''),
-            username: json.username || json.user_name || json.owner_username || json.oyuncu_ad || json.oyuncukullaniciad || json.oyuncukullaniciadi || '',
-            displayName: json.displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || '',
+            id: String(json.playerID || json.player_ID || json.id || json.owner_ID || json.id_user || json.user_id || json.oyuncuID || ''),
+            username: json.username || json.player_userlogin || json.user_name || json.owner_username || json.oyuncu_ad || json.oyuncukullaniciad || json.oyuncukullaniciadi || '',
+            displayName: json.displayname || json.player_displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || '',
             firstName: json.firstName || '',
             lastName: json.lastName || '',
-            avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || '') : avatarData,
+            avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || json.player_avatar || '') : (avatarData || json.player_avatar || ''),
             banner: typeof bannerData === 'object' ? (bannerData.media_URL || bannerData.media_bigURL || bannerData.media_minURL || '') : bannerData,
             headerImage: typeof wallpaperData === 'object' ? (wallpaperData.media_URL || wallpaperData.media_bigURL || '') : wallpaperData,
             bio: detailInfo.about || detailInfo.aciklama || json.bio || json.oyuncu_bio || json.aciklama || json.description || '',

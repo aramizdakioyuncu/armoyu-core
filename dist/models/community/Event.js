@@ -42,26 +42,26 @@ class ArmoyuEvent {
             avatar: o.player_avatar || ''
         }));
         return new ArmoyuEvent({
-            id: Number(json.event_ID || json.id || 0),
-            name: json.event_name || json.title || '',
-            status: Number(json.event_status || 0),
-            link: json.event_link || '',
-            thumbnail: json.event_foto || json.banner || '',
-            image: json.event_fotodetail || undefined,
-            gameId: Number(json.event_gameID || 0),
-            gameName: json.event_gamename || json.game || '',
-            gameLogo: json.event_gamelogo || '',
-            gameBanner: json.event_gamebanner || '',
+            id: Number(json.event_ID || json.etkinlikID || json.id || 0),
+            name: json.event_name || json.etkinlikadi || json.baslik || json.title || '',
+            status: Number(json.event_status || json.durum || 0),
+            link: json.event_link || json.url || '',
+            thumbnail: json.event_foto || json.etkinlikresimi || json.resimurl || json.banner || '',
+            image: json.event_fotodetail || json.resimurldetay || undefined,
+            gameId: Number(json.event_gameID || json.oyunID || 0),
+            gameName: json.event_gamename || json.oyunadi || json.game || '',
+            gameLogo: json.event_gamelogo || json.oyunlogo || '',
+            gameBanner: json.event_gamebanner || json.oyunbanner || '',
             organizers: organizers,
-            type: json.event_type || '',
-            date: json.event_date || json.date || '',
-            participantType: json.event_participanttype || '',
-            participantLimit: Number(json.event_participantlimit || 0),
+            type: json.event_type || json.etkinlikturu || '',
+            date: json.event_date || json.etkinlikzaman || json.baslangiczaman || json.date || '',
+            participantType: json.event_participanttype || json.katilimturu || '',
+            participantLimit: Number(json.event_participantlimit || json.kontenjan || 0),
             groupPlayerLimit: Number(json.event_participantgroupplayerlimit || 0),
-            currentParticipants: Number(json.event_participantcurrent || 0),
-            location: json.event_location || json.location || '',
-            description: json.event_description || json.description || '',
-            rules: json.event_rules || ''
+            currentParticipants: Number(json.event_participantcurrent || json.katilimcisayisi || 0),
+            location: json.event_location || json.konum || json.location || '',
+            description: json.event_description || json.aciklama || json.icerik || json.description || '',
+            rules: json.event_rules || json.kurallar || ''
         });
     }
     /**

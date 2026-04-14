@@ -26,6 +26,9 @@ class AuthService extends BaseService_1.BaseService {
             // Handle raw response if it's still a string (though ApiClient should have parsed it)
             const data = typeof response === 'string' ? JSON.parse(response) : response;
             const icerik = this.handleResponse(data);
+            if (!icerik) {
+                throw new Error('API Hatası: Kullanıcı bilgileri alınamadı.');
+            }
             // ARMOYU Login logic: Token is inside the 'aciklama' field (as a string or object)
             let token = '';
             if (typeof data.aciklama === 'string') {
@@ -39,14 +42,24 @@ class AuthService extends BaseService_1.BaseService {
                 token = data.aciklama.token || data.aciklama.session_token || '';
             }
             this.currentUser = User_1.User.fromJSON(icerik);
+            // ARMOYU Login logic: Token can be in 'aciklama' OR inside 'icerik'
+            const extractedToken = token || (icerik === null || icerik === void 0 ? void 0 : icerik.token) || (icerik === null || icerik === void 0 ? void 0 : icerik.session_token) || null;
+            // EXTRA VALIDATION: Ensure we have a valid user ID and a token
+            if (!this.currentUser.id || !extractedToken) {
+                this.logger.error('[AuthService] Login failed validation:', {
+                    hasId: !!this.currentUser.id,
+                    hasToken: !!extractedToken,
+                    aciklama: data.aciklama,
+                    icerikItems: Object.keys(icerik || {})
+                });
+                throw new Error('Geçersiz kullanıcı bilgileri veya token alınamadı.');
+            }
             this.session = new Session_1.Session({
                 user: this.currentUser,
-                token: token || (icerik === null || icerik === void 0 ? void 0 : icerik.token) || (icerik === null || icerik === void 0 ? void 0 : icerik.session_token) || null
+                token: extractedToken
             });
             // Update client token for all subsequent requests
-            if (this.session.token) {
-                this.client.setToken(this.session.token);
-            }
+            this.client.setToken(this.session.token);
             return { user: this.currentUser, session: this.session };
         }
         catch (error) {
