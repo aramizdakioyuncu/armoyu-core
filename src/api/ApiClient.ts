@@ -247,6 +247,10 @@ export class ApiClient {
     this.config.token = token;
   }
 
+  getToken(): string | null {
+    return this.config.token || null;
+  }
+
   setApiKey(key: string | null) {
     this.config.apiKey = key;
   }

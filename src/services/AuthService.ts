@@ -186,10 +186,27 @@ export class AuthService extends BaseService {
 
   /**
    * Get the currently authenticated user's profile.
+   * Supports both modern (/auth/me) and legacy bot-based (/0/0/0) session recovery.
    */
   async me(): Promise<User | null> {
     try {
-      const response = await this.client.get<any>('/auth/me');
+      const apiKey = this.client.getApiKey();
+      const token = (this.client as any).getToken();
+
+      let response: any;
+
+      if (apiKey && token) {
+        // Legacy bot-based session recovery
+        const formData = new FormData();
+        formData.append('token', token);
+        formData.append('action', 'me');
+
+        response = await (this.client as any).post(this.resolveBotPath('/0/0/0'), formData);
+      } else {
+        // Modern API session recovery
+        response = await this.client.get<any>('/auth/me');
+      }
+
       const icerik = this.handleResponse<any>(response);
 
       // Robust mapping: handle direct user object or nested { user: {...} }
