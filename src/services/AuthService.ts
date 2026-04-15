@@ -25,6 +25,9 @@ export class AuthService extends BaseService {
       const formData = new FormData();
       formData.append('username', username);
       formData.append('password', password);
+      // Compatibility with legacy ARMOYU v0
+      formData.append('kullaniciadi', username);
+      formData.append('parola', password);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/0'), formData);
 

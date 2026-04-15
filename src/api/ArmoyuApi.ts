@@ -137,6 +137,41 @@ export class ArmoyuApi {
   get lastResponse(): any {
     return (this.client as any).lastRawResponse;
   }
+
+  /**
+   * Generic GET request
+   */
+  async get<T>(endpoint: string, options?: any): Promise<T> {
+    return this.client.get<T>(endpoint, options);
+  }
+
+  /**
+   * Generic POST request
+   */
+  async post<T>(endpoint: string, body?: any, options?: any): Promise<T> {
+    return this.client.post<T>(endpoint, body, options);
+  }
+
+  /**
+   * Generic PUT request
+   */
+  async put<T>(endpoint: string, body?: any, options?: any): Promise<T> {
+    return this.client.put<T>(endpoint, body, options);
+  }
+
+  /**
+   * Generic PATCH request
+   */
+  async patch<T>(endpoint: string, body?: any, options?: any): Promise<T> {
+    return this.client.patch<T>(endpoint, body, options);
+  }
+
+  /**
+   * Generic DELETE request
+   */
+  async delete<T>(endpoint: string, options?: any): Promise<T> {
+    return this.client.delete<T>(endpoint, options);
+  }
 }
 
 
