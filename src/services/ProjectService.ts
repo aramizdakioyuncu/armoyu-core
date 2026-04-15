@@ -37,6 +37,7 @@ export class ProjectService extends BaseService {
    * @param score The score to save (skor)
    */
   async saveScore(projectId: string | number, score: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('projeID', projectId.toString());

@@ -46,6 +46,7 @@ export class ShopService extends BaseService {
    * Create a new purchase order.
    */
   async createOrder(items: { productId: number; quantity: number }[]): Promise<Order> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>('/shop/orders', { items });
       const icerik = this.handleResponse<{ order: any }>(response);

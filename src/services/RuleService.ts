@@ -63,6 +63,7 @@ export class RuleService extends BaseService {
    * Create a new rule.
    */
   async createRule(botId: string = '0', text: string, penalty: string = ''): Promise<Rule> {
+    this.requireAuth();
     const body = {
       kuralicerik: text,
       cezabaslangic: penalty
@@ -77,6 +78,7 @@ export class RuleService extends BaseService {
    * Update an existing rule.
    */
   async updateRule(botId: string = '0', ruleId: number, data: Partial<Rule>): Promise<Rule> {
+    this.requireAuth();
     const body: any = {};
     if (data.text) body.kuralicerik = data.text;
     if (data.penalty) body.cezabaslangic = data.penalty;
@@ -90,7 +92,8 @@ export class RuleService extends BaseService {
    * Delete a rule by its ID.
    */
   async deleteRule(botId: string = '0', ruleId: number): Promise<boolean> {
-    const response = await this.call<any>(`/kurallar/${botId}/sil/${ruleId}`, HttpMethod.POST);
+    this.requireAuth();
+    const response = await this.call<any> ( `/kurallar/${botId}/sil/${ruleId}`, HttpMethod.POST);
     const result = this.handleResponse<any>(response);
     return !!result;
   }

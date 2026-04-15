@@ -20,6 +20,7 @@ export class BlockService extends BaseService {
    * @returns List of blocked users
    */
   async getBlockedUsers(page: number, limit?: number): Promise<BlockedUser[]> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -44,6 +45,7 @@ export class BlockService extends BaseService {
    * @param userId The ID of the user to block (userID)
    */
   async blockUser(userId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('userID', userId.toString());
@@ -63,6 +65,7 @@ export class BlockService extends BaseService {
    * @param userId The ID of the user to unblock (userID)
    */
   async unblockUser(userId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('userID', userId.toString());

@@ -18,6 +18,7 @@ export class ManagementService extends BaseService {
    * @returns Raw management data or structured report
    */
   async getManagementContent(category: string = 'home'): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('category', category);

@@ -17,6 +17,7 @@ export class ChatService extends BaseService {
    * @param params Message parameters
    */
   async sendMessage(params: { userId: number, content: string, type?: string }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', params.userId.toString());
@@ -38,6 +39,7 @@ export class ChatService extends BaseService {
    * @param params Query and pagination parameters (userId, limit)
    */
   async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', params.userId.toString());
@@ -61,6 +63,7 @@ export class ChatService extends BaseService {
    * @param params Pagination parameters (limit)
    */
   async getFriendsChat(page: number, params: { limit?: number } = {}): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -82,6 +85,7 @@ export class ChatService extends BaseService {
    * @param params Chat identification
    */
   async getChatDetail(params: { chatId: number, type?: string }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sohbetID', params.chatId.toString());

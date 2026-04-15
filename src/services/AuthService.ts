@@ -21,6 +21,10 @@ export class AuthService extends BaseService {
    * Authenticate a user with username and password.
    */
   async login(username: string, password: string): Promise<{ user: User; session: Session }> {
+    if (this.isAuthenticated()) {
+      throw new Error('Zaten giriş yapılmış.');
+    }
+
     try {
       const formData = new FormData();
       formData.append('username', username);
@@ -197,11 +201,10 @@ export class AuthService extends BaseService {
 
       if (apiKey && token) {
         // Legacy bot-based session recovery
-        const formData = new FormData();
-        formData.append('token', token);
-        formData.append('action', 'me');
-
-        response = await (this.client as any).post(this.resolveBotPath('/0/0/0'), formData);
+        // The path /0/0/0/0/0/ automatically returns the current user's profile
+        response = await (this.client as any).post(this.resolveBotPath('/0/0/0/0/0/'), {
+          token: token
+        });
       } else {
         // Modern API session recovery
         response = await this.client.get<any>('/auth/me');
@@ -229,7 +232,6 @@ export class AuthService extends BaseService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUser || !!this.client;
+    return !!this.currentUser && !!(this.client as any).getToken();
   }
 }
-

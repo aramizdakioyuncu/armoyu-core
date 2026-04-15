@@ -39,7 +39,7 @@ export class SocialService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/liste/0/'), formData);
       
-      if (response && response.durum === 1) {
+      if (response && response.durum != null && Number(response.durum) === 1) {
         if (Array.isArray(response.icerik)) {
           return response.icerik.map((p: any) => Post.fromJSON(p));
         } else if (response.icerik && typeof response.icerik === 'object') {
@@ -61,6 +61,8 @@ export class SocialService extends BaseService {
    * @param mediaIds Optional array of media IDs associated with the post
    */
   async createPost(content: string, mediaIds?: number[]): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('sosyalicerik', content);
@@ -85,6 +87,8 @@ export class SocialService extends BaseService {
    * @param postId The ID of the post to delete
    */
   async deletePost(postId: number | string): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('postID', postId.toString());
@@ -121,11 +125,22 @@ export class SocialService extends BaseService {
   }
 
   /**
+   * Specific alias for fetching likers of a post.
+   * 
+   * @param postId The ID of the post
+   */
+  async getPostLikers(postId: number | string): Promise<any> {
+    return this.getLikers({ postId });
+  }
+
+  /**
    * Removes a like from a post or comment (Legacy).
    * 
    * @param params Query parameters (postId, commentId, category)
    */
   async removeLike(params: { postId: number | string, commentId?: number | string, category?: string }): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('postID', params.postId.toString());
@@ -146,6 +161,8 @@ export class SocialService extends BaseService {
    * @param params Query parameters (postId, category)
    */
   async addLike(params: { postId: number | string, category?: string }): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('postID', params.postId.toString());
@@ -202,6 +219,8 @@ export class SocialService extends BaseService {
    * @param params Comment parameters (postId, content, category, replyTo)
    */
   async createComment(params: { postId: number | string, content: string, category?: string, replyTo?: number | string }): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('postID', params.postId.toString());
@@ -223,6 +242,8 @@ export class SocialService extends BaseService {
    * @param commentId The ID of the comment to delete
    */
   async deleteComment(commentId: number | string): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('yorumID', commentId.toString());

@@ -15,6 +15,7 @@ export class SupportService extends BaseService {
    * Create a new support ticket.
    */
   async createTicket(subject: string, message: string, category: string): Promise<SupportTicket> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>('/social/support/tickets', {
         subject,
@@ -33,6 +34,7 @@ export class SupportService extends BaseService {
    * Get all tickets for the authenticated user.
    */
   async getMyTickets(): Promise<SupportTicket[]> {
+    this.requireAuth();
     try {
       const response = await this.client.get<any>('/social/support/my-tickets');
       const icerik = this.handleResponse<{ tickets: any[] }>(response);
@@ -47,6 +49,7 @@ export class SupportService extends BaseService {
    * Get a single ticket details and its messages.
    */
   async getTicketDetails(ticketId: string): Promise<SupportTicket | null> {
+    this.requireAuth();
     try {
       const response = await this.client.get<any>(`/social/support/tickets/${ticketId}`);
       const icerik = this.handleResponse<any>(response);

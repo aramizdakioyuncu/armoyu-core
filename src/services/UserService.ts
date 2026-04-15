@@ -51,13 +51,10 @@ export class UserService extends BaseService {
   }
 
   /**
-   * Get a specific user's public profile (Legacy API).
-   */
-
-  /**
    * Follow or unfollow a user.
    */
   async toggleFollow(userId: string): Promise<boolean> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(`/users/${userId}/follow`, {});
       const icerik = this.handleResponse<{ following: boolean }>(response);
@@ -74,6 +71,7 @@ export class UserService extends BaseService {
    * @param userId The ID of the player to add (oyuncubakid)
    */
   async addFriend(userId: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
@@ -92,6 +90,7 @@ export class UserService extends BaseService {
    * @param userId The ID of the player to remove (oyuncubakid)
    */
   async removeFriend(userId: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
@@ -111,6 +110,7 @@ export class UserService extends BaseService {
    * @param response The response (1 for accept, 0 for decline)
    */
   async respondToFriendRequest(userId: number, response: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
@@ -142,6 +142,7 @@ export class UserService extends BaseService {
    * Update the current user's profile information.
    */
   async updateProfile(data: Partial<User>): Promise<User | null> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>('/users/me/update', data);
       const icerik = this.handleResponse<any>(response);
@@ -167,6 +168,7 @@ export class UserService extends BaseService {
     provinceID?: number;
     passwordControl: string;
   }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('v1', '1');
@@ -254,6 +256,7 @@ export class UserService extends BaseService {
    * @param page The page number (sayfa)
    */
   async getInvitationsList(page: number = 1): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -270,6 +273,7 @@ export class UserService extends BaseService {
    * Refreshes the user's invitation code (Legacy).
    */
   async refreshInviteCode(): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetkodyenile/0/'), {});
       return this.handleResponse<any>(response);
@@ -285,6 +289,7 @@ export class UserService extends BaseService {
    * @param userId Optional ID of the player (userID)
    */
   async requestEmailVerificationUrl(userId?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -305,6 +310,7 @@ export class UserService extends BaseService {
    * @param userId The ID of the friend to poke (oyuncubakid)
    */
   async pokeFriend(userId: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
@@ -323,6 +329,7 @@ export class UserService extends BaseService {
    * @param teamId The ID of the team (favoritakimID)
    */
   async setFavoriteTeam(teamId: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('favoritakimID', teamId.toString());
@@ -387,6 +394,7 @@ export class UserService extends BaseService {
    * Fetches the notifications for the current user (Legacy).
    */
   async getNotifications(): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirim/0/0/'), {});
       return this.handleResponse<any>(response);
@@ -410,6 +418,7 @@ export class UserService extends BaseService {
     category?: NotificationCategory | string, 
     subCategory?: NotificationSubCategory | string
   ): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -436,6 +445,7 @@ export class UserService extends BaseService {
    * @param image The image file to upload (File, Blob, or File[])
    */
   async updateAvatar(image: File | Blob | File[]): Promise<any> {
+    this.requireAuth();
     try {
       const file = Array.isArray(image) ? image[0] : image;
       if (!file) return null;
@@ -455,6 +465,7 @@ export class UserService extends BaseService {
    * Resets the user's avatar to default (Legacy).
    */
   async resetAvatar(): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/avatar-varsayilan/0/0/'), {});
       return this.handleResponse<any>(response);
@@ -468,6 +479,7 @@ export class UserService extends BaseService {
    * Resets the user's profile banner to default (Legacy).
    */
   async resetBanner(): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/banner-varsayilan/0/0/'), {});
       return this.handleResponse<any>(response);
@@ -483,6 +495,7 @@ export class UserService extends BaseService {
    * @param image The image file to upload (File, Blob, or File[])
    */
   async updateBackground(image: File | Blob | File[]): Promise<any> {
+    this.requireAuth();
     try {
       const file = Array.isArray(image) ? image[0] : image;
       if (!file) return null;
@@ -505,6 +518,7 @@ export class UserService extends BaseService {
    * @param degree The rotation degree (e.g. -1 for clockwise, 90, 180, etc.)
    */
   async rotateMedia(photoId: number, degree: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('fotografID', photoId.toString());
@@ -524,6 +538,7 @@ export class UserService extends BaseService {
    * @param mediaId The ID of the media to delete
    */
   async deleteMedia(mediaId: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('medyaID', mediaId.toString());
@@ -543,6 +558,7 @@ export class UserService extends BaseService {
    * @param category Optional category for the upload
    */
   async uploadMedia(files: (File | Blob)[], category: MediaCategory | string = MediaCategory.ALL): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       files.forEach(file => {
@@ -562,6 +578,7 @@ export class UserService extends BaseService {
    * Fetches the user's notification settings (Legacy).
    */
   async getNotificationSettings(): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/ayarlar/liste/'), {});
       return this.handleResponse<any>(response);
@@ -577,6 +594,7 @@ export class UserService extends BaseService {
    * @param settings Record of settings (e.g. { paylasimbegeni: true })
    */
   async updateNotificationSettings(settings: Record<string, boolean | number>): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       Object.entries(settings).forEach(([key, value]) => {
@@ -584,10 +602,24 @@ export class UserService extends BaseService {
         formData.append('notification[]', `${key}=${val}`);
       });
 
-      const response = await this.client.post<any>(this.resolveBotPath('/deneme/deneme/bildirimler/ayarlar/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/ayarlar/0/'), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[UserService] Updating notification settings failed:`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Fetches the permissions/authorizations for the current user (Legacy).
+   */
+  async getPermissions(): Promise<any> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yetkiler/0/0/'), {});
+      return this.handleResponse<any>(response);
+    } catch (error) {
+      this.logger.error('[UserService] Fetching permissions failed:', error);
       return null;
     }
   }

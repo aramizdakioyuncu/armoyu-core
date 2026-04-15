@@ -19,6 +19,8 @@ export class GroupService extends BaseService {
    * @param response The response (1 for accept, 0 for decline)
    */
   async respondToInvitation(groupId: number, response: number): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
@@ -107,6 +109,8 @@ export class GroupService extends BaseService {
    * @param userIds Array of user IDs to invite
    */
   async inviteToGroup(groupId: number, userIds: number[]): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
@@ -130,6 +134,8 @@ export class GroupService extends BaseService {
    * @param file The media file to upload
    */
   async updateGroupMedia(groupId: number, category: string, file: File | Blob): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('groupID', groupId.toString());
@@ -150,6 +156,8 @@ export class GroupService extends BaseService {
    * @param groupId The ID of the group to leave
    */
   async leaveGroup(groupId: number): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
@@ -187,6 +195,8 @@ export class GroupService extends BaseService {
    * @param userId The ID of the user to kick
    */
   async kickFromGroup(groupId: number, userId: number): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
@@ -214,6 +224,8 @@ export class GroupService extends BaseService {
     website?: string;
     recruitmentStatus?: number | string;
   }): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('grupID', params.groupId.toString());

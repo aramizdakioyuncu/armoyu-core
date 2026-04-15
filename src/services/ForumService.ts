@@ -45,6 +45,7 @@ export class ForumService extends BaseService {
    * Create a new topic in a category.
    */
   async createTopic(categoryId: number, title: string, content: string): Promise<any> {
+    this.requireAuth();
     try {
       const response = await this.client.post<any>(`/community/forums/categories/${categoryId}/topics`, {
         title,
@@ -61,6 +62,7 @@ export class ForumService extends BaseService {
    * Delete a topic by its ID.
    */
   async deleteTopic(topicId: number): Promise<void> {
+    this.requireAuth();
     try {
       const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
       this.handleResponse(response);

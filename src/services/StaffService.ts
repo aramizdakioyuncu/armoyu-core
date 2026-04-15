@@ -54,6 +54,7 @@ export class StaffService extends BaseService {
     whyPosition: string,
     timeCommitment: string
   }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('positionID', params.positionId.toString());
@@ -78,6 +79,7 @@ export class StaffService extends BaseService {
    * @returns List of applications
    */
   async getApplications(page: number, limit?: number): Promise<StaffApplication[]> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

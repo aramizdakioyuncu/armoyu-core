@@ -49,6 +49,8 @@ export class PollService extends BaseService {
     endDate: string, 
     target?: number | string 
   }): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('anketsoru', params.question);
@@ -75,6 +77,8 @@ export class PollService extends BaseService {
    * @param optionId The ID of the selected option
    */
   async answerPoll(pollId: number | string, optionId: number | string): Promise<any> {
+    this.requireAuth();
+
     try {
       const formData = new FormData();
       formData.append('anketID', pollId.toString());

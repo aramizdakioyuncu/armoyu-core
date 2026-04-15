@@ -17,6 +17,7 @@ export class BusinessService extends BaseService {
    * @param userId Optional user ID to view schools for (oyuncubakid)
    */
   async getUserSchools(userId?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -37,6 +38,7 @@ export class BusinessService extends BaseService {
    * @param userId Optional user ID to view stations for (oyuncubakid)
    */
   async getUserStations(userId?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -62,6 +64,7 @@ export class BusinessService extends BaseService {
     branchId: string | number;
     classPassword?: string;
   }): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('isyeriidi', params.businessId.toString());

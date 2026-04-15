@@ -15,14 +15,15 @@ export abstract class BaseService {
   /**
    * Universal response handler for ARMOYU standard responses.
    * Extracts 'icerik' if 'durum' is 1, otherwise throws error with 'aciklama'.
+   * If the response doesn't have a 'durum' field but is an object/array, it is returned as-is.
    */
   protected handleResponse<T>(response: any): T {
-    // If it's a standard response object
+    // If it's a standard response object with 'durum'
     if (response && typeof response === 'object' && 'durum' in response) {
       const standardResponse = response as StandardApiResponse<T>;
       
       // Relaxed check: accept numeric or string "1" for success
-      if (Number(standardResponse.durum) === 1) {
+      if (standardResponse.durum != null && Number(standardResponse.durum) === 1) {
         return standardResponse.icerik;
       }
       
@@ -32,8 +33,12 @@ export abstract class BaseService {
       throw new Error(errorMsg);
     }
 
-    // ARMOYU SECURITY FIX: No longer allowing fallback for non-standard responses
-    // This prevents empty objects or malformed error responses from being treated as success.
+    // If it's a raw object or array without 'durum', return it as-is
+    if (response && (typeof response === 'object' || Array.isArray(response))) {
+      return response as T;
+    }
+
+    // ARMOYU SECURITY FIX: No longer allowing fallback for primitive non-standard responses
     const message = (response && typeof response === 'object') 
       ? (response.aciklama || JSON.stringify(response)) 
       : String(response || 'Bilinmeyen API Hatası');
@@ -63,5 +68,17 @@ export abstract class BaseService {
     }
 
     return path;
+  }
+
+  /**
+   * Helper to enforce authentication on sensitive operations.
+   * Throws an error if no authentication token is present in the client.
+   */
+  protected requireAuth(): void {
+    if (!(this.client as any).getToken()) {
+      const errorMsg = 'Bu işlem için giriş yapmalısınız.';
+      this.logger.error(`[${this.constructor.name}] Authentication required: ${errorMsg}`);
+      throw new Error(errorMsg);
+    }
   }
 }

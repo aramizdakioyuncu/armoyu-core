@@ -18,6 +18,7 @@ export class PaymentService extends BaseService {
    * @returns List of invoices
    */
   async getInvoices(): Promise<Invoice[]> {
+    this.requireAuth();
     try {
       const url = this.resolveBotPath('/0/0/odemeler/faturalar/0/');
       const response = await this.client.post<any>(url, {});
@@ -36,6 +37,7 @@ export class PaymentService extends BaseService {
    * @param paymentId The ID of the payment to process (paymentID)
    */
   async payInvoice(paymentId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('paymentID', paymentId.toString());

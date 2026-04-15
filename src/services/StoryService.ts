@@ -18,6 +18,7 @@ export class StoryService extends BaseService {
    * @param limit Results limit
    */
   async getStories(page: number, limit?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -39,6 +40,7 @@ export class StoryService extends BaseService {
    * @param mediaUrl The URL of the story media
    */
   async addStory(mediaUrl: string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayemedya', mediaUrl);
@@ -57,6 +59,7 @@ export class StoryService extends BaseService {
    * @param storyId The ID of the story to delete
    */
   async deleteStory(storyId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -75,6 +78,7 @@ export class StoryService extends BaseService {
    * @param storyId The ID of the story to hide
    */
   async hideStory(storyId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -93,6 +97,7 @@ export class StoryService extends BaseService {
    * @param storyId The ID of the story viewed
    */
   async viewStory(storyId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -113,6 +118,7 @@ export class StoryService extends BaseService {
    * @param limit Results limit
    */
   async getStoryViewers(page: number, storyId: number | string, limit?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -137,6 +143,7 @@ export class StoryService extends BaseService {
    * @param limit Results limit
    */
   async getStoryLikers(page: number, storyId: number | string, limit?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -159,6 +166,7 @@ export class StoryService extends BaseService {
    * @param storyId The ID of the story to like
    */
   async addLike(storyId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
@@ -177,6 +185,7 @@ export class StoryService extends BaseService {
    * @param storyId The ID of the story
    */
   async removeLike(storyId: number | string): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());

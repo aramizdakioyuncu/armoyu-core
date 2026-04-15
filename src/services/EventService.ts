@@ -71,6 +71,7 @@ export class EventService extends BaseService {
    * @returns Success status
    */
   async joinEvent(eventId: number): Promise<boolean> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('etkinlikID', String(eventId));
@@ -93,6 +94,7 @@ export class EventService extends BaseService {
    * @returns Success status
    */
   async respondToEvent(eventId: number, answer: 'evet' | 'hayir'): Promise<boolean> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('etkinlikID', String(eventId));

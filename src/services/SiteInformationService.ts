@@ -94,6 +94,7 @@ export class SiteInformationService extends BaseService {
    * @returns Raw message data or structured list of messages
    */
   async getSiteMessages(userId?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -115,6 +116,7 @@ export class SiteInformationService extends BaseService {
    * @returns Detailed message content
    */
   async getSiteMessageDetail(userId?: number): Promise<any> {
+    this.requireAuth();
     try {
       const formData = new FormData();
       if (userId !== undefined) {
