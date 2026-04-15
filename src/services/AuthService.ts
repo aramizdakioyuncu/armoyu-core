@@ -55,14 +55,13 @@ export class AuthService extends BaseService {
       const extractedToken = token || icerik?.token || icerik?.session_token || null;
       
       // EXTRA VALIDATION: Ensure we have a valid user ID and a token
-      if (!this.currentUser.id || !extractedToken) {
+      if (!this.currentUser.id) {
         this.logger.error('[AuthService] Login failed validation:', { 
           hasId: !!this.currentUser.id, 
-          hasToken: !!extractedToken,
           aciklama: data.aciklama,
           icerikItems: Object.keys(icerik || {})
         });
-        throw new Error('Geçersiz kullanıcı bilgileri veya token alınamadı.');
+        throw new Error('Geçersiz kullanıcı bilgileri alınamadı.');
       }
 
       this.session = new Session({

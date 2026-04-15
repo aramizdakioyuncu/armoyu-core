@@ -12,6 +12,8 @@ dist/
 build/
 .next/
 out/
+*.tgz
+*.tsbuildinfo
 
 # IDEs and Tools
 .vscode/

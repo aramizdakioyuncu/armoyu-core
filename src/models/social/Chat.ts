@@ -28,19 +28,34 @@ export class Chat {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): Chat {
+    const resolveKey = (keys: string[]): any => {
+      const foundKey = Object.keys(json).find(k => keys.includes(k.toLowerCase()));
+      return foundKey ? json[foundKey] : undefined;
+    };
+
+    const id = resolveKey(['id', 'id_user', 'user_id', 'oyuncubakid', 'oyuncuid', 'arkadasid', 'id_arkadas', 'groupid', 'grupid', 'sohbetid']);
+    const name = resolveKey(['name', 'displayname', 'user_displayname', 'oyuncuad', 'grupad', 'username', 'title', 'ad', 'adisoyadi']);
+    const avatarRaw = resolveKey(['avatar', 'oyuncuminnakavatar', 'grup_minnakavatar', 'logo', 'foto', 'profil_fotosu']);
+    const lastMsgRaw = resolveKey(['lastmessage', 'last_message', 'sonmesaj', 'son_mesaj']);
+    const time = resolveKey(['time', 'zaman', 'tarih', 'last_message_time', 'guncelletarih', 'songorusme']);
+    const unread = resolveKey(['unreadcount', 'unread_count', 'okunmamissayi', 'okunmamis_sayi', 'bildirim_sayi']);
+    const onlineRaw = resolveKey(['isonline', 'is_online', 'oyuncu_online', 'durum']);
+    const lastSeen = resolveKey(['lastseen', 'last_seen', 'songorulme', 'son_gorulme']);
+    const isGroupRaw = resolveKey(['isgroup', 'is_group', 'is_clube', 'groupid', 'grupid']);
+
     return new Chat({
-      id: String(json.id || json.id_user || json.user_id || json.arkadasID || json.oyuncubakid || json.oyuncuID || json.groupID || json.grupID || ''),
+      id: String(id || ''),
       participants: Array.isArray(json.participants) ? json.participants.map((p: Record<string, any>) => User.fromJSON(p)) : [],
-      name: json.name || json.displayname || json.displayName || json.user_displayname || json.oyuncuad || json.grupad || json.username || json.title || '',
-      avatar: typeof json.avatar === 'string' ? json.avatar : (json.avatar?.media_URL || json.oyuncuminnakavatar || json.grup_minnakavatar || json.logo || json.avatar || ''),
-      lastMessage: json.lastMessage ? ChatMessage.fromJSON(json.lastMessage) : (json.last_message ? ChatMessage.fromJSON(json.last_message) : null),
-      time: json.time || json.zaman || json.tarih || json.last_message_time || '',
-      unreadCount: json.unreadCount || json.unread_count || json.okunmamis_sayi || 0,
-      isOnline: json.isOnline || json.is_online || json.oyuncu_online === 1 || false,
-      lastSeen: json.lastSeen || json.last_seen || json.son_gorulme || '',
-      updatedAt: json.updatedAt || json.updated_at || 0,
-      isGroup: json.isGroup || json.is_group || json.grupID !== undefined || false,
-      isFavorite: json.isFavorite || json.is_favorite || false,
+      name: name || '',
+      avatar: typeof avatarRaw === 'string' ? avatarRaw : (avatarRaw?.media_URL || avatarRaw?.fotourl || ''),
+      lastMessage: lastMsgRaw ? ChatMessage.fromJSON(lastMsgRaw) : null,
+      time: time || '',
+      unreadCount: Number(unread || 0),
+      isOnline: onlineRaw === 1 || onlineRaw === true,
+      lastSeen: lastSeen || '',
+      updatedAt: json.updatedAt || json.updated_at || Date.now(),
+      isGroup: !!isGroupRaw,
+      isFavorite: !!json.isFavorite || !!json.is_favorite,
       messages: Array.isArray(json.messages) ? json.messages.map((m: any) => ChatMessage.fromJSON(m)) : (Array.isArray(json.liste) ? json.liste.map((m: any) => ChatMessage.fromJSON(m)) : []),
     });
   }

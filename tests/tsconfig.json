@@ -6,7 +6,8 @@
     "rootDir": "..",
     "paths": {
       "@armoyu/core": ["../src/index"]
-    }
+    },
+    "types": ["node"]
   },
   "include": [
     "**/*"
