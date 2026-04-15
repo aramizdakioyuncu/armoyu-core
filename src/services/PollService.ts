@@ -27,8 +27,7 @@ export class PollService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/anketler/liste/0/');
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/anketler/liste/${page}/`), formData);
       const data = this.handleResponse<any[]>(response);
       
       return Array.isArray(data) ? data.map(item => Poll.fromJSON(item)) : [];

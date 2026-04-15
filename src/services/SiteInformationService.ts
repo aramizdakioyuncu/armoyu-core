@@ -142,8 +142,9 @@ export class SiteInformationService extends BaseService {
       formData.append('etiket', params.tag);
       formData.append('sayfa', (params.page || 1).toString());
       formData.append('limit', (params.limit || 50).toString());
+      const page = params.page || 1;
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etiketler/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etiketler/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[SiteInformationService] Searching tags for ${params.tag} failed:`, error);
@@ -170,8 +171,9 @@ export class SiteInformationService extends BaseService {
       formData.append('kategoridetay', params.subCategory || '1');
       formData.append('sayfa', (params.page || 1).toString());
       formData.append('limit', (params.limit || 50).toString());
+      const page = params.page || 1;
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arama/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[SiteInformationService] Search for ${params.query} in ${params.category} failed:`, error);

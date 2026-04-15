@@ -17,16 +17,18 @@ export class StationService extends BaseService {
    * Fetches the list of stations (Legacy).
    * 
    * @param category Optional station category (e.g. 'yemek', 'cafe')
+   * @param page Optional page number (sayfa)
    * @returns List of platform stations
    */
-  async getStations(category?: string): Promise<PlatformStation[]> {
+  async getStations(category?: string, page: number = 1): Promise<PlatformStation[]> {
     try {
       const formData = new FormData();
       if (category !== undefined) {
         formData.append('kategori', category);
       }
+      formData.append('sayfa', page.toString());
 
-      const url = this.resolveBotPath('/0/0/istasyonlar/liste/0/');
+      const url = this.resolveBotPath(`/0/0/istasyonlar/liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       

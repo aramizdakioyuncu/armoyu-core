@@ -241,8 +241,9 @@ export class UserService extends BaseService {
       if (params.userId !== undefined) {
         formData.append('oyuncubakid', params.userId.toString());
       }
+      const page = params.page || 1;
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslarim/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arkadaslarim/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[UserService] Fetching friends list failed:`, error);
@@ -261,7 +262,7 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetliste/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/davetliste/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[UserService] Fetching invitations list failed:`, error);
@@ -361,8 +362,9 @@ export class UserService extends BaseService {
       formData.append('limit', (params.limit || 50).toString());
       formData.append('sayfa', (params.page || 1).toString());
       formData.append('kategori', params.category || 'all');
+      const page = params.page || 1;
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/medya/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[UserService] Fetching media failed:`, error);
@@ -431,7 +433,7 @@ export class UserService extends BaseService {
         formData.append('kategoridetay', subCategory);
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/bildirimler/${page}/0/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[UserService] Fetching notifications history failed:`, error);
@@ -634,7 +636,7 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
-      const url = this.resolveBotPath('/0/0/xpsiralama/0/0/');
+      const url = this.resolveBotPath(`/0/0/xpsiralama/${page}/0/`);
       const apiResponse = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(apiResponse);
       
@@ -655,7 +657,7 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
-      const url = this.resolveBotPath('/0/0/popsiralama/0/0/');
+      const url = this.resolveBotPath(`/0/0/popsiralama/${page}/0/`);
       const apiResponse = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(apiResponse);
       

@@ -68,8 +68,9 @@ export class GroupService extends BaseService {
         formData.append('kategori', params.category.toString());
       }
       formData.append('sayfa', (params.page || 1).toString());
+      const page = params.page || 1;
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/liste/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/gruplar/liste/${page}/`), formData);
       const data = this.handleResponse<any[]>(response);
       return Array.isArray(data) ? data.map((g: any) => Group.fromJSON(g)) : [];
     } catch (error) {

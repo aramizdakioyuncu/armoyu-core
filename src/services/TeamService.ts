@@ -16,16 +16,18 @@ export class TeamService extends BaseService {
    * Fetches the list of teams (Legacy).
    * 
    * @param favoriteTeamId Optional filter for a specific favorite team
+   * @param page Optional page number (sayfa)
    * @returns List of platform teams
    */
-  async getTeams(favoriteTeamId?: number | string): Promise<PlatformTeam[]> {
+  async getTeams(favoriteTeamId?: number | string, page: number = 1): Promise<PlatformTeam[]> {
     try {
       const formData = new FormData();
       if (favoriteTeamId !== undefined) {
         formData.append('favoritakimID', favoriteTeamId.toString());
       }
+      formData.append('sayfa', page.toString());
 
-      const url = this.resolveBotPath('/0/0/takimlar/liste/0/');
+      const url = this.resolveBotPath(`/0/0/takimlar/liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       

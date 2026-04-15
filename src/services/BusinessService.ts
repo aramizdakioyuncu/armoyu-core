@@ -16,15 +16,19 @@ export class BusinessService extends BaseService {
    * 
    * @param userId Optional user ID to view schools for (oyuncubakid)
    */
-  async getUserSchools(userId?: number): Promise<any> {
+  async getUserSchools(page: number = 1, limit?: number, userId?: number): Promise<any> {
     this.requireAuth();
     try {
       const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
       if (userId !== undefined) {
         formData.append('oyuncubakid', userId.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/okullarim/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/okullarim/${page}/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[BusinessService] Fetching player schools failed:`, error);
@@ -37,15 +41,19 @@ export class BusinessService extends BaseService {
    * 
    * @param userId Optional user ID to view stations for (oyuncubakid)
    */
-  async getUserStations(userId?: number): Promise<any> {
+  async getUserStations(page: number = 1, limit?: number, userId?: number): Promise<any> {
     this.requireAuth();
     try {
       const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
       if (userId !== undefined) {
         formData.append('oyuncubakid', userId.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istasyonlarim/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/istasyonlarim/${page}/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[BusinessService] Fetching player stations failed:`, error);

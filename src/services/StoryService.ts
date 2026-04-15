@@ -26,7 +26,7 @@ export class StoryService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/${page}/${limit || 0}/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error('[StoryService] Fetching stories failed:', error);
@@ -127,7 +127,7 @@ export class StoryService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/goruntuleyenler/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/goruntuleyenler/${page}/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[StoryService] Fetching story viewers for ${storyId} failed:`, error);
@@ -152,7 +152,7 @@ export class StoryService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/begenenler/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/begenenler/${page}/`), formData);
       return this.handleResponse<any>(response);
     } catch (error) {
       this.logger.error(`[StoryService] Fetching story likers for ${storyId} failed:`, error);

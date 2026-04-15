@@ -28,7 +28,7 @@ export class SearchService extends BaseService {
       formData.append('limit', String(limit));
       formData.append('kategoridetay', ''); // Left empty as per user request
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arama/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
       const icerik = this.handleResponse<any[]>(response);
       
       return Array.isArray(icerik) ? icerik.map(item => SearchResult.fromJSON(item)) : [];

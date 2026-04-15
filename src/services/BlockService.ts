@@ -28,7 +28,7 @@ export class BlockService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/engel/0/0/');
+      const url = this.resolveBotPath(`/0/0/engel/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
@@ -50,7 +50,7 @@ export class BlockService extends BaseService {
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const url = this.resolveBotPath('/0/0/engel/ekle/0/');
+      const url = this.resolveBotPath(`/0/0/engel/ekle/${userId}/`);
       const response = await this.client.post<any>(url, formData);
       return this.handleResponse<any>(response);
     } catch (error) {
@@ -70,7 +70,7 @@ export class BlockService extends BaseService {
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const url = this.resolveBotPath('/0/0/engel/sil/0/');
+      const url = this.resolveBotPath(`/0/0/engel/sil/${userId}/`);
       const response = await this.client.post<any>(url, formData);
       return this.handleResponse<any>(response);
     } catch (error) {

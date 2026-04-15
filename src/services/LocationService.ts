@@ -28,7 +28,7 @@ export class LocationService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/ulkeler/0/0/');
+      const url = this.resolveBotPath(`/0/0/ulkeler/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
@@ -56,7 +56,7 @@ export class LocationService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/iller/0/0/');
+      const url = this.resolveBotPath(`/0/0/iller/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       

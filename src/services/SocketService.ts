@@ -7,6 +7,7 @@ export type SocketEvent =
   | 'notification'
   | 'post'
   | 'post_like'
+  | 'post_delete'
   | 'post_repost_count'
   | 'connect'
   | 'disconnect';
@@ -70,6 +71,7 @@ export class SocketService {
         'status',
         'post',
         'post_like',
+        'post_delete',
         'post_repost_count',
       ];
 

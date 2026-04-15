@@ -5,7 +5,8 @@ import {
   Shield, Users, MessageSquare, Newspaper,
   ShoppingBag, Scale, LifeBuoy, Zap,
   Terminal, Globe, Info, Trash2, CheckCircle2, AlertCircle,
-  Lock, Send, RefreshCw
+  Lock, Send, RefreshCw, LayoutGrid, Trophy, Radio, Award, Ban,
+  Camera, MapPin, UserCheck, CreditCard
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -46,6 +47,16 @@ const SERVICE_ICONS: Record<string, any> = {
   siteInfo: Info,
   groups: Users,
   management: Shield,
+  projects: LayoutGrid,
+  teams: Trophy,
+  stations: Radio,
+  business: Award,
+  chat: MessageSquare,
+  blocks: Ban,
+  stories: Camera,
+  locations: MapPin,
+  staff: UserCheck,
+  payments: CreditCard,
 };
 
 // --- Helper Components ---
@@ -70,19 +81,19 @@ const ResultTree = ({ data, label, initialOpen = false }: { data: any, label?: s
 
   return (
     <div className="ml-2 border-l border-white/5 pl-3 py-0.5">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 hover:bg-white/5 rounded px-1 -ml-1 transition-all group"
       >
         <div className={cn("w-3 h-3 flex items-center justify-center text-[8px] transition-transform", isOpen ? "rotate-90" : "rotate-0")}>
-          
+
         </div>
         {label && <span className="text-gray-400 font-bold text-[11px]">{label}:</span>}
         <span className="text-[10px] text-gray-600 font-mono">
           {Array.isArray(data) ? `Array[${data.length}]` : `Object{${Object.keys(data).length}}`}
         </span>
       </button>
-      
+
       {isOpen && !isEmpty && (
         <div className="mt-1 space-y-1">
           {Object.entries(data).map(([key, value]) => (
@@ -146,10 +157,30 @@ const CONFIG = {
       { id: "getPopRankings", name: "Popularity Rankings", method: "POST", endpoint: "/0/0/popsiralama/0/0/", inputs: ["sayfa"], desc: "View popularity leaderboard", auth: true }
     ]
   },
+  projects: {
+    title: "ProjectService",
+    actions: [
+      { id: "getScoreList", name: "Get Score List", method: "POST", endpoint: "/0/0/projeler/icerik-liste/0/", inputs: ["sayfa"], desc: "Fetch project leaderboards", auth: false },
+      { id: "saveScore", name: "Save Score", method: "POST", endpoint: "/0/0/projeler/icerik-kaydet/0/", inputs: ["projeID", "skor"], desc: "Save player score", auth: true }
+    ]
+  },
+  teams: {
+    title: "TeamService",
+    actions: [
+      { id: "getTeams", name: "List Teams", method: "POST", endpoint: "/0/0/takimlar/liste/0/", inputs: ["favoritakimID", "sayfa"], desc: "Fetch platform teams", auth: false }
+    ]
+  },
+  stations: {
+    title: "StationService",
+    actions: [
+      { id: "getStations", name: "List Stations", method: "POST", endpoint: "/0/0/istasyonlar/liste/0/", inputs: ["kategori", "sayfa"], desc: "Fetch platform stations", auth: false },
+      { id: "getStationEquipment", name: "Station Equipment", method: "POST", endpoint: "/0/0/istasyonlar/ekipmanlar/0/", inputs: ["istasyonID"], desc: "Fetch available equipment", auth: false }
+    ]
+  },
   social: {
     title: "SocialService",
     actions: [
-      { id: "getPosts", name: "List Posts", method: "POST", endpoint: "/0/0/sosyal/liste/0/", inputs: ["postID", "category", "categorydetail"], desc: "Fetch social feed or specific post", auth: true },
+      { id: "getPosts", name: "List Posts", method: "POST", endpoint: "/0/0/sosyal/liste/0/", inputs: ["sayfa", "postID", "category", "categorydetail"], desc: "Fetch social feed or specific post", auth: true },
       { id: "createPost", name: "Create Post", method: "POST", endpoint: "/0/0/sosyal/olustur/0/", inputs: ["sosyalicerik", "paylasimfoto[]"], desc: "Create new post with media IDs", auth: true },
       { id: "deletePost", name: "Delete Post", method: "POST", endpoint: "/0/0/sosyal/sil/0/", inputs: ["postID"], desc: "Remove a post", auth: true },
       { id: "getLikers", name: "List Likers", method: "POST", endpoint: "/0/0/sosyal/begenenler/0/", inputs: ["postID", "yorumID"], desc: "See who liked a post or comment", auth: true },
@@ -164,7 +195,7 @@ const CONFIG = {
   blog: {
     title: "BlogService",
     actions: [
-      { id: "getNews", name: "Get News", method: "POST", endpoint: "/0/0/haberler/0/0/", inputs: [], desc: "Fetch platform news", auth: false }
+      { id: "getNews", name: "Get News", method: "POST", endpoint: "/0/0/haberler/0/0/", inputs: ["sayfa", "limit"], desc: "Fetch platform news", auth: false }
     ]
   },
   search: {
@@ -225,7 +256,15 @@ const CONFIG = {
       { id: "sendMessage", name: "Send Message", method: "POST", endpoint: "/0/0/sohbetgonder/0/0/", inputs: ["userId", "content", "type"], desc: "Send private/group message", auth: true },
       { id: "getChatHistory", name: "Chat History", method: "POST", endpoint: "/0/0/sohbet/0/0/", inputs: ["userId", "page", "limit"], desc: "Fetch messages with a user", auth: true },
       { id: "getFriendsChat", name: "Friends Chat", method: "POST", endpoint: "/0/0/sohbet/arkadaslarim/0/", inputs: ["page", "limit"], desc: "Fetch recent chat list", auth: true },
-      { id: "getChatDetail", name: "Chat Detail", method: "POST", endpoint: "/0/0/sohbetdetay/0/0/", inputs: ["chatId", "type"], desc: "Fetch detailed chat info", auth: true }
+      { id: "getChatDetail", name: "Chat Detail", method: "POST", endpoint: "/0/0/sohbetdetay/0/0/", inputs: ["chatId", "type"], desc: "Fetch detailed messages", auth: true }
+    ]
+  },
+  blocks: {
+    title: "BlockService",
+    actions: [
+      { id: "getBlockedUsers", name: "List Blocked", method: "POST", endpoint: "/0/0/engel/0/0/", inputs: ["page", "limit"], desc: "Fetch your block list", auth: true },
+      { id: "blockUser", name: "Block User", method: "POST", endpoint: "/0/0/engel/ekle/0/", inputs: ["userID"], desc: "Add user to blacklist", auth: true },
+      { id: "unblockUser", name: "Unblock User", method: "POST", endpoint: "/0/0/engel/sil/0/", inputs: ["userID"], desc: "Remove user from blacklist", auth: true }
     ]
   },
   management: {
@@ -234,8 +273,37 @@ const CONFIG = {
       { id: "getManagementContent", name: "Management Panel", method: "POST", endpoint: "/0/0/yonetim-paneli/0/0/", inputs: ["category"], desc: "Fetch admin panel metrics", auth: true },
       { id: "getMeetings", name: "List Meetings", method: "POST", endpoint: "/0/0/yonetim-paneli/0/0/", inputs: [], desc: "Fetch meeting records", auth: true }
     ]
+  },
+  stories: {
+    title: "StoryService",
+    actions: [
+      { id: "getStories", name: "Get Stories", method: "POST", endpoint: "/0/0/hikaye/0/0/", inputs: ["page", "limit"], desc: "Fetch recent stories", auth: true },
+      { id: "getStoryViewers", name: "Story Viewers", method: "POST", endpoint: "/0/0/hikaye/goruntuleyenler/0/", inputs: ["storyId", "page"], desc: "Fetch story viewers", auth: true },
+      { id: "getStoryLikers", name: "Story Likers", method: "POST", endpoint: "/0/0/hikaye/begenenler/0/", inputs: ["storyId", "page"], desc: "Fetch story likers", auth: true }
+    ]
+  },
+  locations: {
+    title: "LocationService",
+    actions: [
+      { id: "getCountries", name: "Get Countries", method: "POST", endpoint: "/0/0/ulkeler/0/0/", inputs: ["page", "limit"], desc: "Fetch country list", auth: false },
+      { id: "getProvinces", name: "Get Provinces", method: "POST", endpoint: "/0/0/iller/0/0/", inputs: ["countryId", "page", "limit"], desc: "Fetch province list", auth: false }
+    ]
+  },
+  staff: {
+    title: "StaffService",
+    actions: [
+      { id: "getStaff", name: "Official Team", method: "POST", endpoint: "/0/0/ekibimiz/0/0/", inputs: ["page", "category", "limit"], desc: "Fetch team members", auth: false },
+      { id: "getApplications", name: "Applications", method: "POST", endpoint: "/0/0/ekibimiz/basvurular/0/", inputs: ["page", "limit"], desc: "Fetch staff join requests", auth: true }
+    ]
+  },
+  payments: {
+    title: "PaymentService",
+    actions: [
+      { id: "getInvoices", name: "Get Invoices", method: "POST", endpoint: "/0/0/odemeler/faturalar/0/", inputs: ["page"], desc: "Fetch your billing list", auth: true }
+    ]
   }
 };
+
 
 export default function Dashboard() {
   const router = useRouter();
@@ -247,10 +315,10 @@ export default function Dashboard() {
   const [files, setFiles] = useState<Record<string, File | File[]>>({});
   const [actionResults, setActionResults] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState<string | null>(null);
-  
+
   const [portalUser, setPortalUser] = useState<any>(null); // Who is using the portal
   const [testUser, setTestUser] = useState<any>(null);     // Who the API is currently testing
-  
+
   const consoleEndRef = useRef<HTMLDivElement>(null);
 
   // Library instance
@@ -261,7 +329,7 @@ export default function Dashboard() {
     const savedToken = localStorage.getItem('armoyu_test_token');
     const savedPortalUser = localStorage.getItem('armoyu_portal_user');
     const savedTestUser = localStorage.getItem('armoyu_test_user');
-    
+
     if (savedPortalUser) setPortalUser(JSON.parse(savedPortalUser));
 
     if (savedKey) setApiKey(savedKey);
@@ -321,13 +389,13 @@ export default function Dashboard() {
         if (action.id === 'login') {
           const authResult = await api.auth.login(inputs.username, inputs.password);
           result = authResult;
-          
+
           const newToken = authResult.session?.token;
           if (newToken) {
             setTestToken(newToken);
             localStorage.setItem('armoyu_test_token', newToken);
           }
-          
+
           setTestUser(authResult.user);
           localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.user));
         } else if (action.id === 'register') {
@@ -461,15 +529,21 @@ export default function Dashboard() {
         }
       } else if (activeService === 'blog') {
         if (action.id === 'getNews') {
-          result = await api.blog.getNewsLegacy();
+          result = await api.blog.getNewsLegacy(
+            inputs.sayfa ? Number(inputs.sayfa) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
         }
       } else if (activeService === 'social') {
         if (action.id === 'getPosts') {
-          result = await api.social.getPosts({
-            postId: inputs.postID ? Number(inputs.postID) : undefined,
-            category: inputs.category,
-            categoryDetail: inputs.categorydetail
-          });
+          result = await api.social.getPosts(
+            inputs.sayfa ? Number(inputs.sayfa) : 1,
+            {
+              postId: inputs.postID ? Number(inputs.postID) : undefined,
+              category: inputs.category,
+              categoryDetail: inputs.categorydetail
+            }
+          );
         } else if (action.id === 'createPost') {
           const mediaIds = inputs['paylasimfoto[]'] ? inputs['paylasimfoto[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id)) : undefined;
           result = await api.social.createPost(inputs.sosyalicerik, mediaIds);
@@ -594,9 +668,17 @@ export default function Dashboard() {
         }
       } else if (activeService === 'business') {
         if (action.id === 'getUserSchools') {
-          result = await api.business.getUserSchools(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+          result = await api.business.getUserSchools(
+            inputs.sayfa ? Number(inputs.sayfa) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined,
+            inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined
+          );
         } else if (action.id === 'getUserStations') {
-          result = await api.business.getUserStations(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
+          result = await api.business.getUserStations(
+            inputs.sayfa ? Number(inputs.sayfa) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined,
+            inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined
+          );
         }
       } else if (activeService === 'chat') {
         if (action.id === 'sendMessage') {
@@ -606,21 +688,36 @@ export default function Dashboard() {
             type: inputs.type
           });
         } else if (action.id === 'getChatHistory') {
-          result = await api.chat.getChatHistory({
-            userId: Number(inputs.userId),
-            page: inputs.page ? Number(inputs.page) : undefined,
-            limit: inputs.limit ? Number(inputs.limit) : undefined
-          });
+          result = await api.chat.getChatHistory(
+            inputs.page ? Number(inputs.page) : 1,
+            {
+              userId: Number(inputs.userId),
+              limit: inputs.limit ? Number(inputs.limit) : undefined
+            }
+          );
         } else if (action.id === 'getFriendsChat') {
-          result = await api.chat.getFriendsChat({
-            page: inputs.page ? Number(inputs.page) : undefined,
-            limit: inputs.limit ? Number(inputs.limit) : undefined
-          });
+          result = await api.chat.getFriendsChat(
+            inputs.page ? Number(inputs.page) : 1,
+            {
+              limit: inputs.limit ? Number(inputs.limit) : undefined
+            }
+          );
         } else if (action.id === 'getChatDetail') {
           result = await api.chat.getChatDetail({
             chatId: Number(inputs.chatId),
             type: inputs.type
           });
+        }
+      } else if (activeService === 'blocks') {
+        if (action.id === 'getBlockedUsers') {
+          result = await api.blocks.getBlockedUsers(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        } else if (action.id === 'blockUser') {
+          result = await api.blocks.blockUser(inputs.userID);
+        } else if (action.id === 'unblockUser') {
+          result = await api.blocks.unblockUser(inputs.userID);
         }
       } else if (activeService === 'management') {
         if (action.id === 'getManagementContent') {
@@ -628,22 +725,93 @@ export default function Dashboard() {
         } else if (action.id === 'getMeetings') {
           result = await api.management.getMeetings();
         }
+      } else if (activeService === 'stories') {
+        if (action.id === 'getStories') {
+          result = await api.stories.getStories(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        } else if (action.id === 'getStoryViewers') {
+          result = await api.stories.getStoryViewers(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.storyId
+          );
+        } else if (action.id === 'getStoryLikers') {
+          result = await api.stories.getStoryLikers(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.storyId
+          );
+        }
+      } else if (activeService === 'locations') {
+        if (action.id === 'getCountries') {
+          result = await api.locations.getCountries(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        } else if (action.id === 'getProvinces') {
+          result = await api.locations.getProvinces(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.countryId,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        }
+      } else if (activeService === 'staff') {
+        if (action.id === 'getStaff') {
+          result = await api.staff.getStaff(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.category,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        } else if (action.id === 'getApplications') {
+          result = await api.staff.getApplications(
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : undefined
+          );
+        }
+      } else if (activeService === 'payments') {
+        if (action.id === 'getInvoices') {
+          result = await api.payments.getInvoices(
+            inputs.page ? Number(inputs.page) : 1
+          );
+        }
+      } else if (activeService === 'search') {
+        if (action.id === 'getScoreList') {
+          result = await api.projects.getScoreList(inputs.sayfa ? Number(inputs.sayfa) : 1);
+        } else if (action.id === 'saveScore') {
+          result = await api.projects.saveScore(inputs.projeID, inputs.skor);
+        }
+      } else if (activeService === 'projects') {
+        if (action.id === 'getScoreList') {
+          result = await api.projects.getScoreList(inputs.sayfa ? Number(inputs.sayfa) : 1);
+        } else if (action.id === 'saveScore') {
+          result = await api.projects.saveScore(inputs.projeID, inputs.skor);
+        }
+      } else if (activeService === 'teams') {
+        if (action.id === 'getTeams') {
+          result = await api.teams.getTeams(inputs.favoritakimID, inputs.sayfa ? Number(inputs.sayfa) : 1);
+        }
+      } else if (activeService === 'stations') {
+        if (action.id === 'getStations') {
+          result = await api.stations.getStations(inputs.kategori, inputs.sayfa ? Number(inputs.sayfa) : 1);
+        } else if (action.id === 'getStationEquipment') {
+          result = await api.stations.getStationEquipment(inputs.istasyonID);
+        }
       }
 
       const rawResponse = (apiRef.current as any)?.lastResponse || result;
-      
+
       // Store both raw and mapped result per action
-      setActionResults(prev => ({ 
-        ...prev, 
-        [action.id + activeService]: { 
-          raw: rawResponse, 
+      setActionResults(prev => ({
+        ...prev,
+        [action.id + activeService]: {
+          raw: rawResponse,
           mapped: result,
           view: 'mapped' // Default to class view to show the result of "giydirme"
-        } 
+        }
       }));
 
-      addLog(LogType.RESPONSE, `Success: ${action.name}`, null, { 
-        status: 1, 
+      addLog(LogType.RESPONSE, `Success: ${action.name}`, null, {
+        status: 1,
         aciklama: rawResponse?.aciklama || "lem Baarl",
         endpoint: action.endpoint
       });
@@ -666,10 +834,10 @@ export default function Dashboard() {
     // Clear only Test session
     localStorage.removeItem('armoyu_test_token');
     localStorage.removeItem('armoyu_test_user');
-    
+
     setTestUser(null);
     setTestToken('');
-    
+
     addLog(LogType.INFO, 'Test Session Ended', { message: 'The test user session has been cleared. You are still in the dashboard.' });
   };
 
@@ -678,22 +846,22 @@ export default function Dashboard() {
     document.cookie = "armoyu_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     localStorage.removeItem('armoyu_token');
     localStorage.removeItem('armoyu_portal_user');
-    
+
     // Clear everything else too
     localStorage.removeItem('armoyu_test_token');
     localStorage.removeItem('armoyu_test_user');
-    
+
     setPortalUser(null);
     setTestUser(null);
     setTestToken('');
-    
+
     // Force full reload to / to ensure all state is cleared and middleware is triggered
     window.location.href = '/';
   };
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar 
+      <Sidebar
         activeService={activeService}
         setActiveService={setActiveService}
         apiKey={apiKey}
@@ -707,10 +875,10 @@ export default function Dashboard() {
       />
 
       <main className="flex-1 flex flex-col overflow-hidden bg-[var(--background)]">
-        <Navbar 
-          user={portalUser} 
-          apiKey={apiKey} 
-          onLogout={handlePortalLogout} 
+        <Navbar
+          user={portalUser}
+          apiKey={apiKey}
+          onLogout={handlePortalLogout}
           onNavigateAuth={() => setActiveService('auth')}
           activeServiceTitle={(CONFIG as any)[activeService].title}
           icon={SERVICE_ICONS[activeService] || Zap}
@@ -798,7 +966,7 @@ export default function Dashboard() {
                   disabled={!!loading || (action.auth && !testToken)}
                   className={cn(
                     "w-full py-4 rounded-xl text-sm font-bold tracking-widest transition-all flex items-center justify-center gap-3 border",
-                    loading === action.id 
+                    loading === action.id
                       ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400"
                       : (action.auth && !testToken)
                         ? "bg-red-500/5 border-red-500/10 text-red-500/50 cursor-not-allowed"
@@ -806,10 +974,10 @@ export default function Dashboard() {
                   )}
                 >
                   {loading === action.id ? <RefreshCw className="w-5 h-5 animate-spin" /> : (action.auth && !testToken) ? <Lock className="w-5 h-5" /> : <Send className="w-5 h-5" />}
-                  {loading === action.id 
-                    ? 'EXECUTING...' 
-                    : (action.auth && !testToken) 
-                      ? 'LOCKED - LOGIN REQUIRED' 
+                  {loading === action.id
+                    ? 'EXECUTING...'
+                    : (action.auth && !testToken)
+                      ? 'LOCKED - LOGIN REQUIRED'
                       : `EXECUTE ${action.name.toUpperCase()}`}
                 </button>
 
@@ -819,10 +987,10 @@ export default function Dashboard() {
                       <div className="flex items-center gap-4">
                         <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Result Explorer</span>
                         <div className="flex bg-white/5 p-0.5 rounded-lg border border-white/5">
-                          <button 
-                            onClick={() => setActionResults(prev => ({ 
-                              ...prev, 
-                              [action.id + activeService]: { ...prev[action.id + activeService], view: 'raw' } 
+                          <button
+                            onClick={() => setActionResults(prev => ({
+                              ...prev,
+                              [action.id + activeService]: { ...prev[action.id + activeService], view: 'raw' }
                             }))}
                             className={cn(
                               "px-2 py-1 text-[9px] font-bold rounded-md transition-all",
@@ -831,10 +999,10 @@ export default function Dashboard() {
                           >
                             RAW JSON
                           </button>
-                          <button 
-                            onClick={() => setActionResults(prev => ({ 
-                              ...prev, 
-                              [action.id + activeService]: { ...prev[action.id + activeService], view: 'mapped' } 
+                          <button
+                            onClick={() => setActionResults(prev => ({
+                              ...prev,
+                              [action.id + activeService]: { ...prev[action.id + activeService], view: 'mapped' }
                             }))}
                             className={cn(
                               "px-2 py-1 text-[9px] font-bold rounded-md transition-all",
@@ -845,8 +1013,8 @@ export default function Dashboard() {
                           </button>
                         </div>
                       </div>
-                      <button 
-                        onClick={() => setActionResults(prev => { 
+                      <button
+                        onClick={() => setActionResults(prev => {
                           const next = { ...prev };
                           delete next[action.id + activeService];
                           return next;
@@ -857,13 +1025,13 @@ export default function Dashboard() {
                       </button>
                     </div>
                     <div className="max-h-[400px] overflow-y-auto scrollbar-hide">
-                      <ResultTree 
+                      <ResultTree
                         data={
-                          actionResults[action.id + activeService].view === 'mapped' 
+                          actionResults[action.id + activeService].view === 'mapped'
                             ? JSON.parse(JSON.stringify(actionResults[action.id + activeService].mapped))
                             : actionResults[action.id + activeService].raw
-                        } 
-                        initialOpen={true} 
+                        }
+                        initialOpen={true}
                       />
                     </div>
                   </div>
@@ -890,14 +1058,14 @@ export default function Dashboard() {
               {logs.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center opacity-20 pointer-events-none">
                   <Terminal className="w-12 h-12 mb-4" />
-                  <p className="text-center text-sm font-bold tracking-tight">System Ready.<br/>Await command execution...</p>
+                  <p className="text-center text-sm font-bold tracking-tight">System Ready.<br />Await command execution...</p>
                 </div>
               ) : (
                 logs.map(log => (
                   <div key={log.id} className={cn(
                     "p-4 rounded-xl border leading-relaxed",
                     log.type === LogType.REQUEST ? "bg-white/5 border-white/10" :
-                      log.type === LogType.RESPONSE ? "bg-emerald-500/5 border-emerald-500/20" : 
+                      log.type === LogType.RESPONSE ? "bg-emerald-500/5 border-emerald-500/20" :
                         log.type === LogType.INFO ? "bg-blue-500/5 border-blue-500/20" : "bg-red-500/5 border-red-500/20"
                   )}>
                     <div className="flex items-center justify-between mb-3 border-b border-white/5 pb-2">
@@ -905,12 +1073,12 @@ export default function Dashboard() {
                         {log.type === LogType.REQUEST ? <Globe className="w-3.5 h-3.5 text-gray-400" /> :
                           log.type === LogType.RESPONSE ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> :
                             log.type === LogType.INFO ? <Zap className="w-3.5 h-3.5 text-blue-500" /> :
-                            <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
+                              <AlertCircle className="w-3.5 h-3.5 text-red-500" />}
                         <span className={cn(
                           "font-black uppercase tracking-tighter",
-                          log.type === LogType.REQUEST ? "text-gray-300" : 
-                          log.type === LogType.RESPONSE ? "text-emerald-500" : 
-                          log.type === LogType.INFO ? "text-blue-500" : "text-red-500"
+                          log.type === LogType.REQUEST ? "text-gray-300" :
+                            log.type === LogType.RESPONSE ? "text-emerald-500" :
+                              log.type === LogType.INFO ? "text-blue-500" : "text-red-500"
                         )}>
                           {log.type}
                         </span>

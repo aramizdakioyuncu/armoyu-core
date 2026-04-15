@@ -44,7 +44,7 @@ export class BlogService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/0/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/haberler/${page}/${limit || 0}/`), formData);
       const icerik = this.handleResponse<any[]>(response);
       return Array.isArray(icerik) ? icerik.map(n => News.fromJSON(n)) : [];
     } catch (error) {

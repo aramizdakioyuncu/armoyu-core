@@ -15,12 +15,16 @@ export class ProjectService extends BaseService {
   /**
    * Fetches the scores/leaderboard for projects (Legacy).
    * 
+   * @param page Optional page number (sayfa)
    * @returns List of project scores
    */
-  async getScoreList(): Promise<ProjectScore[]> {
+  async getScoreList(page: number = 1): Promise<ProjectScore[]> {
     try {
-      const url = this.resolveBotPath('/0/0/projeler/icerik-liste/0/');
-      const response = await this.client.post<any>(url, {});
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+
+      const url = this.resolveBotPath(`/0/0/projeler/icerik-liste/${page}/`);
+      const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
       return Array.isArray(data) ? data.map(item => ProjectScore.fromJSON(item)) : [];

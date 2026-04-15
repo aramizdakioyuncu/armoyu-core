@@ -17,11 +17,14 @@ export class PaymentService extends BaseService {
    * 
    * @returns List of invoices
    */
-  async getInvoices(): Promise<Invoice[]> {
+  async getInvoices(page: number = 1): Promise<Invoice[]> {
     this.requireAuth();
     try {
-      const url = this.resolveBotPath('/0/0/odemeler/faturalar/0/');
-      const response = await this.client.post<any>(url, {});
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      
+      const url = this.resolveBotPath(`/0/0/odemeler/faturalar/${page}/`);
+      const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
       return Array.isArray(data) ? data.map(item => Invoice.fromJSON(item)) : [];

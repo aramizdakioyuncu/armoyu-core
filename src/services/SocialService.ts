@@ -37,7 +37,8 @@ export class SocialService extends BaseService {
         formData.append('categorydetail', params.categoryDetail.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/liste/0/'), formData);
+      this.logger.debug?.(`[SocialService] Fetching posts: page=${page}, endpoint=/sosyal/liste/${page}/`);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sosyal/liste/${page}/`), formData);
       
       if (response && response.durum != null && Number(response.durum) === 1) {
         if (Array.isArray(response.icerik)) {

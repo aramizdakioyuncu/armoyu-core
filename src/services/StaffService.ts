@@ -32,7 +32,7 @@ export class StaffService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/ekibimiz/0/0/');
+      const url = this.resolveBotPath(`/0/0/ekibimiz/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
@@ -87,7 +87,7 @@ export class StaffService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const url = this.resolveBotPath('/0/0/ekibimiz/basvurular/0/');
+      const url = this.resolveBotPath(`/0/0/ekibimiz/basvurular/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
       
