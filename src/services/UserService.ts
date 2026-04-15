@@ -228,20 +228,20 @@ export class UserService extends BaseService {
   }
 
   /**
-   * Fetches the friends list for a specific player (Legacy).
+   * Fetches the friends list for a specific player.
    * 
-   * @param params Pagination and specific player ID
+   * @param page Requested page number - MANDATORY
+   * @param params Filtering and specific player ID
    */
-  async getFriendsList(params: { userId?: number, page?: number, limit?: number } = {}): Promise<any> {
+  async getFriendsList(page: number, params: { userId?: number, limit?: number } = {}): Promise<any> {
     try {
       const formData = new FormData();
-      formData.append('sayfa', (params.page || 1).toString());
+      formData.append('sayfa', page.toString());
       formData.append('limit', (params.limit || 100).toString());
       
       if (params.userId !== undefined) {
         formData.append('oyuncubakid', params.userId.toString());
       }
-      const page = params.page || 1;
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arkadaslarim/${page}/0/`), formData);
       return this.handleResponse<any>(response);
@@ -344,25 +344,24 @@ export class UserService extends BaseService {
   }
 
   /**
-   * Fetches the media (photos/videos) for a specific player (Legacy).
+   * Fetches the media (photos/videos) for a specific player.
    * 
-   * @param params Filtering and pagination options
+   * @param page Requested page number - MANDATORY
+   * @param params Filtering options
    */
-  async getUserMedia(params: { 
+  async getUserMedia(page: number, params: { 
     userId?: number, 
     limit?: number, 
-    page?: number, 
     category?: MediaCategory | string 
-  }): Promise<any> {
+  } = {}): Promise<any> {
     try {
       const formData = new FormData();
       if (params.userId !== undefined) {
         formData.append('oyuncubakid', params.userId.toString());
       }
       formData.append('limit', (params.limit || 50).toString());
-      formData.append('sayfa', (params.page || 1).toString());
+      formData.append('sayfa', page.toString());
       formData.append('kategori', params.category || 'all');
-      const page = params.page || 1;
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/medya/${page}/0/`), formData);
       return this.handleResponse<any>(response);

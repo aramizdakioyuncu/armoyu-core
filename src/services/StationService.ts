@@ -14,13 +14,13 @@ export class StationService extends BaseService {
   }
 
   /**
-   * Fetches the list of stations (Legacy).
+   * Fetches the list of stations.
    * 
+   * @param page Requested page number - MANDATORY
    * @param category Optional station category (e.g. 'yemek', 'cafe')
-   * @param page Optional page number (sayfa)
    * @returns List of platform stations
    */
-  async getStations(category?: string, page: number = 1): Promise<PlatformStation[]> {
+  async getStations(page: number, category?: string): Promise<PlatformStation[]> {
     try {
       const formData = new FormData();
       if (category !== undefined) {

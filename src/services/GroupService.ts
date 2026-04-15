@@ -57,18 +57,18 @@ export class GroupService extends BaseService {
   }
 
   /**
-   * Fetches a list of all groups with filtering and pagination (Legacy).
+   * Fetches a list of all groups with filtering and pagination.
    * 
-   * @param params Filtering and pagination options
+   * @param page Requested page number
+   * @param params Filtering options
    */
-  async getGroups(params: { category?: string | number, page?: number } = {}): Promise<Group[]> {
+  async getGroups(page: number, params: { category?: string | number } = {}): Promise<Group[]> {
     try {
       const formData = new FormData();
       if (params.category !== undefined) {
         formData.append('kategori', params.category.toString());
       }
-      formData.append('sayfa', (params.page || 1).toString());
-      const page = params.page || 1;
+      formData.append('sayfa', page.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/gruplar/liste/${page}/`), formData);
       const data = this.handleResponse<any[]>(response);

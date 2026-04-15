@@ -15,21 +15,20 @@ export class EventService extends BaseService {
   /**
    * Fetches a list of events from the platform with advanced filtering.
    * 
-   * @param params Filtering and pagination options
+   * @param page Requested page number
+   * @param params Filtering options
    * @returns List of enriched ArmoyuEvent objects
    */
-  async getEvents(params: {
+  async getEvents(page: number, params: {
     gameId?: number;
     status?: string | number;
-    page?: number;
     limit?: number;
   } = {}): Promise<ArmoyuEvent[]> {
     try {
-      const page = params.page || 0;
       const formData = new FormData();
       if (params.gameId !== undefined) formData.append('oyunID', String(params.gameId));
       if (params.status !== undefined) formData.append('etkinlikdurum', String(params.status));
-      if (params.page !== undefined) formData.append('sayfa', String(params.page));
+      formData.append('sayfa', String(page));
       if (params.limit !== undefined) formData.append('limit', String(params.limit));
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), formData);

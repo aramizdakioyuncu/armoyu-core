@@ -13,13 +13,13 @@ export class TeamService extends BaseService {
   }
 
   /**
-   * Fetches the list of teams (Legacy).
+   * Fetches the list of teams.
    * 
+   * @param page Requested page number - MANDATORY
    * @param favoriteTeamId Optional filter for a specific favorite team
-   * @param page Optional page number (sayfa)
    * @returns List of platform teams
    */
-  async getTeams(favoriteTeamId?: number | string, page: number = 1): Promise<PlatformTeam[]> {
+  async getTeams(page: number, favoriteTeamId?: number | string): Promise<PlatformTeam[]> {
     try {
       const formData = new FormData();
       if (favoriteTeamId !== undefined) {

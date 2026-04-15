@@ -132,17 +132,17 @@ export class SiteInformationService extends BaseService {
   }
 
   /**
-   * Searches for content or players by tags (Legacy).
+   * Searches for content or players by tags.
    * 
+   * @param page Requested page number - MANDATORY
    * @param params Search query and pagination
    */
-  async searchTags(params: { tag: string, page?: number, limit?: number }): Promise<any> {
+  async searchTags(page: number, params: { tag: string, limit?: number }): Promise<any> {
     try {
       const formData = new FormData();
       formData.append('etiket', params.tag);
-      formData.append('sayfa', (params.page || 1).toString());
+      formData.append('sayfa', page.toString());
       formData.append('limit', (params.limit || 50).toString());
-      const page = params.page || 1;
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etiketler/${page}/0/`), formData);
       return this.handleResponse<any>(response);
@@ -153,15 +153,15 @@ export class SiteInformationService extends BaseService {
   }
 
   /**
-   * General search across different categories (Legacy).
+   * General search across different categories.
    * 
+   * @param page Requested page number - MANDATORY
    * @param params Search query, category, and pagination
    */
-  async search(params: { 
+  async search(page: number, params: { 
     query: string, 
     category: SearchCategory | string, 
     subCategory?: string, 
-    page?: number, 
     limit?: number 
   }): Promise<any> {
     try {
@@ -169,9 +169,8 @@ export class SiteInformationService extends BaseService {
       formData.append('oyuncuadi', params.query);
       formData.append('kategori', params.category);
       formData.append('kategoridetay', params.subCategory || '1');
-      formData.append('sayfa', (params.page || 1).toString());
+      formData.append('sayfa', page.toString());
       formData.append('limit', (params.limit || 50).toString());
-      const page = params.page || 1;
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/0/`), formData);
       return this.handleResponse<any>(response);

@@ -452,9 +452,8 @@ export default function Dashboard() {
         } else if (action.id === 'getSchoolDetail') {
           result = await api.users.getSchoolDetail(Number(inputs.okulID));
         } else if (action.id === 'getFriendsList') {
-          result = await api.users.getFriendsList({
+          result = await api.users.getFriendsList(inputs.page ? Number(inputs.page) : 1, {
             userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
-            page: inputs.page ? Number(inputs.page) : undefined,
             limit: inputs.limit ? Number(inputs.limit) : undefined
           });
         } else if (action.id === 'getInvitationsList') {
@@ -468,10 +467,9 @@ export default function Dashboard() {
         } else if (action.id === 'setFavoriteTeam') {
           result = await api.users.setFavoriteTeam(Number(inputs.favoritakimID));
         } else if (action.id === 'getUserMedia') {
-          result = await api.users.getUserMedia({
+          result = await api.users.getUserMedia(inputs.page ? Number(inputs.page) : 1, {
             userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
             limit: inputs.limit ? Number(inputs.limit) : 50,
-            page: inputs.page ? Number(inputs.page) : 1,
             category: inputs.kategori || 'all'
           });
         } else if (action.id === 'getSocialProfile') {
@@ -588,10 +586,9 @@ export default function Dashboard() {
         }
       } else if (activeService === 'events') {
         if (action.id === 'getEvents') {
-          result = await api.events.getEvents({
+          result = await api.events.getEvents(inputs.sayfa ? Number(inputs.sayfa) : 1, {
             gameId: inputs.oyunID ? Number(inputs.oyunID) : undefined,
             status: inputs.etkinlikdurum,
-            page: inputs.sayfa ? Number(inputs.sayfa) : 0,
             limit: inputs.limit ? Number(inputs.limit) : undefined
           });
         } else if (action.id === 'getEventDetail') {
@@ -619,9 +616,8 @@ export default function Dashboard() {
         } else if (action.id === 'getSiteMessages') {
           result = await api.siteInfo.getSiteMessages(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
         } else if (action.id === 'searchTags') {
-          result = await api.siteInfo.searchTags({
+          result = await api.siteInfo.searchTags(inputs.page ? Number(inputs.page) : 1, {
             tag: inputs.etiket,
-            page: inputs.page ? Number(inputs.page) : undefined,
             limit: inputs.limit ? Number(inputs.limit) : undefined
           });
         } else if (action.id === 'getSiteMessageDetail') {
@@ -631,9 +627,8 @@ export default function Dashboard() {
         if (action.id === 'getUserGroups') {
           result = await api.groups.getUserGroups(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
         } else if (action.id === 'getGroups') {
-          result = await api.groups.getGroups({
-            category: inputs.kategori,
-            page: inputs.sayfa ? Number(inputs.sayfa) : undefined
+          result = await api.groups.getGroups(inputs.sayfa ? Number(inputs.sayfa) : 1, {
+            category: inputs.kategori
           });
         } else if (action.id === 'getGroupDetail') {
           result = await api.groups.getGroupDetail({
@@ -788,11 +783,11 @@ export default function Dashboard() {
         }
       } else if (activeService === 'teams') {
         if (action.id === 'getTeams') {
-          result = await api.teams.getTeams(inputs.favoritakimID, inputs.sayfa ? Number(inputs.sayfa) : 1);
+          result = await api.teams.getTeams(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.favoritakimID);
         }
       } else if (activeService === 'stations') {
         if (action.id === 'getStations') {
-          result = await api.stations.getStations(inputs.kategori, inputs.sayfa ? Number(inputs.sayfa) : 1);
+          result = await api.stations.getStations(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.kategori);
         } else if (action.id === 'getStationEquipment') {
           result = await api.stations.getStationEquipment(inputs.istasyonID);
         }
