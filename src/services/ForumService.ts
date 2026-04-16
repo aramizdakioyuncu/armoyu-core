@@ -19,9 +19,8 @@ export class ForumService extends BaseService {
   async getCategories(): Promise<ServiceResponse<Forum[]>> {
     try {
       const response = await this.client.get<any>('/community/forums/categories');
-      const icerik = this.handleResponse<any[]>(response);
-      const categories = Array.isArray(icerik) ? icerik.map(f => Forum.fromJSON(f)) : [];
-      return this.createSuccess(categories, response?.aciklama);
+      const icerik = this.handle<any[]>(response);
+      return this.createSuccess(icerik || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumService] Failed to fetch categories:', error);
       return this.createError(error.message);
@@ -36,7 +35,7 @@ export class ForumService extends BaseService {
       const response = await this.client.get<any>(`/community/forums/categories/${categoryId}/topics`, {
         params: { page }
       });
-      const data = this.handleResponse<any[]>(response);
+      const data = this.handle<any[]>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
@@ -54,7 +53,7 @@ export class ForumService extends BaseService {
         title,
         content
       });
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumService] Topic creation failed:', error);
@@ -69,7 +68,7 @@ export class ForumService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
-      this.handleResponse(response);
+      this.handle(response);
       return this.createSuccess(undefined, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
@@ -77,3 +76,6 @@ export class ForumService extends BaseService {
     }
   }
 }
+
+
+

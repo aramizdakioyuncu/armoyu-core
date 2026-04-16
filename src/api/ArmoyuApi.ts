@@ -134,8 +134,8 @@ export class ArmoyuApi {
   /**
    * Get the last raw JSON response received from the API.
    */
-  get lastResponse(): any {
-    return (this.client as any).lastRawResponse;
+  get last(): any {
+    return (this.client as any).lastRaw;
   }
 
   /**
@@ -173,5 +173,8 @@ export class ArmoyuApi {
     return this.client.delete<T>(endpoint, options);
   }
 }
+
+
+
 
 

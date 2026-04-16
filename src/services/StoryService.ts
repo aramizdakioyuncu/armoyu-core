@@ -25,7 +25,7 @@ export class StoryService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/${page}/${limit || 0}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StoryService] Fetching stories failed:', error);
@@ -43,7 +43,7 @@ export class StoryService extends BaseService {
       formData.append('hikayemedya', mediaUrl);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/ekle/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StoryService] Adding story failed:', error);
@@ -61,7 +61,7 @@ export class StoryService extends BaseService {
       formData.append('hikayeID', storyId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/sil/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Deleting story ${storyId} failed:`, error);
@@ -79,7 +79,7 @@ export class StoryService extends BaseService {
       formData.append('hikayeID', storyId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/gizle/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Hiding story ${storyId} failed:`, error);
@@ -97,7 +97,7 @@ export class StoryService extends BaseService {
       formData.append('hikayeID', storyId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/bak/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Viewing story ${storyId} failed:`, error);
@@ -119,7 +119,7 @@ export class StoryService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/goruntuleyenler/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Fetching story viewers for ${storyId} failed:`, error);
@@ -141,7 +141,7 @@ export class StoryService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/hikaye/begenenler/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Fetching story likers for ${storyId} failed:`, error);
@@ -159,7 +159,7 @@ export class StoryService extends BaseService {
       formData.append('hikayeID', storyId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/begeni-ekle/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Adding like to story ${storyId} failed:`, error);
@@ -177,7 +177,7 @@ export class StoryService extends BaseService {
       formData.append('hikayeID', storyId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/begeni-sil/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Removing like from story ${storyId} failed:`, error);
@@ -185,3 +185,6 @@ export class StoryService extends BaseService {
     }
   }
 }
+
+
+

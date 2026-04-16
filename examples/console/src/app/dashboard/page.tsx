@@ -330,11 +330,19 @@ export default function Dashboard() {
     const savedPortalUser = localStorage.getItem('armoyu_portal_user');
     const savedTestUser = localStorage.getItem('armoyu_test_user');
 
-    if (savedPortalUser) setPortalUser(JSON.parse(savedPortalUser));
+    if (savedPortalUser && savedPortalUser !== 'undefined') setPortalUser(JSON.parse(savedPortalUser));
+    if (savedKey) {
+      setApiKey(savedKey);
+    } else if (process.env.NEXT_PUBLIC_ARMOYU_API_KEY) {
+      setApiKey(process.env.NEXT_PUBLIC_ARMOYU_API_KEY);
+    }
 
-    if (savedKey) setApiKey(savedKey);
-    if (savedToken) setTestToken(savedToken);
-    if (savedTestUser) setTestUser(JSON.parse(savedTestUser));
+    if (savedToken) {
+      setTestToken(savedToken);
+    } else if (process.env.NEXT_PUBLIC_ARMOYU_TOKEN) {
+      setTestToken(process.env.NEXT_PUBLIC_ARMOYU_TOKEN);
+    }
+    if (savedTestUser && savedTestUser !== 'undefined') setTestUser(JSON.parse(savedTestUser));
   }, []);
 
   useEffect(() => {
@@ -390,14 +398,16 @@ export default function Dashboard() {
           const authResult = await api.auth.login(inputs.username, inputs.password);
           result = authResult;
 
-          const newToken = authResult.session?.token;
+          const newToken = authResult.icerik?.token;
           if (newToken) {
             setTestToken(newToken);
             localStorage.setItem('armoyu_test_token', newToken);
           }
 
-          setTestUser(authResult.user);
-          localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.user));
+          setTestUser(authResult.icerik?.user);
+          if (authResult.icerik?.user) {
+            localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.icerik.user));
+          }
         } else if (action.id === 'register') {
           result = await api.auth.register({
             username: inputs.username,
@@ -424,8 +434,8 @@ export default function Dashboard() {
         } else if (action.id === 'me') {
           const profile = await api.auth.me();
           result = profile;
-          setTestUser(profile);
-          if (profile) localStorage.setItem('armoyu_test_user', JSON.stringify(profile));
+          setTestUser(profile.icerik);
+          if (profile.icerik) localStorage.setItem('armoyu_test_user', JSON.stringify(profile.icerik));
         }
       } else if (activeService === 'users') {
         if (action.id === 'getUser') {

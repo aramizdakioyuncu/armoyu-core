@@ -1,0 +1,3511 @@
+{
+  "auth_me": {
+    "durum": 1,
+    "aciklama": "İşlem Başarılı",
+    "icerik": {
+      "arkadasdurum": null,
+      "arkadasdurumaciklama": null,
+      "cinsiyet": "E",
+      "playerID": 11107,
+      "username": "deneme",
+      "firstName": "Test",
+      "lastName": "Kullanıcı",
+      "displayName": "Test Kullanıcı",
+      "displayNameV2": "Test K.",
+      "displayNameV3": "[01] Test K.『24』",
+      "URL": "https://api.aramizdakioyuncu.com/oyuncular/deneme",
+      "kulno": "01",
+      "burc": "Oğlak",
+      "ODP": "33.33",
+      "level": 51,
+      "levelXP": "137.547",
+      "levelColor": "283802",
+      "avatar": {
+        "media_ID": 7470,
+        "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+        "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+        "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail"
+      },
+      "banner": {
+        "media_ID": 5792,
+        "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/optimized",
+        "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/public",
+        "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/thumbnail"
+      },
+      "wallpaper": {
+        "media_ID": 0,
+        "media_bigURL": null,
+        "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/3f287d38-3839-4bef-349d-56bfed73a300/public",
+        "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/3f287d38-3839-4bef-349d-56bfed73a300/thumbnail"
+      },
+      "detailInfo": {
+        "about": "hakkımda yazısı",
+        "age": 24,
+        "email": "berkaytikenoglu@gmail.com",
+        "friends": 9,
+        "posts": 11,
+        "awards": 0,
+        "phoneNumber": "5370585150",
+        "birthdayDate": "01.01.2002",
+        "inviteCode": "JXPLI",
+        "lastloginDate": "04.17.2026 02:30",
+        "lastloginDateV2": "4 Dakika",
+        "lastfailedDate": "04.08.2026 15:31",
+        "country": {
+          "country_ID": 212,
+          "country_name": "TÜRKİYE",
+          "country_code": "TR",
+          "country_phoneCode": 90
+        },
+        "province": {
+          "province_ID": 63,
+          "province_name": "ORDU",
+          "province_plateCode": 52,
+          "province_phoneCode": 452
+        }
+      },
+      "userRole": {
+        "roleID": 0,
+        "roleName": "Kayıtlı Oyuncu",
+        "rolecategory": "Üye",
+        "roleColor": "00ff1f"
+      },
+      "socailAccounts": {
+        "facebook": "",
+        "youtube": "",
+        "twitch": "",
+        "instagram": "",
+        "steam": "",
+        "linkedin": null,
+        "reddit": "",
+        "github": null
+      },
+      "job": {
+        "job_ID": 15,
+        "job_name": "Cumhuriyet Üniversitesi",
+        "job_shortName": "CÜ"
+      },
+      "defaultGroup": {
+        "group_ID": 403,
+        "group_name": "sa",
+        "group_shortName": "2",
+        "group_URL": "https://api.aramizdakioyuncu.com/gruplar/sa/",
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/armoyu.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/armoyu.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/armoyu.png"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/gruplar/gruplarbanner2.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/gruplar/gruplarbanner2.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/gruplar/gruplarbanner2.jpg"
+        },
+        "group_wallpaper": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/anaarkaplan.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/anaarkaplan.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/ana-yapi/anaarkaplan.jpg"
+        }
+      },
+      "roleID": 0,
+      "roleName": "Kayıtlı Oyuncu",
+      "roleColor": "00ff1f",
+      "koyuncuhak": "-1/3",
+      "ortakarkadaslar": 9,
+      "ortakarkadasliste": [
+        {
+          "#": 1,
+          "oyuncuID": 10482,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4e440a76-0bd7-437a-3566-ae7dad813d00/thumbnail",
+          "oyuncukullaniciadi": "Emirhan"
+        },
+        {
+          "#": 2,
+          "oyuncuID": 10953,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8b0515b3-4a4b-41ee-0545-cd3697e0be00/thumbnail",
+          "oyuncukullaniciadi": "klc_emre_66"
+        },
+        {
+          "#": 3,
+          "oyuncuID": 10001,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ae29a55a-a75b-479e-1dff-f50bc3500c00/thumbnail",
+          "oyuncukullaniciadi": "Metehanreis52"
+        }
+      ],
+      "arkadasliste": [
+        {
+          "oyuncuID": 10482,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4e440a76-0bd7-437a-3566-ae7dad813d00/thumbnail",
+          "oyuncukullaniciadi": "Emirhan"
+        },
+        {
+          "oyuncuID": 10920,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/80698922-dd06-43b8-34fb-5962dab13800/thumbnail",
+          "oyuncukullaniciadi": "emresandal"
+        },
+        {
+          "oyuncuID": 10001,
+          "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ae29a55a-a75b-479e-1dff-f50bc3500c00/thumbnail",
+          "oyuncukullaniciadi": "Metehanreis52"
+        }
+      ],
+      "banHistory": {
+        "ban_status": 0,
+        "ban_count": 1,
+        "ban_reason": "",
+        "ban_remaining": ""
+      },
+      "registeredDate": "11:45 - 20.03.2022",
+      "registeredDateV2": "20 March 2022",
+      "favTeam": {
+        "team_ID": 1,
+        "team_name": "Fenerbahçe",
+        "team_logo": "https://storage.aramizdakioyuncu.com/galeri/takimlar/fenerbahce.png"
+      },
+      "mevcutoyunsayisi": 8,
+      "popularGames": [
+        {
+          "game_ID": 1628,
+          "game_name": "Minecraft",
+          "game_shortName": "MC",
+          "game_URL": "minecraft",
+          "game_score": 0,
+          "game_money": 1,
+          "game_logo": {
+            "media_ID": 0,
+            "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/minecraft.png",
+            "media_URL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/minecraft.png",
+            "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/minecraft.png"
+          },
+          "game_role": {
+            "role_ID": 0,
+            "role_name": ""
+          },
+          "game_clan": null
+        },
+        {
+          "game_ID": 1562,
+          "game_name": "League of Legends",
+          "game_shortName": "LOL",
+          "game_URL": "league-of-legends",
+          "game_score": 0,
+          "game_money": 0,
+          "game_logo": {
+            "media_ID": 0,
+            "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.jpg",
+            "media_URL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.jpg",
+            "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.jpg"
+          },
+          "game_role": {
+            "role_ID": 0,
+            "role_name": ""
+          },
+          "game_clan": null
+        },
+        {
+          "game_ID": 895,
+          "game_name": "Euro Truck Simulator 2",
+          "game_shortName": "ETS2",
+          "game_URL": "euro-truck-simulator-2",
+          "game_score": 0,
+          "game_money": 0,
+          "game_logo": {
+            "media_ID": 0,
+            "media_bigURL": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+            "media_URL": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+            "media_minURL": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918"
+          },
+          "game_role": {
+            "role_ID": 0,
+            "role_name": ""
+          },
+          "game_clan": {
+            "clan_ID": 403,
+            "clan_name": "sa",
+            "clan_shortName": "sa",
+            "clan_color": "Red",
+            "clan_role": {
+              "role_ID": "32",
+              "role_name": "Kurucu"
+            }
+          }
+        },
+        {
+          "game_ID": 912,
+          "game_name": "Grand Theft Auto V",
+          "game_shortName": "GTAV",
+          "game_URL": "grand-theft-auto-v",
+          "game_score": 0,
+          "game_money": 0,
+          "game_logo": {
+            "media_ID": 0,
+            "media_bigURL": "https://steamcdn-a.akamaihd.net/steam/apps/271590/header.jpg?t=1568751918",
+            "media_URL": "https://steamcdn-a.akamaihd.net/steam/apps/271590/header.jpg?t=1568751918",
+            "media_minURL": "https://steamcdn-a.akamaihd.net/steam/apps/271590/header.jpg?t=1568751918"
+          },
+          "game_role": {
+            "role_ID": 0,
+            "role_name": ""
+          },
+          "game_clan": null
+        }
+      ],
+      "ozellik": null
+    },
+    "kod": 1
+  },
+  "user_xp_rankings": {
+    "icerik": [
+      {
+        "oyuncuID": 12265,
+        "oyuncuadsoyad": "Bartu Başaran",
+        "oyuncukullaniciadi": "bartu",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+        "oyuncuseviye": 3,
+        "oyuncuseviyexp": "962",
+        "oyuncuseviyesezonlukxp": "962",
+        "oyuncupop": 2
+      },
+      {
+        "oyuncuID": 11663,
+        "oyuncuadsoyad": "Mel Cobain",
+        "oyuncukullaniciadi": "Melly",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6ad3cf60-fb7a-414e-d596-467124dd0c00/thumbnail",
+        "oyuncuseviye": 41,
+        "oyuncuseviyexp": "919",
+        "oyuncuseviyesezonlukxp": "919",
+        "oyuncupop": 29
+      },
+      {
+        "oyuncuID": 10904,
+        "oyuncuadsoyad": "Numan Söcü",
+        "oyuncukullaniciadi": "socu",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail",
+        "oyuncuseviye": 32,
+        "oyuncuseviyexp": "775",
+        "oyuncuseviyesezonlukxp": "775",
+        "oyuncupop": 15
+      },
+      {
+        "oyuncuID": 11107,
+        "oyuncuadsoyad": "Test Kullanıcı",
+        "oyuncukullaniciadi": "deneme",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "oyuncuseviye": 51,
+        "oyuncuseviyexp": "709",
+        "oyuncuseviyesezonlukxp": "709",
+        "oyuncupop": 19
+      },
+      {
+        "oyuncuID": 12255,
+        "oyuncuadsoyad": "Gökhan Özen",
+        "oyuncukullaniciadi": "GKNXX74",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2e83fca5-d6b1-44d8-39d4-fd0d70c2c600/thumbnail",
+        "oyuncuseviye": 3,
+        "oyuncuseviyexp": "657",
+        "oyuncuseviyesezonlukxp": "657",
+        "oyuncupop": 17
+      },
+      {
+        "oyuncuID": 10544,
+        "oyuncuadsoyad": "Ömercan Uluişden",
+        "oyuncukullaniciadi": "AloneAnql",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/98ce705a-4b2a-4cda-e6fd-bce964b7c200/thumbnail",
+        "oyuncuseviye": 45,
+        "oyuncuseviyexp": "532",
+        "oyuncuseviyesezonlukxp": "532",
+        "oyuncupop": 2
+      },
+      {
+        "oyuncuID": 12041,
+        "oyuncuadsoyad": "Canay Yüceyurt",
+        "oyuncukullaniciadi": "Canay",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+        "oyuncuseviye": 2,
+        "oyuncuseviyexp": "492",
+        "oyuncuseviyesezonlukxp": "492",
+        "oyuncupop": 2
+      },
+      {
+        "oyuncuID": 10915,
+        "oyuncuadsoyad": "Engin Kuşkovan",
+        "oyuncukullaniciadi": "Gsengtr",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a7648d94-79a5-4b4e-5eb4-de61c0172e00/thumbnail",
+        "oyuncuseviye": 30,
+        "oyuncuseviyexp": "383",
+        "oyuncuseviyesezonlukxp": "383",
+        "oyuncupop": 33
+      },
+      {
+        "oyuncuID": 11310,
+        "oyuncuadsoyad": "Emirhan Akkuş",
+        "oyuncukullaniciadi": "akkusemirhan",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail",
+        "oyuncuseviye": 34,
+        "oyuncuseviyexp": "333",
+        "oyuncuseviyesezonlukxp": "333",
+        "oyuncupop": 3
+      },
+      {
+        "oyuncuID": 10013,
+        "oyuncuadsoyad": "Muhammet Ali Ergün",
+        "oyuncukullaniciadi": "Beratbaba",
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4a94ea20-5822-4f1c-90c8-dede0bd3d200/thumbnail",
+        "oyuncuseviye": 2,
+        "oyuncuseviyexp": "239",
+        "oyuncuseviyesezonlukxp": "239",
+        "oyuncupop": 9
+      }
+    ],
+    "kod": null,
+    "durum": 1,
+    "aciklama": "TP sıralaması getirilyor."
+  },
+  "user_search": {
+    "durum": 0,
+    "aciklama": "API Hatası (Format): <!DOCTYPE html>\r\n<html lang=\"tr\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\r\n  <title>Armoyu API Geliştirici Sayfası</title>\r\n  <style>\r\n    * {\r\n      box-sizing: border-box;\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n\r\n    body {\r\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n      background: linear-gradient(120deg, #1f1f1f, #2d2d2d);\r\n      color: #f5f5f5;\r\n      display: flex;\r\n      align-items: center;\r\n      justify-content: center;\r\n      height: 100vh;\r\n      text-align: center;\r\n    }\r\n\r\n    .container {\r\n      background-color: #292929;\r\n      padding: 40px;\r\n      border-radius: 16px;\r\n      box-shadow: 0 0 20px rgba(0,0,0,0.3);\r\n      max-width: 500px;\r\n    }\r\n\r\n    h1 {\r\n      font-size: 2.4rem;\r\n      margin-bottom: 20px;\r\n      color: #00bcd4;\r\n    }\r\n\r\n    p {\r\n      font-size: 1.1rem;\r\n      margin-bottom: 30px;\r\n      color: #ccc;\r\n    }\r\n\r\n    a.button {\r\n      display: inline-block;\r\n      padding: 12px 24px;\r\n      background-color: #00bcd4;\r\n      color: #1f1f1f;\r\n      border-radius: 8px;\r\n      text-decoration: none;\r\n      font-weight: bold;\r\n      transition: background 0.3s ease;\r\n    }\r\n\r\n    a.button:hover {\r\n      background-color: #00acc1;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"container\">\r\n    <h1>Armoyu API'ye Hoş Geldiniz</h1>\r\n    <p>Bu sayfa geliştiriciler için tasarlanmıştır. Buradan dökümantasyona ulaşabilir, API uç noktalarını keşfedebilirsiniz.</p>\r\n    <a href=\"https://api.armoyu.com/docs\" class=\"button\">Dokümantasyona Git</a>\r\n  </div>\r\n</body>\r\n</html>\r\n",
+    "icerik": null,
+    "kod": 0
+  },
+  "social_posts": {
+    "icerik": [
+      {
+        "#": 1,
+        "postID": 3335,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 10904,
+          "displayname": "Numan Söcü",
+          "username": "socu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/thumbnail"
+          },
+          "job": "CÜ Öğrenci",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "#derinduygular",
+        "paylasimkonum": null,
+        "paylasimzaman": "22:14  09 December 2025",
+        "paylasimzamangecen": "4 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70292,
+            "ID": 1,
+            "adsoyad": "Berkay Tikenoğlu",
+            "kullaniciadi": "berkaytikenoglu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "begeni_zaman": "11.12.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70294,
+            "ID": 10633,
+            "adsoyad": "Kaan Fettah Şerbetci",
+            "kullaniciadi": "GATTAR",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6dcfd50-774f-4fca-2190-32be47470b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/GATTAR",
+            "begeni_zaman": "04.03.2026"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70297,
+            "ID": 12041,
+            "adsoyad": "Canay Yüceyurt",
+            "kullaniciadi": "Canay",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/Canay",
+            "begeni_zaman": "09.04.2026"
+          }
+        ],
+        "begenisay": 3,
+        "yorumsay": 0,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [
+          {
+            "fotoID": 7675,
+            "owner": {
+              "owner_ID": 10904,
+              "owner_username": "socu",
+              "owner_displayname": "Numan Söcü",
+              "owner_avatar": {
+                "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+                "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+                "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail"
+              }
+            },
+            "paylasimkategori": "application/octet-stream",
+            "fotourl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7a350756-9a08-45fc-19bf-c79f95f85800/optimized",
+            "fotoufakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7a350756-9a08-45fc-19bf-c79f95f85800/public",
+            "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7a350756-9a08-45fc-19bf-c79f95f85800/thumbnail",
+            "medyayonu": "yatay"
+          }
+        ],
+        "ilkucyorum": []
+      },
+      {
+        "#": 2,
+        "postID": 3334,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 11310,
+          "displayname": "Emirhan Akkuş",
+          "username": "akkusemirhan",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8f1accf-d7ab-42c5-1089-7cc5803c8e00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8f1accf-d7ab-42c5-1089-7cc5803c8e00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8f1accf-d7ab-42c5-1089-7cc5803c8e00/thumbnail"
+          },
+          "job": "CÜ Öğrenci",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "iyi akşamlar",
+        "paylasimkonum": null,
+        "paylasimzaman": "14:50  28 November 2025",
+        "paylasimzamangecen": "4 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70295,
+            "ID": 10633,
+            "adsoyad": "Kaan Fettah Şerbetci",
+            "kullaniciadi": "GATTAR",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6dcfd50-774f-4fca-2190-32be47470b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/GATTAR",
+            "begeni_zaman": "04.03.2026"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70332,
+            "ID": 12041,
+            "adsoyad": "Canay Yüceyurt",
+            "kullaniciadi": "Canay",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/Canay",
+            "begeni_zaman": "09.04.2026"
+          }
+        ],
+        "begenisay": 2,
+        "yorumsay": 0,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": []
+      },
+      {
+        "#": 3,
+        "postID": 3333,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 1,
+          "displayname": "Berkay Tikenoğlu",
+          "username": "berkaytikenoglu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/thumbnail"
+          },
+          "job": "CÜ Temsilcisi",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "yazılım ekibi yeni üyemiz @bartu hoşgelmişsen büyük planları var platforma sahip çıkalım #bartugelmis",
+        "paylasimkonum": null,
+        "paylasimzaman": "15:11  18 November 2025",
+        "paylasimzamangecen": "4 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70257,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70288,
+            "ID": 10904,
+            "adsoyad": "Numan Söcü",
+            "kullaniciadi": "socu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/socu",
+            "begeni_zaman": "25.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70289,
+            "ID": 11310,
+            "adsoyad": "Emirhan Akkuş",
+            "kullaniciadi": "akkusemirhan",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/akkusemirhan",
+            "begeni_zaman": "28.11.2025"
+          }
+        ],
+        "begenisay": 5,
+        "yorumsay": 0,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [
+          {
+            "fotoID": 7672,
+            "owner": {
+              "owner_ID": 1,
+              "owner_username": "berkaytikenoglu",
+              "owner_displayname": "Berkay Tikenoğlu",
+              "owner_avatar": {
+                "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+                "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+                "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail"
+              }
+            },
+            "paylasimkategori": "application/octet-stream",
+            "fotourl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8bf72d4-097a-4abf-33a5-7d4a9805e000/optimized",
+            "fotoufakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8bf72d4-097a-4abf-33a5-7d4a9805e000/public",
+            "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8bf72d4-097a-4abf-33a5-7d4a9805e000/thumbnail",
+            "medyayonu": "dikey"
+          }
+        ],
+        "ilkucyorum": []
+      },
+      {
+        "#": 4,
+        "postID": 3332,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 12265,
+          "displayname": "Bartu Başaran",
+          "username": "bartu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/thumbnail"
+          },
+          "job": "Öğrenci",
+          "jobURL": null
+        },
+        "paylasimicerik": "napionuz moruklar",
+        "paylasimkonum": null,
+        "paylasimzaman": "15:09  18 November 2025",
+        "paylasimzamangecen": "4 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70233,
+            "ID": 1,
+            "adsoyad": "Berkay Tikenoğlu",
+            "kullaniciadi": "berkaytikenoglu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "begeni_zaman": "18.11.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70234,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70290,
+            "ID": 11310,
+            "adsoyad": "Emirhan Akkuş",
+            "kullaniciadi": "akkusemirhan",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/akkusemirhan",
+            "begeni_zaman": "28.11.2025"
+          }
+        ],
+        "begenisay": 3,
+        "yorumsay": 2,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3332,
+            "yorumID": 7450,
+            "yorumcuid": 1,
+            "yorumcuetiketad": "@berkaytikenoglu",
+            "yorumcukullaniciad": "berkaytikenoglu",
+            "yorumcuadsoyad": "Berkay Tikenoğlu",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "yorumcuicerik": "oturmacadayız",
+            "yorumcuzaman": "15:09  18 November 2025",
+            "yorumcuzamangecen": "4 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 0,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          },
+          {
+            "#": 2,
+            "paylasimID": 3332,
+            "yorumID": 7451,
+            "yorumcuid": 12265,
+            "yorumcuetiketad": "@bartu",
+            "yorumcukullaniciad": "bartu",
+            "yorumcuadsoyad": "Bartu Başaran",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "yorumcuicerik": "kimle oturuyosun krdsm",
+            "yorumcuzaman": "15:10  18 November 2025",
+            "yorumcuzamangecen": "4 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 0,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      },
+      {
+        "#": 5,
+        "postID": 3331,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 10904,
+          "displayname": "Numan Söcü",
+          "username": "socu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/thumbnail"
+          },
+          "job": "CÜ Öğrenci",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "23 yaşındayım, hiç kitap okumadım, işsizim,İng seviyem A1, Burger King’den sipariş verirken \nheyecanlanıyorum, Starbucks kahvelerinin isimlerini bilmiyorum ya sen?",
+        "paylasimkonum": null,
+        "paylasimzaman": "21:14  14 November 2025",
+        "paylasimzamangecen": "5 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70214,
+            "ID": 1,
+            "adsoyad": "Berkay Tikenoğlu",
+            "kullaniciadi": "berkaytikenoglu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "begeni_zaman": "14.11.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70235,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70299,
+            "ID": 12041,
+            "adsoyad": "Canay Yüceyurt",
+            "kullaniciadi": "Canay",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/Canay",
+            "begeni_zaman": "09.04.2026"
+          }
+        ],
+        "begenisay": 3,
+        "yorumsay": 1,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3331,
+            "yorumID": 7449,
+            "yorumcuid": 1,
+            "yorumcuetiketad": "@berkaytikenoglu",
+            "yorumcukullaniciad": "berkaytikenoglu",
+            "yorumcuadsoyad": "Berkay Tikenoğlu",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "yorumcuicerik": "ben çok özlüyorum 🥲",
+            "yorumcuzaman": "21:19  14 November 2025",
+            "yorumcuzamangecen": "5 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 0,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      },
+      {
+        "#": 6,
+        "postID": 3330,
+        "type": "post",
+        "device": "web",
+        "owner": {
+          "owner_ID": 1,
+          "displayname": "Berkay Tikenoğlu",
+          "username": "berkaytikenoglu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6aad2258-a6b3-4471-39bf-4337d7f81400/thumbnail"
+          },
+          "job": "CÜ Temsilcisi",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "Platformumuz yazılım kısmında sıkıntı yaşıyor bu sorunları 2026 yıl başından itibaren çözüp tekrardan aktif olarak kullanmayı amaçlıyoruz hepinizi sevgiyle selamlıyorum ❤️❤️😘😘",
+        "paylasimkonum": null,
+        "paylasimzaman": "12:05  06 November 2025",
+        "paylasimzamangecen": "5 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70213,
+            "ID": 10904,
+            "adsoyad": "Numan Söcü",
+            "kullaniciadi": "socu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/socu",
+            "begeni_zaman": "14.11.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70215,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70296,
+            "ID": 10633,
+            "adsoyad": "Kaan Fettah Şerbetci",
+            "kullaniciadi": "GATTAR",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6dcfd50-774f-4fca-2190-32be47470b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/GATTAR",
+            "begeni_zaman": "04.03.2026"
+          }
+        ],
+        "begenisay": 4,
+        "yorumsay": 0,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": []
+      },
+      {
+        "#": 7,
+        "postID": 3329,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 10904,
+          "displayname": "Numan Söcü",
+          "username": "socu",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ac6f1fde-7f7c-4389-e63b-1f8d92996c00/thumbnail"
+          },
+          "job": "CÜ Öğrenci",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "#tokat",
+        "paylasimkonum": null,
+        "paylasimzaman": "17:24  04 November 2025",
+        "paylasimzamangecen": "5 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70172,
+            "ID": 10544,
+            "adsoyad": "Ömercan Uluişden",
+            "kullaniciadi": "AloneAnql",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/98ce705a-4b2a-4cda-e6fd-bce964b7c200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/AloneAnql",
+            "begeni_zaman": "05.11.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70211,
+            "ID": 1,
+            "adsoyad": "Berkay Tikenoğlu",
+            "kullaniciadi": "berkaytikenoglu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "begeni_zaman": "06.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70236,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          }
+        ],
+        "begenisay": 4,
+        "yorumsay": 1,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [
+          {
+            "fotoID": 7671,
+            "owner": {
+              "owner_ID": 10904,
+              "owner_username": "socu",
+              "owner_displayname": "Numan Söcü",
+              "owner_avatar": {
+                "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+                "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+                "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail"
+              }
+            },
+            "paylasimkategori": "application/octet-stream",
+            "fotourl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c8e90500-a0c7-449a-a343-4bef60e89e00/optimized",
+            "fotoufakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c8e90500-a0c7-449a-a343-4bef60e89e00/public",
+            "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c8e90500-a0c7-449a-a343-4bef60e89e00/thumbnail",
+            "medyayonu": "dikey"
+          }
+        ],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3329,
+            "yorumID": 7448,
+            "yorumcuid": 1,
+            "yorumcuetiketad": "@berkaytikenoglu",
+            "yorumcukullaniciad": "berkaytikenoglu",
+            "yorumcuadsoyad": "Berkay Tikenoğlu",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "yorumcuicerik": "@socu bey bizleri ziyaret ederek onure ettiler işlerinde güçlerinde kolaylıklar dilerim. 🎉",
+            "yorumcuzaman": "12:06  06 November 2025",
+            "yorumcuzamangecen": "5 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 1,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      },
+      {
+        "#": 8,
+        "postID": 3328,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 12263,
+          "displayname": "Eylül İzmir",
+          "username": "eylul",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/thumbnail"
+          },
+          "job": "Öğrenci",
+          "jobURL": null
+        },
+        "paylasimicerik": "Bu uygulamada başka kız var mı yoksa sadece erkeklermi var🤔",
+        "paylasimkonum": null,
+        "paylasimzaman": "20:58  24 October 2025",
+        "paylasimzamangecen": "5 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70171,
+            "ID": 12263,
+            "adsoyad": "Eylül İzmir",
+            "kullaniciadi": "eylul",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/eylul",
+            "begeni_zaman": "24.10.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70173,
+            "ID": 10544,
+            "adsoyad": "Ömercan Uluişden",
+            "kullaniciadi": "AloneAnql",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/98ce705a-4b2a-4cda-e6fd-bce964b7c200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/AloneAnql",
+            "begeni_zaman": "05.11.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70237,
+            "ID": 12265,
+            "adsoyad": "Bartu Başaran",
+            "kullaniciadi": "bartu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/bartu",
+            "begeni_zaman": "18.11.2025"
+          }
+        ],
+        "begenisay": 3,
+        "yorumsay": 2,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 0,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3328,
+            "yorumID": 7445,
+            "yorumcuid": 10904,
+            "yorumcuetiketad": "@socu",
+            "yorumcukullaniciad": "socu",
+            "yorumcuadsoyad": "Numan Söcü",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/socu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail",
+            "yorumcuicerik": "✋",
+            "yorumcuzaman": "16:27  27 October 2025",
+            "yorumcuzamangecen": "5 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 1,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          },
+          {
+            "#": 2,
+            "paylasimID": 3328,
+            "yorumID": 7447,
+            "yorumcuid": 12263,
+            "yorumcuetiketad": "@eylul",
+            "yorumcukullaniciad": "eylul",
+            "yorumcuadsoyad": "Eylül İzmir",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/eylul",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "yorumcuicerik": "Kız yok mu erkekler ile anlaşamıyoruz zaten yaşım ufak biraz",
+            "yorumcuzaman": "04:18  06 November 2025",
+            "yorumcuzamangecen": "5 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 0,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      },
+      {
+        "#": 9,
+        "postID": 3327,
+        "type": "post",
+        "device": "web",
+        "owner": {
+          "owner_ID": 10688,
+          "displayname": "Miray Önder",
+          "username": "Mirayonderr",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/thumbnail"
+          },
+          "job": "OGÜ Temsilcisi",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/eskisehir-odunpazari-osmangazi-universitesi"
+        },
+        "paylasimicerik": "bayadır yoktum hello armoyu",
+        "paylasimkonum": null,
+        "paylasimzaman": "11:22  04 September 2025",
+        "paylasimzamangecen": "7 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70156,
+            "ID": 11107,
+            "adsoyad": "Test Kullanıcı",
+            "kullaniciadi": "deneme",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/deneme",
+            "begeni_zaman": "04.09.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70157,
+            "ID": 1,
+            "adsoyad": "Berkay Tikenoğlu",
+            "kullaniciadi": "berkaytikenoglu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "begeni_zaman": "07.09.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70162,
+            "ID": 10013,
+            "adsoyad": "Muhammet Ali Ergün",
+            "kullaniciadi": "Beratbaba",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4a94ea20-5822-4f1c-90c8-dede0bd3d200/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/Beratbaba",
+            "begeni_zaman": "21.09.2025"
+          }
+        ],
+        "begenisay": 6,
+        "yorumsay": 5,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 1,
+        "benyorumladim": 0,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3327,
+            "yorumID": 7441,
+            "yorumcuid": 1,
+            "yorumcuetiketad": "@berkaytikenoglu",
+            "yorumcukullaniciad": "berkaytikenoglu",
+            "yorumcuadsoyad": "Berkay Tikenoğlu",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/berkaytikenoglu",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "yorumcuicerik": "hoşgelsinnn de biz yokuz çoktandır 😥",
+            "yorumcuzaman": "05:19  07 September 2025",
+            "yorumcuzamangecen": "7 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 3,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          },
+          {
+            "#": 2,
+            "paylasimID": 3327,
+            "yorumID": 7442,
+            "yorumcuid": 10688,
+            "yorumcuetiketad": "@Mirayonderr",
+            "yorumcukullaniciad": "Mirayonderr",
+            "yorumcuadsoyad": "Miray Önder",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/Mirayonderr",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "yorumcuicerik": "ah be :((",
+            "yorumcuzaman": "18:35  07 September 2025",
+            "yorumcuzamangecen": "7 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 3,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          },
+          {
+            "#": 3,
+            "paylasimID": 3327,
+            "yorumID": 7443,
+            "yorumcuid": 12263,
+            "yorumcuetiketad": "@eylul",
+            "yorumcukullaniciad": "eylul",
+            "yorumcuadsoyad": "Eylül İzmir",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/eylul",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "yorumcuicerik": "sorması ayıp kızmısın",
+            "yorumcuzaman": "20:54  24 October 2025",
+            "yorumcuzamangecen": "5 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 2,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      },
+      {
+        "#": 10,
+        "postID": 3326,
+        "type": "post",
+        "device": "mobil",
+        "owner": {
+          "owner_ID": 11107,
+          "displayname": "Test Kullanıcı",
+          "username": "deneme",
+          "avatar": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail"
+          },
+          "banner": {
+            "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/optimized",
+            "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/public",
+            "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc4c6872-0186-4f79-0036-c3afb4a36000/thumbnail"
+          },
+          "job": "CÜ Mühendis",
+          "jobURL": "https://api.aramizdakioyuncu.com/okullar/sivas-merkez-cumhuriyet-universitesi"
+        },
+        "paylasimicerik": "görsel paylaşım",
+        "paylasimkonum": "Malatya Merkez",
+        "paylasimzaman": "23:28  16 July 2025",
+        "paylasimzamangecen": "9 Ay",
+        "paylasimzamanedit": null,
+        "paylasimilkucbegenen": [
+          {
+            "#": 1,
+            "begeni_ID": 70134,
+            "ID": 11107,
+            "adsoyad": "Test Kullanıcı",
+            "kullaniciadi": "deneme",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/deneme",
+            "begeni_zaman": "17.07.2025"
+          },
+          {
+            "#": 2,
+            "begeni_ID": 70151,
+            "ID": 81,
+            "adsoyad": "Barış Müftüoğlu",
+            "kullaniciadi": "peaceout52",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/peaceout52",
+            "begeni_zaman": "24.07.2025"
+          },
+          {
+            "#": 3,
+            "begeni_ID": 70152,
+            "ID": 10904,
+            "adsoyad": "Numan Söcü",
+            "kullaniciadi": "socu",
+            "avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/01a08be2-7eaa-4acd-fc02-9e90ec80b500/thumbnail",
+            "URL": "https://api.aramizdakioyuncu.com/oyuncular/socu",
+            "begeni_zaman": "05.08.2025"
+          }
+        ],
+        "begenisay": 6,
+        "yorumsay": 2,
+        "repostsay": 0,
+        "sikayetsay": 0,
+        "benbegendim": 1,
+        "benyorumladim": 1,
+        "benretweetledim": 0,
+        "bensikayet": 0,
+        "paylasimfoto": [
+          {
+            "fotoID": 7668,
+            "owner": {
+              "owner_ID": 11107,
+              "owner_username": "deneme",
+              "owner_displayname": "Test Kullanıcı",
+              "owner_avatar": {
+                "media_bigURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+                "media_URL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+                "media_minURL": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail"
+              }
+            },
+            "paylasimkategori": "application/octet-stream",
+            "fotourl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/optimized",
+            "fotoufakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/public",
+            "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/thumbnail",
+            "medyayonu": "dikey"
+          }
+        ],
+        "ilkucyorum": [
+          {
+            "#": 1,
+            "paylasimID": 3326,
+            "yorumID": 7439,
+            "yorumcuid": 81,
+            "yorumcuetiketad": "@peaceout52",
+            "yorumcukullaniciad": "peaceout52",
+            "yorumcuadsoyad": "Barış Müftüoğlu",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6b76c85-8a16-4467-091b-43b542406300/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/peaceout52",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6b76c85-8a16-4467-091b-43b542406300/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "yorumcuicerik": "fevkalade bir görsel",
+            "yorumcuzaman": "12:46  24 July 2025",
+            "yorumcuzamangecen": "8 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 1,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          },
+          {
+            "#": 2,
+            "paylasimID": 3326,
+            "yorumID": 7440,
+            "yorumcuid": 11107,
+            "yorumcuetiketad": "@deneme",
+            "yorumcukullaniciad": "deneme",
+            "yorumcuadsoyad": "Test Kullanıcı",
+            "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+            "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/deneme",
+            "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+            "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+            "yorumcuicerik": "senin gibi",
+            "yorumcuzaman": "06:52  27 July 2025",
+            "yorumcuzamangecen": "8 Ay",
+            "yorumcukimeyanit": 0,
+            "yorumbegenisayi": 1,
+            "yorumsikayetsayi": 0,
+            "benbegendim": 0,
+            "bensikayet": 0
+          }
+        ]
+      }
+    ],
+    "kod": null,
+    "durum": 1,
+    "aciklama": "Paylaşımlar getiriliyor."
+  },
+  "social_comments": {
+    "icerik": [
+      {
+        "paylasimID": 3326,
+        "yorumID": 7439,
+        "yorumcuid": 81,
+        "yorumcuetiketad": "@peaceout52",
+        "yorumcukullaniciad": "peaceout52",
+        "yorumcuadsoyad": "Barış Müftüoğlu",
+        "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6b76c85-8a16-4467-091b-43b542406300/optimized",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/peaceout52",
+        "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6b76c85-8a16-4467-091b-43b542406300/public",
+        "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+        "yorumcuicerik": "fevkalade bir görsel",
+        "yorumcuzaman": "12:46  24 July 2025",
+        "yorumcuzamangecen": "8 Ay",
+        "yorumcukimeyanit": 0,
+        "yorumbegenisayi": 1,
+        "yorumsikayetsayi": 0,
+        "benbegendim": 0,
+        "bensikayet": 0
+      },
+      {
+        "paylasimID": 3326,
+        "yorumID": 7440,
+        "yorumcuid": 11107,
+        "yorumcuetiketad": "@deneme",
+        "yorumcukullaniciad": "deneme",
+        "yorumcuadsoyad": "Test Kullanıcı",
+        "yorumcuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/deneme",
+        "yorumcuufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+        "yorumcuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "yorumcuicerik": "senin gibi",
+        "yorumcuzaman": "06:52  27 July 2025",
+        "yorumcuzamangecen": "8 Ay",
+        "yorumcukimeyanit": 0,
+        "yorumbegenisayi": 1,
+        "yorumsikayetsayi": 0,
+        "benbegendim": 0,
+        "bensikayet": 0
+      }
+    ],
+    "kod": null,
+    "durum": 1,
+    "aciklama": "Yorumlar getiriliyor."
+  },
+  "community_groups": {
+    "icerik": [
+      {
+        "#": 1,
+        "group_ID": 366,
+        "group_name": "İttihat ve Terakki",
+        "group_shortname": "İttihat Ruhu",
+        "group_joinstatus": 1,
+        "group_description": null,
+        "group_registered": "22.05.2024",
+        "group_membercount": 25,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": null,
+          "group_discord": null
+        },
+        "group_URL": "ittihat-ve-terakki",
+        "group_owner": {
+          "player_ID": 11310,
+          "player_displayname": "Emirhan Akkuş",
+          "player_userlogin": "akkusemirhan",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f893e12-83a0-4897-dd5a-467181282100/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logo1716409430.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logoufaklik1716409430.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310logominnak1716409430.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresim1716409447.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresimufaklik1716409447.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11310arkaresimminnak1716409447.jpg"
+        }
+      },
+      {
+        "#": 2,
+        "group_ID": 358,
+        "group_name": "Komünist Anime Kızları Birleşme Derneği",
+        "group_shortname": "KAKBD",
+        "group_joinstatus": 1,
+        "group_description": "Onii chan uWu :3",
+        "group_registered": "21.05.2024",
+        "group_membercount": 22,
+        "group_category": "Yazılım & Geliştirme",
+        "group_categorydetail": "Robotik Kodlama",
+        "group_defaultgame": null,
+        "group_social": {
+          "group_website": "null",
+          "group_discord": "null"
+        },
+        "group_URL": "komunist-anime-kizlari-birlesme-dernegi",
+        "group_owner": {
+          "player_ID": 11663,
+          "player_displayname": "Mel Cobain",
+          "player_userlogin": "Melly",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/6ad3cf60-fb7a-414e-d596-467124dd0c00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logo1716380224.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logoufaklik1716380224.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663logominnak1716380224.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresim1716380243.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresimufaklik1716380243.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/11663arkaresimminnak1716380243.jpg"
+        }
+      },
+      {
+        "#": 3,
+        "group_ID": 1,
+        "group_name": "CZAL Hack Team",
+        "group_shortname": "CZAL HT",
+        "group_joinstatus": 0,
+        "group_description": "Türk Yazılımcı ve Robotikciler ile toplandık Kendimizi Geliştirmek için çaba gösteriyoruz Biz Fatsa Cahit Zarifoğlu Anadolu Lisesinde kurulduk ve çalışmalarımıza devam ediyoruz sende bize katılmak istersen bize mail atabilirsin Okulumuzu İnternette araştırabilirsiniz.",
+        "group_registered": "14.10.2018",
+        "group_membercount": 19,
+        "group_category": "Yazılım & Geliştirme",
+        "group_categorydetail": "Robotik Kodlama",
+        "group_defaultgame": null,
+        "group_social": {
+          "group_website": "https://fatsaczal.meb.k12.tr/tema/index.php",
+          "group_discord": "discord"
+        },
+        "group_URL": "czal-hack-team",
+        "group_owner": {
+          "player_ID": 10010,
+          "player_displayname": "Yusuf Dinç",
+          "player_userlogin": "antikor",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogo1655550694.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogoufaklik1655550694.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarlogominnak1655550694.png"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbanner1655551019.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerufaklik1655551019.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerminnak1655551019.jpg"
+        }
+      },
+      {
+        "#": 4,
+        "group_ID": 163,
+        "group_name": "YEDİHİLAL FUTBOL TAKIMI",
+        "group_shortname": "YEHİ",
+        "group_joinstatus": 1,
+        "group_description": ".",
+        "group_registered": "17.11.2022",
+        "group_membercount": 17,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "yedihilal-futbol-takimi",
+        "group_owner": {
+          "player_ID": 11408,
+          "player_displayname": "Abdullah Çınar",
+          "player_userlogin": "Abdullah8397",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f6dbb1df-43d3-4589-41f8-e492a75d6c00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogo1668710699.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogoufaklik1668710699.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarlogominnak1668710699.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbanner1668711059.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbannerufaklik1668711059.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/163gruplarbannerminnak1668711059.jpg"
+        }
+      },
+      {
+        "#": 5,
+        "group_ID": 116,
+        "group_name": "RIHTIM",
+        "group_shortname": "RTM",
+        "group_joinstatus": 1,
+        "group_description": "Denizin verdiği huzur ile içinizi ferahlatacak bir yaşam sizi bekliyor",
+        "group_registered": "13.03.2022",
+        "group_membercount": 16,
+        "group_category": "E-Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Minecraft",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "rihtim",
+        "group_owner": {
+          "player_ID": 1,
+          "player_displayname": "Berkay Tikenoğlu",
+          "player_userlogin": "berkaytikenoglu",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogo1664915337.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogoufaklik1664915337.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/116gruplarlogominnak1664915337.png"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbanner1661124266.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerufaklik1661124266.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/1gruplarbannerminnak1661124266.png"
+        }
+      },
+      {
+        "#": 6,
+        "group_ID": 93,
+        "group_name": "House of Lords",
+        "group_shortname": "HOL",
+        "group_joinstatus": 1,
+        "group_description": ":D",
+        "group_registered": "24.12.2021",
+        "group_membercount": 12,
+        "group_category": "E-Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "League of Legends",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "house-of-lords",
+        "group_owner": {
+          "player_ID": 10905,
+          "player_displayname": "Emir Baki Ekim",
+          "player_userlogin": "Meliodas",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906orijinal166483472760.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906ufaklik166483472760.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarlogo1644144906minnak166483472760.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566orijinal166483472659.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566ufaklik166483472659.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/10905gruplarbanner1644143566minnak166483472659.jpg"
+        }
+      },
+      {
+        "#": 7,
+        "group_ID": 160,
+        "group_name": "DOĞU SK",
+        "group_shortname": "DSK",
+        "group_joinstatus": 1,
+        "group_description": ".",
+        "group_registered": "13.11.2022",
+        "group_membercount": 11,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "dogu-sk",
+        "group_owner": {
+          "player_ID": 11406,
+          "player_displayname": "Maşallah Kaya",
+          "player_userlogin": "Masallah",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d7011fa1-a570-4c72-a5e1-4ea87ded1c00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogo1669581459.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogoufaklik1669581459.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarlogominnak1669581459.png"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbanner1669581557.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbannerufaklik1669581557.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/160gruplarbannerminnak1669581557.jpg"
+        }
+      },
+      {
+        "#": 8,
+        "group_ID": 177,
+        "group_name": "PATNOS SPOR",
+        "group_shortname": "PTNS",
+        "group_joinstatus": 1,
+        "group_description": ".",
+        "group_registered": "04.12.2022",
+        "group_membercount": 11,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "patnos-spor",
+        "group_owner": {
+          "player_ID": 11587,
+          "player_displayname": "Fırat Yeğin",
+          "player_userlogin": "firat0404",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a808fc82-8f9d-4995-a6e4-9c2bf1667e00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogo1670102947.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogoufaklik1670102947.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarlogominnak1670102947.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbanner1670102896.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbannerufaklik1670102896.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/177gruplarbannerminnak1670102896.jpg"
+        }
+      },
+      {
+        "#": 9,
+        "group_ID": 305,
+        "group_name": "YOZGATSPOR66",
+        "group_shortname": "YS66",
+        "group_joinstatus": 1,
+        "group_description": null,
+        "group_registered": "10.11.2023",
+        "group_membercount": 10,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": null,
+          "group_discord": null
+        },
+        "group_URL": "yozgatspor66",
+        "group_owner": {
+          "player_ID": 11867,
+          "player_displayname": "Hüseyin Çakır",
+          "player_userlogin": "CakmaHaaland",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b1c4ca59-e5b8-4d8f-a941-321c0bdcbc00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogo1699617398.png",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogoufaklik1699617398.png",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarlogominnak1699617398.png"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbanner1699617479.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbannerufaklik1699617479.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/305gruplarbannerminnak1699617479.jpg"
+        }
+      },
+      {
+        "#": 10,
+        "group_ID": 312,
+        "group_name": "CASPER FC",
+        "group_shortname": "CSPR",
+        "group_joinstatus": 1,
+        "group_description": "",
+        "group_registered": "10.11.2023",
+        "group_membercount": 10,
+        "group_category": "Spor",
+        "group_categorydetail": "Takım",
+        "group_defaultgame": "Futbol",
+        "group_social": {
+          "group_website": "",
+          "group_discord": ""
+        },
+        "group_URL": "casper-fc",
+        "group_owner": {
+          "player_ID": 11893,
+          "player_displayname": "Metin Kibar",
+          "player_userlogin": "metinkibar046",
+          "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail"
+        },
+        "group_logo": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogo1699696958.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogoufaklik1699696958.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarlogominnak1699696958.jpg"
+        },
+        "group_banner": {
+          "media_ID": 0,
+          "media_bigURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbanner1699698164.jpg",
+          "media_URL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbannerufaklik1699698164.jpg",
+          "media_minURL": "https://storage.aramizdakioyuncu.com/galeri/gruplar/312gruplarbannerminnak1699698164.jpg"
+        }
+      }
+    ],
+    "kod": null,
+    "durum": 1,
+    "aciklama": "Grup Liste getiriliyor."
+  },
+  "blog_news_fallback": {
+    "icerik": [
+      {
+        "haberID": 419,
+        "haberbaslik": "Fatsa'da Türk Halk Müziği konseri yapıldı.",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/optimized",
+        "link": "https://api.armoyu.com/haberler/kultur/fatsada-turk-halk-muzigi-ekinligi-yapildi",
+        "zaman": "00:15  02 June 2023",
+        "gecenzaman": "2 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Kültür",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 512,
+        "ozet": "Fatsa da düzenlenen Türk halk müzik etkinliğinden kalan fotoğraflar ve düşüncelerimiz"
+      },
+      {
+        "haberID": 417,
+        "haberbaslik": "The Witcher 3 Patch 4.01 Güncellemesi",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/the-witcher-3-patch-401-guncellemesi",
+        "zaman": "03:39  06 February 2023",
+        "gecenzaman": "3 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 589,
+        "ozet": "Witcher  3 4.01 güncellemesi ile bazı hatalar düzeltildi ve Grafik iyileştirmeleri yapıldı"
+      },
+      {
+        "haberID": 416,
+        "haberbaslik": "ETS2 - Feldbinder Trailers DLC Tanıtım",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/ets2-feldbinder-trailers-dlc-tanitim",
+        "zaman": "10:29  08 December 2022",
+        "gecenzaman": "3 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 366,
+        "ozet": "Euro Truck Simulator 2 ye gelen Feldbinder DLC si hakkında açıklamalar"
+      },
+      {
+        "haberID": 412,
+        "haberbaslik": "Steam Kış İndirimleri Başladı Arkadaşlarla Eğlenilecek oyunlar",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/steam-kis-indirimleri-basladi-arkadaslarla-eglenilecek-oyunlar",
+        "zaman": "12:44  23 December 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 556,
+        "ozet": "Steam Kış indirimlerinin gelmesiyle parasını biriktirebilen arkadaşlarımıza arkadaşları ile eğlenebileceği oyunları listeledik hepsini bir anda almak zor olsada uygun fiyatlı oyunlardan almak mümkün."
+      },
+      {
+        "haberID": 411,
+        "haberbaslik": "Kara Cuma(Black Friday) da alınması gereken oyunlar",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/kara-cumablack-friday-da-alinmasi-gereken-oyunlar",
+        "zaman": "13:11  17 November 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 443,
+        "ozet": "Black Friday indiriminde ne almalı ? tavsiye ve öneriler"
+      },
+      {
+        "haberID": 407,
+        "haberbaslik": "Cadılar Bayramı Geldi",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/cadilar-bayrami-geldi",
+        "zaman": "12:20  29 October 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 422,
+        "ozet": "Mutlaka alınması gereken oyunlar bunlara da göz atmayın unutmayalım"
+      },
+      {
+        "haberID": 395,
+        "haberbaslik": "Nvidia GTX 1050 TI hala alınır mı ? ",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/nvidia-1050-ti-hala-alinir-mi",
+        "zaman": "13:36  16 July 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 453,
+        "ozet": "GTX 1050 TI almak mantıklı mı ? piyasa durumu ne?"
+      },
+      {
+        "haberID": 393,
+        "haberbaslik": "Genshin Impact Gizemli Yolculuk Web Etkinliği Resmi Olarak Başlıyor",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/genshin-impact-gizemli-yolculuk-web-etkinligi-resmi-olarak-basliyor",
+        "zaman": "12:27  16 July 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Undertale Mr.",
+        "yazarID": 10009,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/38dff821-b68c-4440-ca86-a9924a817d00/thumbnail",
+        "goruntulen": 388,
+        "ozet": "Bilinmeyen bir denizcilik kılavuzunu ortaya çıkarın ve güvenilir arkadaşınız Paimon ile gizemli bir yolculuğa çıkın!"
+      },
+      {
+        "haberID": 308,
+        "haberbaslik": "Age Of Empires IV Sonbaharda 4 Farklı Hikaye ile Gelecek",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/age-of-empires-iv-onumuzdeki-sonbaharda-naval-battle-deniz-savaslari-ve-4-tarihi-kampanyalar-ile-gelecek",
+        "zaman": "18:20  11 April 2021",
+        "gecenzaman": "5 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 353,
+        "ozet": ""
+      },
+      {
+        "haberID": 268,
+        "haberbaslik": "Hipostatik Senfoni Etkinligi İlk Temizlemede pPimogems Kazanın",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/optimized",
+        "link": "https://api.armoyu.com/haberler/oyun/hipostatik-senfoni-etkinligi-ilk-temizlemede-primogems-kazanin",
+        "zaman": "18:14  17 January 2021",
+        "gecenzaman": "5 Yıl",
+        "yazar": "Undertale Mr.",
+        "yazarID": 10009,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/38dff821-b68c-4440-ca86-a9924a817d00/thumbnail",
+        "goruntulen": 375,
+        "ozet": ""
+      }
+    ],
+    "durum": 1,
+    "aciklama": "Haber listesi getiriliyor.",
+    "kod": 0
+  },
+  "user_search_fallback": {
+    "durum": 0,
+    "aciklama": "API Hatası (Format): <!DOCTYPE html>\r\n<html lang=\"tr\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\r\n  <title>Armoyu API Geliştirici Sayfası</title>\r\n  <style>\r\n    * {\r\n      box-sizing: border-box;\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n\r\n    body {\r\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n      background: linear-gradient(120deg, #1f1f1f, #2d2d2d);\r\n      color: #f5f5f5;\r\n      display: flex;\r\n      align-items: center;\r\n      justify-content: center;\r\n      height: 100vh;\r\n      text-align: center;\r\n    }\r\n\r\n    .container {\r\n      background-color: #292929;\r\n      padding: 40px;\r\n      border-radius: 16px;\r\n      box-shadow: 0 0 20px rgba(0,0,0,0.3);\r\n      max-width: 500px;\r\n    }\r\n\r\n    h1 {\r\n      font-size: 2.4rem;\r\n      margin-bottom: 20px;\r\n      color: #00bcd4;\r\n    }\r\n\r\n    p {\r\n      font-size: 1.1rem;\r\n      margin-bottom: 30px;\r\n      color: #ccc;\r\n    }\r\n\r\n    a.button {\r\n      display: inline-block;\r\n      padding: 12px 24px;\r\n      background-color: #00bcd4;\r\n      color: #1f1f1f;\r\n      border-radius: 8px;\r\n      text-decoration: none;\r\n      font-weight: bold;\r\n      transition: background 0.3s ease;\r\n    }\r\n\r\n    a.button:hover {\r\n      background-color: #00acc1;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"container\">\r\n    <h1>Armoyu API'ye Hoş Geldiniz</h1>\r\n    <p>Bu sayfa geliştiriciler için tasarlanmıştır. Buradan dökümantasyona ulaşabilir, API uç noktalarını keşfedebilirsiniz.</p>\r\n    <a href=\"https://api.armoyu.com/docs\" class=\"button\">Dokümantasyona Git</a>\r\n  </div>\r\n</body>\r\n</html>\r\n",
+    "icerik": null,
+    "kod": 0
+  },
+  "community_events": {
+    "icerik": [
+      {
+        "#": 1,
+        "event_ID": 346,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/okey/etkinlik/okey-etkinligi1716995531",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f869c697-5f3f-49b6-b40a-aa9143effe00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cc8ce813-bc87-416e-58f0-f46f24f6ae00/thumbnail",
+        "event_name": "Okey Etkinliği",
+        "event_gameID": 2561,
+        "event_gamename": "Okey",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/okey.png",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/okey.png",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "30.05.2024 19:30",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 16,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 14,
+        "event_location": "2561",
+        "event_description": "Katlamalı, eşe katlama yok.\r\nYandan alınan taşla seri açılırsa taşın 10 katı ceza.  (Eli açıkken aldıysa ceza yok.)\r\nÇift açılırsa taşın 20 katı ceza (Eli açıkken aldıysa ceza yok.)\r\nİşlek atmaya ve okey atmaya 100 ceza.\r\n50 yan 1 üstü seri ve 7 çifte 100 siler\r\n60 yan 1 üstü ve 9 çifte 200 siler.\r\nGösterge el başında geldiyse çift için kullanılabilir.\r\n\r\n\r\nAkropol Cafede oynayacağız \r\nMasalara demlik çay alınacak Masa başı 200₺\r\n\r\nKişi başı 50₺ ye denk geliyor",
+        "event_rules": "1. **Dürüstlük ve Adalet:**\r\n   - Oyun boyunca dürüst olun ve hile yapmaktan kaçının.\r\n   - Kuralları ihlal etmeden oyunu oynayın ve her zaman adil bir oyun sergileyin.\r\n\r\n2. **Saygı ve Nezaket:**\r\n   - Tüm oyunculara karşı saygılı ve nazik davranın.\r\n   - Küfür, hakaret veya aşağılayıcı dil kullanmaktan kaçının.\r\n\r\n3. **Sabır ve Anlayış:**\r\n   - Oyunun her aşamasında sabırlı olun. Diğer oyuncuların hamlelerini yapmaları için yeterli süre tanıyın.\r\n   - Oyunu öğrenmekte veya oynamakta zorlanan oyunculara anlayış gösterin ve gerekirse yardımcı olun.\r\n\r\n4. **Sessizlik ve Dikkat:**\r\n   - Oyuna odaklanın ve gereksiz gürültü veya dikkat dağıtıcı hareketlerden kaçının.\r\n   - Diğer oyuncuları rahatsız edecek şekilde konuşmayın veya sohbet etmeyin.\r\n\r\n5. **İletişim:**\r\n   - Oyuncularla açık ve anlaşılır bir şekilde iletişim kurun.\r\n   - Oyunun kuralları veya bir hamle hakkında sorularınız varsa, bunu saygılı bir şekilde sorun.\r\n\r\n6. **Kibar Olma:**\r\n   - Oyunu kazansanız da kaybetseniz de kibarlığınızı koruyun.\r\n   - Diğer oyuncuların iyi hamlelerini takdir edin ve tebrik edin.\r\n\r\n7. **Zamanında Gelme ve Hazır Olma:**\r\n   - Oyuna belirtilen zamanda başlayın ve oyuna zamanında katılın.\r\n   - Oyun sırasında telefon veya diğer cihazlarla ilgilenmekten kaçının.\r\n\r\n8. **Kurallara Uyma:**\r\n   - Oyun başlamadan önce belirlenen kurallara sadık kalın ve oyunu kurallarına göre oynayın.\r\n   - Olası anlaşmazlıkları kurallara göre çözün ve hakem kararlarına saygı gösterin.\r\n\r\n9. **Temizlik ve Düzen:**\r\n   - Oyun alanını temiz ve düzenli tutun.\r\n   - Oyun malzemelerine zarar vermekten kaçının ve onları dikkatli kullanın.\r\n\r\nBu kurallar, okey oyununu daha keyifli ve adil hale getirmek için tüm oyuncuların uyması gereken temel davranış standartlarını belirler. İyi bir oyun geçirmeniz dileğiyle!"
+      },
+      {
+        "#": 2,
+        "event_ID": 345,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/galatasaray-konyaspor-mac-izleme-etkinligi1716717952",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2cb617fa-e2b5-4968-bb21-6f07cb22df00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/be7028c7-9ee4-4502-f014-d0735d40ed00/thumbnail",
+        "event_name": "Galatasaray - Konyaspor Maç izleme etkinliği",
+        "event_gameID": 1680,
+        "event_gamename": "Futbol",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "26.05.2024 19:00",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 10,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 10,
+        "event_location": "1680",
+        "event_description": "19.00dan önce etkinlik noktasında olalım ,tanışalım sohbet edelim sonradan rahatsızlık vermeyelim\r\nEtkinliğe dışarıdan arkadaş getirmemeye dikkat edelim arkadaşlarımız katıl butonuna basarak listeye katılsınlar\r\n\r\nFORMASI OLANLAR FORMALARINI GİYSİN FOTOĞRAF ÇEKİNECEĞİZ\r\n\r\nMaç izleme ücreti : yok",
+        "event_rules": "Saygılı Ol!: Herkesin farklı takımları destekleyebileceğini ve bu tutkunun kişisel olduğunu unutmayın. Karşılıklı saygı ve nezaket içinde olun. Küfür etmek, taciz etmek veya başkalarına saldırmak kesinlikle yasaktır.\r\n\r\nAlkol Kullanma!: Alkol kullanımı etkinlik alanında yasaktır.\r\n\r\nKesici ve Delici Aletler Getirme!: Güvenlik önlemleri kapsamında kesici veya delici aletlerin etkinlik alanına getirilmesi kesinlikle yasaktır.\r\n\r\nÇevreyi Temiz Tut!: Etkinlik alanını temiz tutmak her katılımcının sorumluluğundadır. Çöpleri belirlenen yerlere atmak ve çevreyi kirletmekten kaçınmak önemlidir.\r\n\r\nRahatsız Edici Gürültü Yapma!: Diğer izleyicilerin rahatsız olmaması için gürültü seviyesini makul düzeyde tutun."
+      },
+      {
+        "#": 3,
+        "event_ID": 344,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/voleybol/etkinlik/sivas-kardesler-tepesi-piknik1716671122",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/97a2d898-2906-4382-0e34-d56b6ad09000/thumbnail",
+        "event_fotodetail": null,
+        "event_name": "SİVAS Kardeşler Tepesi Piknik",
+        "event_gameID": 1681,
+        "event_gamename": "Voleybol",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/voleybol.png",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/voleybol.png",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "26.05.2024 10:00",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 20,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 14,
+        "event_location": "1681",
+        "event_description": "Saat 10.00 da yurtlardan çıkış yapacağız.\r\n---AKIŞ---\r\n1. 11.00'da Kahvaltı yapacağız\r\n2. 14.00'a kadar sohbet , oyun , fubol , voleybol UNO vb\r\n3. 14.00'da ateş yakılacak \r\n4. 15.00'da tavuklar pişmeye başlayacak\r\n5. Akşamında maç izlemeye gelmek isteyenlerle maça gidilecek. \r\n",
+        "event_rules": "1. Zamanında Gelin: Etkinlik programına uygun olarak belirlenen saatte gelin. Geç kalmak, diğer katılımcıların planlarını aksatabilir.\r\n\r\n2. Geri Dönüşüme Dikkat Edin: Çöplerinizi geri dönüşüm kutularına atın. Doğayı korumak hepimizin sorumluluğu.\r\n\r\n3. Sessizliğe Saygı Gösterin: Diğer katılımcıların keyfini bozmamak için yüksek sesle konuşmaktan veya yüksek müzik açmaktan kaçının.\r\n\r\n4. Kişisel Alanlara Saygı Gösterin: Herkesin kendine ait bir alanı vardır. Başkalarının özel eşyalarına izinsiz dokunmayın.\r\n\r\n5. Yardımcı Olun: İhtiyacı olan arkadaşlarınıza yardımcı olun. Birlikte hazırlık yaparken iş birliği içinde çalışın.\r\n\r\n6. Plana Uyun: Etkinlik programına sadık kalın. Belirlenen etkinlik saatlerine ve aktivitelere katılım gösterin.\r\n\r\n7. İzin Alın: Başkasına ait bir eşyayı veya malzemeyi kullanmadan önce izin isteyin.\r\n\r\n8. Temizlik Kurallarına Uyun: Yemeğinizi yedikten sonra alanınızı temizleyin. Piknik alanını bulduğunuz gibi bırakın.\r\n\r\n9. Olumlu ve Saygılı İletişim: Herkesle olumlu ve nazik bir şekilde iletişim kurun. Tartışmalardan kaçının ve birbirinizin görüşlerine saygı gösterin.\r\n\r\n10. Aciliyet Durumları İçin Bilgilendirme: Bir acil durumda organizatörleri bilgilendirin ve gerekli talimatları takip edin."
+      },
+      {
+        "#": 4,
+        "event_ID": 343,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/derbi-heyecani!1715718267",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/135fd7c7-7b9c-4a1a-aa09-09f178773500/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/781346c4-97e9-4640-dc12-473120206700/thumbnail",
+        "event_name": "Derbi Heyecanı!",
+        "event_gameID": 1680,
+        "event_gamename": "Futbol",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          },
+          {
+            "player_ID": 12025,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4aa76fb4-c709-433c-3b4c-aaec51a93a00/thumbnail",
+            "player_displayname": "Betül Şenyayla"
+          },
+          {
+            "player_ID": 10915,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a7648d94-79a5-4b4e-5eb4-de61c0172e00/thumbnail",
+            "player_displayname": "Engin Kuşkovan"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "19.05.2024 19:00",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 20,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 14,
+        "event_location": "1680",
+        "event_description": "19.00dan önce etkinlik noktasında olalım ,tanışalım sohbet edelim sonradan rahatsızlık vermeyelim\r\nEtkinliğe dışarıdan arkadaş getirmemeye dikkat edelim arkadaşlarımız katıl butonuna basarak listeye katılsınlar\r\n\r\nFORMASI OLANLAR FORMALARINI GİYSİN FOTOĞRAF ÇEKİNECEĞİZ\r\n\r\nMaç izleme ücreti : 65₺\r\n4 defa servis olacak çay alırsanız 20 *4 = 80\r\n\r\nToplam 145₺ ",
+        "event_rules": "Saygılı Ol!: Herkesin farklı takımları destekleyebileceğini ve bu tutkunun kişisel olduğunu unutmayın. Karşılıklı saygı ve nezaket içinde olun. Küfür etmek, taciz etmek veya başkalarına saldırmak kesinlikle yasaktır.\r\n\r\nAlkol Kullanma!: Alkol kullanımı etkinlik alanında yasaktır.\r\n\r\nKesici ve Delici Aletler Getirme!: Güvenlik önlemleri kapsamında kesici veya delici aletlerin etkinlik alanına getirilmesi kesinlikle yasaktır.\r\n\r\nÇevreyi Temiz Tut!: Etkinlik alanını temiz tutmak her katılımcının sorumluluğundadır. Çöpleri belirlenen yerlere atmak ve çevreyi kirletmekten kaçınmak önemlidir.\r\n\r\nRahatsız Edici Gürültü Yapma!: Diğer izleyicilerin rahatsız olmaması için gürültü seviyesini makul düzeyde tutun."
+      },
+      {
+        "#": 5,
+        "event_ID": 327,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/futbol/etkinlik/kadi-burhaneddin-sonbahar-turnuvasi1699440534",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/37a508a3-9ea5-4892-09e3-394e96966c00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8ecce8bb-1827-4613-e044-52f205815700/thumbnail",
+        "event_name": "KADI BURHANEDDİN SONBAHAR TURNUVASI",
+        "event_gameID": 1680,
+        "event_gamename": "Futbol",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/futboll.png",
+        "event_organizer": [
+          {
+            "player_ID": 11214,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fa610da3-94d5-4b1f-8b6d-505e46fb5700/thumbnail",
+            "player_displayname": "Atakan Eyigün"
+          },
+          {
+            "player_ID": 11520,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/26c08e59-7050-4faf-0565-33fad9966a00/thumbnail",
+            "player_displayname": "Ömer Faruk Kaya"
+          }
+        ],
+        "event_type": "gruplu",
+        "event_date": "12.11.2023 17:00",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 16,
+        "event_participantgroupplayerlimit": 10,
+        "event_participantcurrent": 16,
+        "event_location": "1680",
+        "event_description": "Değerli Oyuncular, Turnuvamıza sadece takımla katılabilirsiniz tek bir oyuncu katılım yapamaz. Takımınıza yedek oyuncu eklemeyi unutmayınız sonradan ekleyemeyeceksiniz.\r\n\r\nMaç saatlerimiz akşam saat 21.00 - 23.00 aralarında gerçekleşecektir\r\n\r\nTurnuva başladıktan sonra takıma oyuncu almak işlemleri kapanacaktır.\r\n\r\nMaçlarınızın saatini kaçırmayın en az 10dk önceden hazır olun.\r\n\r\nYoklama alıncaktır liste harici oyuncu sokmak yasak lütfen dikkat edelim.\r\n\r\nGünde birden fazla maç olan günlerde maçların erken bitmesi durumunda rakip takımın onayı alındıktan sonra diğer maça geçiş yapılabilir.\r\n\r\nKURA ÇEKİLİŞİ:\r\n12.11.2023 Pazar günü 19.00 HASBİHAL ODASI nda gerçekleşecektir.",
+        "event_rules": "KAVGA ÇIKARAN OYUNCU VEYA TAKIM İÇİN YURT MÜDÜRLÜĞÜ TARAFINDAN İDARİ İŞLEM BAŞLATILACAKTIR.\r\n\r\nKAVGA ÇIKARAN OYUNCULAR YURTTAN ATILABİLİR!\r\n\r\n\r\n1- Oyuncular arası küfür argo rahatsız edici kelimeler kullanmak YASAKTIR.\r\n(Kavga çıkarmaya çalışan takım elenir. Rakip takımdan karşılık gelirse iki takım elenmiş olur.)\r\n\r\n2- Oyuncu Sayısı 7 olmak zorundadır. 3 yedek olabilir (7 + 3)\r\n\r\n3- Elektrik Kesintisi gibi nedenler olmadıkça maç tekrar oynanmayacaktır.\r\n\r\n4- Maç saatinden önce hazır olunmalıdır maç saatinde halı sahada olmayan veya eksik oyuncusu olan takım ELENECEKTİR.(maksimum 10dk beklenir.)\r\n\r\n5- Turnuva başladıktan sonra takım kadrosu kesinlikle değiştirilemez(YEDEK oyuncuları listeye ekleyin)\r\n\r\n6- Bir Oyuncu birden fazla takımda bulunamaz.\r\n\r\n7- Maçlar 50 dakika oynanacaktır. (20 dakika +10 dakika mola + 20 dakika) ekstra uzatma YOK devamında PENALTI ile maç bitirilecek.\r\n\r\n8- Kaleler Yazı-Tura atılarak belirlenecek.\r\n\r\n9- Kırmızı kart alan oyuncu sonraki maça KATILAMAZ.\r\n\r\n10- Forma yazı tura ile belirlenecek.\r\n\r\n11- Hakeme haber vermeden kaleci değişikliği yapmak YASAKTIR (Haber vermeden değişiklik yaparsanız el sayılır!).\r\n\r\nOyun içi Kurallar\r\n\r\n1- Maç esnasında 2 kırmızı kart gören takım mağlup olmuş sayılır.\r\n2- Geri pas var.\r\n3- Oyuncular maçtan çıkarsa tekrar giremez.\r\n4- Taç yok."
+      },
+      {
+        "#": 6,
+        "event_ID": 322,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/yillar-sonra1684525594",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/05076c5a-1602-4f3f-257b-516a83d2dd00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/0110ef90-2919-4116-cd88-ee0946a0f900/thumbnail",
+        "event_name": "Frankfurt - Poznan",
+        "event_gameID": 895,
+        "event_gamename": "Euro Truck Simulator 2",
+        "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "20.05.2023 22:30",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 0,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 7,
+        "event_location": "895",
+        "event_description": "Puanınızın düşmemesi için sıralarımıza sahip çıkalım.\r\n\r\nYetkili konuşurken konuşmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yaklaştığında yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konuşmamaya dikkat edelim.\r\n\r\nAracınız park halindeyken kick yememek için ara sıra chat ekranına bir nokta(.) yazmanız önerilir.\r\n\r\nYetkilinin komutlarını kaçırmamanız için oyun radyosunun sesini kısmanız önerilir.\r\n\r\nHerhangi bir kaza durumunda “/fix” komutunu kullanarak veya otomatik kayıttan konvoya yetişmeye çalışın.",
+        "event_rules": "1) Konvoy saatinden en az 20 dakika önce oyunda olmanız ve discord etkinlik bekleme odasına katılmanız gerekmektedir. Bu süre zarfında katılmazsanız konvoya katılamazsınız ve yok yazılırsınız.\r\n\r\n2) Konvoy yetkilisinin talimatlarına göre sollama yapabilirsiniz. Onun haricinde sollama yapmak KESİNLİKLE yasaktır. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n3) Mesafenizi hızınıza göre 1,5 - 2 tır mesafe olacak şeklinde ayarlayınız. Aksi durumda aşamalı cezalandırma uygulanacaktır.\r\n\r\n4) Konvoy yetkilisinin sözüne dikkat edilmelidir. Aksi durumda aşamalı cezalandırma uygulanacaktır.\r\n\r\n5) DORSE bağlamadan GELMEK YASAKTIR.\r\n\r\n6) 1 DORSEDEN fazlası YASAKTIR.\r\n\r\n7) Etkinliğe TIR HARİCİ (Scout , binek araçlar vb.) ile gelmek YASAKTIR.\r\n\r\n8) Konvoya siteden katıl demeden etkinliğe katılmaya çalışan oyunculara CEZA verilecektir. İLERİ SEVİYEDE uygulanacaktır.\r\n\r\n9)Etkinlik saatinden önce söylenen/yüklenen göreseldeki yerde olmanız gerekmetedir. Aksi takdirde sizi beklemeden etkinlik başlar.Hatta etkinliğe gelmedi sayılırsınız."
+      },
+      {
+        "#": 7,
+        "event_ID": 318,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/league-of-legends/etkinlik/bahar-turnuvasi1683306729",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8a33bdde-dc6c-4e03-9985-95d03abcee00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b6299b17-e264-41c1-9f07-4231ddfeb000/thumbnail",
+        "event_name": "Bahar Turnuvası",
+        "event_gameID": 1562,
+        "event_gamename": "League of Legends",
+        "event_gamebanner": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.jpg",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/oyun-logolari/league-of-legends.png",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          },
+          {
+            "player_ID": 81,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+            "player_displayname": "Barış Müftüoğlu"
+          },
+          {
+            "player_ID": 11324,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a85249fa-bc44-47be-41a8-a273b027d100/thumbnail",
+            "player_displayname": "Nazdem K."
+          }
+        ],
+        "event_type": "gruplu",
+        "event_date": "15.05.2023 21:30",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 8,
+        "event_participantgroupplayerlimit": 8,
+        "event_participantcurrent": 8,
+        "event_location": "1562",
+        "event_description": "Değerli Oyuncular, Turnuvamıza sadece takımla katılabilirsiniz tek bir oyuncu katılım yapamaz.\r\n\r\nTakımınıza yedek oyuncu eklemeyi unutmayınız sonradan ekleyemeyeceksiniz.\r\n\r\nTurnuva başladıktan sonra takıma oyuncu almak işlemleri kapanacaktır.\r\n\r\nMaçlarınızın saatini kaçırmayın en az 15dk önceden hazır durumda discord olunuz.\r\naramizdakioyuncu.com/discord\r\n\r\nMaç sonunda İstatistiklerin ekran görüntüsünü alıp saklamakta fayda var herhangi bir aksaklıkta elinizde belge olur \r\n\r\nDiscord kullanmak zorunlu olup sunucumuzda gruba özel oda kurulacak\r\n\r\nGünde birden fazla maç olan günlerde maçların erken bitmesi durumunda rakip takımın onayı alındıktan sonra diğer maça geçiş yapılabilir.\r\n\r\nSihirdar düzeni maç listesine göre yapılacak soldaki takım solda sağdaki takım sağda oynayacak.\r\n\r\nMaç saatleri : \r\nAkşam saat 20.00-00.00 arasına kadar maçları oynatacağız",
+        "event_rules": "1- Sunucu kaynaklı sorun olmadığı sürece maçlar tekrarlanmayacaktır. \r\n\r\n2- Oyuncular birbirlerine saygılı davranmalı kavga halinde olmamalı. All Chatten ez , kolay ve benzeri kelimeler gibi rakibi tahrik edecek şekilde yaklaşması durumunda bunu yapan oyuncunun takımı maçı hükmen mağlup tamamlamış sayılacaktır.\r\n\r\n3- Etkinliğe katılan oyuncuların Hesabı bağla butonuna tıklayarak sadece lol kullanıcı adını girmelidir (Sistemsel hatalarda yardımcı olunacaktır).\r\n\r\n4- En fazla 5 oyuncu 3 yedek olabilir  (5 + 3)\r\n\r\n5- Yedeklere ödül verilmez. Sadece 5 asil oyuncuya ödüller teslim edilir. (oyuncu başı 850RP)\r\n\r\n6-  Maç saatinde discord sunucusunda olmayan veya eksik olan takım kaybetmiş sayılır.(max 15dk beklenir.)\r\n https://armoyu.com/discord\r\n\r\n7- Turnuva başladıktan sonra takım kadrosu DEĞİŞTİRİLMEZ\r\n\r\n8- Bir oyuncu birden fazla takımda BULUNAMAZ.\r\n\r\n9- Ödül teslim turnuvanın gidişatına göre belli olacaktır.\r\n\r\n10- Turnuva lig usulü gerçekleştirilecektir. \r\n\r\n11- Maçlar sona erdikten sonra sıralamanın birinci ve ikinci takımları kendi aralarında en fazla 3 maçlık final oyunu oynar. (2 galibiyet alan kazanır)\r\n\r\n12- Oyun odaları turnuva moduna ayarlanacaktır. \r\n\r\n\r\nARMOYU kurallarda değişiklik haklarını saklı tutar."
+      },
+      {
+        "#": 8,
+        "event_ID": 314,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/assetto-corsa/etkinlik/assetto-modlu1680290982",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/664f0827-6279-461a-be90-18b404c3ef00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b2b85b9e-ed77-4d8f-64c5-1798d5f43800/thumbnail",
+        "event_name": "Assetto Modlu",
+        "event_gameID": 896,
+        "event_gamename": "Assetto Corsa",
+        "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/244210/header.jpg?t=1568751918",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/assetto-corsa.jpg",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "02.04.2023 22:30",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 0,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 3,
+        "event_location": "896",
+        "event_description": "Dağ Tırmanışı Yapacağız uçurumlardan uçmamaya dikkat edelim haritayı ve araçları discord üzerinden indirin",
+        "event_rules": "1:  Yetkililere karışmak YASAKTIR, verilen/yazılan kurallara uyulmalı, aksi taktirde cezalar uygulanacaktır.\r\n\r\n2:  Pilotlar etrafındaki oyunculara SAYGILI olmalıdır. Aralarında  herhangi bir atışma olmamalıdır. Herhangi bir şikayet olduğunda hem kışkırtan hem de şikayet edilen taraf için ceza işlenecektir.\r\n\r\n3:  Yetkililer , pilotlar arasında herhangi bir kontak söz konusu olmuşsa bunu inceleyip (video / fotoğraf / tarafsız şahitler/ pilotlar) , ceza uygulama yetkisine sahiptirler.\r\n\r\n4:  Teknik aksaklıklar( Sunucunun PİNG / Sunucu elektrik kesintisi / Siber saldırılar) hariç maç tekrar edilmeyecektir.\r\n\r\n5:  Herhangi bir sebepten dolayı turnuvadan men edilen bir pilot hiç bir surette ödül/ katılım belgesi / sertifika belgesi talep edemez.\r\n\r\n6:  Yarış başı belirlenen ödüller periyodik olarak pilotlara iletilecektir.\r\n\r\n7:  Kişisel oluşan teknik hatalar pilotun sorumluluğundadır. Bu gibi durumlar kronik hale gelir ise yönetim pilotun yarışlara katılmasına izin vermez ve uyarır.\r\n\r\n8: Yarışın % 50'lik kısmı geçildikten sonra sunucuda herhangi genel bir teknik arıza oluşursa, yarış o anki sıralamada tescil edilir. Doğru sıralama bilgisi olmadığı takdirde tekrar veya iptal edilir.\r\n\r\n9: Yarış bilgilendirmesi site yolu ile (SMS / Mail) gönderilecek. sıralama turlarına katılmaya hak kazanacaktır. Katılımın yoğun olması halinde siteme kayıt olma  sırası esas alınacaktır. Sıralama turları yarış günü yapılacak, saat ve sunucu şifre bilgisi site üzerinden veya https://armoyu.com/discord adresimizden mesaj yolu ile iletilecektir."
+      },
+      {
+        "#": 9,
+        "event_ID": 313,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/euroo-truckk1680290941",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/636bf30a-5e58-4ee9-5031-a0e77785ca00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a79ea742-9eec-4b6c-45cc-441846ecf500/thumbnail",
+        "event_name": "Kassel - Zürich",
+        "event_gameID": 895,
+        "event_gamename": "Euro Truck Simulator 2",
+        "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "01.04.2023 22:40",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 0,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 9,
+        "event_location": "895",
+        "event_description": "Puanınızın düşmemesi için sıralarımıza sahip çıkalım.\r\nYetkili konuşurken konuşmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yaklaştığında yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konuşmamaya dikkat edelim.\r\n\r\nAracınız park halindeyken kick yememek için ara sıra chat ekranına bir nokta(.) yazmanız önerilir.\r\n\r\nYetkilinin komutlarını kaçırmamanız için oyun radyosunun sesini kısmanız önerilir.\r\n\r\nHerhangi bir kaza durumunda “/fix” komutunu kullanarak veya otomatik kayıttan konvoya yetişmeye çalışın.",
+        "event_rules": "1) Konvoy saatinden en az 20 dakika önce oyunda olmanız ve discord etkinlik bekleme odasına katılmanız gerekmektedir. Bu süre zarfında katılmazsanız konvoya katılamazsınız ve yok yazılırsınız.\r\n\r\n2) Konvoy yetkilisinin talimatlarına göre sollama yapabilirsiniz. Onun haricinde sollama yapmak KESİNLİKLE yasaktır. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n3) Mesafenizi hızınıza göre 1,5 - 2 tır mesafe olacak şeklinde ayarlayınız. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n4) Konvoy yetkilisinin sözüne dikkat edilmelidir. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n5) Oyun esnasında Konvoy Yetkililerinin komutlarına uymanız gerekmektedir. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n6) DORSE bağlamadan GELMEK YASAKTIR.\r\n\r\n7) 1 DORSEDEN fazlası YASAKTIR.\r\n\r\n8) Etkinliğe TIR HARİCİ (Scout , binek araçlar vb.) ile gelmek YASAKTIR.\r\n\r\n9) Konvoya siteden katıl demeden etkinliğe katılmaya çalışan oyunculara CEZA verilecektir. İLERİ SEVİYEDE uygulanacaktır.\r\n"
+      },
+      {
+        "#": 10,
+        "event_ID": 309,
+        "event_status": 0,
+        "event_link": "https://api.aramizdakioyuncu.com/oyunlar/euro-truck-simulator-2/etkinlik/gel-bahtimin-kar-beyazi1678949358",
+        "event_foto": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ca81396e-b8df-44f6-f99f-c38af8931c00/thumbnail",
+        "event_fotodetail": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/b2dfdbea-afb3-4035-14fe-9075ff67d000/thumbnail",
+        "event_name": "Münih - Poznan",
+        "event_gameID": 895,
+        "event_gamename": "Euro Truck Simulator 2",
+        "event_gamebanner": "https://steamcdn-a.akamaihd.net/steam/apps/227300/header.jpg?t=1568751918",
+        "event_gamelogo": "https://storage.aramizdakioyuncu.com/galeri/steam/euro-truck-simulator-2.jpg",
+        "event_organizer": [
+          {
+            "player_ID": 1,
+            "player_avatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+            "player_displayname": "Berkay Tikenoğlu"
+          }
+        ],
+        "event_type": "bireysel",
+        "event_date": "18.03.2023 22:50",
+        "event_participanttype": "herkes",
+        "event_participantlimit": 0,
+        "event_participantgroupplayerlimit": 0,
+        "event_participantcurrent": 7,
+        "event_location": "895",
+        "event_description": "Puanınızın düşmemesi için sıralarımıza sahip çıkalım.\r\nYetkili konuşurken konuşmamaya dikkat edelim. Haricinde sohbet serbesttir.\r\n\r\nEtkinlik saati yaklaştığında yetkili haricinde mecburiyetiniz veya acil bir durum/durumunuz yoksa konuşmamaya dikkat edelim.\r\n\r\nAracınız park halindeyken kick yememek için ara sıra chat ekranına bir nokta(.) yazmanız önerilir.\r\n\r\nYetkilinin komutlarını kaçırmamanız için oyun radyosunun sesini kısmanız önerilir.\r\n\r\nHerhangi bir kaza durumunda “/fix” komutunu kullanarak veya otomatik kayıttan konvoya yetişmeye çalışın.",
+        "event_rules": "1) Konvoy saatinden en az 20 dakika önce oyunda olmanız ve discord etkinlik bekleme odasına katılmanız gerekmektedir. Bu süre zarfında katılmazsanız konvoya katılamazsınız ve yok yazılırsınız.\r\n\r\n2) Konvoy yetkilisinin talimatlarına göre sollama yapabilirsiniz. Onun haricinde sollama yapmak KESİNLİKLE yasaktır. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n3) Mesafenizi hızınıza göre 1,5 - 2 tır mesafe olacak şeklinde ayarlayınız. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n4) Konvoy yetkilisinin sözüne dikkat edilmelidir. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n5) Oyun esnasında Konvoy Yetkililerinin komutlarına uymanız gerekmektedir. Aksi durumda Aşamalı Cezalandırma uygulanacaktır.\r\n\r\n6) DORSE bağlamadan GELMEK YASAKTIR.\r\n\r\n7) 1 DORSEDEN fazlası YASAKTIR.\r\n\r\n8) Etkinliğe TIR HARİCİ (Scout , binek araçlar vb.) ile gelmek YASAKTIR.\r\n\r\n9) Konvoya siteden katıl demeden etkinliğe katılmaya çalışan oyunculara CEZA verilecektir. İLERİ SEVİYEDE uygulanacaktır.\r\n"
+      }
+    ],
+    "durum": 1,
+    "aciklama": "Liste getiriliyor.",
+    "kod": 0
+  },
+  "community_forums": {
+    "durum": 0,
+    "aciklama": "API Hatası (Format): <!DOCTYPE html>\r\n<html lang=\"tr\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\r\n  <title>Armoyu API Geliştirici Sayfası</title>\r\n  <style>\r\n    * {\r\n      box-sizing: border-box;\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n\r\n    body {\r\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n      background: linear-gradient(120deg, #1f1f1f, #2d2d2d);\r\n      color: #f5f5f5;\r\n      display: flex;\r\n      align-items: center;\r\n      justify-content: center;\r\n      height: 100vh;\r\n      text-align: center;\r\n    }\r\n\r\n    .container {\r\n      background-color: #292929;\r\n      padding: 40px;\r\n      border-radius: 16px;\r\n      box-shadow: 0 0 20px rgba(0,0,0,0.3);\r\n      max-width: 500px;\r\n    }\r\n\r\n    h1 {\r\n      font-size: 2.4rem;\r\n      margin-bottom: 20px;\r\n      color: #00bcd4;\r\n    }\r\n\r\n    p {\r\n      font-size: 1.1rem;\r\n      margin-bottom: 30px;\r\n      color: #ccc;\r\n    }\r\n\r\n    a.button {\r\n      display: inline-block;\r\n      padding: 12px 24px;\r\n      background-color: #00bcd4;\r\n      color: #1f1f1f;\r\n      border-radius: 8px;\r\n      text-decoration: none;\r\n      font-weight: bold;\r\n      transition: background 0.3s ease;\r\n    }\r\n\r\n    a.button:hover {\r\n      background-color: #00acc1;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"container\">\r\n    <h1>Armoyu API'ye Hoş Geldiniz</h1>\r\n    <p>Bu sayfa geliştiriciler için tasarlanmıştır. Buradan dökümantasyona ulaşabilir, API uç noktalarını keşfedebilirsiniz.</p>\r\n    <a href=\"https://api.armoyu.com/docs\" class=\"button\">Dokümantasyona Git</a>\r\n  </div>\r\n</body>\r\n</html>\r\n",
+    "icerik": null,
+    "kod": 0
+  },
+  "blog_news_post_test": "<!DOCTYPE html>\r\n<html lang=\"tr\">\r\n<head>\r\n  <meta charset=\"UTF-8\" />\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\r\n  <title>Armoyu API Geliştirici Sayfası</title>\r\n  <style>\r\n    * {\r\n      box-sizing: border-box;\r\n      margin: 0;\r\n      padding: 0;\r\n    }\r\n\r\n    body {\r\n      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n      background: linear-gradient(120deg, #1f1f1f, #2d2d2d);\r\n      color: #f5f5f5;\r\n      display: flex;\r\n      align-items: center;\r\n      justify-content: center;\r\n      height: 100vh;\r\n      text-align: center;\r\n    }\r\n\r\n    .container {\r\n      background-color: #292929;\r\n      padding: 40px;\r\n      border-radius: 16px;\r\n      box-shadow: 0 0 20px rgba(0,0,0,0.3);\r\n      max-width: 500px;\r\n    }\r\n\r\n    h1 {\r\n      font-size: 2.4rem;\r\n      margin-bottom: 20px;\r\n      color: #00bcd4;\r\n    }\r\n\r\n    p {\r\n      font-size: 1.1rem;\r\n      margin-bottom: 30px;\r\n      color: #ccc;\r\n    }\r\n\r\n    a.button {\r\n      display: inline-block;\r\n      padding: 12px 24px;\r\n      background-color: #00bcd4;\r\n      color: #1f1f1f;\r\n      border-radius: 8px;\r\n      text-decoration: none;\r\n      font-weight: bold;\r\n      transition: background 0.3s ease;\r\n    }\r\n\r\n    a.button:hover {\r\n      background-color: #00acc1;\r\n    }\r\n  </style>\r\n</head>\r\n<body>\r\n  <div class=\"container\">\r\n    <h1>Armoyu API'ye Hoş Geldiniz</h1>\r\n    <p>Bu sayfa geliştiriciler için tasarlanmıştır. Buradan dökümantasyona ulaşabilir, API uç noktalarını keşfedebilirsiniz.</p>\r\n    <a href=\"https://api.armoyu.com/docs\" class=\"button\">Dokümantasyona Git</a>\r\n  </div>\r\n</body>\r\n</html>\r\n",
+  "blog_news_legacy": {
+    "icerik": [
+      {
+        "haberID": 419,
+        "haberbaslik": "Fatsa'da Türk Halk Müziği konseri yapıldı.",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6581910-6019-4f9a-a355-8e104a959600/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/kultur/fatsada-turk-halk-muzigi-ekinligi-yapildi",
+        "zaman": "00:15  02 June 2023",
+        "gecenzaman": "2 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Kültür",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 512,
+        "ozet": "Fatsa da düzenlenen Türk halk müzik etkinliğinden kalan fotoğraflar ve düşüncelerimiz"
+      },
+      {
+        "haberID": 417,
+        "haberbaslik": "The Witcher 3 Patch 4.01 Güncellemesi",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/fb5134fc-290b-4b38-95c0-2a6d00fb5400/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/the-witcher-3-patch-401-guncellemesi",
+        "zaman": "03:39  06 February 2023",
+        "gecenzaman": "3 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 589,
+        "ozet": "Witcher  3 4.01 güncellemesi ile bazı hatalar düzeltildi ve Grafik iyileştirmeleri yapıldı"
+      },
+      {
+        "haberID": 416,
+        "haberbaslik": "ETS2 - Feldbinder Trailers DLC Tanıtım",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/9c13aed0-786b-4ea3-c245-1918ed0a9500/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/ets2-feldbinder-trailers-dlc-tanitim",
+        "zaman": "10:29  08 December 2022",
+        "gecenzaman": "3 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 366,
+        "ozet": "Euro Truck Simulator 2 ye gelen Feldbinder DLC si hakkında açıklamalar"
+      },
+      {
+        "haberID": 412,
+        "haberbaslik": "Steam Kış İndirimleri Başladı Arkadaşlarla Eğlenilecek oyunlar",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ff0a5309-5829-485f-0386-4d8bdf5fcb00/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/steam-kis-indirimleri-basladi-arkadaslarla-eglenilecek-oyunlar",
+        "zaman": "12:44  23 December 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 556,
+        "ozet": "Steam Kış indirimlerinin gelmesiyle parasını biriktirebilen arkadaşlarımıza arkadaşları ile eğlenebileceği oyunları listeledik hepsini bir anda almak zor olsada uygun fiyatlı oyunlardan almak mümkün."
+      },
+      {
+        "haberID": 411,
+        "haberbaslik": "Kara Cuma(Black Friday) da alınması gereken oyunlar",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/503002a6-7cd1-4ad5-db38-aa69311e5e00/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/kara-cumablack-friday-da-alinmasi-gereken-oyunlar",
+        "zaman": "13:11  17 November 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 443,
+        "ozet": "Black Friday indiriminde ne almalı ? tavsiye ve öneriler"
+      },
+      {
+        "haberID": 407,
+        "haberbaslik": "Cadılar Bayramı Geldi",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2839dd85-5ad3-4a3c-283e-a8cc7a5d9100/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/cadilar-bayrami-geldi",
+        "zaman": "12:20  29 October 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 422,
+        "ozet": "Mutlaka alınması gereken oyunlar bunlara da göz atmayın unutmayalım"
+      },
+      {
+        "haberID": 395,
+        "haberbaslik": "Nvidia GTX 1050 TI hala alınır mı ? ",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ddd8b4ca-6349-419f-fe21-78d85c185500/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/nvidia-1050-ti-hala-alinir-mi",
+        "zaman": "13:36  16 July 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 453,
+        "ozet": "GTX 1050 TI almak mantıklı mı ? piyasa durumu ne?"
+      },
+      {
+        "haberID": 393,
+        "haberbaslik": "Genshin Impact Gizemli Yolculuk Web Etkinliği Resmi Olarak Başlıyor",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/199dcd9e-b94e-47ea-2892-7a31cece9400/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/genshin-impact-gizemli-yolculuk-web-etkinligi-resmi-olarak-basliyor",
+        "zaman": "12:27  16 July 2021",
+        "gecenzaman": "4 Yıl",
+        "yazar": "Undertale Mr.",
+        "yazarID": 10009,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/38dff821-b68c-4440-ca86-a9924a817d00/thumbnail",
+        "goruntulen": 388,
+        "ozet": "Bilinmeyen bir denizcilik kılavuzunu ortaya çıkarın ve güvenilir arkadaşınız Paimon ile gizemli bir yolculuğa çıkın!"
+      },
+      {
+        "haberID": 308,
+        "haberbaslik": "Age Of Empires IV Sonbaharda 4 Farklı Hikaye ile Gelecek",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/00eb2997-61f1-437d-790c-8829b3560400/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/age-of-empires-iv-onumuzdeki-sonbaharda-naval-battle-deniz-savaslari-ve-4-tarihi-kampanyalar-ile-gelecek",
+        "zaman": "18:20  11 April 2021",
+        "gecenzaman": "5 Yıl",
+        "yazar": "Berkay Tikenoğlu",
+        "yazarID": 1,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/71458b51-b259-4c26-62e1-0eaeb94b6200/thumbnail",
+        "goruntulen": 353,
+        "ozet": ""
+      },
+      {
+        "haberID": 268,
+        "haberbaslik": "Hipostatik Senfoni Etkinligi İlk Temizlemede pPimogems Kazanın",
+        "resim": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/public",
+        "resimminnak": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/thumbnail",
+        "resimorijinal": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5f63d811-2340-4fbf-5529-cc6a22601800/optimized",
+        "link": "https://api.aramizdakioyuncu.com/haberler/oyun/hipostatik-senfoni-etkinligi-ilk-temizlemede-primogems-kazanin",
+        "zaman": "18:14  17 January 2021",
+        "gecenzaman": "5 Yıl",
+        "yazar": "Undertale Mr.",
+        "yazarID": 10009,
+        "kategori": "Oyun",
+        "yazaravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/38dff821-b68c-4440-ca86-a9924a817d00/thumbnail",
+        "goruntulen": 375,
+        "ozet": ""
+      }
+    ],
+    "durum": 1,
+    "aciklama": "Haber listesi getiriliyor.",
+    "kod": 0
+  },
+  "user_friends": {
+    "icerik": [
+      {
+        "#": 1,
+        "oyuncuID": 10482,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4e440a76-0bd7-437a-3566-ae7dad813d00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4e440a76-0bd7-437a-3566-ae7dad813d00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/4e440a76-0bd7-437a-3566-ae7dad813d00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/Emirhan",
+        "oyuncuad": "Emirhan Tarak",
+        "oyuncukullaniciad": "Emirhan",
+        "oyunculevel": 36,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 2,
+        "oyuncuID": 10920,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/80698922-dd06-43b8-34fb-5962dab13800/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/80698922-dd06-43b8-34fb-5962dab13800/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/80698922-dd06-43b8-34fb-5962dab13800/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/emresandal",
+        "oyuncuad": "Emre Sandal",
+        "oyuncukullaniciad": "emresandal",
+        "oyunculevel": 22,
+        "oyuncudurum": 0,
+        "songiris": "6 Ay",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 3,
+        "oyuncuID": 10001,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ae29a55a-a75b-479e-1dff-f50bc3500c00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ae29a55a-a75b-479e-1dff-f50bc3500c00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ae29a55a-a75b-479e-1dff-f50bc3500c00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/Metehanreis52",
+        "oyuncuad": "Metehan Özden",
+        "oyuncukullaniciad": "Metehanreis52",
+        "oyunculevel": 24,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 4,
+        "oyuncuID": 11796,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/babbf6fb-8123-4928-8ee6-5546a5c15300/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/babbf6fb-8123-4928-8ee6-5546a5c15300/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/babbf6fb-8123-4928-8ee6-5546a5c15300/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/nursen",
+        "oyuncuad": "Nurşen Yılmaz Alanlı",
+        "oyuncukullaniciad": "nursen",
+        "oyunculevel": 7,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 5,
+        "oyuncuID": 10917,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a192ad43-5404-429b-bec0-645f627dbc00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a192ad43-5404-429b-bec0-645f627dbc00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a192ad43-5404-429b-bec0-645f627dbc00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/Oguzhan",
+        "oyuncuad": "Oğuzhan Seslikaya",
+        "oyuncukullaniciad": "Oguzhan",
+        "oyunculevel": 11,
+        "oyuncudurum": 0,
+        "songiris": "2 Ay",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 6,
+        "oyuncuID": 10918,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a1210f51-a464-4088-4f21-def7ca616700/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a1210f51-a464-4088-4f21-def7ca616700/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a1210f51-a464-4088-4f21-def7ca616700/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/maj7chords",
+        "oyuncuad": "Yasin Şahan",
+        "oyuncukullaniciad": "maj7chords",
+        "oyunculevel": 21,
+        "oyuncudurum": 0,
+        "songiris": "7 Ay",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 7,
+        "oyuncuID": 10953,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8b0515b3-4a4b-41ee-0545-cd3697e0be00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8b0515b3-4a4b-41ee-0545-cd3697e0be00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/8b0515b3-4a4b-41ee-0545-cd3697e0be00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/klc_emre_66",
+        "oyuncuad": "Yunus Emre Kılıç",
+        "oyuncukullaniciad": "klc_emre_66",
+        "oyunculevel": 26,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 8,
+        "oyuncuID": 10010,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/antikor",
+        "oyuncuad": "Yusuf Dinç",
+        "oyuncukullaniciad": "antikor",
+        "oyunculevel": 2,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      },
+      {
+        "#": 9,
+        "oyuncuID": 11838,
+        "oyuncuavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/optimized",
+        "oyuncufakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/f75ad11c-afb6-4123-3c50-ad805c533b00/public",
+        "oyuncuminnakavatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d3ee7930-f6b0-4b41-b6fc-1c1334244b00/thumbnail",
+        "oyunculink": "https://api.aramizdakioyuncu.com/oyuncular/yusuftonkus",
+        "oyuncuad": "Yusuf Tonkuş",
+        "oyuncukullaniciad": "yusuftonkus",
+        "oyunculevel": 22,
+        "oyuncudurum": 0,
+        "songiris": "1 Yıl",
+        "oyuncuarkadasdurum": 1
+      }
+    ],
+    "durum": 1,
+    "aciklama": "Arkadaş listesi getirilyor.",
+    "kod": 0
+  },
+  "user_media": {
+    "icerik": [
+      {
+        "#": 1,
+        "media_ID": 7669,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "21.07.2025 05:38:51",
+        "media_size": "247.3 KB",
+        "fotoID": 7669,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-07-21 05:38:51",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a3ae67f5-d8f6-4594-1031-47c92ed10500/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a3ae67f5-d8f6-4594-1031-47c92ed10500/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/a3ae67f5-d8f6-4594-1031-47c92ed10500/thumbnail"
+      },
+      {
+        "#": 2,
+        "media_ID": 7668,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "16.07.2025 23:28:10",
+        "media_size": "649.6 KB",
+        "fotoID": 7668,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-07-16 23:28:10",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/36f7d120-d2c1-4211-5670-e5e467304000/thumbnail"
+      },
+      {
+        "#": 3,
+        "media_ID": 7564,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:25:55",
+        "media_size": "112.2 KB",
+        "fotoID": 7564,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:25:55",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7fb6ccea-daf3-4660-4d5a-902d97e49800/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7fb6ccea-daf3-4660-4d5a-902d97e49800/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7fb6ccea-daf3-4660-4d5a-902d97e49800/thumbnail"
+      },
+      {
+        "#": 4,
+        "media_ID": 7561,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:13:05",
+        "media_size": "31.4 KB",
+        "fotoID": 7561,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:13:05",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc2aec43-2148-444c-d2e9-6adef24de900/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc2aec43-2148-444c-d2e9-6adef24de900/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bc2aec43-2148-444c-d2e9-6adef24de900/thumbnail"
+      },
+      {
+        "#": 5,
+        "media_ID": 7558,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:12:53",
+        "media_size": "112.2 KB",
+        "fotoID": 7558,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:12:53",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/764cdb36-dd29-4427-d5c8-14063ef05400/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/764cdb36-dd29-4427-d5c8-14063ef05400/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/764cdb36-dd29-4427-d5c8-14063ef05400/thumbnail"
+      },
+      {
+        "#": 6,
+        "media_ID": 7559,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:12:53",
+        "media_size": "90 KB",
+        "fotoID": 7559,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:12:53",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5d48c583-5bdb-43fe-fbd8-17ff62b16b00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5d48c583-5bdb-43fe-fbd8-17ff62b16b00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5d48c583-5bdb-43fe-fbd8-17ff62b16b00/thumbnail"
+      },
+      {
+        "#": 7,
+        "media_ID": 7557,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:41",
+        "media_size": "96.4 KB",
+        "fotoID": 7557,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:41",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e53dd618-2aa3-499b-3076-dc88ab74f700/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e53dd618-2aa3-499b-3076-dc88ab74f700/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e53dd618-2aa3-499b-3076-dc88ab74f700/thumbnail"
+      },
+      {
+        "#": 8,
+        "media_ID": 7554,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:40",
+        "media_size": "90 KB",
+        "fotoID": 7554,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:40",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8a3bba0-f18e-4dd8-d722-b3073271a900/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8a3bba0-f18e-4dd8-d722-b3073271a900/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d8a3bba0-f18e-4dd8-d722-b3073271a900/thumbnail"
+      },
+      {
+        "#": 9,
+        "media_ID": 7555,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:40",
+        "media_size": "96.4 KB",
+        "fotoID": 7555,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:40",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d2cba521-2502-47ce-1a5e-5fd07dd5a500/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d2cba521-2502-47ce-1a5e-5fd07dd5a500/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d2cba521-2502-47ce-1a5e-5fd07dd5a500/thumbnail"
+      },
+      {
+        "#": 10,
+        "media_ID": 7552,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:38",
+        "media_size": "90 KB",
+        "fotoID": 7552,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:38",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6fae5e8-0f1d-4be4-d8cd-2b54d8687700/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6fae5e8-0f1d-4be4-d8cd-2b54d8687700/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e6fae5e8-0f1d-4be4-d8cd-2b54d8687700/thumbnail"
+      },
+      {
+        "#": 11,
+        "media_ID": 7553,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:38",
+        "media_size": "96.4 KB",
+        "fotoID": 7553,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:38",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c799aac2-2697-4389-1e2c-4f9298298100/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c799aac2-2697-4389-1e2c-4f9298298100/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c799aac2-2697-4389-1e2c-4f9298298100/thumbnail"
+      },
+      {
+        "#": 12,
+        "media_ID": 7549,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:33",
+        "media_size": "112.2 KB",
+        "fotoID": 7549,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:33",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d031e4e9-bc5e-479b-4545-7aa416585200/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d031e4e9-bc5e-479b-4545-7aa416585200/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d031e4e9-bc5e-479b-4545-7aa416585200/thumbnail"
+      },
+      {
+        "#": 13,
+        "media_ID": 7550,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:33",
+        "media_size": "90 KB",
+        "fotoID": 7550,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:33",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7821a4ba-8caa-46a8-1677-39f550bdfa00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7821a4ba-8caa-46a8-1677-39f550bdfa00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/7821a4ba-8caa-46a8-1677-39f550bdfa00/thumbnail"
+      },
+      {
+        "#": 14,
+        "media_ID": 7551,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:33",
+        "media_size": "96.4 KB",
+        "fotoID": 7551,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:33",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb12ed30-db96-42f8-c684-bea578652d00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb12ed30-db96-42f8-c684-bea578652d00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb12ed30-db96-42f8-c684-bea578652d00/thumbnail"
+      },
+      {
+        "#": 15,
+        "media_ID": 7548,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:11:27",
+        "media_size": "112.2 KB",
+        "fotoID": 7548,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:11:27",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bf72d08b-75bc-49e3-5ec2-2ae2f8f5bd00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bf72d08b-75bc-49e3-5ec2-2ae2f8f5bd00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bf72d08b-75bc-49e3-5ec2-2ae2f8f5bd00/thumbnail"
+      },
+      {
+        "#": 16,
+        "media_ID": 7538,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 02:03:20",
+        "media_size": "122.5 KB",
+        "fotoID": 7538,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 02:03:20",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/20bd73b4-0b6b-48e5-6c74-8e4bd4553900/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/20bd73b4-0b6b-48e5-6c74-8e4bd4553900/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/20bd73b4-0b6b-48e5-6c74-8e4bd4553900/thumbnail"
+      },
+      {
+        "#": 17,
+        "media_ID": 7536,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "15.05.2025 01:49:58",
+        "media_size": "112.2 KB",
+        "fotoID": 7536,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-05-15 01:49:58",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/49494ad4-839c-4b35-10b7-a64d2bc0c900/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/49494ad4-839c-4b35-10b7-a64d2bc0c900/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/49494ad4-839c-4b35-10b7-a64d2bc0c900/thumbnail"
+      },
+      {
+        "#": 18,
+        "media_ID": 7498,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "27.03.2025 02:26:21",
+        "media_size": "77.4 KB",
+        "fotoID": 7498,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2025-03-27 02:26:21",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/47a142dc-88d4-4833-3e7a-e8353418ea00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/47a142dc-88d4-4833-3e7a-e8353418ea00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/47a142dc-88d4-4833-3e7a-e8353418ea00/thumbnail"
+      },
+      {
+        "#": 19,
+        "media_ID": 7471,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "14.12.2024 02:21:12",
+        "media_size": "141.3 KB",
+        "fotoID": 7471,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-12-14 02:21:12",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/22481eb6-411b-42f9-324a-8177cfec6e00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/22481eb6-411b-42f9-324a-8177cfec6e00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/22481eb6-411b-42f9-324a-8177cfec6e00/thumbnail"
+      },
+      {
+        "#": 20,
+        "media_ID": 7470,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "14.12.2024 02:12:23",
+        "media_size": "45 KB",
+        "fotoID": 7470,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-12-14 02:12:23",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail"
+      },
+      {
+        "#": 21,
+        "media_ID": 7469,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "09.12.2024 00:20:32",
+        "media_size": "18.9 KB",
+        "fotoID": 7469,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-12-09 00:20:32",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/40959492-9358-4881-b11a-fc22da89fc00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/40959492-9358-4881-b11a-fc22da89fc00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/40959492-9358-4881-b11a-fc22da89fc00/thumbnail"
+      },
+      {
+        "#": 22,
+        "media_ID": 7466,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "08.12.2024 04:34:39",
+        "media_size": "18.9 KB",
+        "fotoID": 7466,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-12-08 04:34:39",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cbecbadf-9f27-4b6d-7246-0d0367e65f00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cbecbadf-9f27-4b6d-7246-0d0367e65f00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cbecbadf-9f27-4b6d-7246-0d0367e65f00/thumbnail"
+      },
+      {
+        "#": 23,
+        "media_ID": 7464,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "08.12.2024 02:52:29",
+        "media_size": "18.9 KB",
+        "fotoID": 7464,
+        "fotosahipID": 11107,
+        "fotokategori": "logo",
+        "fotopaylas": "0",
+        "fotozaman": "2024-12-08 02:52:29",
+        "fotodosyatipi": "image/jpeg",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dc98f4cc-5d06-4f9e-f1c3-f2155b6f8b00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dc98f4cc-5d06-4f9e-f1c3-f2155b6f8b00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dc98f4cc-5d06-4f9e-f1c3-f2155b6f8b00/thumbnail"
+      },
+      {
+        "#": 24,
+        "media_ID": 7451,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "10.11.2024 02:06:12",
+        "media_size": "151.8 KB",
+        "fotoID": 7451,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-10 02:06:12",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e7db983c-0959-49a1-40c2-b7458effb800/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e7db983c-0959-49a1-40c2-b7458effb800/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/e7db983c-0959-49a1-40c2-b7458effb800/thumbnail"
+      },
+      {
+        "#": 25,
+        "media_ID": 7450,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "09.11.2024 03:15:18",
+        "media_size": "141.3 KB",
+        "fotoID": 7450,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-09 03:15:18",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/563fe2ee-0865-4111-284c-702d24e12800/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/563fe2ee-0865-4111-284c-702d24e12800/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/563fe2ee-0865-4111-284c-702d24e12800/thumbnail"
+      },
+      {
+        "#": 26,
+        "media_ID": 7446,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "05.11.2024 02:58:43",
+        "media_size": "3.7 KB",
+        "fotoID": 7446,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-05 02:58:43",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb0ede90-e769-405e-d3be-f99861d91400/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb0ede90-e769-405e-d3be-f99861d91400/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/cb0ede90-e769-405e-d3be-f99861d91400/thumbnail"
+      },
+      {
+        "#": 27,
+        "media_ID": 7447,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "05.11.2024 02:58:43",
+        "media_size": "141.3 KB",
+        "fotoID": 7447,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-05 02:58:43",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/68ab2a7f-59a4-478d-3cf8-84b0597fa400/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/68ab2a7f-59a4-478d-3cf8-84b0597fa400/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/68ab2a7f-59a4-478d-3cf8-84b0597fa400/thumbnail"
+      },
+      {
+        "#": 28,
+        "media_ID": 7445,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "05.11.2024 02:49:14",
+        "media_size": "141.3 KB",
+        "fotoID": 7445,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-05 02:49:14",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5364df9a-97bf-461a-bcbb-381e6ba45e00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5364df9a-97bf-461a-bcbb-381e6ba45e00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/5364df9a-97bf-461a-bcbb-381e6ba45e00/thumbnail"
+      },
+      {
+        "#": 29,
+        "media_ID": 7443,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "05.11.2024 02:47:41",
+        "media_size": "47 KB",
+        "fotoID": 7443,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-05 02:47:41",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c45cbb21-f2cb-4d41-aa81-41b65d796300/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c45cbb21-f2cb-4d41-aa81-41b65d796300/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/c45cbb21-f2cb-4d41-aa81-41b65d796300/thumbnail"
+      },
+      {
+        "#": 30,
+        "media_ID": 7444,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "05.11.2024 02:47:41",
+        "media_size": "141.3 KB",
+        "fotoID": 7444,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-11-05 02:47:41",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/425408be-a492-40c6-14d5-2b9fb098bd00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/425408be-a492-40c6-14d5-2b9fb098bd00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/425408be-a492-40c6-14d5-2b9fb098bd00/thumbnail"
+      },
+      {
+        "#": 31,
+        "media_ID": 7302,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "17.06.2024 17:18:32",
+        "media_size": "96.5 KB",
+        "fotoID": 7302,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-06-17 17:18:32",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/33d5a818-732a-4fde-a92d-a6167cbe1d00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/33d5a818-732a-4fde-a92d-a6167cbe1d00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/33d5a818-732a-4fde-a92d-a6167cbe1d00/thumbnail"
+      },
+      {
+        "#": 32,
+        "media_ID": 6955,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "11.05.2024 23:58:04",
+        "media_size": "91.8 KB",
+        "fotoID": 6955,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-11 23:58:04",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/3871ee0a-f3f6-442d-ed47-c0c64f27db00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/3871ee0a-f3f6-442d-ed47-c0c64f27db00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/3871ee0a-f3f6-442d-ed47-c0c64f27db00/thumbnail"
+      },
+      {
+        "#": 33,
+        "media_ID": 6922,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 20:55:53",
+        "media_size": "78.3 KB",
+        "fotoID": 6922,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 20:55:53",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/258d4754-8061-4241-b092-d1126b303a00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/258d4754-8061-4241-b092-d1126b303a00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/258d4754-8061-4241-b092-d1126b303a00/thumbnail"
+      },
+      {
+        "#": 34,
+        "media_ID": 6921,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 20:55:39",
+        "media_size": "78.3 KB",
+        "fotoID": 6921,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 20:55:39",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/93aab6d0-39dd-41e8-873a-1f2525941d00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/93aab6d0-39dd-41e8-873a-1f2525941d00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/93aab6d0-39dd-41e8-873a-1f2525941d00/thumbnail"
+      },
+      {
+        "#": 35,
+        "media_ID": 6920,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 20:55:16",
+        "media_size": "78.3 KB",
+        "fotoID": 6920,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 20:55:16",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/0130b325-412f-445e-a414-220782d80700/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/0130b325-412f-445e-a414-220782d80700/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/0130b325-412f-445e-a414-220782d80700/thumbnail"
+      },
+      {
+        "#": 36,
+        "media_ID": 6919,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 20:54:54",
+        "media_size": "78.3 KB",
+        "fotoID": 6919,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 20:54:54",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dfd95ae1-fb14-48e7-0039-65018c675e00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dfd95ae1-fb14-48e7-0039-65018c675e00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/dfd95ae1-fb14-48e7-0039-65018c675e00/thumbnail"
+      },
+      {
+        "#": 37,
+        "media_ID": 6917,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 16:11:12",
+        "media_size": "1.8 MB",
+        "fotoID": 6917,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 16:11:12",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/174e5b5c-d743-4fae-1276-c28aee6c7f00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/174e5b5c-d743-4fae-1276-c28aee6c7f00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/174e5b5c-d743-4fae-1276-c28aee6c7f00/thumbnail"
+      },
+      {
+        "#": 38,
+        "media_ID": 6916,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 16:06:54",
+        "media_size": "965.8 KB",
+        "fotoID": 6916,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 16:06:54",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/beee901c-6cfe-412c-d203-ae0e12e0de00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/beee901c-6cfe-412c-d203-ae0e12e0de00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/beee901c-6cfe-412c-d203-ae0e12e0de00/thumbnail"
+      },
+      {
+        "#": 39,
+        "media_ID": 6915,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 16:06:30",
+        "media_size": "1.8 MB",
+        "fotoID": 6915,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 16:06:30",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/218d58c0-7bf8-45c5-759e-4c054f001500/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/218d58c0-7bf8-45c5-759e-4c054f001500/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/218d58c0-7bf8-45c5-759e-4c054f001500/thumbnail"
+      },
+      {
+        "#": 40,
+        "media_ID": 6914,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 16:03:04",
+        "media_size": "2.4 MB",
+        "fotoID": 6914,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 16:03:04",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/24566fe8-c02b-4b15-cf86-e530c4901800/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/24566fe8-c02b-4b15-cf86-e530c4901800/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/24566fe8-c02b-4b15-cf86-e530c4901800/thumbnail"
+      },
+      {
+        "#": 41,
+        "media_ID": 6913,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 15:31:45",
+        "media_size": "78.3 KB",
+        "fotoID": 6913,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 15:31:45",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2b5cf962-bed6-4bdc-04fd-dcbc45166300/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2b5cf962-bed6-4bdc-04fd-dcbc45166300/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/2b5cf962-bed6-4bdc-04fd-dcbc45166300/thumbnail"
+      },
+      {
+        "#": 42,
+        "media_ID": 6911,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "07.05.2024 15:27:57",
+        "media_size": "666.9 KB",
+        "fotoID": 6911,
+        "fotosahipID": 11107,
+        "fotokategori": "avatar",
+        "fotopaylas": "0",
+        "fotozaman": "2024-05-07 15:27:57",
+        "fotodosyatipi": "image/png",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/119c341f-43d1-4ff7-1c26-75aad324df00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/119c341f-43d1-4ff7-1c26-75aad324df00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/119c341f-43d1-4ff7-1c26-75aad324df00/thumbnail"
+      },
+      {
+        "#": 43,
+        "media_ID": 6755,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "19.04.2024 17:17:33",
+        "media_size": "5.1 KB",
+        "fotoID": 6755,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-19 17:17:33",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/727f6567-c363-44cb-0a93-583ab87de400/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/727f6567-c363-44cb-0a93-583ab87de400/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/727f6567-c363-44cb-0a93-583ab87de400/thumbnail"
+      },
+      {
+        "#": 44,
+        "media_ID": 6736,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:31:51",
+        "media_size": "2.4 MB",
+        "fotoID": 6736,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:31:51",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bbc6249f-db0b-418d-281a-b339bccb9e00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bbc6249f-db0b-418d-281a-b339bccb9e00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/bbc6249f-db0b-418d-281a-b339bccb9e00/thumbnail"
+      },
+      {
+        "#": 45,
+        "media_ID": 6727,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:30:04",
+        "media_size": "2.4 MB",
+        "fotoID": 6727,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:30:04",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/69b7be24-0e9f-4ae8-9464-6a28678d6500/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/69b7be24-0e9f-4ae8-9464-6a28678d6500/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/69b7be24-0e9f-4ae8-9464-6a28678d6500/thumbnail"
+      },
+      {
+        "#": 46,
+        "media_ID": 6725,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:29:48",
+        "media_size": "2.4 MB",
+        "fotoID": 6725,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:29:48",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d37ecc6b-febd-49ef-8baf-970ae0251400/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d37ecc6b-febd-49ef-8baf-970ae0251400/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/d37ecc6b-febd-49ef-8baf-970ae0251400/thumbnail"
+      },
+      {
+        "#": 47,
+        "media_ID": 6723,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:29:35",
+        "media_size": "2.4 MB",
+        "fotoID": 6723,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:29:35",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/08a2c497-817e-4985-1b2c-315dea5d4100/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/08a2c497-817e-4985-1b2c-315dea5d4100/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/08a2c497-817e-4985-1b2c-315dea5d4100/thumbnail"
+      },
+      {
+        "#": 48,
+        "media_ID": 6721,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:29:21",
+        "media_size": "2.4 MB",
+        "fotoID": 6721,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:29:21",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/1849feb9-cf08-4d50-c81b-cb1350831e00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/1849feb9-cf08-4d50-c81b-cb1350831e00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/1849feb9-cf08-4d50-c81b-cb1350831e00/thumbnail"
+      },
+      {
+        "#": 49,
+        "media_ID": 6719,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:29:11",
+        "media_size": "2.4 MB",
+        "fotoID": 6719,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:29:11",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ee12ab24-68db-4ea6-f04a-48a7aed8ad00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ee12ab24-68db-4ea6-f04a-48a7aed8ad00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/ee12ab24-68db-4ea6-f04a-48a7aed8ad00/thumbnail"
+      },
+      {
+        "#": 50,
+        "media_ID": 6717,
+        "media_ownerID": 11107,
+        "media_ownerusername": "deneme",
+        "media_owneravatar": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/62797fdf-d087-432a-9bd9-c6a309339000/thumbnail",
+        "media_time": "18.04.2024 16:28:52",
+        "media_size": "2.4 MB",
+        "fotoID": 6717,
+        "fotosahipID": 11107,
+        "fotokategori": "-1",
+        "fotopaylas": "0",
+        "fotozaman": "2024-04-18 16:28:52",
+        "fotodosyatipi": "application/octet-stream",
+        "fotoorijinalurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/10c07e1e-0ffe-453a-ac30-192991808b00/optimized",
+        "fotoufaklikurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/10c07e1e-0ffe-453a-ac30-192991808b00/public",
+        "fotominnakurl": "https://imagedelivery.net/LbwkHFjXjM9NwHKs_789gw/10c07e1e-0ffe-453a-ac30-192991808b00/thumbnail"
+      }
+    ],
+    "durum": 1,
+    "aciklama": "Galeri getiriliyor.",
+    "kod": 0
+  },
+  "social_stories": {
+    "durum": 1,
+    "aciklama": "Hikayeler getiriliyor!",
+    "icerik": [],
+    "kod": 1
+  }
+}

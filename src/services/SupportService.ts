@@ -24,9 +24,8 @@ export class SupportService extends BaseService {
         message,
         category
       });
-      const icerik = this.handleResponse<{ ticket: any }>(response);
-      const ticket = SupportTicket.fromJSON(icerik.ticket);
-      return this.createSuccess(ticket, response?.aciklama);
+      const icerik = this.handle<{ ticket: any }>(response);
+      return this.createSuccess(icerik?.ticket || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[SupportService] Failed to create ticket:', error);
       return this.createError(error.message);
@@ -40,9 +39,8 @@ export class SupportService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.get<any>('/social/support/my-tickets');
-      const icerik = this.handleResponse<{ tickets: any[] }>(response);
-      const tickets = icerik.tickets.map(t => SupportTicket.fromJSON(t));
-      return this.createSuccess(tickets, response?.aciklama);
+      const icerik = this.handle<{ tickets: any[] }>(response);
+      return this.createSuccess(icerik?.tickets || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[SupportService] Failed to fetch user tickets:', error);
       return this.createError(error.message);
@@ -56,12 +54,14 @@ export class SupportService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.get<any>(`/social/support/tickets/${ticketId}`);
-      const icerik = this.handleResponse<any>(response);
-      const ticket = SupportTicket.fromJSON(icerik);
-      return this.createSuccess(ticket, response?.aciklama);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(icerik || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SupportService] Failed to fetch ticket ${ticketId}:`, error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

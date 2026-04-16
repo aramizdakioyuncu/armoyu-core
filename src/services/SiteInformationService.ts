@@ -27,7 +27,7 @@ export class SiteInformationService extends BaseService {
       if (response && Number(response.durum) === 1) {
         icerik = response.aciklamadetay || response.icerik;
       } else {
-        icerik = this.handleResponse<any>(response);
+        icerik = this.handle<any>(response);
       }
       
       return this.createSuccess(icerik, response?.aciklama);
@@ -67,7 +67,7 @@ export class SiteInformationService extends BaseService {
       formData.append('category', category);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/istatistik/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SiteInformationService] Fetching statistics for ${category} failed:`, error);
@@ -94,7 +94,7 @@ export class SiteInformationService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sitemesaji/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SiteInformationService] Fetching site messages failed:`, error);
@@ -114,7 +114,7 @@ export class SiteInformationService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sitemesajidetay/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SiteInformationService] Fetching site message detail failed:`, error);
@@ -133,7 +133,7 @@ export class SiteInformationService extends BaseService {
       formData.append('limit', (params.limit || 50).toString());
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etiketler/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SiteInformationService] Searching tags for ${params.tag} failed:`, error);
@@ -159,7 +159,7 @@ export class SiteInformationService extends BaseService {
       formData.append('limit', (params.limit || 50).toString());
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[SiteInformationService] Search for ${params.query} in ${params.category} failed:`, error);
@@ -167,3 +167,6 @@ export class SiteInformationService extends BaseService {
     }
   }
 }
+
+
+

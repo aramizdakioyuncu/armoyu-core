@@ -26,13 +26,15 @@ export class TeamService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/takimlar/liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const teams = Array.isArray(data) ? data.map(item => PlatformTeam.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(teams, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[TeamService] Failed to fetch teams:', error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

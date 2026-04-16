@@ -1,8 +1,9 @@
-import { ArmoyuEvent } from '../models/community/Event';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
+import { GetEventsResponse } from '../models/community/GetEventsResponse';
+import { ArmoyuEvent } from '../models/community/Event';
 
 /**
  * Service for managing platform events, tournaments, and community gatherings.
@@ -16,11 +17,11 @@ export class EventService extends BaseService {
   /**
    * Fetches a list of events from the platform with advanced filtering.
    */
-  async getEvents(page: number, params: {
+  async getEvents(page: number = 1, params: {
     gameId?: number;
     status?: string | number;
     limit?: number;
-  } = {}): Promise<ServiceResponse<ArmoyuEvent[]>> {
+  } = {}): Promise<GetEventsResponse> {
     try {
       const formData = new FormData();
       if (params.gameId !== undefined) formData.append('oyunID', String(params.gameId));
@@ -29,13 +30,17 @@ export class EventService extends BaseService {
       if (params.limit !== undefined) formData.append('limit', String(params.limit));
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), formData);
-      const icerik = this.handleResponse<any[]>(response);
-      const events = Array.isArray(icerik) ? icerik.map(item => ArmoyuEvent.fromJSON(item)) : [];
+      const icerik = this.handle<any[]>(response);
       
-      return this.createSuccess(events, response?.aciklama);
+      return {
+        icerik: icerik || [],
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı',
+        kod: Number(response.kod || 0)
+      };
     } catch (error: any) {
       this.logger.error('[EventService] Fetching events failed:', error);
-      return this.createError(error.message);
+      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
     }
   }
 
@@ -49,10 +54,9 @@ export class EventService extends BaseService {
       if (options.eventURL) formData.append('eventURL', options.eventURL);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/detay/'), formData);
-      const icerik = this.handleResponse<any>(response);
-      const event = icerik ? ArmoyuEvent.fromJSON(icerik) : null;
+      const icerik = this.handle<any>(response);
       
-      return this.createSuccess(event, response?.aciklama);
+      return this.createSuccess(icerik || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[EventService] Fetching event detail failed:`, error);
       return this.createError(error.message);
@@ -107,15 +111,15 @@ export class EventService extends BaseService {
       formData.append('etkinlikID', String(eventId));
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/takimlar/0/'), formData);
-      const icerik = this.handleResponse<any[]>(response);
+      const icerik = this.handle<any[]>(response);
       
-      const { Team } = await import('../models/community/Team');
-      const teams = Array.isArray(icerik) ? icerik.map(item => Team.fromJSON(item)) : [];
-      
-      return this.createSuccess(teams, response?.aciklama);
+      return this.createSuccess(icerik || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[EventService] Fetching teams for event ${eventId} failed:`, error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

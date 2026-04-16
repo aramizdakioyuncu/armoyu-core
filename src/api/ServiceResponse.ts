@@ -33,3 +33,6 @@ export class ServiceResponse<T> {
     return new ServiceResponse<T>(0, aciklama, icerik, kod);
   }
 }
+
+
+

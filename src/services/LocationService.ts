@@ -27,10 +27,9 @@ export class LocationService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/ulkeler/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const countries = Array.isArray(data) ? data.map(item => Country.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(countries, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[LocationService] Failed to fetch countries:', error);
       return this.createError(error.message);
@@ -51,13 +50,15 @@ export class LocationService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/iller/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const provinces = Array.isArray(data) ? data.map(item => Province.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(provinces, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[LocationService] Failed to fetch provinces for country ${countryId}:`, error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

@@ -22,9 +22,8 @@ export class ShopService extends BaseService {
       const response = await this.client.get<any>('/shop/products', {
         params: { category, q: searchTerm }
       });
-      const icerik = this.handleResponse<{ products: any[] }>(response);
-      const products = icerik.products.map(p => Product.fromJSON(p));
-      return this.createSuccess(products, response?.aciklama);
+      const icerik = this.handle<{ products: any[] }>(response);
+      return this.createSuccess(icerik?.products || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ShopService] Failed to fetch products:', error);
       return this.createError(error.message);
@@ -37,9 +36,8 @@ export class ShopService extends BaseService {
   async getProductDetails(productId: string): Promise<ServiceResponse<Product | null>> {
     try {
       const response = await this.client.get<any>(`/shop/products/${productId}`);
-      const icerik = this.handleResponse<any>(response);
-      const product = Product.fromJSON(icerik);
-      return this.createSuccess(product, response?.aciklama);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(icerik || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ShopService] Failed to fetch product ${productId}:`, error);
       return this.createError(error.message);
@@ -53,12 +51,14 @@ export class ShopService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/shop/orders', { items });
-      const icerik = this.handleResponse<{ order: any }>(response);
-      const order = Order.fromJSON(icerik.order);
-      return this.createSuccess(order, response?.aciklama);
+      const icerik = this.handle<{ order: any }>(response);
+      return this.createSuccess(icerik?.order || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ShopService] Order creation failed:', error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

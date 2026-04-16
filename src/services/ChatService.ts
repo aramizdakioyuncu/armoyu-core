@@ -25,7 +25,7 @@ export class ChatService extends BaseService {
       formData.append('turu', params.type || 'ozel');
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbetgonder/${params.userId}/${params.type || 'ozel'}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ChatService] Sending message failed:`, error);
@@ -47,7 +47,7 @@ export class ChatService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/${params.userId}/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat history failed:`, error);
@@ -68,7 +68,7 @@ export class ChatService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/arkadaslarim/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
@@ -87,12 +87,15 @@ export class ChatService extends BaseService {
       formData.append('sohbetturu', params.type || 'grup');
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbetdetay/${params.chatId}/${params.type || 'grup'}/`), formData);
-      const data = this.handleResponse<any[]>(response);
-      const messages = Array.isArray(data) ? data.map(item => ChatMessage.fromJSON(item)) : [];
-      return this.createSuccess(messages, response?.aciklama);
+      const data = this.handle<any[]>(response);
+      
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat detail failed:`, error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

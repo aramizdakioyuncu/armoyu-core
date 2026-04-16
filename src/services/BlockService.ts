@@ -27,10 +27,9 @@ export class BlockService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/engel/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const blockedUsers = Array.isArray(data) ? data.map(item => BlockedUser.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(blockedUsers, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[BlockService] Failed to fetch blocked users:', error);
       return this.createError(error.message);
@@ -48,7 +47,7 @@ export class BlockService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/engel/ekle/${userId}/`);
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BlockService] Failed to block user ${userId}:`, error);
@@ -67,7 +66,7 @@ export class BlockService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/engel/sil/${userId}/`);
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BlockService] Failed to unblock user ${userId}:`, error);
@@ -75,3 +74,6 @@ export class BlockService extends BaseService {
     }
   }
 }
+
+
+

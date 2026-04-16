@@ -25,13 +25,15 @@ export class SearchService extends BaseService {
       formData.append('kategoridetay', ''); // Left empty as per user request
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
-      const icerik = this.handleResponse<any[]>(response);
-      const results = Array.isArray(icerik) ? icerik.map(item => SearchResult.fromJSON(item)) : [];
+      const icerik = this.handle<any[]>(response);
       
-      return this.createSuccess(results, response?.aciklama);
+      return this.createSuccess(icerik || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[SearchService] Global search failed:', error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

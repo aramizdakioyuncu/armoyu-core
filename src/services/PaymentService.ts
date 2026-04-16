@@ -24,10 +24,9 @@ export class PaymentService extends BaseService {
       
       const url = this.resolveBotPath(`/0/0/odemeler/faturalar/${page}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const invoices = Array.isArray(data) ? data.map(item => Invoice.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(invoices, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[PaymentService] Failed to fetch invoices:', error);
       return this.createError(error.message);
@@ -45,7 +44,7 @@ export class PaymentService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/odemeler/ode/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[PaymentService] Failed to process payment ${paymentId}:`, error);
@@ -53,3 +52,6 @@ export class PaymentService extends BaseService {
     }
   }
 }
+
+
+

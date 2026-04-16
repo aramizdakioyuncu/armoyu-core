@@ -93,8 +93,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {user && (
           <div className="p-4 border-t flex items-center justify-between bg-emerald-500/5 mt-2 rounded-lg border border-emerald-500/10">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full border border-emerald-500/30 overflow-hidden bg-black/40">
-                {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" alt="" /> : <Users className="w-4 h-4 text-gray-600 m-2" />}
+              <div className="w-8 h-8 rounded-full border border-emerald-500/30 overflow-hidden bg-black/40 flex items-center justify-center">
+                {user.avatar ? (
+                  <img
+                    src={typeof user.avatar === 'string' ? user.avatar : (user.avatar.media_minURL || user.avatar.media_URL)}
+                    className="w-full h-full object-cover"
+                    alt=""
+                    onError={(e) => {
+                      (e.target as any).src = 'https://api.armoyu.com/logo.png';
+                    }}
+                  />
+                ) : (
+                  <Users className="w-4 h-4 text-gray-600" />
+                )}
               </div>
               <div className="flex flex-col">
                 <span className="text-[10px] font-bold text-gray-200 truncate max-w-[120px]">{user.displayName || user.username}</span>

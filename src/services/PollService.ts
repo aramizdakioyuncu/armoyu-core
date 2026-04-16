@@ -25,10 +25,9 @@ export class PollService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/anketler/liste/${page}/`), formData);
-      const data = this.handleResponse<any[]>(response);
-      const polls = Array.isArray(data) ? data.map(item => Poll.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(polls, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[PollService] Failed to fetch polls:', error);
       return this.createError(error.message);
@@ -58,7 +57,7 @@ export class PollService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/anketler/olustur/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[PollService] Failed to create poll:', error);
@@ -79,7 +78,7 @@ export class PollService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/anketler/yanitla/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[PollService] Failed to answer poll ${pollId}:`, error);
@@ -87,3 +86,6 @@ export class PollService extends BaseService {
     }
   }
 }
+
+
+

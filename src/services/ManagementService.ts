@@ -22,7 +22,7 @@ export class ManagementService extends BaseService {
       formData.append('category', category);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim-paneli/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ManagementService] Fetching management content for ${category} failed:`, error);
@@ -37,3 +37,6 @@ export class ManagementService extends BaseService {
     return this.getManagementContent('meeting');
   }
 }
+
+
+

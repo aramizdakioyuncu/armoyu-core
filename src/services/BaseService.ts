@@ -1,4 +1,4 @@
-import { ApiClient, StandardApiResponse } from '../api/ApiClient';
+import { ApiClient, StandardApi } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
 
@@ -18,19 +18,19 @@ export abstract class BaseService {
    * Extracts 'icerik' if 'durum' is 1, otherwise throws error with 'aciklama'.
    * If the response doesn't have a 'durum' field but is an object/array, it is returned as-is.
    */
-  protected handleResponse<T>(response: any): T {
+  protected handle<T>(response: any): T {
     // If it's a standard response object with 'durum'
     if (response && typeof response === 'object' && 'durum' in response) {
-      const standardResponse = response as StandardApiResponse<T>;
+      const standard = response as StandardApi<T>;
       
       // Relaxed check: accept numeric or string "1" for success
-      if (standardResponse.durum != null && Number(standardResponse.durum) === 1) {
-        return standardResponse.icerik;
+      if (standard.durum != null && Number(standard.durum) === 1) {
+        return standard.icerik;
       }
       
       // If durum is not 1, throw the API error message
-      const errorMsg = standardResponse.aciklama || 'API Execution Error';
-      this.logger.error(`[BaseService] API Error (${standardResponse.durum}): ${errorMsg}`, standardResponse);
+      const errorMsg = standard.aciklama || 'API Execution Error';
+      this.logger.error(`[BaseService] API Error (${standard.durum}): ${errorMsg}`, standard);
       throw new Error(errorMsg);
     }
 
@@ -97,3 +97,6 @@ export abstract class BaseService {
     }
   }
 }
+
+
+

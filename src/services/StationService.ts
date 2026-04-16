@@ -27,10 +27,9 @@ export class StationService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/istasyonlar/liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const stations = Array.isArray(data) ? data.map(item => PlatformStation.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(stations, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StationService] Failed to fetch stations:', error);
       return this.createError(error.message);
@@ -47,13 +46,15 @@ export class StationService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/istasyonlar/ekipmanlar/0/');
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const equipment = Array.isArray(data) ? data.map(item => StationEquipment.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(equipment, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StationService] Failed to fetch equipment for station ${stationId}:`, error);
       return this.createError(error.message);
     }
   }
 }
+
+
+

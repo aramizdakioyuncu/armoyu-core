@@ -59,7 +59,7 @@ export interface ApiConfig {
 /**
  * Standard API Response structure for ARMOYU legacy and bot APIs.
  */
-export interface StandardApiResponse<T = any> {
+export interface StandardApi<T = any> {
   durum: number;
   aciklama: string | any;
   aciklamadetay?: number;
@@ -69,7 +69,7 @@ export interface StandardApiResponse<T = any> {
 
 export class ApiClient {
   private config: ApiConfig;
-  public lastRawResponse: any = null;
+  public lastRaw: any = null;
   private logger: ArmoyuLogger;
   
   public readonly auth: AuthService;
@@ -193,7 +193,7 @@ export class ApiClient {
       }
 
       if (!response.ok) {
-        this.lastRawResponse = responseData;
+        this.lastRaw = responseData;
         const errorMsg = responseData?.aciklama || responseData?.message || `API Error: ${response.status} - ${response.statusText}`;
         throw new ApiError(
           errorMsg,
@@ -203,7 +203,7 @@ export class ApiClient {
         );
       }
 
-      this.lastRawResponse = responseData;
+      this.lastRaw = responseData;
       return responseData as T;
     } catch (error) {
       if (error instanceof ApiError) throw error;
@@ -267,4 +267,7 @@ export class ApiClient {
     return this.config.baseUrl;
   }
 }
+
+
+
 

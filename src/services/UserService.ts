@@ -1,11 +1,14 @@
 import { User } from '../models/auth/User';
-import { RankedUser } from '../models/auth/RankedUser';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { NotificationCategory, NotificationSubCategory } from '../models/social/notification/NotificationEnums';
 import { MediaCategory } from '../models/social/meta/MediaEnums';
 import { ServiceResponse } from '../api/ServiceResponse';
+import { GetXpRankingsResponse } from '../models/user/GetXpRankingsResponse';
+import { GetPopRankingsResponse } from '../models/user/GetPopRankingsResponse';
+import { GetFriendsResponse } from '../models/user/GetFriendsResponse';
+import { GetMediaResponse } from '../models/user/GetMediaResponse';
 
 /**
  * Service for managing user profiles, relationships, media, and social rankings.
@@ -25,9 +28,8 @@ export class UserService extends BaseService {
       const response = await this.client.get<any>(`/users/search`, {
         params: { q: query }
       });
-      const icerik = this.handleResponse<any[]>(response);
-      const users = Array.isArray(icerik) ? icerik.map((u: any) => User.fromJSON(u)) : [];
-      return this.createSuccess(users);
+      const icerik = this.handle<any[]>(response);
+      return this.createSuccess(icerik || []);
     } catch (error: any) {
       this.logger.error('[UserService] User search failed:', error);
       return this.createError(error.message);
@@ -44,9 +46,8 @@ export class UserService extends BaseService {
       formData.append('oyuncubakusername', username);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
-      const user = icerik ? User.fromJSON(icerik) : null;
-      return this.createSuccess(user, response?.aciklama);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching profile for ${username} failed:`, error);
       return this.createError(error.message);
@@ -60,7 +61,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(`/users/${userId}/follow`, {});
-      const icerik = this.handleResponse<{ following: boolean }>(response);
+      const icerik = this.handle<{ following: boolean }>(response);
       return this.createSuccess(icerik.following, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Toggle follow failed:', error);
@@ -80,7 +81,7 @@ export class UserService extends BaseService {
       formData.append('oyuncubakid', userId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadas-ol/0/0/'), formData);
-      const data = this.handleResponse<any>(response);
+      const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Adding friend ${userId} failed:`, error);
@@ -100,7 +101,7 @@ export class UserService extends BaseService {
       formData.append('oyuncubakid', userId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadas-cikar/0/0/'), formData);
-      const data = this.handleResponse<any>(response);
+      const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Removing friend ${userId} failed:`, error);
@@ -122,7 +123,7 @@ export class UserService extends BaseService {
       formData.append('cevap', response.toString());
 
       const responseApi = await this.client.post<any>(this.resolveBotPath('/0/0/arkadas-cevap/0/0/'), formData);
-      const icerik = this.handleResponse<any>(responseApi);
+      const icerik = this.handle<any>(responseApi);
       return this.createSuccess(icerik, responseApi?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Responding to friend ${userId} failed:`, error);
@@ -136,9 +137,8 @@ export class UserService extends BaseService {
   async getFriends(userId: string): Promise<ServiceResponse<User[]>> {
     try {
       const response = await this.client.get<any>(`/users/${userId}/friends`);
-      const icerik = this.handleResponse<any[]>(response);
-      const users = Array.isArray(icerik) ? icerik.map((u: any) => User.fromJSON(u)) : [];
-      return this.createSuccess(users, response?.aciklama);
+      const icerik = this.handle<any[]>(response);
+      return this.createSuccess(icerik || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Get friends failed:', error);
       return this.createError(error.message);
@@ -152,9 +152,8 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/users/me/update', data);
-      const icerik = this.handleResponse<any>(response);
-      const user = icerik ? User.fromJSON(icerik) : null;
-      return this.createSuccess(user, response?.aciklama);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Update profile failed:', error);
       return this.createError(error.message);
@@ -190,7 +189,7 @@ export class UserService extends BaseService {
       formData.append('passwordControl', data.passwordControl);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/profil/ozelbilgiler/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Update private personal info failed:', error);
@@ -211,7 +210,7 @@ export class UserService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/okullarim/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching schools failed:`, error);
@@ -230,7 +229,7 @@ export class UserService extends BaseService {
       formData.append('okulID', schoolId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/okullar/detay/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching school detail for ${schoolId} failed:`, error);
@@ -244,7 +243,7 @@ export class UserService extends BaseService {
    * @param page Requested page number - MANDATORY
    * @param params Filtering and specific player ID
    */
-  async getFriendsList(page: number, params: { userId?: number, limit?: number } = {}): Promise<ServiceResponse<any>> {
+  async getFriendsList(page: number, params: { userId?: number, limit?: number } = {}): Promise<GetFriendsResponse> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -255,11 +254,17 @@ export class UserService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arkadaslarim/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const icerik = this.handle<any[]>(response);
+      
+      return {
+        icerik: icerik || [],
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı',
+        kod: Number(response.kod || 0)
+      };
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching friends list failed:`, error);
-      return this.createError(error.message);
+      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
     }
   }
 
@@ -275,7 +280,7 @@ export class UserService extends BaseService {
       formData.append('sayfa', page.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/davetliste/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching invitations list failed:`, error);
@@ -290,7 +295,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetkodyenile/0/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Refreshing invite code failed:`, error);
@@ -312,7 +317,7 @@ export class UserService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/profil/maildogrulamaURL/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Requesting email verification URL failed:`, error);
@@ -332,7 +337,7 @@ export class UserService extends BaseService {
       formData.append('oyuncubakid', userId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadas-durt/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Poking friend ${userId} failed:`, error);
@@ -352,7 +357,7 @@ export class UserService extends BaseService {
       formData.append('favoritakimID', teamId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/profil/favoritakimsec/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Setting favorite team ${teamId} failed:`, error);
@@ -370,7 +375,7 @@ export class UserService extends BaseService {
     userId?: number, 
     limit?: number, 
     category?: MediaCategory | string 
-  } = {}): Promise<ServiceResponse<any>> {
+  } = {}): Promise<GetMediaResponse> {
     try {
       const formData = new FormData();
       if (params.userId !== undefined) {
@@ -381,11 +386,17 @@ export class UserService extends BaseService {
       formData.append('kategori', params.category || 'all');
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/medya/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const icerik = this.handle<any[]>(response);
+      
+      return {
+        icerik: icerik || [],
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı',
+        kod: Number(response.kod || 0)
+      };
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching media failed:`, error);
-      return this.createError(error.message);
+      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
     }
   }
 
@@ -402,7 +413,7 @@ export class UserService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/profil/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching social profile failed:`, error);
@@ -417,7 +428,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirim/0/0/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching notifications failed:`, error);
@@ -453,7 +464,7 @@ export class UserService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/bildirimler/${page}/0/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching notifications history failed:`, error);
@@ -476,7 +487,7 @@ export class UserService extends BaseService {
       formData.append('resim', file);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/avatar-guncelle/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Updating avatar failed:`, error);
@@ -491,7 +502,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/avatar-varsayilan/0/0/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Resetting avatar failed:`, error);
@@ -506,7 +517,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/banner-varsayilan/0/0/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Resetting banner failed:`, error);
@@ -529,7 +540,7 @@ export class UserService extends BaseService {
       formData.append('resim', file);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkaplan-guncelle/0/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Updating background failed:`, error);
@@ -551,7 +562,7 @@ export class UserService extends BaseService {
       formData.append('derece', degree.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/donder/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Rotating media ${photoId} failed:`, error);
@@ -571,7 +582,7 @@ export class UserService extends BaseService {
       formData.append('medyaID', mediaId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/sil/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Deleting media ${mediaId} failed:`, error);
@@ -595,7 +606,7 @@ export class UserService extends BaseService {
       formData.append('category', category);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/yukle/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Uploading media failed:`, error);
@@ -610,7 +621,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/ayarlar/liste/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Fetching notification settings failed:`, error);
@@ -633,7 +644,7 @@ export class UserService extends BaseService {
       });
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/ayarlar/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Updating notification settings failed:`, error);
@@ -648,7 +659,7 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/yetkiler/0/0/'), {});
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Fetching permissions failed:', error);
@@ -661,20 +672,24 @@ export class UserService extends BaseService {
    * 
    * @param page Ranking page number
    */
-  async getXpRankings(page: number = 1): Promise<ServiceResponse<RankedUser[]>> {
+  async getXpRankings(page: number = 1): Promise<GetXpRankingsResponse> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
       const url = this.resolveBotPath(`/0/0/xpsiralama/${page}/0/`);
-      const apiResponse = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(apiResponse);
-      const users = Array.isArray(data) ? data.map((u: any) => RankedUser.fromJSON(u)) : [];
+      const response = await this.client.post<any>(url, formData);
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(users, apiResponse?.aciklama);
+      return {
+        icerik: data || [],
+        kod: Number(response.kod),
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı'
+      };
     } catch (error: any) {
       this.logger.error('[UserService] Fetching XP rankings failed:', error);
-      return this.createError(error.message);
+      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }
   }
 
@@ -683,20 +698,27 @@ export class UserService extends BaseService {
    * 
    * @param page Ranking page number
    */
-  async getPopRankings(page: number = 1): Promise<ServiceResponse<RankedUser[]>> {
+  async getPopRankings(page: number = 1): Promise<GetPopRankingsResponse> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
 
       const url = this.resolveBotPath(`/0/0/popsiralama/${page}/0/`);
-      const apiResponse = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(apiResponse);
-      const users = Array.isArray(data) ? data.map((u: any) => RankedUser.fromJSON(u)) : [];
+      const response = await this.client.post<any>(url, formData);
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(users, apiResponse?.aciklama);
+      return {
+        icerik: data || [],
+        kod: Number(response.kod),
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı'
+      };
     } catch (error: any) {
       this.logger.error('[UserService] Fetching popularity rankings failed:', error);
-      return this.createError(error.message);
+      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }
   }
 }
+
+
+

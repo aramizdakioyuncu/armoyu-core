@@ -1,8 +1,10 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { Group } from '../models/community/Group';
 import { ServiceResponse } from '../api/ServiceResponse';
+import { GetGroupsResponse } from '../models/community/GetGroupsResponse';
+import { GetUserGroupsResponse } from '../models/community/GetUserGroupsResponse';
+import { Group } from '../models/community/Group';
 
 /**
  * Service for managing groups, clans, and social communities.
@@ -25,9 +27,9 @@ export class GroupService extends BaseService {
       formData.append('cevap', response.toString());
 
       const url = this.resolveBotPath('/0/0/gruplar-davetcevap/0/0/');
-      const apiResponse = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(apiResponse);
-      return this.createSuccess(icerik, apiResponse?.aciklama);
+      const api = await this.client.post<any>(url, formData);
+      const icerik = this.handle<any>(api);
+      return this.createSuccess(icerik, api?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Responding to group invitation ${groupId} failed:`, error);
       return this.createError(error.message);
@@ -37,7 +39,7 @@ export class GroupService extends BaseService {
   /**
    * Fetches the list of groups associated with a player (Legacy).
    */
-  async getUserGroups(userId?: number): Promise<ServiceResponse<Group[]>> {
+  async getUserGroups(userId?: number): Promise<GetUserGroupsResponse> {
     try {
       const formData = new FormData();
       if (userId !== undefined) {
@@ -45,19 +47,24 @@ export class GroupService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplarim/0/0/'), formData);
-      const data = this.handleResponse<any[]>(response);
-      const groups = Array.isArray(data) ? data.map((g: any) => Group.fromJSON(g)) : [];
-      return this.createSuccess(groups, response?.aciklama);
+      const data = this.handle<any[]>(response);
+      
+      return {
+        icerik: data || [],
+        kod: Number(response.kod),
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı'
+      };
     } catch (error: any) {
       this.logger.error(`[GroupService] Fetching player groups failed:`, error);
-      return this.createError(error.message);
+      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }
   }
 
   /**
    * Fetches a list of all groups with filtering and pagination.
    */
-  async getGroups(page: number, params: { category?: string | number } = {}): Promise<ServiceResponse<Group[]>> {
+  async getGroups(page: number, params: { category?: string | number } = {}): Promise<GetGroupsResponse> {
     try {
       const formData = new FormData();
       if (params.category !== undefined) {
@@ -66,12 +73,17 @@ export class GroupService extends BaseService {
       formData.append('sayfa', page.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/gruplar/liste/${page}/`), formData);
-      const data = this.handleResponse<any[]>(response);
-      const groups = Array.isArray(data) ? data.map((g: any) => Group.fromJSON(g)) : [];
-      return this.createSuccess(groups, response?.aciklama);
+      const data = this.handle<any[]>(response);
+      
+      return {
+        icerik: data || [],
+        kod: Number(response.kod),
+        durum: Number(response.durum),
+        aciklama: response.aciklama || 'İşlem Başarılı'
+      };
     } catch (error: any) {
       this.logger.error(`[GroupService] Fetching groups list failed:`, error);
-      return this.createError(error.message);
+      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }
   }
 
@@ -89,9 +101,8 @@ export class GroupService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/0/0/'), formData);
-      const data = this.handleResponse<any>(response);
-      const group = data ? Group.fromJSON(data) : null;
-      return this.createSuccess(group, response?.aciklama);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Fetching group detail failed:`, error);
       return this.createError(error.message);
@@ -112,7 +123,7 @@ export class GroupService extends BaseService {
       });
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/davetet/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Inviting users to group ${groupId} failed:`, error);
@@ -133,7 +144,7 @@ export class GroupService extends BaseService {
       formData.append('media', file);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/medya/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Updating group media failed:`, error);
@@ -152,7 +163,7 @@ export class GroupService extends BaseService {
       formData.append('grupID', groupId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/ayril/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Leaving group ${groupId} failed:`, error);
@@ -169,7 +180,7 @@ export class GroupService extends BaseService {
       formData.append('groupname', groupName);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/uyeler/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Fetching group members for ${groupName} failed:`, error);
@@ -189,7 +200,7 @@ export class GroupService extends BaseService {
       formData.append('userID', userId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/gruptanat/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Kicking user ${userId} from group ${groupId} failed:`, error);
@@ -222,7 +233,7 @@ export class GroupService extends BaseService {
       if (params.recruitmentStatus !== undefined) formData.append('alimdurum', params.recruitmentStatus.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/ayarlar/0/'), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[GroupService] Updating group settings failed:`, error);
@@ -230,3 +241,6 @@ export class GroupService extends BaseService {
     }
   }
 }
+
+
+

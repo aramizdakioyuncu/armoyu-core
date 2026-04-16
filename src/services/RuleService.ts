@@ -20,10 +20,9 @@ export class RuleService extends BaseService {
     try {
       const url = this.resolveBotPath(`/0/0/kurallar/${botId}`);
       const response = await this.client.post<any>(url);
-      const rulesData = this.handleResponse<any[]>(response);
-      const rules = Array.isArray(rulesData) ? rulesData.map((r: any) => Rule.fromJSON(r)) : [];
+      const rulesData = this.handle<any[]>(response);
       
-      return this.createSuccess(rules, response?.aciklama);
+      return this.createSuccess(rulesData || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[RuleService] getRules failed:', error);
       return this.createError(error.message);
@@ -43,9 +42,8 @@ export class RuleService extends BaseService {
       
       const url = this.resolveBotPath(`/0/0/kurallar/${botId}/ekle`);
       const response = await this.client.post<any>(url, body);
-      const result = this.handleResponse<any>(response);
-      const rule = Rule.fromJSON(result);
-      return this.createSuccess(rule, response?.aciklama);
+      const result = this.handle<any>(response);
+      return this.createSuccess(result || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[RuleService] createRule failed:', error);
       return this.createError(error.message);
@@ -59,14 +57,12 @@ export class RuleService extends BaseService {
     this.requireAuth();
     try {
       const body: any = {};
-      if (data.text) body.kuralicerik = data.text;
-      if (data.penalty) body.cezabaslangic = data.penalty;
+      if (data) Object.assign(body, data);
       
       const url = this.resolveBotPath(`/0/0/kurallar/${botId}/duzenle/${ruleId}`);
       const response = await this.client.post<any>(url, body);
-      const result = this.handleResponse<any>(response);
-      const rule = Rule.fromJSON(result);
-      return this.createSuccess(rule, response?.aciklama);
+      const result = this.handle<any>(response);
+      return this.createSuccess(result || null, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[RuleService] updateRule failed:', error);
       return this.createError(error.message);
@@ -81,7 +77,7 @@ export class RuleService extends BaseService {
     try {
       const url = this.resolveBotPath(`/0/0/kurallar/${botId}/sil/${ruleId}`);
       const response = await this.client.post<any>(url);
-      const result = this.handleResponse<any>(response);
+      const result = this.handle<any>(response);
       return this.createSuccess(!!result, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[RuleService] deleteRule failed:', error);
@@ -89,3 +85,6 @@ export class RuleService extends BaseService {
     }
   }
 }
+
+
+

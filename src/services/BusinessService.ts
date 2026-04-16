@@ -28,7 +28,7 @@ export class BusinessService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/okullarim/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BusinessService] Fetching player schools failed:`, error);
@@ -52,7 +52,7 @@ export class BusinessService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/istasyonlarim/${page}/`), formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BusinessService] Fetching player stations failed:`, error);
@@ -79,7 +79,7 @@ export class BusinessService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/isyerleri/katilim/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BusinessService] Joining business failed:`, error);
@@ -97,7 +97,7 @@ export class BusinessService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/isyerleri/icerik/0/');
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
+      const data = this.handle<any[]>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BusinessService] Fetching business content failed:`, error);
@@ -105,3 +105,6 @@ export class BusinessService extends BaseService {
     }
   }
 }
+
+
+

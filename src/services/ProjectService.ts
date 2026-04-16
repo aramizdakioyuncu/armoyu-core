@@ -23,10 +23,9 @@ export class ProjectService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/projeler/icerik-liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const scores = Array.isArray(data) ? data.map(item => ProjectScore.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(scores, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ProjectService] Failed to fetch project score list:', error);
       return this.createError(error.message);
@@ -45,7 +44,7 @@ export class ProjectService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/projeler/icerik-kaydet/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ProjectService] Failed to save project score:', error);
@@ -53,3 +52,6 @@ export class ProjectService extends BaseService {
     }
   }
 }
+
+
+

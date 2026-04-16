@@ -30,10 +30,9 @@ export class StaffService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/ekibimiz/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const staffMembers = Array.isArray(data) ? data.map(item => TeamMember.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(staffMembers, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StaffService] Failed to fetch staff team:', error);
       return this.createError(error.message);
@@ -59,7 +58,7 @@ export class StaffService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/ekibimiz/katil-istek/0/');
       const response = await this.client.post<any>(url, formData);
-      const icerik = this.handleResponse<any>(response);
+      const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StaffService] Team application submission failed:', error);
@@ -81,13 +80,15 @@ export class StaffService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/ekibimiz/basvurular/${page}/`);
       const response = await this.client.post<any>(url, formData);
-      const data = this.handleResponse<any[]>(response);
-      const applications = Array.isArray(data) ? data.map(item => StaffApplication.fromJSON(item)) : [];
+      const data = this.handle<any[]>(response);
       
-      return this.createSuccess(applications, response?.aciklama);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StaffService] Failed to fetch applications:', error);
       return this.createError(error.message);
     }
   }
 }
+
+
+
