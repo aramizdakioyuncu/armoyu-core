@@ -36,14 +36,14 @@ export class Post extends BaseModel {
    */
   private static legacyFromJSON(json: Record<string, any>): Post {
     return new Post({
-      id: String(json.id || json.paylasimid || ''),
-      author: json.author ? User.fromJSON(json.author) : (json.oyuncu ? User.fromJSON(json.oyuncu) : null),
-      content: json.content || json.icerik || json.text || '',
-      media: Array.isArray(json.media) ? json.media : (json.resim ? [json.resim] : []),
-      timestamp: json.timestamp || json.tarih || json.created_at || '',
-      likeCount: Number(json.likeCount || json.begeni_sayi || 0),
-      commentCount: Number(json.commentCount || json.yorum_sayi || 0),
-      isLiked: json.isLiked === true || json.begendi === 1 || false,
+      id: String(json.id || json.paylasimid || json.post_id || json.postID || json.paylasim_id || ''),
+      author: json.author ? User.fromJSON(json.author) : (json.oyuncu ? User.fromJSON(json.oyuncu) : (json.owner ? User.fromJSON(json.owner) : (json.oyuncuID || json.oyuncu_ID || json.oyuncukullaniciadi ? User.fromJSON(json) : null))),
+      content: json.content || json.icerik || json.text || json.paylasimmetin || json.paylasim_metin || json.paylasimicerik || json.paylasim_icerik || json.sosyalicerik || json.sosyal_icerik || json.owner?.paylasimicerik || json.oyuncu?.paylasim_icerik || '',
+      media: Array.isArray(json.media) ? json.media : (Array.isArray(json.paylasimfoto) ? json.paylasimfoto.map((f: any) => f.fotourl || f.url) : (Array.isArray(json.owner?.paylasimfoto) ? json.owner.paylasimfoto.map((f: any) => f.fotourl || f.url) : (json.resim || json.paylasimresim || json.paylasim_resim ? [json.resim || json.paylasimresim || json.paylasim_resim] : []))),
+      timestamp: json.timestamp || json.tarih || json.created_at || json.paylasimzaman || json.paylasim_zaman || json.zaman || json.owner?.paylasimzaman || json.oyuncu?.paylasim_zaman || '',
+      likeCount: Number(json.likeCount || json.begeni_sayi || json.begenisay || 0),
+      commentCount: Number(json.commentCount || json.yorum_sayi || json.yorumsay || 0),
+      isLiked: json.isLiked === true || json.begendi === 1 || json.benbegendim === 1 || false,
       comments: Array.isArray(json.comments) ? json.comments.map((c: any) => Comment.fromJSON(c)) : []
     });
   }
@@ -52,7 +52,7 @@ export class Post extends BaseModel {
    * Standardized ARMOYU v2 style mapping.
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private static v2FromJSON(json: Record<string, any>): Post {
-    return new Post({});
+  static v2FromJSON(json: Record<string, any>): Post {
+    return Post.legacyFromJSON(json);
   }
 }

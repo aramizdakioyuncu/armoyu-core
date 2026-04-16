@@ -9,6 +9,7 @@ export class SearchResult extends BaseModel {
   type: SearchType = SearchType.USER;
   title: string = '';
   subtitle: string = '';
+  username: string = '';
   avatar: string = '';
   url: string = '';
 
@@ -52,12 +53,13 @@ export class SearchResult extends BaseModel {
     const subtitle = json.username || json.subtitle || json.description || json.aciklama || json.altbaslik || '';
     const avatar = json.avatar || json.minavatar || json.minresim || json.image || json.thumb || '';
     const id = String(json.ID || json.id_bak || json.id || json.id_user || json.playerID || json.groupID || json.oyuncuID || json.grupID || '');
+    const username = json.username || json.kullaniciadi || '';
     
     // Construct URLs if missing
     let url = json.url || '';
     if (!url && id) {
-      if (type === SearchType.USER) url = `/oyuncular/${json.username || id}`;
-      else if (type === SearchType.GROUP) url = `/gruplar/${json.username || json.slug || id}`;
+      if (type === SearchType.USER) url = `/oyuncular/${username || id}`;
+      else if (type === SearchType.GROUP) url = `/gruplar/${username || json.slug || id}`;
     }
 
     return new SearchResult({
@@ -65,9 +67,18 @@ export class SearchResult extends BaseModel {
       type,
       title,
       subtitle,
+      username,
       avatar,
       url
     });
+  }
+
+  isPlayer(): boolean {
+    return this.type === SearchType.USER;
+  }
+
+  isTeam(): boolean {
+    return this.type === SearchType.GROUP;
   }
 
   /**

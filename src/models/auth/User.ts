@@ -205,9 +205,9 @@ export class User extends BaseModel {
     const banHistory = json.banHistory || {};
 
     return new User({
-      id: String(json.playerID || json.player_ID || json.id || json.owner_ID || json.id_user || json.user_id || json.oyuncuID || ''),
-      username: json.username || json.player_userlogin || json.user_name || json.owner_username || json.oyuncu_ad || json.oyuncukullaniciad || json.oyuncukullaniciadi || '',
-      displayName: json.displayname || json.player_displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || '',
+      id: String(json.playerID || json.player_ID || json.id || json.owner_ID || json.id_user || json.user_id || json.oyuncuID || json.oyuncu_ID || ''),
+      username: json.username || json.player_userlogin || json.user_name || json.owner_username || json.oyuncu_ad || json.oyuncukullaniciad || json.oyuncukullaniciadi || json.oyuncukullanici_ad || '',
+      displayName: json.displayname || json.player_displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || json.oyuncu_ad_soyad || '',
       firstName: json.firstName || '',
       lastName: json.lastName || '',
       avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || json.player_avatar || json.chatImage?.media_URL || '') : (avatarData || json.player_avatar || ''),
