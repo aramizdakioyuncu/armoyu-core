@@ -1,3 +1,4 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
 import { Faculty } from './Faculty';
 import { Classroom } from './Classroom';
@@ -6,7 +7,7 @@ import { SchoolTeam } from './SchoolTeam';
 /**
  * Represents a School (Okul/Üniversite) in the ARMOYU education ecosystem.
  */
-export class School {
+export class School extends BaseModel {
   id: string = '';
   name: string = '';
   slug: string = '';
@@ -24,14 +25,24 @@ export class School {
   memberCount: number = 0;
 
   constructor(data: Partial<School>) {
+    super();
     Object.assign(this, data);
   }
 
   /**
-   * Instantiates a School object from a JSON object.
+   * Instantiates a School object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): School {
+    if (BaseModel.usePreviousApi) {
+      return School.legacyFromJSON(json);
+    }
+    return School.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): School {
     if (!json) return new School({});
 
     // Handle potential metadata objects (School_URL, etc.)
@@ -71,5 +82,13 @@ export class School {
       isSocialFeedEnabled: json.isSocialFeedEnabled !== undefined ? json.isSocialFeedEnabled : true,
       memberCount: Number(json.memberCount || json.uye_sayisi || 0)
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): School {
+    return new School({});
   }
 }

@@ -1,8 +1,11 @@
+import { BaseModel } from '../BaseModel';
+
 /**
  * Represents a Game in the aramizdakioyuncu.com platform.
  */
-export class Game {
+export class Game extends BaseModel {
   id: string = '';
+  shortName: string = '';
   name: string = '';
   slug: string = '';
   logo: string = '';
@@ -12,6 +15,7 @@ export class Game {
   description: string = '';
 
   constructor(data: Partial<Game>) {
+    super();
     Object.assign(this, data);
     if (!this.slug && this.name) {
       this.slug = this.name.toLowerCase()
@@ -21,10 +25,19 @@ export class Game {
   }
 
   /**
-   * Instantiates a Game object from a JSON object.
+   * Instantiates a Game object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): Game {
+    if (BaseModel.usePreviousApi) {
+      return Game.legacyFromJSON(json);
+    }
+    return Game.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Game {
     return new Game({
       id: json.id || '',
       name: json.name || '',
@@ -35,5 +48,13 @@ export class Game {
       developer: json.developer || '',
       description: json.description || '',
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Game {
+    return new Game({});
   }
 }

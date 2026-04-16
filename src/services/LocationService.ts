@@ -3,6 +3,7 @@ import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { Country } from '../models/core/Country';
 import { Province } from '../models/core/Province';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing geographical data, countries, and provinces (Legacy).
@@ -15,12 +16,8 @@ export class LocationService extends BaseService {
 
   /**
    * Fetches the list of countries (Legacy).
-   * 
-   * @param page The page number (sayfa) - MANDATORY
-   * @param limit Results limit
-   * @returns List of countries
    */
-  async getCountries(page: number, limit?: number): Promise<Country[]> {
+  async getCountries(page: number, limit?: number): Promise<ServiceResponse<Country[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -31,23 +28,19 @@ export class LocationService extends BaseService {
       const url = this.resolveBotPath(`/0/0/ulkeler/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const countries = Array.isArray(data) ? data.map(item => Country.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => Country.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(countries, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[LocationService] Failed to fetch countries:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the list of provinces/cities for a specific country (Legacy).
-   * 
-   * @param page The page number (sayfa) - MANDATORY
-   * @param countryId The ID of the country (countryID)
-   * @param limit Results limit
-   * @returns List of provinces
    */
-  async getProvinces(page: number, countryId: number | string = 212, limit?: number): Promise<Province[]> {
+  async getProvinces(page: number, countryId: number | string = 212, limit?: number): Promise<ServiceResponse<Province[]>> {
     try {
       const formData = new FormData();
       formData.append('countryID', countryId.toString());
@@ -59,11 +52,12 @@ export class LocationService extends BaseService {
       const url = this.resolveBotPath(`/0/0/iller/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const provinces = Array.isArray(data) ? data.map(item => Province.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => Province.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(provinces, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[LocationService] Failed to fetch provinces for country ${countryId}:`, error);
-      return [];
+      return this.createError(error.message);
     }
   }
 }

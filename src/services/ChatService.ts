@@ -1,7 +1,8 @@
-import { ChatMessage } from '../models/social/ChatMessage';
+import { ChatMessage } from '../models/social/chat/Message';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing real-time chat and private messaging.
@@ -14,10 +15,8 @@ export class ChatService extends BaseService {
 
   /**
    * Sends a chat message to a user or group (Legacy).
-   * 
-   * @param params Message parameters
    */
-  async sendMessage(params: { userId: number, content: string, type?: string }): Promise<any> {
+  async sendMessage(params: { userId: number, content: string, type?: string }): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -26,20 +25,18 @@ export class ChatService extends BaseService {
       formData.append('turu', params.type || 'ozel');
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbetgonder/${params.userId}/${params.type || 'ozel'}/`), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ChatService] Sending message failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the chat history with a specific user (Legacy).
-   * 
-   * @param page The page number - MANDATORY
-   * @param params Query and pagination parameters (userId, limit)
    */
-  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<any> {
+  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -50,20 +47,18 @@ export class ChatService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/${params.userId}/${page}/`), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat history failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the list of recent chats/friends to chat with (Legacy).
-   * 
-   * @param page The page number - MANDATORY
-   * @param params Pagination parameters (limit)
    */
-  async getFriendsChat(page: number, params: { limit?: number } = {}): Promise<any> {
+  async getFriendsChat(page: number, params: { limit?: number } = {}): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -73,19 +68,18 @@ export class ChatService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/arkadaslarim/${page}/`), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the detailed information/messages for a specific chat (Legacy).
-   * 
-   * @param params Chat identification
    */
-  async getChatDetail(params: { chatId: number, type?: string }): Promise<any> {
+  async getChatDetail(params: { chatId: number, type?: string }): Promise<ServiceResponse<ChatMessage[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -94,10 +88,11 @@ export class ChatService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbetdetay/${params.chatId}/${params.type || 'grup'}/`), formData);
       const data = this.handleResponse<any[]>(response);
-      return Array.isArray(data) ? data.map(item => ChatMessage.fromJSON(item)) : [];
-    } catch (error) {
+      const messages = Array.isArray(data) ? data.map(item => ChatMessage.fromJSON(item)) : [];
+      return this.createSuccess(messages, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat detail failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }

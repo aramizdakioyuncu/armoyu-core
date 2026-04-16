@@ -1,3 +1,4 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
 
 export type StationType = 'YEMEK' | 'INTERNET_KAFE' | 'HALI_SAHA' | 'SPOR_KOMPLEKSI';
@@ -5,7 +6,7 @@ export type StationType = 'YEMEK' | 'INTERNET_KAFE' | 'HALI_SAHA' | 'SPOR_KOMPLE
 /**
  * Represents a menu item or a product in a station.
  */
-export class StationProduct {
+export class StationProduct extends BaseModel {
   id: string = '';
   name: string = '';
   price: number = 0;
@@ -15,10 +16,24 @@ export class StationProduct {
   discountRate?: string;
 
   constructor(data: Partial<StationProduct>) {
+    super();
     Object.assign(this, data);
   }
 
+  /**
+   * Instantiates a StationProduct object from a JSON object based on the API version.
+   */
   static fromJSON(json: Record<string, any>): StationProduct {
+    if (BaseModel.usePreviousApi) {
+      return StationProduct.legacyFromJSON(json);
+    }
+    return StationProduct.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): StationProduct {
     return new StationProduct({
       id: json.id || '',
       name: json.name || '',
@@ -29,12 +44,20 @@ export class StationProduct {
       discountRate: json.discountRate,
     });
   }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): StationProduct {
+    return new StationProduct({});
+  }
 }
 
 /**
  * Represents detailed hardware/equipment in a workstation setup.
  */
-export class WorkstationEquipment {
+export class WorkstationEquipment extends BaseModel {
   id: string = '';
   name: string = 'Standart Masa'; // e.g., "VIP Oda #1"
   cpu: string = '';
@@ -46,10 +69,24 @@ export class WorkstationEquipment {
   isAvailable?: boolean = true;
 
   constructor(data: Partial<WorkstationEquipment>) {
+    super();
     Object.assign(this, data);
   }
 
+  /**
+   * Instantiates a WorkstationEquipment object from a JSON object based on the API version.
+   */
   static fromJSON(json: Record<string, any>): WorkstationEquipment {
+    if (BaseModel.usePreviousApi) {
+      return WorkstationEquipment.legacyFromJSON(json);
+    }
+    return WorkstationEquipment.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): WorkstationEquipment {
     return new WorkstationEquipment({
       id: json.id || '',
       name: json.name || '',
@@ -62,6 +99,14 @@ export class WorkstationEquipment {
       isAvailable: json.isAvailable ?? true,
     });
   }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): WorkstationEquipment {
+    return new WorkstationEquipment({});
+  }
 }
 
 export interface StationPricing {
@@ -70,17 +115,31 @@ export interface StationPricing {
   unit: string; // 'saat', 'gün', 'seans' vb.
 }
 
-export class StationCoupon {
+export class StationCoupon extends BaseModel {
   code: string = '';
   discount: string = '';
   expiryDate: string = '';
   description: string = '';
 
   constructor(data: Partial<StationCoupon>) {
+    super();
     Object.assign(this, data);
   }
 
+  /**
+   * Instantiates a StationCoupon object from a JSON object based on the API version.
+   */
   static fromJSON(json: Record<string, any>): StationCoupon {
+    if (BaseModel.usePreviousApi) {
+      return StationCoupon.legacyFromJSON(json);
+    }
+    return StationCoupon.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): StationCoupon {
     return new StationCoupon({
       code: json.code || '',
       discount: json.discount || '',
@@ -88,12 +147,20 @@ export class StationCoupon {
       description: json.description || '',
     });
   }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): StationCoupon {
+    return new StationCoupon({});
+  }
 }
 
 /**
  * Represents a Station (İstasyon) in the aramizdakioyuncu.com platform.
  */
-export class Station {
+export class Station extends BaseModel {
   id: string = '';
   name: string = '';
   slug: string = '';
@@ -114,6 +181,7 @@ export class Station {
   facilities?: string[] = [];
 
   constructor(data: Partial<Station>) {
+    super();
     Object.assign(this, data);
     if (!this.slug && this.name) {
       this.slug = this.name.toLowerCase()
@@ -122,7 +190,20 @@ export class Station {
     }
   }
 
+  /**
+   * Instantiates a Station object from a JSON object based on the API version.
+   */
   static fromJSON(json: Record<string, any>): Station {
+    if (BaseModel.usePreviousApi) {
+      return Station.legacyFromJSON(json);
+    }
+    return Station.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Station {
     if (!json) return new Station({});
 
     // Handle potential metadata objects (Station_URL, etc.)
@@ -165,5 +246,13 @@ export class Station {
       coupons: Array.isArray(json.coupons) ? json.coupons.map((c: any) => StationCoupon.fromJSON(c)) : [],
       facilities: json.facilities,
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Station {
+    return new Station({});
   }
 }

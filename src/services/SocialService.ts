@@ -1,7 +1,8 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { Post } from '../models/social/Post';
+import { Post } from '../models/social/feed/Post';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing social interactions, posts, feed, likes, and comments.
@@ -14,12 +15,8 @@ export class SocialService extends BaseService {
 
   /**
    * Fetches posts from the social feed or a specific post by ID (Legacy).
-   * 
-   * @param page The page number (sayfa) - MANDATORY
-   * @param params Additional query parameters (limit, postId, category, categoryDetail)
-   * @returns List of posts or a single post
    */
-  async getPosts(page: number, params: { limit?: number, postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<Post[] | Post | null> {
+  async getPosts(page: number, params: { limit?: number, postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<ServiceResponse<Post[] | Post | null>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -42,26 +39,26 @@ export class SocialService extends BaseService {
       
       if (response && response.durum != null && Number(response.durum) === 1) {
         if (Array.isArray(response.icerik)) {
-          return response.icerik.map((p: any) => Post.fromJSON(p));
+          const posts = response.icerik.map((p: any) => Post.fromJSON(p));
+          return this.createSuccess(posts, response.aciklama);
         } else if (response.icerik && typeof response.icerik === 'object') {
-          return Post.fromJSON(response.icerik);
+          const post = Post.fromJSON(response.icerik);
+          return this.createSuccess(post, response.aciklama);
         }
       }
 
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Fetching posts failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Creates a new social post (Legacy).
-   * 
-   * @param content The text content of the post
-   * @param mediaIds Optional array of media IDs associated with the post
    */
-  async createPost(content: string, mediaIds?: number[]): Promise<any> {
+  async createPost(content: string, mediaIds?: number[]): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -75,19 +72,18 @@ export class SocialService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/olustur/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Creating post failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Deletes a social post (Legacy).
-   * 
-   * @param postId The ID of the post to delete
    */
-  async deletePost(postId: number | string): Promise<any> {
+  async deletePost(postId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -95,19 +91,18 @@ export class SocialService extends BaseService {
       formData.append('postID', postId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/sil/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Deleting post ${postId} failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the list of users who liked a specific post or comment (Legacy).
-   * 
-   * @param params Identification parameters (postId or commentId)
    */
-  async getLikers(params: { postId?: number | string, commentId?: number | string }): Promise<any> {
+  async getLikers(params: { postId?: number | string, commentId?: number | string }): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       if (params.postId !== undefined) {
@@ -118,28 +113,25 @@ export class SocialService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begenenler/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Fetching likers failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Specific alias for fetching likers of a post.
-   * 
-   * @param postId The ID of the post
    */
-  async getPostLikers(postId: number | string): Promise<any> {
+  async getPostLikers(postId: number | string): Promise<ServiceResponse<any>> {
     return this.getLikers({ postId });
   }
 
   /**
    * Removes a like from a post or comment (Legacy).
-   * 
-   * @param params Query parameters (postId, commentId, category)
    */
-  async removeLike(params: { postId: number | string, commentId?: number | string, category?: string }): Promise<any> {
+  async removeLike(params: { postId: number | string, commentId?: number | string, category?: string }): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -149,19 +141,18 @@ export class SocialService extends BaseService {
       formData.append('kategori', params.category || 'post');
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begeni-sil/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Removing like failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Adds a like to a post or comment (Legacy).
-   * 
-   * @param params Query parameters (postId, category)
    */
-  async addLike(params: { postId: number | string, category?: string }): Promise<any> {
+  async addLike(params: { postId: number | string, category?: string }): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -170,56 +161,53 @@ export class SocialService extends BaseService {
       formData.append('kategori', params.category || 'post');
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begen/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Adding like failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches comments for a specific post (Legacy).
-   * 
-   * @param postId The ID of the post
    */
-  async getComments(postId: number | string): Promise<any> {
+  async getComments(postId: number | string): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('postID', postId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorumlar/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Fetching comments for ${postId} failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches specific social notifications (Legacy).
-   * 
-   * @param params Query parameters (postId, category)
    */
-  async getSocialNotifications(params: { postId: number | string, category?: string }): Promise<any> {
+  async getSocialNotifications(params: { postId: number | string, category?: string }): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('postID', params.postId.toString());
       formData.append('bildirikategori', params.category || '');
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/bildirim/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Fetching social notifications failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Creates a new comment on a post (Legacy).
-   * 
-   * @param params Comment parameters (postId, content, category, replyTo)
    */
-  async createComment(params: { postId: number | string, content: string, category?: string, replyTo?: number | string }): Promise<any> {
+  async createComment(params: { postId: number | string, content: string, category?: string, replyTo?: number | string }): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -230,19 +218,18 @@ export class SocialService extends BaseService {
       formData.append('kimeyanit', params.replyTo?.toString() || '0');
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-olustur/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Creating comment failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Deletes a comment (Legacy).
-   * 
-   * @param commentId The ID of the comment to delete
    */
-  async deleteComment(commentId: number | string): Promise<any> {
+  async deleteComment(commentId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -250,10 +237,11 @@ export class SocialService extends BaseService {
       formData.append('yorumID', commentId.toString());
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-sil/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[SocialService] Deleting comment ${commentId} failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }

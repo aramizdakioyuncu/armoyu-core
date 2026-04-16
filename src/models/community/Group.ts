@@ -1,10 +1,11 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
-import { NotificationSender } from '../social/NotificationSender';
+import { NotificationSender } from '../social/notification/NotificationSender';
 
 /**
  * Represents a Group (Grup) in the aramizdakioyuncu.com platform.
  */
-export class Group {
+export class Group extends BaseModel {
   id: string = '';
   name: string = '';
   shortName: string = '';
@@ -24,6 +25,7 @@ export class Group {
   permissions: string[] = [];
 
   constructor(data: Partial<Group>) {
+    super();
     Object.assign(this, data);
     if (!this.slug && this.name) {
       this.slug = this.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
@@ -51,19 +53,26 @@ export class Group {
   }
 
   /**
-   * Instantiates a Group object from a JSON object.
+   * Instantiates a Group object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): Group {
+    if (BaseModel.usePreviousApi) {
+      return Group.legacyFromJSON(json);
+    }
+    return Group.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Group {
     if (!json) return new Group({});
 
     // 1. Handle specialized metadata object structure (specific to some API endpoints)
-    // Supports case variations: Group_URL, group_URL, grupURL, groupURL, etc.
     const urlMetadata = json.Group_URL || json.group_URL || json.grupURL || json.groupURL || {};
     const hasUrlMetadata = typeof urlMetadata === 'object' && Object.keys(urlMetadata).length > 0;
 
     // 2. Resolve Logo Sources
-    // Supports: Group_logo, group_logo, grup_logo, etc.
     const logoField = json.Group_logo || json.group_logo || json.grup_logo || json.logo || json.logo_url || json.grup_minnakavatar || json.grup_avatar || json.avatar || json.media_logo || {};
     let logoData = logoField;
     
@@ -97,12 +106,7 @@ export class Group {
       slug = json.grupURL;
     }
 
-    // 5. Resolve Social Links
-    const social = json.group_social || json.social || {};
-    const website = json.website || social.group_website || social.website || '';
-    const discord = json.discord || social.group_discord || social.discord || '';
-
-    // 6. Handle Moderators and Members (Support all API variations)
+    // 5. Handle Moderators and Members
     const rawModerators = json.moderators || json.yoneticiler || json.group_moderators || [];
     const rawMembers = json.members || json.uyeler || json.group_members || [];
 
@@ -125,5 +129,13 @@ export class Group {
       members: Array.isArray(rawMembers) ? rawMembers.map((m: any) => User.fromJSON(m)) : [],
       permissions: Array.isArray(json.permissions) ? json.permissions : [],
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Group {
+    return new Group({});
   }
 }

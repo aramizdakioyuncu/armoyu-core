@@ -3,6 +3,7 @@ import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { PlatformStation } from '../models/content/PlatformStation';
 import { StationEquipment } from '../models/content/StationEquipment';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing platform stations and their equipment (Legacy).
@@ -15,12 +16,8 @@ export class StationService extends BaseService {
 
   /**
    * Fetches the list of stations.
-   * 
-   * @param page Requested page number - MANDATORY
-   * @param category Optional station category (e.g. 'yemek', 'cafe')
-   * @returns List of platform stations
    */
-  async getStations(page: number, category?: string): Promise<PlatformStation[]> {
+  async getStations(page: number, category?: string): Promise<ServiceResponse<PlatformStation[]>> {
     try {
       const formData = new FormData();
       if (category !== undefined) {
@@ -31,21 +28,19 @@ export class StationService extends BaseService {
       const url = this.resolveBotPath(`/0/0/istasyonlar/liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const stations = Array.isArray(data) ? data.map(item => PlatformStation.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => PlatformStation.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(stations, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[StationService] Failed to fetch stations:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the equipment available at a specific station (Legacy).
-   * 
-   * @param stationId The ID of the station
-   * @returns List of station equipment
    */
-  async getStationEquipment(stationId: number | string): Promise<StationEquipment[]> {
+  async getStationEquipment(stationId: number | string): Promise<ServiceResponse<StationEquipment[]>> {
     try {
       const formData = new FormData();
       formData.append('istasyonID', stationId.toString());
@@ -53,11 +48,12 @@ export class StationService extends BaseService {
       const url = this.resolveBotPath('/0/0/istasyonlar/ekipmanlar/0/');
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const equipment = Array.isArray(data) ? data.map(item => StationEquipment.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => StationEquipment.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(equipment, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[StationService] Failed to fetch equipment for station ${stationId}:`, error);
-      return [];
+      return this.createError(error.message);
     }
   }
 }

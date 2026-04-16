@@ -1,6 +1,7 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for administrative and management tasks within the ARMOYU platform.
@@ -13,28 +14,26 @@ export class ManagementService extends BaseService {
 
   /**
    * Fetches management/admin panel content.
-   * 
-   * @param category The management category (e.g. 'home', 'stats', etc.)
-   * @returns Raw management data or structured report
    */
-  async getManagementContent(category: string = 'home'): Promise<any> {
+  async getManagementContent(category: string = 'home'): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('category', category);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim-paneli/0/0/'), formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ManagementService] Fetching management content for ${category} failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches meeting records and details.
    */
-  async getMeetings(): Promise<any> {
+  async getMeetings(): Promise<ServiceResponse<any>> {
     return this.getManagementContent('meeting');
   }
 }

@@ -1,7 +1,8 @@
-import { SearchResult } from '../models/social/SearchResult';
+import { SearchResult } from '../models/social/search/SearchResult';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for platform-wide search functionality.
@@ -14,13 +15,8 @@ export class SearchService extends BaseService {
 
   /**
    * Performs a global search across the platform (players, teams, groups).
-   * 
-   * @param query The search query (player name, etc.)
-   * @param page Page number for pagination
-   * @param limit Results limit per page
-   * @returns List of search results
    */
-  async globalSearch(query: string, page: number = 1, limit: number = 20): Promise<SearchResult[]> {
+  async globalSearch(query: string, page: number = 1, limit: number = 20): Promise<ServiceResponse<SearchResult[]>> {
     try {
       const formData = new FormData();
       formData.append('oyuncuadi', query);
@@ -30,11 +26,12 @@ export class SearchService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
       const icerik = this.handleResponse<any[]>(response);
+      const results = Array.isArray(icerik) ? icerik.map(item => SearchResult.fromJSON(item)) : [];
       
-      return Array.isArray(icerik) ? icerik.map(item => SearchResult.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(results, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[SearchService] Global search failed:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 }

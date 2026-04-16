@@ -1,7 +1,8 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { Poll } from '../models/social/Poll';
+import { Poll } from '../models/social/poll/Poll';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing platform polls and surveys (Legacy).
@@ -14,12 +15,8 @@ export class PollService extends BaseService {
 
   /**
    * Fetches the list of polls (Legacy).
-   * 
-   * @param page The page number (sayfa)
-   * @param limit Optional results limit
-   * @returns List of polls
    */
-  async getPolls(page: number, limit?: number): Promise<Poll[]> {
+  async getPolls(page: number, limit?: number): Promise<ServiceResponse<Poll[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -29,25 +26,24 @@ export class PollService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/anketler/liste/${page}/`), formData);
       const data = this.handleResponse<any[]>(response);
+      const polls = Array.isArray(data) ? data.map(item => Poll.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => Poll.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(polls, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[PollService] Failed to fetch polls:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Creates a new poll (Legacy).
-   * 
-   * @param params Poll parameters (question, options, endDate, target)
    */
   async createPoll(params: { 
     question: string, 
     options: string[], 
     endDate: string, 
     target?: number | string 
-  }): Promise<any> {
+  }): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -62,20 +58,18 @@ export class PollService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/anketler/olustur/0/');
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[PollService] Failed to create poll:', error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Answers a specific poll (Legacy).
-   * 
-   * @param pollId The ID of the poll
-   * @param optionId The ID of the selected option
    */
-  async answerPoll(pollId: number | string, optionId: number | string): Promise<any> {
+  async answerPoll(pollId: number | string, optionId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
 
     try {
@@ -85,10 +79,11 @@ export class PollService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/anketler/yanitla/0/');
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[PollService] Failed to answer poll ${pollId}:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }

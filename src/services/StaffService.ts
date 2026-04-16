@@ -3,6 +3,7 @@ import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { TeamMember } from '../models/auth/TeamMember';
 import { StaffApplication } from '../models/auth/StaffApplication';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing platform staff, applications, and official team members (Legacy).
@@ -15,13 +16,8 @@ export class StaffService extends BaseService {
 
   /**
    * Fetches the official team members (Legacy).
-   * 
-   * @param page The page number (sayfa) - MANDATORY
-   * @param category Optional staff category (e.g. 'okul-temsilcileri')
-   * @param limit Results limit
-   * @returns List of staff members
    */
-  async getStaff(page: number, category?: string, limit?: number): Promise<TeamMember[]> {
+  async getStaff(page: number, category?: string, limit?: number): Promise<ServiceResponse<TeamMember[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -35,25 +31,24 @@ export class StaffService extends BaseService {
       const url = this.resolveBotPath(`/0/0/ekibimiz/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const staffMembers = Array.isArray(data) ? data.map(item => TeamMember.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => TeamMember.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(staffMembers, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[StaffService] Failed to fetch staff team:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Submits an application to join the team (Legacy).
-   * 
-   * @param params Application details (positionId, whyJoin, whyPosition, timeCommitment)
    */
   async apply(params: {
     positionId: number | string,
     whyJoin: string,
     whyPosition: string,
     timeCommitment: string
-  }): Promise<any> {
+  }): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -64,21 +59,18 @@ export class StaffService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/ekibimiz/katil-istek/0/');
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[StaffService] Team application submission failed:', error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the list of staff applications (Legacy).
-   * 
-   * @param page The page number (sayfa) - MANDATORY
-   * @param limit Results limit
-   * @returns List of applications
    */
-  async getApplications(page: number, limit?: number): Promise<StaffApplication[]> {
+  async getApplications(page: number, limit?: number): Promise<ServiceResponse<StaffApplication[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -90,11 +82,12 @@ export class StaffService extends BaseService {
       const url = this.resolveBotPath(`/0/0/ekibimiz/basvurular/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const applications = Array.isArray(data) ? data.map(item => StaffApplication.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => StaffApplication.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(applications, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[StaffService] Failed to fetch applications:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 }

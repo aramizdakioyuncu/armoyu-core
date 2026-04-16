@@ -2,6 +2,7 @@ import { ArmoyuEvent } from '../models/community/Event';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing platform events, tournaments, and community gatherings.
@@ -14,16 +15,12 @@ export class EventService extends BaseService {
 
   /**
    * Fetches a list of events from the platform with advanced filtering.
-   * 
-   * @param page Requested page number
-   * @param params Filtering options
-   * @returns List of enriched ArmoyuEvent objects
    */
   async getEvents(page: number, params: {
     gameId?: number;
     status?: string | number;
     limit?: number;
-  } = {}): Promise<ArmoyuEvent[]> {
+  } = {}): Promise<ServiceResponse<ArmoyuEvent[]>> {
     try {
       const formData = new FormData();
       if (params.gameId !== undefined) formData.append('oyunID', String(params.gameId));
@@ -33,21 +30,19 @@ export class EventService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), formData);
       const icerik = this.handleResponse<any[]>(response);
+      const events = Array.isArray(icerik) ? icerik.map(item => ArmoyuEvent.fromJSON(item)) : [];
       
-      return Array.isArray(icerik) ? icerik.map(item => ArmoyuEvent.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(events, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[EventService] Fetching events failed:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the detailed information for a specific event.
-   * 
-   * @param options Identification for the event (id or slug/url)
-   * @returns Enriched ArmoyuEvent object or null
    */
-  async getEventDetail(options: { eventId?: number, eventURL?: string }): Promise<ArmoyuEvent | null> {
+  async getEventDetail(options: { eventId?: number, eventURL?: string }): Promise<ServiceResponse<ArmoyuEvent | null>> {
     try {
       const formData = new FormData();
       if (options.eventId) formData.append('eventID', String(options.eventId));
@@ -55,44 +50,38 @@ export class EventService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/detay/'), formData);
       const icerik = this.handleResponse<any>(response);
+      const event = icerik ? ArmoyuEvent.fromJSON(icerik) : null;
       
-      return icerik ? ArmoyuEvent.fromJSON(icerik) : null;
-    } catch (error) {
+      return this.createSuccess(event, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[EventService] Fetching event detail failed:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Submits a participation request (Join/Leave) for an event.
-   * 
-   * @param eventId The ID of the event
-   * @returns Success status
    */
-  async joinEvent(eventId: number): Promise<boolean> {
+  async joinEvent(eventId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('etkinlikID', String(eventId));
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilim/0/'), formData);
+      const success = Number(response?.durum) === 1;
       
-      // If the response is success (durum 1), return true
-      return Number(response?.durum) === 1;
-    } catch (error) {
+      return this.createSuccess(success, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[EventService] Joining event ${eventId} failed:`, error);
-      return false;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Responds to an event (Confirming 'yes' or 'no').
-   * 
-   * @param eventId The ID of the event
-   * @param answer The response ('evet' or 'hayir')
-   * @returns Success status
    */
-  async respondToEvent(eventId: number, answer: 'evet' | 'hayir'): Promise<boolean> {
+  async respondToEvent(eventId: number, answer: 'evet' | 'hayir'): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -100,21 +89,19 @@ export class EventService extends BaseService {
       formData.append('cevap', answer);
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilma/0/'), formData);
+      const success = Number(response?.durum) === 1;
       
-      return Number(response?.durum) === 1;
-    } catch (error) {
+      return this.createSuccess(success, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[EventService] Responding to event ${eventId} failed:`, error);
-      return false;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Fetches the list of teams participating in an event.
-   * 
-   * @param eventId The ID of the event
-   * @returns List of enriched Team objects
    */
-  async getEventTeams(eventId: number): Promise<any[]> {
+  async getEventTeams(eventId: number): Promise<ServiceResponse<any[]>> {
     try {
       const formData = new FormData();
       formData.append('etkinlikID', String(eventId));
@@ -122,13 +109,13 @@ export class EventService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/takimlar/0/'), formData);
       const icerik = this.handleResponse<any[]>(response);
       
-      // We'll dynamic import the Team model to avoid circular dependency if it occurs, 
-      // but for now since it's a separate file it should be fine.
       const { Team } = await import('../models/community/Team');
-      return Array.isArray(icerik) ? icerik.map(item => Team.fromJSON(item)) : [];
-    } catch (error) {
+      const teams = Array.isArray(icerik) ? icerik.map(item => Team.fromJSON(item)) : [];
+      
+      return this.createSuccess(teams, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[EventService] Fetching teams for event ${eventId} failed:`, error);
-      return [];
+      return this.createError(error.message);
     }
   }
 }

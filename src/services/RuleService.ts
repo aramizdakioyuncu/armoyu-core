@@ -1,7 +1,8 @@
 import { BaseService } from './BaseService';
 import { Rule } from '../models/core/Rule';
-import { ApiClient, HttpMethod } from '../api/ApiClient';
+import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for handling ARMOYU Rule-related API interactions.
@@ -11,90 +12,80 @@ export class RuleService extends BaseService {
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
   }
-  /**
-   * Universal method to call rule endpoints with standardized prefix.
-   */
-  async call<T>(path: string, method: HttpMethod = HttpMethod.GET, body?: any): Promise<T> {
-    const normalizedPath = path.startsWith('/') ? path : '/' + path;
-    
-    // /0/0 represents the category/sub-path for bot rules
-    const endpoint = this.resolveBotPath(`/0/0${normalizedPath}`);
-    
-    try {
-      switch (method) {
-        case HttpMethod.GET:
-          return await this.client.get<T>(endpoint);
-        case HttpMethod.POST:
-          return await this.client.post<T>(endpoint, body);
-        case HttpMethod.PUT:
-          return await this.client.put<T>(endpoint, body);
-        case HttpMethod.PATCH:
-          return await this.client.patch<T>(endpoint, body);
-        case HttpMethod.DELETE:
-          return await this.client.delete<T>(endpoint);
-        default:
-          return await this.client.get<T>(endpoint);
-      }
-    } catch (error) {
-      this.logger.error(`[RuleService] Request to ${path} failed:`, error);
-      throw error;
-    }
-  }
 
   /**
    * Fetches the list of rules for a specific bot/context.
    */
-  async getRules(botId: string = '0'): Promise<Rule[]> {
+  async getRules(botId: string = '0'): Promise<ServiceResponse<Rule[]>> {
     try {
-      const response = await this.call<any>(`/kurallar/${botId}`, HttpMethod.POST);
+      const url = this.resolveBotPath(`/0/0/kurallar/${botId}`);
+      const response = await this.client.post<any>(url);
       const rulesData = this.handleResponse<any[]>(response);
+      const rules = Array.isArray(rulesData) ? rulesData.map((r: any) => Rule.fromJSON(r)) : [];
       
-      if (Array.isArray(rulesData)) {
-        return rulesData.map((r: any) => Rule.fromJSON(r));
-      }
-      return [];
-    } catch (error) {
+      return this.createSuccess(rules, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[RuleService] getRules failed:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Create a new rule.
    */
-  async createRule(botId: string = '0', text: string, penalty: string = ''): Promise<Rule> {
+  async createRule(botId: string = '0', text: string, penalty: string = ''): Promise<ServiceResponse<Rule>> {
     this.requireAuth();
-    const body = {
-      kuralicerik: text,
-      cezabaslangic: penalty
-    };
-    
-    const response = await this.call<any>(`/kurallar/${botId}/ekle`, HttpMethod.POST, body);
-    const result = this.handleResponse<any>(response);
-    return Rule.fromJSON(result);
+    try {
+      const body = {
+        kuralicerik: text,
+        cezabaslangic: penalty
+      };
+      
+      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/ekle`);
+      const response = await this.client.post<any>(url, body);
+      const result = this.handleResponse<any>(response);
+      const rule = Rule.fromJSON(result);
+      return this.createSuccess(rule, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[RuleService] createRule failed:', error);
+      return this.createError(error.message);
+    }
   }
 
   /**
    * Update an existing rule.
    */
-  async updateRule(botId: string = '0', ruleId: number, data: Partial<Rule>): Promise<Rule> {
+  async updateRule(botId: string = '0', ruleId: number, data: Partial<Rule>): Promise<ServiceResponse<Rule>> {
     this.requireAuth();
-    const body: any = {};
-    if (data.text) body.kuralicerik = data.text;
-    if (data.penalty) body.cezabaslangic = data.penalty;
-    
-    const response = await this.call<any>(`/kurallar/${botId}/duzenle/${ruleId}`, HttpMethod.POST, body);
-    const result = this.handleResponse<any>(response);
-    return Rule.fromJSON(result);
+    try {
+      const body: any = {};
+      if (data.text) body.kuralicerik = data.text;
+      if (data.penalty) body.cezabaslangic = data.penalty;
+      
+      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/duzenle/${ruleId}`);
+      const response = await this.client.post<any>(url, body);
+      const result = this.handleResponse<any>(response);
+      const rule = Rule.fromJSON(result);
+      return this.createSuccess(rule, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[RuleService] updateRule failed:', error);
+      return this.createError(error.message);
+    }
   }
 
   /**
    * Delete a rule by its ID.
    */
-  async deleteRule(botId: string = '0', ruleId: number): Promise<boolean> {
+  async deleteRule(botId: string = '0', ruleId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
-    const response = await this.call<any> ( `/kurallar/${botId}/sil/${ruleId}`, HttpMethod.POST);
-    const result = this.handleResponse<any>(response);
-    return !!result;
+    try {
+      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/sil/${ruleId}`);
+      const response = await this.client.post<any>(url);
+      const result = this.handleResponse<any>(response);
+      return this.createSuccess(!!result, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[RuleService] deleteRule failed:', error);
+      return this.createError(error.message);
+    }
   }
 }

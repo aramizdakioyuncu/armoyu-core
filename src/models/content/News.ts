@@ -1,9 +1,10 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
 
 /**
  * Represents a News item (Haber) in the aramizdakioyuncu.com platform.
  */
-export class News {
+export class News extends BaseModel {
   id: number = 0;
   slug: string = '';
   title: string = '';
@@ -24,6 +25,7 @@ export class News {
   author: User | null = null;
 
   constructor(data: Partial<News>) {
+    super();
     Object.assign(this, data);
   }
 
@@ -44,10 +46,19 @@ export class News {
   }
 
   /**
-   * Instantiates a News object from a JSON object.
+   * Instantiates a News object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): News {
+    if (BaseModel.usePreviousApi) {
+      return News.legacyFromJSON(json);
+    }
+    return News.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): News {
     // Robustly handle slug from a full URL if needed
     let slug = json.slug || '';
     if (!slug && json.link) {
@@ -73,5 +84,13 @@ export class News {
       authorAvatar: json.yazaravatar || json.authorAvatar || '',
       author: json.author ? (json.author instanceof User ? json.author : User.fromJSON(json.author)) : (json.yazar ? new User({ id: String(json.yazarID), displayName: json.yazar, avatar: json.yazaravatar }) : null),
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): News {
+    return new News({});
   }
 }

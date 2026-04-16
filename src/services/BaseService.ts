@@ -1,5 +1,6 @@
 import { ApiClient, StandardApiResponse } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Abstract base class for all services.
@@ -45,6 +46,20 @@ export abstract class BaseService {
       
     this.logger.error(`[BaseService] Invalid API Response Format: ${message}`);
     throw new Error(`API Hatası (Format): ${message}`);
+  }
+
+  /**
+   * Helper to create a success ServiceResponse.
+   */
+  protected createSuccess<T>(data: T, message: string = 'İşlem Başarılı'): ServiceResponse<T> {
+    return ServiceResponse.success(data, message);
+  }
+
+  /**
+   * Helper to create an error ServiceResponse.
+   */
+  protected createError<T>(message: string, code: number = 0): ServiceResponse<T> {
+    return ServiceResponse.error<T>(message, code);
   }
 
   /**

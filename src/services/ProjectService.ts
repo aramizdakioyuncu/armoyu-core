@@ -2,6 +2,7 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ProjectScore } from '../models/content/ProjectScore';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing platform projects and leaderboards.
@@ -14,11 +15,8 @@ export class ProjectService extends BaseService {
 
   /**
    * Fetches the scores/leaderboard for projects (Legacy).
-   * 
-   * @param page Optional page number (sayfa)
-   * @returns List of project scores
    */
-  async getScoreList(page: number = 1): Promise<ProjectScore[]> {
+  async getScoreList(page: number = 1): Promise<ServiceResponse<ProjectScore[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -26,21 +24,19 @@ export class ProjectService extends BaseService {
       const url = this.resolveBotPath(`/0/0/projeler/icerik-liste/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const scores = Array.isArray(data) ? data.map(item => ProjectScore.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => ProjectScore.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(scores, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[ProjectService] Failed to fetch project score list:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Saves a score for a specific project (Legacy).
-   * 
-   * @param projectId The ID of the project (projeID)
-   * @param score The score to save (skor)
    */
-  async saveScore(projectId: string | number, score: number | string): Promise<any> {
+  async saveScore(projectId: string | number, score: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -49,10 +45,11 @@ export class ProjectService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/projeler/icerik-kaydet/0/');
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[ProjectService] Failed to save project score:', error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }

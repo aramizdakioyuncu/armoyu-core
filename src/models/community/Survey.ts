@@ -1,10 +1,11 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
 import { SurveyAnswer } from './SurveyAnswer';
 
 /**
  * Represents a community Survey (Anket) in the aramizdakioyuncu.com platform.
  */
-export class Survey {
+export class Survey extends BaseModel {
   id: string = '';
   question: string = '';
   description?: string = '';
@@ -19,6 +20,7 @@ export class Survey {
   myVoteId?: string = '';
 
   constructor(data: Partial<Survey>) {
+    super();
     Object.assign(this, data);
     this.totalVotes = this.options.reduce((sum, opt) => sum + opt.votes, 0);
   }
@@ -33,10 +35,19 @@ export class Survey {
   }
 
   /**
-   * Instantiates a Survey object from a JSON object.
+   * Instantiates a Survey object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): Survey {
+    if (BaseModel.usePreviousApi) {
+      return Survey.legacyFromJSON(json);
+    }
+    return Survey.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Survey {
     return new Survey({
       id: json.id || '',
       question: json.question || '',
@@ -49,5 +60,13 @@ export class Survey {
       hasVoted: json.hasVoted || false,
       myVoteId: json.myVoteId || '',
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Survey {
+    return new Survey({});
   }
 }

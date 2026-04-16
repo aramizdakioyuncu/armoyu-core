@@ -1,13 +1,52 @@
-export interface EventOrganizer {
-  id: number;
-  displayName: string;
-  avatar: string;
+import { BaseModel } from '../BaseModel';
+
+/**
+ * Represents an entity that organizes an event.
+ */
+export class EventOrganizer extends BaseModel {
+  id: number = 0;
+  displayName: string = '';
+  avatar: string = '';
+
+  constructor(data: Partial<EventOrganizer>) {
+    super();
+    Object.assign(this, data);
+  }
+
+  /**
+   * Instantiates an EventOrganizer object from a JSON object based on the API version.
+   */
+  static fromJSON(json: Record<string, any>): EventOrganizer {
+    if (BaseModel.usePreviousApi) {
+      return EventOrganizer.legacyFromJSON(json);
+    }
+    return EventOrganizer.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): EventOrganizer {
+    return new EventOrganizer({
+      id: Number(json.player_ID || 0),
+      displayName: json.player_displayname || '',
+      avatar: json.player_avatar || ''
+    });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): EventOrganizer {
+    return new EventOrganizer({});
+  }
 }
 
 /**
  * Represents an ARMOYU platform event (tournament, meeting, etc.)
  */
-export class ArmoyuEvent {
+export class ArmoyuEvent extends BaseModel {
   id: number = 0;
   name: string = '';
   status: number = 0;
@@ -37,20 +76,26 @@ export class ArmoyuEvent {
   rules: string = '';
 
   constructor(data: Partial<ArmoyuEvent>) {
+    super();
     Object.assign(this, data);
   }
 
   /**
-   * Instantiates an ArmoyuEvent object from a JSON object.
+   * Instantiates an ArmoyuEvent object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): ArmoyuEvent {
+    if (BaseModel.usePreviousApi) {
+      return ArmoyuEvent.legacyFromJSON(json);
+    }
+    return ArmoyuEvent.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): ArmoyuEvent {
     // Map organizer list
-    const organizers: EventOrganizer[] = (json.event_organizer || []).map((o: any) => ({
-      id: Number(o.player_ID || 0),
-      displayName: o.player_displayname || '',
-      avatar: o.player_avatar || ''
-    }));
+    const organizers: EventOrganizer[] = (json.event_organizer || []).map((o: any) => EventOrganizer.fromJSON(o));
 
     return new ArmoyuEvent({
       id: Number(json.event_ID || json.etkinlikID || json.id || 0),
@@ -78,6 +123,14 @@ export class ArmoyuEvent {
       description: json.event_description || json.aciklama || json.icerik || json.description || '',
       rules: json.event_rules || json.kurallar || ''
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): ArmoyuEvent {
+    return new ArmoyuEvent({});
   }
 
   /**

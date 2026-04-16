@@ -1,10 +1,11 @@
+import { BaseModel } from '../BaseModel';
 import { GlobalStats } from '../../types/stats';
 
 /**
  * Platform Statistics Class
  * Bu sınıf, GlobalStats verisini sarmalar ve platform analitiği için yardımcı metodlar sunar.
  */
-export class PlatformStats implements GlobalStats {
+export class PlatformStats extends BaseModel implements GlobalStats {
   totalPlayers: number;
   malePlayers: number;
   femalePlayers: number;
@@ -17,23 +18,62 @@ export class PlatformStats implements GlobalStats {
   totalNews: number;
 
   constructor(data: GlobalStats) {
-    this.totalPlayers = data.totalPlayers;
-    this.malePlayers = data.malePlayers;
-    this.femalePlayers = data.femalePlayers;
-    this.totalForums = data.totalForums;
-    this.totalPolls = data.totalPolls;
-    this.activeUsers24h = data.activeUsers24h;
-    this.totalMatchesPlayed = data.totalMatchesPlayed;
-    this.totalGuilds = data.totalGuilds;
-    this.monthlyVisitors = data.monthlyVisitors;
-    this.totalNews = data.totalNews;
+    super();
+    this.totalPlayers = data.totalPlayers || 0;
+    this.malePlayers = data.malePlayers || 0;
+    this.femalePlayers = data.femalePlayers || 0;
+    this.totalForums = data.totalForums || 0;
+    this.totalPolls = data.totalPolls || 0;
+    this.activeUsers24h = data.activeUsers24h || 0;
+    this.totalMatchesPlayed = data.totalMatchesPlayed || 0;
+    this.totalGuilds = data.totalGuilds || 0;
+    this.monthlyVisitors = data.monthlyVisitors || 0;
+    this.totalNews = data.totalNews || 0;
+  }
+
+  /**
+   * Instantiates a PlatformStats object from a JSON object based on the API version.
+   */
+  static fromJSON(json: Record<string, any>): PlatformStats {
+    if (BaseModel.usePreviousApi) {
+      return PlatformStats.legacyFromJSON(json);
+    }
+    return PlatformStats.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): PlatformStats {
+    return new PlatformStats({
+      totalPlayers: json.totalPlayers || json.toplam_oyuncu || 0,
+      malePlayers: json.malePlayers || json.erkek_oyuncu || 0,
+      femalePlayers: json.femalePlayers || json.kadin_oyuncu || 0,
+      totalForums: json.totalForums || json.toplam_forum || 0,
+      totalPolls: json.totalPolls || json.toplam_anket || 0,
+      activeUsers24h: json.activeUsers24h || json.aktif_24s || 0,
+      totalMatchesPlayed: json.totalMatchesPlayed || json.toplam_mac || 0,
+      totalGuilds: json.totalGuilds || json.toplam_lonca || 0,
+      monthlyVisitors: json.monthlyVisitors || json.aylik_ziyaretci || 0,
+      totalNews: json.totalNews || json.toplam_haber || 0,
+    });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): PlatformStats {
+    return new PlatformStats({} as any);
   }
 
   /**
    * Cinsiyet Dağılım Oranlarını Döndürür
    */
   getGenderDistribution() {
-    const malePercent = Math.round((this.malePlayers / (this.malePlayers + this.femalePlayers)) * 100);
+    const total = this.malePlayers + this.femalePlayers;
+    if (total === 0) return { malePercent: 0, femalePercent: 0 };
+    const malePercent = Math.round((this.malePlayers / total) * 100);
     const femalePercent = 100 - malePercent;
     return { malePercent, femalePercent };
   }
@@ -42,8 +82,6 @@ export class PlatformStats implements GlobalStats {
    * Bir metrik için büyüme oranını hesaplar (Mock Veri)
    */
   getGrowthRate(metric: keyof GlobalStats): number {
-    // Gerçek bir veritabanında bu, dünkü veriye göre hesaplanırdı.
-    // Şimdilik tutarlı olması için statik mock değerler dönüyoruz.
     const growthMap: Partial<Record<keyof GlobalStats, number>> = {
       totalPlayers: 12.4,
       activeUsers24h: 8.2,

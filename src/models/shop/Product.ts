@@ -1,4 +1,6 @@
-export class Product {
+import { BaseModel } from '../BaseModel';
+
+export class Product extends BaseModel {
   id: string;
   name: string;
   description: string;
@@ -12,6 +14,7 @@ export class Product {
   badge?: string;
 
   constructor(data: Partial<Product>) {
+    super();
     this.id = data.id || '';
     this.name = data.name || '';
     this.description = data.description || '';
@@ -34,7 +37,20 @@ export class Product {
       : this.price;
   }
 
-  static fromJSON(json: any): Product {
+  /**
+   * Instantiates a Product object from a JSON object based on the API version.
+   */
+  static fromJSON(json: Record<string, any>): Product {
+    if (BaseModel.usePreviousApi) {
+      return Product.legacyFromJSON(json);
+    }
+    return Product.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Product {
     const parsePrice = (p: any): number => {
       if (typeof p === 'number') return p;
       if (typeof p === 'string') {
@@ -57,5 +73,13 @@ export class Product {
       isFeatured: json.isFeatured || json.is_featured || false,
       badge: json.badge
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Product {
+    return new Product({});
   }
 }

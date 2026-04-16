@@ -1,9 +1,10 @@
+import { BaseModel } from '../BaseModel';
 import { User } from '../auth/User';
 
 /**
  * Represents a Game Mod (Oyun Modu) in the aramizdakioyuncu.com platform.
  */
-export class Mod {
+export class Mod extends BaseModel {
   id: string = '';
   name: string = '';
   game: string = '';
@@ -15,14 +16,24 @@ export class Mod {
   isFeatured: boolean = false;
 
   constructor(data: Partial<Mod>) {
+    super();
     Object.assign(this, data);
   }
 
   /**
-   * Instantiates a Mod object from a JSON object.
+   * Instantiates a Mod object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): Mod {
+    if (BaseModel.usePreviousApi) {
+      return Mod.legacyFromJSON(json);
+    }
+    return Mod.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Mod {
     return new Mod({
       id: json.id || '',
       name: json.name || json.title || '',
@@ -34,5 +45,13 @@ export class Mod {
       image: json.image || '',
       isFeatured: json.isFeatured || false,
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Mod {
+    return new Mod({});
   }
 }

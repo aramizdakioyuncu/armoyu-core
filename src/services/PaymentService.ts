@@ -2,6 +2,7 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { Invoice } from '../models/shop/Invoice';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing payments, invoices, and billing (Legacy).
@@ -14,10 +15,8 @@ export class PaymentService extends BaseService {
 
   /**
    * Fetches the user's invoices (Legacy).
-   * 
-   * @returns List of invoices
    */
-  async getInvoices(page: number = 1): Promise<Invoice[]> {
+  async getInvoices(page: number = 1): Promise<ServiceResponse<Invoice[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -26,20 +25,19 @@ export class PaymentService extends BaseService {
       const url = this.resolveBotPath(`/0/0/odemeler/faturalar/${page}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const invoices = Array.isArray(data) ? data.map(item => Invoice.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => Invoice.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(invoices, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[PaymentService] Failed to fetch invoices:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Pays a specific invoice or item (Legacy).
-   * 
-   * @param paymentId The ID of the payment to process (paymentID)
    */
-  async payInvoice(paymentId: number | string): Promise<any> {
+  async payInvoice(paymentId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -47,10 +45,11 @@ export class PaymentService extends BaseService {
 
       const url = this.resolveBotPath('/0/0/odemeler/ode/0/');
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[PaymentService] Failed to process payment ${paymentId}:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }

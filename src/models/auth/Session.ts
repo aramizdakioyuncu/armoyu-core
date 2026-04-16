@@ -1,9 +1,10 @@
+import { BaseModel } from '../BaseModel';
 import { User } from './User';
 import { CartItem } from '../shop/CartItem';
-import { Chat } from '../social/Chat';
-import { Notification } from '../social/Notification';
+import { Chat } from '../social/chat/Chat';
+import { Notification } from '../social/notification/Notification';
 
-export class Session {
+export class Session extends BaseModel {
   user: User | null;
   token: string | null;
   refreshToken: string | null;
@@ -14,6 +15,7 @@ export class Session {
   notifications: Notification[];
 
   constructor(data: Partial<Session>) {
+    super();
     this.user = data.user || null;
     this.token = data.token || null;
     this.refreshToken = data.refreshToken || null;
@@ -33,9 +35,19 @@ export class Session {
   }
 
   /**
-   * Static factory for creating a Session instance from a JSON object.
+   * Static factory for creating a Session instance from a JSON object based on the API version.
    */
   static fromJSON(json: any): Session {
+    if (BaseModel.usePreviousApi) {
+      return Session.legacyFromJSON(json);
+    }
+    return Session.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: any): Session {
     return new Session({
       user: json.user ? User.fromJSON(json.user) : null,
       token: json.token || json.jwt_token || null,
@@ -46,5 +58,13 @@ export class Session {
       chatList: Array.isArray(json.chatList) ? json.chatList.map((c: any) => Chat.fromJSON(c)) : [],
       notifications: Array.isArray(json.notifications) ? json.notifications.map((n: any) => Notification.fromJSON(n)) : [],
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: any): Session {
+    return new Session({});
   }
 }

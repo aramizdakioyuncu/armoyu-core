@@ -2,6 +2,7 @@ import { Forum } from '../models/community/Forum';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing forum categories, topics, and discussions.
@@ -15,60 +16,64 @@ export class ForumService extends BaseService {
   /**
    * Get all forum categories.
    */
-  async getCategories(): Promise<Forum[]> {
+  async getCategories(): Promise<ServiceResponse<Forum[]>> {
     try {
       const response = await this.client.get<any>('/community/forums/categories');
       const icerik = this.handleResponse<any[]>(response);
-      return Array.isArray(icerik) ? icerik.map(f => Forum.fromJSON(f)) : [];
-    } catch (error) {
+      const categories = Array.isArray(icerik) ? icerik.map(f => Forum.fromJSON(f)) : [];
+      return this.createSuccess(categories, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[ForumService] Failed to fetch categories:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Get topics for a specific category.
    */
-  async getTopics(categoryId: number, page: number = 1): Promise<any[]> {
+  async getTopics(categoryId: number, page: number = 1): Promise<ServiceResponse<any[]>> {
     try {
       const response = await this.client.get<any>(`/community/forums/categories/${categoryId}/topics`, {
         params: { page }
       });
-      return this.handleResponse<any[]>(response);
-    } catch (error) {
+      const data = this.handleResponse<any[]>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Create a new topic in a category.
    */
-  async createTopic(categoryId: number, title: string, content: string): Promise<any> {
+  async createTopic(categoryId: number, title: string, content: string): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const response = await this.client.post<any>(`/community/forums/categories/${categoryId}/topics`, {
         title,
         content
       });
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[ForumService] Topic creation failed:', error);
-      throw error;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Delete a topic by its ID.
    */
-  async deleteTopic(topicId: number): Promise<void> {
+  async deleteTopic(topicId: number): Promise<ServiceResponse<void>> {
     this.requireAuth();
     try {
       const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
       this.handleResponse(response);
-    } catch (error) {
+      return this.createSuccess(undefined, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
-      throw error;
+      return this.createError(error.message);
     }
   }
 }

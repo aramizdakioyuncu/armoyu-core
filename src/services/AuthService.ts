@@ -3,7 +3,8 @@ import { Session } from '../models/auth/Session';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { PasswordResetPreference } from '../models/social/AuthEnums';
+import { PasswordResetPreference } from '../models/social/meta/AuthEnums';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing user authentication, registration, and session lifecycle.
@@ -20,9 +21,9 @@ export class AuthService extends BaseService {
   /**
    * Authenticate a user with username and password.
    */
-  async login(username: string, password: string): Promise<{ user: User; session: Session }> {
+  async login(username: string, password: string): Promise<ServiceResponse<{ user: User; session: Session }>> {
     if (this.isAuthenticated()) {
-      throw new Error('Zaten giriş yapılmış.');
+      return this.createError('Zaten giriş yapılmış.');
     }
 
     try {
@@ -41,13 +42,12 @@ export class AuthService extends BaseService {
       const icerik = this.handleResponse<any>(data);
 
       if (!icerik) {
-        throw new Error('API Hatası: Kullanıcı bilgileri alınamadı.');
+        return this.createError('API Hatası: Kullanıcı bilgileri alınamadı.');
       }
 
       // ARMOYU Login logic: Token is inside the 'aciklama' field (as a string or object)
       let token = '';
       if (typeof data.aciklama === 'string') {
-        // Only treat as token if it doesn't contain spaces/special characters (not a sentence like "Giriş Başarılı")
         const isStrictToken = /^[a-zA-Z0-9.\-_=]+$/.test(data.aciklama);
         if (isStrictToken) {
           token = data.aciklama;
@@ -58,17 +58,10 @@ export class AuthService extends BaseService {
 
       this.currentUser = User.fromJSON(icerik);
       
-      // ARMOYU Login logic: Token can be in 'aciklama' OR inside 'icerik'
       const extractedToken = token || icerik?.token || icerik?.session_token || null;
       
-      // EXTRA VALIDATION: Ensure we have a valid user ID and a token
       if (!this.currentUser.id) {
-        this.logger.error('[AuthService] Login failed validation:', { 
-          hasId: !!this.currentUser.id, 
-          aciklama: data.aciklama,
-          icerikItems: Object.keys(icerik || {})
-        });
-        throw new Error('Geçersiz kullanıcı bilgileri alınamadı.');
+        return this.createError('Geçersiz kullanıcı bilgileri alınamadı.');
       }
 
       this.session = new Session({
@@ -76,13 +69,12 @@ export class AuthService extends BaseService {
         token: extractedToken
       });
 
-      // Update client token for all subsequent requests
       this.client.setToken(this.session.token);
 
-      return { user: this.currentUser, session: this.session };
-    } catch (error) {
+      return this.createSuccess({ user: this.currentUser, session: this.session }, data.aciklama);
+    } catch (error: any) {
       this.logger.error('[AuthService] Login failed:', error);
-      throw error;
+      return this.createError(error.message);
     }
   }
 
@@ -95,7 +87,7 @@ export class AuthService extends BaseService {
     lastName: string;
     email: string;
     password: string;
-  }): Promise<boolean> {
+  }): Promise<ServiceResponse<boolean>> {
     try {
       const formData = new FormData();
       formData.append('kullaniciadi', params.username);
@@ -109,10 +101,10 @@ export class AuthService extends BaseService {
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
 
-      return data && Number(data.durum) === 1;
-    } catch (error) {
+      return this.createSuccess(Number(data.durum) === 1, data.aciklama);
+    } catch (error: any) {
       this.logger.error('[AuthService] Registration failed:', error);
-      return false;
+      return this.createError(error.message);
     }
   }
 
@@ -124,7 +116,7 @@ export class AuthService extends BaseService {
     email: string;
     birthday: string;
     preference: PasswordResetPreference | string;
-  }): Promise<boolean> {
+  }): Promise<ServiceResponse<boolean>> {
     try {
       const formData = new FormData();
       formData.append('kullaniciadi', params.username);
@@ -136,10 +128,10 @@ export class AuthService extends BaseService {
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
 
-      return data && Number(data.durum) === 1;
-    } catch (error) {
+      return this.createSuccess(Number(data.durum) === 1, data.aciklama);
+    } catch (error: any) {
       this.logger.error('[AuthService] Forgot password request failed:', error);
-      return false;
+      return this.createError(error.message);
     }
   }
 
@@ -152,7 +144,7 @@ export class AuthService extends BaseService {
     birthday: string;
     code: string;
     newPassword: string;
-  }): Promise<boolean> {
+  }): Promise<ServiceResponse<boolean>> {
     try {
       const formData = new FormData();
       formData.append('kullaniciadi', params.username);
@@ -166,33 +158,33 @@ export class AuthService extends BaseService {
       const data = typeof response === 'string' ? JSON.parse(response) : response;
       this.handleResponse<any>(data);
 
-      return data && Number(data.durum) === 1;
-    } catch (error) {
+      return this.createSuccess(Number(data.durum) === 1, data.aciklama);
+    } catch (error: any) {
       this.logger.error('[AuthService] Verify password reset failed:', error);
-      return false;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Logout the current user.
    */
-  async logout(): Promise<void> {
+  async logout(): Promise<ServiceResponse<void>> {
     try {
       await this.client.post('/auth/logout', {});
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error('[AuthService] Logout API call failed:', error);
     } finally {
       this.currentUser = null;
       this.session = null;
       this.client.setToken(null);
     }
+    return this.createSuccess(undefined, 'Çıkış yapıldı.');
   }
 
   /**
    * Get the currently authenticated user's profile.
-   * Supports both modern (/auth/me) and legacy bot-based (/0/0/0) session recovery.
    */
-  async me(): Promise<User | null> {
+  async me(): Promise<ServiceResponse<User | null>> {
     try {
       const apiKey = this.client.getApiKey();
       const token = (this.client as any).getToken();
@@ -200,26 +192,21 @@ export class AuthService extends BaseService {
       let response: any;
 
       if (apiKey && token) {
-        // Legacy bot-based session recovery
-        // The path /0/0/0/0/0/ automatically returns the current user's profile
         response = await (this.client as any).post(this.resolveBotPath('/0/0/0/0/0/'), {
           token: token
         });
       } else {
-        // Modern API session recovery
         response = await this.client.get<any>('/auth/me');
       }
 
       const icerik = this.handleResponse<any>(response);
-
-      // Robust mapping: handle direct user object or nested { user: {...} }
       const userData = icerik && (icerik.user || icerik);
       this.currentUser = userData ? User.fromJSON(userData) : null;
 
-      return this.currentUser;
-    } catch (error) {
+      return this.createSuccess(this.currentUser);
+    } catch (error: any) {
       this.currentUser = null;
-      return null;
+      return this.createError(error.message);
     }
   }
 

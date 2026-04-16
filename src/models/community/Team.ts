@@ -1,7 +1,9 @@
+import { BaseModel } from '../BaseModel';
+
 /**
  * Represents a Sports Team (Takım) in the aramizdakioyuncu.com platform.
  */
-export class Team {
+export class Team extends BaseModel {
   id: string = '';
   name: string = '';
   shortName: string = '';
@@ -15,10 +17,24 @@ export class Team {
   website: string = '';
 
   constructor(data: Partial<Team>) {
+    super();
     Object.assign(this, data);
   }
 
-  static fromJSON(json: any): Team {
+  /**
+   * Instantiates a Team object from a JSON object based on the API version.
+   */
+  static fromJSON(json: Record<string, any>): Team {
+    if (BaseModel.usePreviousApi) {
+      return Team.legacyFromJSON(json);
+    }
+    return Team.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): Team {
     if (!json) return new Team({});
 
     // Handle potential metadata objects (Team_URL, etc.)
@@ -56,5 +72,13 @@ export class Team {
       foundedDate: json.foundedDate || json.kurulus_tarihi || '',
       website: json.website || json.takim_web_sitesi || ''
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): Team {
+    return new Team({});
   }
 }

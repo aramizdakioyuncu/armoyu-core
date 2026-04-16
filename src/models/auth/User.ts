@@ -1,9 +1,10 @@
+import { BaseModel } from '../BaseModel';
 import { Role } from './Role';
-import { NotificationSender } from '../social/NotificationSender';
+import { NotificationSender } from '../social/notification/NotificationSender';
 import { Team } from '../community/Team';
 import { UserBadge, mapBadgeFromJSON } from './UserBadge';
-import { Game } from '../social/Game';
-import { Post } from '../social/Post';
+import { Game } from '../social/gaming/Game';
+import { Post } from '../social/feed/Post';
 
 export interface CareerEvent {
   id: string;
@@ -17,7 +18,7 @@ export interface CareerEvent {
 /**
  * Represents a User in the aramizdakioyuncu.com platform.
  */
-export class User {
+export class User extends BaseModel {
   id: string = '';
   username: string = '';
   displayName: string = '';
@@ -99,6 +100,7 @@ export class User {
   mutualFriends: User[] = [];
 
   constructor(data: Partial<User>) {
+    super();
     Object.assign(this, data);
     // Ensure numeric defaults
     this.punishmentCount = Number(data.punishmentCount || 0);
@@ -176,10 +178,19 @@ export class User {
   }
 
   /**
-   * Instantiates a User object from a JSON object.
+   * Instantiates a User object from a JSON object based on the API version.
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static fromJSON(json: Record<string, any>): User {
+    if (BaseModel.usePreviousApi) {
+      return User.legacyFromJSON(json);
+    }
+    return User.v2FromJSON(json);
+  }
+
+  /**
+   * Legacy ARMOYU v0/v1 style mapping.
+   */
+  private static legacyFromJSON(json: Record<string, any>): User {
     if (!json) return new User({});
 
     const avatarData = json.avatar || json.oyuncu_avatar || json.oyuncuminnakavatar || {};
@@ -199,7 +210,7 @@ export class User {
       displayName: json.displayname || json.player_displayname || json.owner_displayname || json.displayName || json.user_displayname || json.name || json.username || json.oyuncuad || '',
       firstName: json.firstName || '',
       lastName: json.lastName || '',
-      avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || json.player_avatar || '') : (avatarData || json.player_avatar || ''),
+      avatar: typeof avatarData === 'object' ? (avatarData.media_URL || avatarData.media_minURL || avatarData.media_bigURL || json.player_avatar || json.chatImage?.media_URL || '') : (avatarData || json.player_avatar || ''),
       banner: typeof bannerData === 'object' ? (bannerData.media_URL || bannerData.media_bigURL || bannerData.media_minURL || '') : bannerData,
       headerImage: typeof wallpaperData === 'object' ? (wallpaperData.media_URL || wallpaperData.media_bigURL || '') : wallpaperData,
       bio: detailInfo.about || detailInfo.aciklama || json.bio || json.oyuncu_bio || json.aciklama || json.description || '',
@@ -244,7 +255,7 @@ export class User {
       mutualFriends: Array.isArray(json.ortakarkadasliste) ? json.ortakarkadasliste.map((f: any) => {
         const friendJson = {
           playerID: f.oyuncuID,
-          username: f.oyuncukullaniciadi,
+          username: f.username || f.oyuncukullaniciadi,
           avatar: { media_URL: f.oyuncuminnakavatar }
         };
         return User.fromJSON(friendJson);
@@ -284,5 +295,14 @@ export class User {
         ...(json.socials || json.social_media || detailInfo.socials || {})
       }
     });
+  }
+
+  /**
+   * Standardized ARMOYU v2 style mapping.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private static v2FromJSON(json: Record<string, any>): User {
+    // TODO: Implement v2 mapping once API is ready
+    return new User({});
   }
 }

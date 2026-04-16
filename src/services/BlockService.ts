@@ -1,7 +1,8 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { BlockedUser } from '../models/social/BlockedUser';
+import { BlockedUser } from '../models/social/user/BlockedUser';
+import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing user blocks and blacklists (Legacy).
@@ -14,12 +15,8 @@ export class BlockService extends BaseService {
 
   /**
    * Fetches the list of blocked users (Legacy).
-   * 
-   * @param page The page number - MANDATORY
-   * @param limit Results limit
-   * @returns List of blocked users
    */
-  async getBlockedUsers(page: number, limit?: number): Promise<BlockedUser[]> {
+  async getBlockedUsers(page: number, limit?: number): Promise<ServiceResponse<BlockedUser[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -31,20 +28,19 @@ export class BlockService extends BaseService {
       const url = this.resolveBotPath(`/0/0/engel/${page}/${limit || 0}/`);
       const response = await this.client.post<any>(url, formData);
       const data = this.handleResponse<any[]>(response);
+      const blockedUsers = Array.isArray(data) ? data.map(item => BlockedUser.fromJSON(item)) : [];
       
-      return Array.isArray(data) ? data.map(item => BlockedUser.fromJSON(item)) : [];
-    } catch (error) {
+      return this.createSuccess(blockedUsers, response?.aciklama);
+    } catch (error: any) {
       this.logger.error('[BlockService] Failed to fetch blocked users:', error);
-      return [];
+      return this.createError(error.message);
     }
   }
 
   /**
    * Blocks a specific user (Legacy).
-   * 
-   * @param userId The ID of the user to block (userID)
    */
-  async blockUser(userId: number | string): Promise<any> {
+  async blockUser(userId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -52,19 +48,18 @@ export class BlockService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/engel/ekle/${userId}/`);
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[BlockService] Failed to block user ${userId}:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 
   /**
    * Unblocks a specific user (Legacy).
-   * 
-   * @param userId The ID of the user to unblock (userID)
    */
-  async unblockUser(userId: number | string): Promise<any> {
+  async unblockUser(userId: number | string): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -72,10 +67,11 @@ export class BlockService extends BaseService {
 
       const url = this.resolveBotPath(`/0/0/engel/sil/${userId}/`);
       const response = await this.client.post<any>(url, formData);
-      return this.handleResponse<any>(response);
-    } catch (error) {
+      const icerik = this.handleResponse<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
       this.logger.error(`[BlockService] Failed to unblock user ${userId}:`, error);
-      return null;
+      return this.createError(error.message);
     }
   }
 }
