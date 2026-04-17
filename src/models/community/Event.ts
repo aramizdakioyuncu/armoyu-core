@@ -25,6 +25,7 @@ export interface ArmoyuEvent {
   location?: string;
   description?: string;
   rules?: string;
+  foto?: string;
 }
 
 

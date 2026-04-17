@@ -1,102 +1,59 @@
-import { ApiClient, StandardApi } from '../api/ApiClient';
+import { ApiClient } from '../api/ApiClient';
+import { StandardApi } from '../api/types';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Abstract base class for all services.
- * Provides shared utilities for response handling and bot path resolution.
- * @checked 2026-04-12
+ * Abstract base class for all services. Shared utilities for response handling and bot path resolution.
  */
 export abstract class BaseService {
-  constructor(
-    protected client: ApiClient,
-    protected logger: ArmoyuLogger
-  ) {}
+  constructor(protected client: ApiClient, protected logger: ArmoyuLogger, protected usePreviousVersion: boolean = false) {}
 
   /**
    * Universal response handler for ARMOYU standard responses.
-   * Extracts 'icerik' if 'durum' is 1, otherwise throws error with 'aciklama'.
-   * If the response doesn't have a 'durum' field but is an object/array, it is returned as-is.
    */
   protected handle<T>(response: any): T {
-    // If it's a standard response object with 'durum'
     if (response && typeof response === 'object' && 'durum' in response) {
       const standard = response as StandardApi<T>;
+      if (standard.durum != null && Number(standard.durum) === 1) return standard.icerik;
       
-      // Relaxed check: accept numeric or string "1" for success
-      if (standard.durum != null && Number(standard.durum) === 1) {
-        return standard.icerik;
-      }
-      
-      // If durum is not 1, throw the API error message
       const errorMsg = standard.aciklama || 'API Execution Error';
       this.logger.error(`[BaseService] API Error (${standard.durum}): ${errorMsg}`, standard);
       throw new Error(errorMsg);
     }
 
-    // If it's a raw object or array without 'durum', return it as-is
-    if (response && (typeof response === 'object' || Array.isArray(response))) {
-      return response as T;
-    }
+    if (response && (typeof response === 'object' || Array.isArray(response))) return response as T;
 
-    // ARMOYU SECURITY FIX: No longer allowing fallback for primitive non-standard responses
-    const message = (response && typeof response === 'object') 
-      ? (response.aciklama || JSON.stringify(response)) 
-      : String(response || 'Bilinmeyen API Hatası');
-      
+    const message = (response && typeof response === 'object') ? (response.aciklama || JSON.stringify(response)) : String(response || 'Bilinmeyen API Hatası');
     this.logger.error(`[BaseService] Invalid API Response Format: ${message}`);
     throw new Error(`API Hatası (Format): ${message}`);
   }
 
-  /**
-   * Helper to create a success ServiceResponse.
-   */
-  protected createSuccess<T>(data: T, message: string = 'İşlem Başarılı'): ServiceResponse<T> {
-    return ServiceResponse.success(data, message);
-  }
+  protected createSuccess<T>(data: T, message: string = 'İşlem Başarılı') { return ServiceResponse.success(data, message); }
+  protected createError<T>(message: string, code: number = 0) { return ServiceResponse.error<T>(message, code); }
 
   /**
-   * Helper to create an error ServiceResponse.
-   */
-  protected createError<T>(message: string, code: number = 0): ServiceResponse<T> {
-    return ServiceResponse.error<T>(message, code);
-  }
-
-  /**
-   * Builds the correct path for bot-based endpoints by automatically prepending 
-   * the /botlar/[apiKey] prefix if it's missing.
-   * 
-   * @param path The relative path (e.g. /0/0/arama/0/0/)
-   * @returns Resolved path with bot prefix if necessary
+   * Builds the correct path for bot-based endpoints.
    */
   protected resolveBotPath(path: string): string {
     const apiKey = this.client.getApiKey();
-    const baseUrl = this.client.getBaseUrl();
-    
-    // If we have an API key and the path is a legacy bot path starting with /0/
-    // and it doesn't already contain /botlar/ AND the baseUrl doesn't already contain /botlar/
+    const token = this.client.getToken();
+    let res = path;
+
     if (apiKey && path.startsWith('/0/') && !path.includes('/botlar/')) {
-      // Check if baseUrl already handles the botlar prefix
-      if (!baseUrl.includes('/botlar/')) {
-        return `/botlar/${apiKey}${path}`;
-      }
+      if (!this.client.getBaseUrl().includes('/botlar/')) res = `/botlar/${apiKey}${path}`;
     }
 
-    return path;
+    const isAuth = res.includes('/giris/') || res.includes('/kayit-ol/') || res.includes('/sifremi-unuttum/') || res.endsWith('/0/0/0/');
+    if (token && res.includes('/0/0/') && !isAuth) res = res.replace('/0/0/', `/0/${token}/`);
+
+    return res;
   }
 
-  /**
-   * Helper to enforce authentication on sensitive operations.
-   * Throws an error if no authentication token is present in the client.
-   */
   protected requireAuth(): void {
-    if (!(this.client as any).getToken()) {
-      const errorMsg = 'Bu işlem için giriş yapmalısınız.';
-      this.logger.error(`[${this.constructor.name}] Authentication required: ${errorMsg}`);
-      throw new Error(errorMsg);
+    if (!this.client.getToken()) {
+      this.logger.error(`[BaseService] Authentication required.`);
+      throw new Error('Bu işlem için giriş yapmalısınız.');
     }
   }
 }
-
-
-

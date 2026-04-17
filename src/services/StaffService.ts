@@ -10,8 +10,8 @@ import { ServiceResponse } from '../api/ServiceResponse';
  * @checked 2026-04-12
  */
 export class StaffService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger) {
-    super(client, logger);
+  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
+    super(client, logger, usePreviousVersion);
   }
 
   /**

@@ -1,180 +1,62 @@
-import { ApiClient, ApiConfig } from './ApiClient';
+import { ApiClient, type ApiConfig } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
-import { AuthService } from '../services/AuthService';
-import { UserService } from '../services/UserService';
-import { BlogService } from '../services/BlogService';
-import { ShopService } from '../services/ShopService';
-import { ForumService } from '../services/ForumService';
-import { SupportService } from '../services/SupportService';
-import { RuleService } from '../services/RuleService';
-import { SocketService } from '../services/SocketService';
-import { SearchService } from '../services/SearchService';
-import { EventService } from '../services/EventService';
-import { ManagementService } from '../services/ManagementService';
-import { SiteInformationService } from '../services/SiteInformationService';
-import { GroupService } from '../services/GroupService';
-import { SocialService } from '../services/SocialService';
-import { ChatService } from '../services/ChatService';
-import { BusinessService } from '../services/BusinessService';
-import { ProjectService } from '../services/ProjectService';
-import { StoryService } from '../services/StoryService';
-import { PollService } from '../services/PollService';
-import { BlockService } from '../services/BlockService';
-import { StationService } from '../services/StationService';
-import { TeamService } from '../services/TeamService';
-import { StaffService } from '../services/StaffService';
-import { LocationService } from '../services/LocationService';
-import { PaymentService } from '../services/PaymentService';
+import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, BusinessService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService } from '../services';
 
 /**
  * The main entry point for the ARMOYU platform API.
- * Organizes all services into logical categories.
  */
 export class ArmoyuApi {
-  public auth: AuthService;
-  public users: UserService;
-  public blog: BlogService;
-  public shop: ShopService;
-  public forum: ForumService;
-  public support: SupportService;
-  public rules: RuleService;
-  public socket: SocketService;
-  public search: SearchService;
-  public events: EventService;
-  public siteInfo: SiteInformationService;
-  public groups: GroupService;
-  public social: SocialService;
-  public chat: ChatService;
-  public business: BusinessService;
-  public projects: ProjectService;
-  public stories: StoryService;
-  public polls: PollService;
-  public blocks: BlockService;
-  public stations: StationService;
-  public teams: TeamService;
-  public staff: StaffService;
-  public locations: LocationService;
-  public payments: PaymentService;
-  public management: ManagementService;
-
   private client: ApiClient;
   private logger: ArmoyuLogger;
 
   constructor(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>) {
-    if (!apiKey || apiKey.trim() === '') {
-      throw new Error('ArmoyuApi: API Key is required.');
-    }
-
+    if (!apiKey?.trim()) throw new Error('ArmoyuApi: API Key is required.');
     this.logger = config?.logger || new ConsoleLogger();
-    const baseUrl = config?.baseUrl || 'https://api.aramizdakioyuncu.com';
-
     this.client = new ApiClient({
-      baseUrl: baseUrl,
+      baseUrl: config?.baseUrl || 'https://api.aramizdakioyuncu.com',
       token: config?.token || null,
-      apiKey: apiKey,
+      apiKey,
       headers: config?.headers || {},
       logger: this.logger
     });
-
-    // Initialize services with the api client and logger
-    this.socket = new SocketService(this.logger);
-
-    this.auth = new AuthService(this.client, this.logger);
-    this.users = new UserService(this.client, this.logger);
-
-    this.blog = new BlogService(this.client, this.logger);
-    this.shop = new ShopService(this.client, this.logger);
-    this.forum = new ForumService(this.client, this.logger);
-    this.support = new SupportService(this.client, this.logger);
-    this.rules = new RuleService(this.client, this.logger);
-    this.search = new SearchService(this.client, this.logger);
-    this.events = new EventService(this.client, this.logger);
-    this.siteInfo = new SiteInformationService(this.client, this.logger);
-    this.groups = new GroupService(this.client, this.logger);
-    this.social = new SocialService(this.client, this.logger);
-    this.chat = new ChatService(this.client, this.logger);
-    this.business = new BusinessService(this.client, this.logger);
-    this.projects = new ProjectService(this.client, this.logger);
-    this.stories = new StoryService(this.client, this.logger);
-    this.polls = new PollService(this.client, this.logger);
-    this.blocks = new BlockService(this.client, this.logger);
-    this.stations = new StationService(this.client, this.logger);
-    this.teams = new TeamService(this.client, this.logger);
-    this.staff = new StaffService(this.client, this.logger);
-    this.locations = new LocationService(this.client, this.logger);
-    this.payments = new PaymentService(this.client, this.logger);
-    this.management = new ManagementService(this.client, this.logger);
   }
 
-  /**
-   * Set a new authentication token for all services.
-   */
-  setToken(token: string | null) {
-    this.client.setToken(token);
-  }
+  // Delegated Services from ApiClient
+  get auth() { return this.client.auth; }
+  get users() { return this.client.users; }
+  get blog() { return this.client.blog; }
+  get shop() { return this.client.shop; }
+  get forum() { return this.client.forum; }
+  get support() { return this.client.support; }
+  get rules() { return this.client.rules; }
+  get socket() { return this.client.socket; }
+  get search() { return this.client.search; }
+  get events() { return this.client.events; }
+  get siteInfo() { return this.client.siteInfo; }
+  get groups() { return this.client.groups; }
+  get social() { return this.client.social; }
+  get chat() { return this.client.chat; }
+  get business() { return this.client.business; }
+  get projects() { return this.client.projects; }
+  get stories() { return this.client.stories; }
+  get polls() { return this.client.polls; }
+  get blocks() { return this.client.blocks; }
+  get stations() { return this.client.stations; }
+  get teams() { return this.client.teams; }
+  get staff() { return this.client.staff; }
+  get locations() { return this.client.locations; }
+  get payments() { return this.client.payments; }
+  get management() { return this.client.management; }
 
-  /**
-   * Set a new API key for bot/rule services.
-   */
-  setApiKey(key: string | null) {
-    this.client.setApiKey(key);
-  }
+  setToken(t: string | null) { this.client.setToken(t); }
+  setApiKey(k: string | null) { this.client.setApiKey(k); }
+  setConfig(c: any) { (this.client as any).config = { ...(this.client as any).config, ...c }; }
+  
+  get last() { return this.client.lastRaw; }
 
-  /**
-   * Update the global API configuration.
-   */
-  setConfig(config: Partial<ApiConfig>) {
-    if (config.apiKey !== undefined) this.client.setApiKey(config.apiKey);
-    if (config.token !== undefined) this.client.setToken(config.token);
-    if (config.baseUrl !== undefined) this.client.setBaseUrl(config.baseUrl);
-
-    // Also update current config reference if needed (optional since client handles it)
-  }
-
-  /**
-   * Get the last raw JSON response received from the API.
-   */
-  get last(): any {
-    return (this.client as any).lastRaw;
-  }
-
-  /**
-   * Generic GET request
-   */
-  async get<T>(endpoint: string, options?: any): Promise<T> {
-    return this.client.get<T>(endpoint, options);
-  }
-
-  /**
-   * Generic POST request
-   */
-  async post<T>(endpoint: string, body?: any, options?: any): Promise<T> {
-    return this.client.post<T>(endpoint, body, options);
-  }
-
-  /**
-   * Generic PUT request
-   */
-  async put<T>(endpoint: string, body?: any, options?: any): Promise<T> {
-    return this.client.put<T>(endpoint, body, options);
-  }
-
-  /**
-   * Generic PATCH request
-   */
-  async patch<T>(endpoint: string, body?: any, options?: any): Promise<T> {
-    return this.client.patch<T>(endpoint, body, options);
-  }
-
-  /**
-   * Generic DELETE request
-   */
-  async delete<T>(endpoint: string, options?: any): Promise<T> {
-    return this.client.delete<T>(endpoint, options);
-  }
+  async get<T>(e: string, o?: any) { return this.client.get<T>(e, o); }
+  async post<T>(e: string, b?: any, o?: any) { return this.client.post<T>(e, b, o); }
+  async put<T>(e: string, b?: any, o?: any) { return this.client.put<T>(e, b, o); }
+  async patch<T>(e: string, b?: any, o?: any) { return this.client.patch<T>(e, b, o); }
+  async delete<T>(e: string, o?: any) { return this.client.delete<T>(e, o); }
 }
-
-
-
-
-

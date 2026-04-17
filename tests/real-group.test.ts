@@ -22,7 +22,7 @@ async function test() {
   console.log('--- Fetching Group List via Service ---');
   try {
     // Calling the service method will use the correct bot path
-    const groups = await api.groups.getGroups({ page: 1 });
+    const groups = await api.groups.getGroups(1);
     
     // Get the RAW response from the client's lastRawResponse
     const rawResponse = (api as any).client.lastRawResponse;
@@ -31,7 +31,8 @@ async function test() {
       fs.writeFileSync('./tests/debug_groups.json', JSON.stringify(rawResponse, null, 2));
       console.log('✅ SUCCESS: Raw response saved to tests/debug_groups.json');
       
-      const targetGroup = groups.find(g => g.name.includes('İttihat')) || groups[0];
+      const groupsList = (groups as any).icerik || groups;
+      const targetGroup = groupsList.find((g: any) => g.name.includes('İttihat')) || groupsList[0];
 
       if (targetGroup) {
          console.log('\n--- Final Mapped Group ---');

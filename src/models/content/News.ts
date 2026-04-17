@@ -1,4 +1,4 @@
-export class News {
+export interface News {
   id?: string | number;
   title?: string;
   content?: string;
@@ -8,8 +8,4 @@ export class News {
   publishedAt?: string;
   category?: string;
   views?: number;
-
-  constructor(data?: Partial<News>) {
-    Object.assign(this, data);
-  }
 }

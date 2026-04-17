@@ -1,3 +1,4 @@
+import { CommunityMapper } from '../utils/mappers/CommunityMapper';
 import { SearchResult } from '../models/social/search/SearchResult';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
@@ -9,8 +10,8 @@ import { ServiceResponse } from '../api/ServiceResponse';
  * @checked 2026-04-12
  */
 export class SearchService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger) {
-    super(client, logger);
+  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
+    super(client, logger, usePreviousVersion);
   }
 
   /**
@@ -26,8 +27,9 @@ export class SearchService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
       const icerik = this.handle<any[]>(response);
+      const mapped = (icerik || []).map(item => CommunityMapper.mapSearchResult(item, this.usePreviousVersion));
       
-      return this.createSuccess(icerik || [], response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[SearchService] Global search failed:', error);
       return this.createError(error.message);

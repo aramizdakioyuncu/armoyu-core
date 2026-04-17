@@ -1,86 +1,83 @@
-/**
- * Unique response interface for api.social.getPosts()
- */
-
-export interface PostOwnerAvatar {
+export interface ArmoyuPostOwnerMedia {
   media_bigURL: string;
   media_URL: string;
   media_minURL: string;
 }
 
-export interface PostOwner {
-  owner_ID: number;
-  owner_username: string;
-  owner_displayname: string;
-  owner_avatar: PostOwnerAvatar;
+export interface ArmoyuPostOwner {
+  id: number;
+  username: string;
+  displayName: string;
+  avatar: ArmoyuPostOwnerMedia;
+  url?: string;
   job?: string;
   jobURL?: string;
 }
 
-export interface PostMedia {
-  fotoID: number;
-  owner: PostOwner;
-  paylasimkategori: string;
-  fotourl: string;
-  fotoufakurl: string;
-  fotominnakurl: string;
-  medyayonu: string;
+export interface ArmoyuPostMedia {
+  id: number;
+  owner: ArmoyuPostOwner;
+  category: string;
+  url: string;
+  smallUrl: string;
+  thumbnailUrl: string;
+  orientation: string;
 }
 
-export interface PostLiker {
-  begeni_ID: number;
-  ID: number;
-  adsoyad: string;
-  kullaniciadi: string;
+export interface ArmoyuPostLiker {
+  likeId: number;
+  id: number;
+  displayName: string;
+  username: string;
   avatar: string;
-  URL: string;
-  begeni_zaman: string;
+  url: string;
+  date: string;
 }
 
-export interface PostComment {
-  paylasimID: number;
-  yorumID: number;
-  yorumcuid: number;
-  yorumcuetiketad: string;
-  yorumcukullaniciad: string;
-  yorumcuadsoyad: string;
-  yorumcuavatar: string;
-  oyunculink: string;
-  yorumcuufakavatar: string;
-  yorumcuminnakavatar: string;
-  yorumcuicerik: string;
-  yorumcuzaman: string;
-  yorumcuzamangecen: string;
-  yorumcukimeyanit: number;
-  yorumbegenisayi: number;
-  yorumsikayetsayi: number;
-  benbegendim: number;
-  bensikayet: number;
+export interface ArmoyuPostComment {
+  postId: number;
+  id: number;
+  authorId: number;
+  authorTag?: string;
+  authorUsername: string;
+  authorDisplayName: string;
+  authorAvatar: string;
+  authorLink?: string;
+  authorSmallAvatar?: string;
+  authorThumbnailAvatar?: string;
+  content: string;
+  date: string;
+  timeLabel?: string;
+  replyTo?: number;
+  likesCount: number;
+  reportsCount: number;
+  isLiked: boolean;
+  isReported: boolean;
 }
 
-export interface SocialPost {
-  paylasimID: number;
-  yayinliyanad: PostOwner;
-  paylasimicerik: string;
-  paylasimkonum: string;
-  paylasimzaman: string;
-  paylasimzamangecen: string;
-  paylasimzamanedit: string | null;
-  paylasimilkucbegenen: PostLiker[];
-  begenisay: number;
-  yorumsay: number;
-  repostsay: number;
-  sikayetsay: number;
-  benbegendim: number;
-  benyorumladim: number;
-  benretweetledim: number;
-  bensikayet: number;
-  paylasimfoto: PostMedia[];
-  ilkucyorum: PostComment[];
+export interface ArmoyuPost {
+  id: number;
+  owner: ArmoyuPostOwner;
+  content: string;
+  location?: string;
+  date: string;
+  timeLabel?: string;
+  editDate?: string | null;
+  topLikers: ArmoyuPostLiker[];
+  likesCount: number;
+  commentsCount: number;
+  repostsCount: number;
+  reportsCount: number;
+  isLiked: boolean;
+  isCommented: boolean;
+  isReposted: boolean;
+  isReported: boolean;
+  media: ArmoyuPostMedia[];
+  topComments: ArmoyuPostComment[];
 }
 
 export interface GetPostsResponse {
-  icerik: SocialPost[];
+  icerik: ArmoyuPost[];
   kod: number;
   durum: number;
   aciklama: string;

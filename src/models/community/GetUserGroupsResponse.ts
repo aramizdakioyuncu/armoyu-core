@@ -1,10 +1,7 @@
-import { GroupItem } from './GetGroupsResponse';
+import { Group } from './Group';
 
-/**
- * Unique response interface for api.groups.getUserGroups()
- */
 export interface GetUserGroupsResponse {
-  icerik: GroupItem[];
+  icerik: Group[];
   kod: number;
   durum: number;
   aciklama: string;

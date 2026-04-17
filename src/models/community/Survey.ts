@@ -1,4 +1,4 @@
-export class Survey {
+export interface Survey {
   id?: string | number;
   question?: string;
   description?: string;
@@ -8,11 +8,4 @@ export class Survey {
   options?: any[];
   hasVoted?: boolean;
   myVoteId?: string | number;
-
-  constructor(data?: Partial<Survey>) {
-    Object.assign(this, data);
-  }
 }
-
-
-

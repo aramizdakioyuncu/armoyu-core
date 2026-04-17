@@ -1,6 +1,6 @@
 import { User } from '../../auth/User';
 
-export class Post {
+export interface Post {
   id?: string | number;
   postID?: string | number;
   post_id?: string | number;
@@ -46,10 +46,6 @@ export class Post {
   benbegendim?: number;
 
   comments?: any[];
-
-  constructor(data?: Partial<Post>) {
-    Object.assign(this, data);
-  }
 }
 
 

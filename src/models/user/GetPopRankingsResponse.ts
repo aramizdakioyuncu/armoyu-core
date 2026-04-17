@@ -1,19 +1,7 @@
-/**
- * Unique response interface for api.users.getPopRankings()
- */
-export interface PopRankingUser {
-  oyuncuID: number;
-  oyuncuadsoyad: string;
-  oyuncukullaniciadi: string;
-  oyuncuavatar: string;
-  oyuncuseviye: number;
-  oyuncuseviyexp: string;
-  oyuncuseviyesezonlukxp: string;
-  oyuncupop: number;
-}
+import { User } from '../auth/User';
 
 export interface GetPopRankingsResponse {
-  icerik: PopRankingUser[];
+  icerik: User[];
   kod: number;
   durum: number;
   aciklama: string;

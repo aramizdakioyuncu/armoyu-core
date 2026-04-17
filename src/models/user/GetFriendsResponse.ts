@@ -1,21 +1,7 @@
-/**
- * Unique response interface for api.users.getFriendsList()
- */
-
-export interface FriendItem {
-  oyuncuID: number;
-  oyuncuavatar: string;
-  oyuncuadsoyad: string;
-  oyuncuad: string;
-  oyuncukullaniciad: string;
-  oyunculevel: number;
-  oyuncudurum: number;
-  songiris: string;
-  oyuncuarkadasdurum: number;
-}
+import { User } from '../auth/User';
 
 export interface GetFriendsResponse {
-  icerik: FriendItem[];
+  icerik: User[];
   durum: number;
   aciklama: string;
   kod: number;

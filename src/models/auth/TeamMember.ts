@@ -4,6 +4,3 @@ export interface TeamMember {
   role?: string;
   joinedAt?: string;
 }
-
-
-
