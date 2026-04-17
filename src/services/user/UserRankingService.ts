@@ -12,7 +12,7 @@ export class UserRankingService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/xpsiralama/${page}/0/`), formData);
-      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapUser(item, this.usePreviousVersion)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
+      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapRankingUser(item)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
     } catch (error: any) {
       return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }
@@ -23,7 +23,7 @@ export class UserRankingService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/popsiralama/${page}/0/`), formData);
-      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapUser(item, this.usePreviousVersion)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
+      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapRankingUser(item)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
     } catch (error: any) {
       return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
     }

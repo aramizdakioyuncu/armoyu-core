@@ -6,9 +6,34 @@ import { ApiConfig, ApiRequestOptions } from './types';
  */
 export class RequestInterceptor {
   static buildUrl(baseUrl: string, endpoint: string, params?: Record<string, any>): string {
-    const url = new URL(`${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`);
-    if (params) Object.entries(params).forEach(([k, v]) => v !== undefined && url.searchParams.append(k, String(v)));
-    return url.toString();
+    // Separate base path from existing query string if any
+    const [basePath, baseQuery] = baseUrl.split('?');
+    const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    
+    // Build combined path
+    let fullPath = `${cleanBase}${cleanEndpoint}`;
+    if (baseQuery) fullPath += `?${baseQuery}`;
+
+    if (fullPath.includes('://')) {
+      const url = new URL(fullPath);
+      if (params) {
+        Object.entries(params).forEach(([k, v]) => {
+          if (v !== undefined) url.searchParams.append(k, String(v));
+        });
+      }
+      return url.toString();
+    }
+
+    const searchParams = new URLSearchParams(baseQuery || '');
+    if (params) {
+      Object.entries(params).forEach(([k, v]) => {
+        if (v !== undefined) searchParams.append(k, String(v));
+      });
+    }
+    const qs = searchParams.toString();
+    const basePathOnly = fullPath.split('?')[0];
+    return qs ? `${basePathOnly}?${qs}` : basePathOnly;
   }
 
   static prepareRequest(config: ApiConfig, options: ApiRequestOptions, logger: ArmoyuLogger) {

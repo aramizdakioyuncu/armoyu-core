@@ -12,7 +12,7 @@ export class UserProfileService extends BaseService {
       const formData = new FormData();
       formData.append('oyuncubakusername', username);
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/'), formData);
-      return this.createSuccess(UserMapper.mapUser(this.handle(response), this.usePreviousVersion), response?.aciklama);
+      return this.createSuccess(UserMapper.mapProfile(this.handle(response)), response?.aciklama);
     } catch (error: any) {
       return this.createError(error.message);
     }

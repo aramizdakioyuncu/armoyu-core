@@ -51,7 +51,9 @@ export class ApiClient {
     const { headers, body } = RequestInterceptor.prepareRequest(this.config, options, this.logger);
     try {
       const resp = await fetch(url, { ...options, headers, body });
-      return this.lastRaw = await ResponseHandler.handleResponse<T>(resp);
+      const rawData = await ResponseHandler.parseBody(resp);
+      this.lastRaw = rawData;
+      return ResponseHandler.processResponse<T>(resp, rawData);
     } catch (err) {
       if (err instanceof ApiError) throw err;
       throw new ApiError(err instanceof Error ? err.message : 'Unknown Network Error');

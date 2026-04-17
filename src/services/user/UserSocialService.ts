@@ -11,7 +11,7 @@ export class UserSocialService extends BaseService {
   async search(query: string): Promise<ServiceResponse<User[]>> {
     try {
       const response = await this.client.get<any>(`/users/search`, { params: { q: query } });
-      const mapped = (this.handle<any[]>(response) || []).map(item => UserMapper.mapUser(item, this.usePreviousVersion));
+      const mapped = UserMapper.mapSocialList(this.handle<any[]>(response) || []);
       return this.createSuccess(mapped);
     } catch (error: any) {
       return this.createError(error.message);
@@ -72,7 +72,7 @@ export class UserSocialService extends BaseService {
       formData.append('limit', (params.limit || 100).toString());
       if (params.userId !== undefined) formData.append('oyuncubakid', params.userId.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arkadaslarim/${page}/0/`), formData);
-      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapUser(item, this.usePreviousVersion)), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı', kod: Number(response.kod || 0) };
+      return { icerik: UserMapper.mapSocialList(this.handle<any[]>(response) || []), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı', kod: Number(response.kod || 0) };
     } catch (error: any) {
       return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
     }

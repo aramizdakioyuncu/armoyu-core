@@ -803,7 +803,7 @@ export default function Dashboard() {
         }
       }
 
-      const rawResponse = (apiRef.current as any)?.lastResponse || result;
+      const rawResponse = apiRef.current?.last || result;
 
       // Store both raw and mapped result per action
       setActionResults(prev => ({
@@ -821,7 +821,7 @@ export default function Dashboard() {
         endpoint: action.endpoint
       });
     } catch (err: any) {
-      const rawError = (apiRef.current as any)?.lastResponse || { message: err.message, data: err.data };
+      const rawError = apiRef.current?.last || { message: err.message, data: err.data };
       addLog(LogType.ERROR, `Error: ${action.name}`, rawError, {
         status: 0,
         aciklama: err.message,
