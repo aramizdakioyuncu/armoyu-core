@@ -25,7 +25,11 @@ export abstract class BaseService {
     if (response && (typeof response === 'object' || Array.isArray(response))) return response as T;
 
     const message = (response && typeof response === 'object') ? (response.aciklama || JSON.stringify(response)) : String(response || 'Bilinmeyen API Hatası');
-    this.logger.error(`[BaseService] Invalid API Response Format: ${message}`);
+    
+    // Log a snippet of the raw response for debugging format issues
+    const rawSnippet = typeof response === 'string' ? response.substring(0, 200) : 'Non-string response';
+    this.logger.error(`[BaseService] Invalid API Response Format: ${message}. Raw snippet: ${rawSnippet}`);
+    
     throw new Error(`API Hatası (Format): ${message}`);
   }
 
