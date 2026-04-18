@@ -8,18 +8,18 @@ export class UserBaseMapper extends BaseMapper {
   static mapCommonIdentity(raw: any) {
     return {
       id: this.toNumber(raw.oyuncuID || raw.id || raw.ID),
-      username: raw.oyuncukullaniciadi || raw.kullaniciadi || raw.username,
+      username: this.toString(raw.oyuncukullaniciadi || raw.kullaniciadi || raw.username),
       tag: raw.oyuncuetiket || raw.tag
     };
   }
 
   static mapCommonVisuals(raw: any) {
     return {
-      avatar: raw.oyuncuavatar || raw.avatar,
-      avatarSmall: raw.avatarufak || raw.avatarSmall,
-      avatarThumbnail: raw.avatarminnak || raw.avatarThumbnail,
-      banner: raw.arkaplan || raw.banner,
-      rankImage: raw.rutberesim || raw.rankImage
+      avatar: this.toImageUrl(raw.oyuncuavatar || raw.avatar),
+      avatarSmall: this.toImageUrl(raw.avatarufak || raw.avatarSmall),
+      avatarThumbnail: this.toImageUrl(raw.avatarminnak || raw.avatarThumbnail),
+      banner: this.toImageUrl(raw.arkaplan || raw.banner),
+      rankImage: this.toImageUrl(raw.rutberesim || raw.rankImage)
     };
   }
 

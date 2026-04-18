@@ -18,6 +18,26 @@ export abstract class BaseMapper {
   }
 
   /**
+   * Helper to strictly normalize values to strings.
+   */
+  protected static toString(value: any): string {
+    if (value === undefined || value === null) return '';
+    return typeof value === 'object' ? JSON.stringify(value) : String(value);
+  }
+
+  /**
+   * Helper to safely extract an image URL from strings or ARMOYU media objects.
+   */
+  protected static toImageUrl(value: any): string | undefined {
+    if (!value) return undefined;
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') {
+      return value.media_URL || value.media_bigURL || value.url || value.media_minURL;
+    }
+    return undefined;
+  }
+
+  /**
    * Checks if we should return the raw data based on version preference.
    */
   protected static shouldReturnRaw<T>(raw: any, usePreviousVersion: boolean): T | null {
