@@ -29,6 +29,15 @@ export interface User {
   isFriend?: boolean;
   registrationDate?: string;
   lastLoginDate?: string;
+  
+  // Profile specific info
+  gender?: string;
+  birthday?: string;
+  socials?: Record<string, string>;
+  city?: string;
+  country?: string;
+  jobTitle?: string;
+  zodiac?: string;
 
   // Leveling & Stats
   level?: number;

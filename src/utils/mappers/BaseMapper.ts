@@ -27,13 +27,25 @@ export abstract class BaseMapper {
 
   /**
    * Helper to safely extract an image URL from strings or ARMOYU media objects.
+   * Synched with armoyu-ui's robust logic.
    */
   protected static toImageUrl(value: any): string | undefined {
     if (!value) return undefined;
+    
+    // If it's already a string, return it
     if (typeof value === 'string') return value;
+    
+    // If it's an object, check all possible ARMOYU media keys
     if (typeof value === 'object') {
-      return value.media_URL || value.media_bigURL || value.url || value.media_minURL;
+      // Direct media keys
+      const url = value.media_URL || value.media_bigURL || value.media_minURL || value.url;
+      if (url && typeof url === 'string') return url;
+      
+      // Nested chatImage or player_avatar fallbacks
+      const nestedUrl = value.player_avatar || value.chatImage?.media_URL;
+      if (nestedUrl && typeof nestedUrl === 'string') return nestedUrl;
     }
+    
     return undefined;
   }
 

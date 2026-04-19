@@ -7,7 +7,7 @@ import { BaseMapper } from '../BaseMapper';
 export class UserBaseMapper extends BaseMapper {
   static mapCommonIdentity(raw: any) {
     return {
-      id: this.toNumber(raw.oyuncuID || raw.id || raw.ID),
+      id: this.toNumber(raw.oyuncuID || raw.id || raw.ID || raw.playerID),
       username: this.toString(raw.oyuncukullaniciadi || raw.kullaniciadi || raw.username),
       tag: raw.oyuncuetiket || raw.tag
     };
