@@ -33,6 +33,7 @@ export class PostMapper extends BaseMapper {
     return {
       id: this.toNumber(raw.paylasimID || raw.id || raw.ID || raw.postID),
       owner: this.mapPostOwner(raw.owner || { 
+        id: raw.yayinliyanid,
         adsoyad: raw.yayinlayanadsoyad || raw.yayinlayanad, 
         kullaniciadi: raw.yayinliyanad 
       }, false),
