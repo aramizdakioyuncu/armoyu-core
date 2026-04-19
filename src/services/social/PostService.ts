@@ -13,8 +13,21 @@ export class PostService extends BaseService {
       formData.append('sayfa', page.toString());
       if (params.limit !== undefined) formData.append('limit', params.limit.toString());
       if (params.postId !== undefined) formData.append('postID', params.postId.toString());
-      if (params.category !== undefined) formData.append('category', params.category);
-      if (params.categoryDetail !== undefined) formData.append('categorydetail', params.categoryDetail.toString());
+      
+      if (params.category !== undefined) {
+        formData.append('category', params.category);
+        
+        // Legacy Parameter Mapping
+        if (params.category === 'oyuncu' && params.categoryDetail !== undefined) {
+          formData.append('oyuncubakusername', params.categoryDetail.toString());
+        } else if (params.category === 'grup' && params.categoryDetail !== undefined) {
+          formData.append('grupid', params.categoryDetail.toString());
+        }
+        
+        if (params.categoryDetail !== undefined) {
+          formData.append('categorydetail', params.categoryDetail.toString());
+        }
+      }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sosyal/liste/${page}/`), formData);
       const icerik = this.handle<any>(response);
