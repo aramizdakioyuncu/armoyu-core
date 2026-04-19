@@ -1,6 +1,6 @@
 {
   "name": "@armoyu/core",
-  "version": "1.1.29",
+  "version": "1.1.30",
   "description": "Core business logic, models, and services for ARMOYU platforms.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -17,7 +17,8 @@
     "build:bundle": "esbuild src/index.ts --bundle --outfile=dist/armoyu-core.bundle.js --platform=browser --global-name=ArmoyuCore --minify",
     "build:watch": "tsc --watch",
     "test": "npx tsx tests/auth-guards.test.ts && npx tsx --env-file=.env tests/user-enrichment.test.ts && npx tsx --env-file=.env tests/news-enrichment.test.ts && npx tsx --env-file=.env tests/search-enrichment.test.ts && npx tsx --env-file=.env tests/event-enrichment.test.ts",
-    "test:api": "npx tsx --env-file=.env tests/api.test.ts"
+    "test:api": "npx tsx --env-file=.env tests/api.test.ts",
+    "test:debug": "npx tsx --env-file=.env tests/debug-filtering.test.ts"
   },
   "dependencies": {
     "build": "^0.1.4",

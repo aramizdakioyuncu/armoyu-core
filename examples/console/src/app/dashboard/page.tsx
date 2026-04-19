@@ -180,7 +180,7 @@ const CONFIG = {
   social: {
     title: "SocialService",
     actions: [
-      { id: "getPosts", name: "List Posts", method: "POST", endpoint: "/0/0/sosyal/liste/0/", inputs: ["sayfa", "postID", "category", "categorydetail"], desc: "Fetch social feed or specific post", auth: true },
+      { id: "getPosts", name: "List Posts", method: "POST", endpoint: "/0/0/sosyal/liste/0/", inputs: ["sayfa", "postID", "userId", "username", "feature", "category", "categorydetail"], desc: "Fetch social feed or specific post", auth: true },
       { id: "createPost", name: "Create Post", method: "POST", endpoint: "/0/0/sosyal/olustur/0/", inputs: ["sosyalicerik", "paylasimfoto[]"], desc: "Create new post with media IDs", auth: true },
       { id: "deletePost", name: "Delete Post", method: "POST", endpoint: "/0/0/sosyal/sil/0/", inputs: ["postID"], desc: "Remove a post", auth: true },
       { id: "getLikers", name: "List Likers", method: "POST", endpoint: "/0/0/sosyal/begenenler/0/", inputs: ["postID", "yorumID"], desc: "See who liked a post or comment", auth: true },
@@ -548,6 +548,9 @@ export default function Dashboard() {
             inputs.sayfa ? Number(inputs.sayfa) : 1,
             {
               postId: inputs.postID ? Number(inputs.postID) : undefined,
+              userId: inputs.userId ? Number(inputs.userId) : undefined,
+              username: inputs.username,
+              feature: inputs.feature,
               category: inputs.category,
               categoryDetail: inputs.categorydetail
             }

@@ -7,25 +7,37 @@ import { ServiceResponse } from '../../api/ServiceResponse';
  * Handles social post management (Feed, Create, Delete).
  */
 export class PostService extends BaseService {
-  async getPosts(page: number, params: { limit?: number, postId?: number, category?: string, categoryDetail?: string | number } = {}): Promise<GetPostsResponse> {
+  async getPosts(page: number, params: { limit?: number, postId?: number, userId?: number, username?: string, feature?: string, category?: string, categoryDetail?: string | number } = {}): Promise<GetPostsResponse> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      if (params.limit !== undefined) formData.append('limit', params.limit.toString());
-      if (params.postId !== undefined) formData.append('postID', params.postId.toString());
-      
-      if (params.category !== undefined) {
-        formData.append('category', params.category);
-        
-        // Legacy Parameter Mapping
-        if (params.category === 'oyuncu' && params.categoryDetail !== undefined) {
-          formData.append('oyuncubakusername', params.categoryDetail.toString());
-        } else if (params.category === 'grup' && params.categoryDetail !== undefined) {
-          formData.append('grupid', params.categoryDetail.toString());
-        }
-        
-        if (params.categoryDetail !== undefined) {
-          formData.append('categorydetail', params.categoryDetail.toString());
+
+      const appendIfValue = (key: string, value: any) => {
+        if (value === undefined || value === null || value === '') return;
+        formData.append(key, value.toString());
+      };
+
+      appendIfValue('limit', params.limit);
+      appendIfValue('postID', params.postId);
+      appendIfValue('oyuncubakid', params.userId);
+      appendIfValue('oyuncubakusername', params.username);
+      appendIfValue('paylasimozellik', params.feature);
+
+      if (params.category && params.categoryDetail !== undefined && params.categoryDetail !== null && params.categoryDetail !== '') {
+        // Exclusive mapping for player filtering
+        if (params.category === 'oyuncu') {
+          const detail = params.categoryDetail.toString();
+          if (/^\d+$/.test(detail)) {
+            appendIfValue('oyuncubakid', detail);
+          } else {
+            appendIfValue('oyuncubakusername', detail);
+          }
+        } else if (params.category === 'grup') {
+          appendIfValue('grupid', params.categoryDetail);
+        } else {
+          // Standard mapping for other categories
+          appendIfValue('category', params.category);
+          appendIfValue('categorydetail', params.categoryDetail);
         }
       }
 
