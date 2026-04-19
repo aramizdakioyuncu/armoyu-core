@@ -7,12 +7,16 @@ import { ServiceResponse } from '../../api/ServiceResponse';
  * Handles user profile information and management.
  */
 export class UserProfileService extends BaseService {
-  async getUserByUsername(username: string): Promise<ServiceResponse<User | null>> {
+  async getUserByUsername(username: string): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('oyuncubakusername', username);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/'), formData);
-      return this.createSuccess(UserMapper.mapProfile(this.handle(response)), response?.aciklama);
+      const finalPath = this.resolveBotPath('/0/0/0/');
+      console.log(`[UserProfileService] Requesting: ${finalPath} with username: ${username}`);
+      const response = await this.client.post<any>(finalPath, formData);
+      const data = this.handle(response);
+      console.log("[UserProfileService] Full Data Received (Keys):", Object.keys(data || {}));
+      return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
       return this.createError(error.message);
     }
@@ -29,7 +33,7 @@ export class UserProfileService extends BaseService {
     }
   }
 
-  async updateProfile(data: Partial<User>): Promise<ServiceResponse<User | null>> {
+  async updateProfile(data: Partial<User>): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/users/me/update', data);

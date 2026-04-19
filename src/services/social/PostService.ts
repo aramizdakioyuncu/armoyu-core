@@ -7,7 +7,7 @@ import { ServiceResponse } from '../../api/ServiceResponse';
  * Handles social post management (Feed, Create, Delete).
  */
 export class PostService extends BaseService {
-  async getPosts(page: number, params: { limit?: number, postId?: number, userId?: number, username?: string, feature?: string, category?: string, categoryDetail?: string | number } = {}): Promise<GetPostsResponse> {
+  async getPosts(page: number, params: any = {}): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -22,6 +22,12 @@ export class PostService extends BaseService {
       appendIfValue('oyuncubakid', params.userId);
       appendIfValue('oyuncubakusername', params.username);
       appendIfValue('paylasimozellik', params.feature);
+
+      // Deep debug for browser inspection
+      console.log("[PostService] Final FormData entries:");
+      formData.forEach((value, key) => {
+        console.log(`  ${key}: ${value}`);
+      });
 
       if (params.category && params.categoryDetail !== undefined && params.categoryDetail !== null && params.categoryDetail !== '') {
         // Exclusive mapping for player filtering
@@ -42,12 +48,12 @@ export class PostService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sosyal/liste/${page}/`), formData);
-      const icerik = this.handle<any>(response);
+      const icerik = this.handle(response);
       const mappedPosts = (Array.isArray(icerik) ? icerik : [icerik]).filter(Boolean).map(post => PostMapper.mapPost(post, this.usePreviousVersion));
-
-      return { icerik: mappedPosts, kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
+      
+      return this.createSuccess(mappedPosts, response?.aciklama || 'İşlem Başarılı');
     } catch (error: any) {
-      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
+      return this.createError(error.message);
     }
   }
 

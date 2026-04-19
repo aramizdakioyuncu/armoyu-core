@@ -8,11 +8,10 @@ import { GetFriendsResponse } from '../../models/user/GetFriendsResponse';
  * Handles user social interactions (Friends, Following, Search).
  */
 export class UserSocialService extends BaseService {
-  async search(query: string): Promise<ServiceResponse<User[]>> {
+  async search(query: string): Promise<ServiceResponse<any>> {
     try {
       const response = await this.client.get<any>(`/users/search`, { params: { q: query } });
-      const mapped = UserMapper.mapSocialList(this.handle<any[]>(response) || []);
-      return this.createSuccess(mapped);
+      return this.createSuccess(this.handle(response), response?.aciklama);
     } catch (error: any) {
       return this.createError(error.message);
     }
@@ -65,16 +64,16 @@ export class UserSocialService extends BaseService {
     }
   }
 
-  async getFriendsList(page: number, params: { userId?: number, limit?: number } = {}): Promise<GetFriendsResponse> {
+  async getFriendsList(page: number, params: { userId?: number, limit?: number } = {}): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       formData.append('limit', (params.limit || 100).toString());
       if (params.userId !== undefined) formData.append('oyuncubakid', params.userId.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arkadaslarim/${page}/0/`), formData);
-      return { icerik: UserMapper.mapSocialList(this.handle<any[]>(response) || []), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı', kod: Number(response.kod || 0) };
+      return this.createSuccess(this.handle(response), response?.aciklama || 'İşlem Başarılı');
     } catch (error: any) {
-      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
+      return this.createError(error.message);
     }
   }
 

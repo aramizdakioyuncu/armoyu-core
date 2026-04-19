@@ -8,10 +8,13 @@ export interface ArmoyuPostOwner {
   id: number;
   username: string;
   displayName: string;
-  avatar: ArmoyuPostOwnerMedia;
+  avatar: string;
   url?: string;
   job?: string;
   jobURL?: string;
+  adsoyad?: string;
+  kullaniciadi?: string;
+  displayname?: string;
 }
 
 export interface ArmoyuPostMedia {
@@ -68,11 +71,20 @@ export interface ArmoyuPost {
   commentsCount: number;
   repostsCount: number;
   reportsCount: number;
+  likeCount?: number;
+  commentCount?: number;
+  repostCount?: number;
+  reportCount?: number;
+  paylasimzaman?: string;
+  paylasimzamangecen?: string;
+  paylasimicerik?: string;
   isLiked: boolean;
   isCommented: boolean;
   isReposted: boolean;
   isReported: boolean;
-  media: ArmoyuPostMedia[];
+  mappedMedia: ArmoyuPostMedia[];
+  paylasimfoto?: any[];
+  media?: ArmoyuPostMedia[];
   topComments: ArmoyuPostComment[];
 }
 

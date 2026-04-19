@@ -1,31 +1,29 @@
-import { UserMapper } from '../../utils/mappers/UserMapper';
 import { BaseService } from '../BaseService';
-import { GetXpRankingsResponse } from '../../models/user/GetXpRankingsResponse';
-import { GetPopRankingsResponse } from '../../models/user/GetPopRankingsResponse';
+import { ServiceResponse } from '../../api/ServiceResponse';
 
 /**
  * Handles user rankings and leaderboards (XP, Popularity).
  */
 export class UserRankingService extends BaseService {
-  async getXpRankings(page: number = 1): Promise<GetXpRankingsResponse> {
+  async getXpRankings(page: number = 1): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/xpsiralama/${page}/0/`), formData);
-      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapRankingUser(item)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
+      return this.createSuccess(this.handle(response), response?.aciklama || 'İşlem Başarılı');
     } catch (error: any) {
-      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
+      return this.createError(error.message);
     }
   }
 
-  async getPopRankings(page: number = 1): Promise<GetPopRankingsResponse> {
+  async getPopRankings(page: number = 1): Promise<ServiceResponse<any>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/popsiralama/${page}/0/`), formData);
-      return { icerik: (this.handle<any[]>(response) || []).map(item => UserMapper.mapRankingUser(item)), kod: Number(response.kod), durum: Number(response.durum), aciklama: response.aciklama || 'İşlem Başarılı' };
+      return this.createSuccess(this.handle(response), response?.aciklama || 'İşlem Başarılı');
     } catch (error: any) {
-      return { icerik: [], kod: 0, durum: 0, aciklama: error.message };
+      return this.createError(error.message);
     }
   }
 }

@@ -24,15 +24,27 @@ export class CommentMapper extends BaseMapper {
   }
 
   static mapCommentAuthor(raw: any) {
+    const displayName = raw.yorumcuadsoyad || raw.authorDisplayName || raw.displayName;
+    const avatar = raw.yorumcuavatar || raw.authorAvatar || raw.avatar;
+    const username = raw.yorumcukullaniciad || raw.authorUsername || raw.username;
+
     return {
       authorId: raw.yorumcuid || raw.authorId,
       authorTag: raw.yorumcuetiketad || raw.authorTag,
-      authorUsername: raw.yorumcukullaniciad || raw.authorUsername,
-      authorDisplayName: raw.yorumcuadsoyad || raw.authorDisplayName,
-      authorAvatar: raw.yorumcuavatar || raw.authorAvatar,
+      authorUsername: username,
+      authorDisplayName: displayName,
+      authorAvatar: avatar,
       authorLink: raw.oyunculink || raw.authorLink,
       authorSmallAvatar: raw.yorumcuufakavatar || raw.authorSmallAvatar,
-      authorThumbnailAvatar: raw.yorumcuminnakavatar || raw.authorThumbnailAvatar
+      authorThumbnailAvatar: raw.yorumcuminnakavatar || raw.authorThumbnailAvatar,
+      
+      // Compatibility aliases for UI
+      yorumcuadsoyad: displayName,
+      yorumcuavatar: avatar,
+      yorumcukullaniciad: username,
+      displayName: displayName,
+      avatar: avatar,
+      username: username
     };
   }
 
