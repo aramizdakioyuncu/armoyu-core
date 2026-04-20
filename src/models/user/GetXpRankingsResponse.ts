@@ -1,8 +1,4 @@
-import { User } from '../auth/User';
+import { UserResponse } from '../auth/UserResponse';
+import { BaseResponse } from '../core/BaseResponse';
 
-export interface GetXpRankingsResponse {
-  icerik: User[];
-  kod: number;
-  durum: number;
-  aciklama: string;
-}
+export interface GetXpRankingsResponse extends BaseResponse<UserResponse[]> {}

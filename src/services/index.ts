@@ -24,21 +24,3 @@ export * from './SupportService';
 export * from './TeamService';
 export * from './BlockService';
 export * from './BusinessService';
-
-// Sub-services (Optional: only if needed by other services, otherwise Facades handle them)
-export * from './user/UserProfileService';
-export * from './user/UserSocialService';
-export * from './user/UserMediaService';
-export * from './user/UserNotificationService';
-export * from './user/UserRankingService';
-export * from './user/UserLifeService';
-
-export * from './social/PostService';
-export * from './social/CommentService';
-export * from './social/SocialInteractionService';
-
-export * from './group/GroupProfileService';
-export * from './group/GroupMembershipService';
-
-export * from './auth/LoginService';
-export * from './auth/AccountService';

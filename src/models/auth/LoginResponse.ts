@@ -1,14 +1,15 @@
-import { User } from './User';
+import { UserResponse } from './UserResponse';
 
 /**
- * Unique response interface for api.auth.login()
+ * Unique data interface for api.auth.login() icerik
  */
 export interface LoginResponse {
-  durum: number;
-  aciklama: string;
-  icerik: {
-    user: User;
-    token: string;
-  } | null;
-  kod?: number;
+  user: UserResponse;
+  token: string;
+  session?: {
+    id: number;
+    ip: string;
+    device: string;
+    date: string;
+  };
 }

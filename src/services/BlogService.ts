@@ -2,16 +2,15 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { GetNewsResponse } from '../models/content/GetNewsResponse';
-import { News } from '../models/content/News';
+import { GetNewsResponse, NewsResponse } from '../models';
+import { NewsMapper } from '../utils/mappers';
 
 /**
  * Service for managing platform news, blogs, and articles.
- * @checked 2026-04-12
  */
 export class BlogService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
@@ -34,30 +33,45 @@ export class BlogService extends BaseService {
       }
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/haberler/${page}/${limit || 0}/`), formData);
-      const icerik = this.handle<any[]>(response);
+      const data = this.handle<any[]>(response);
+      const mapped = (data || []).map(i => NewsMapper.mapNews(i)).filter((n): n is NewsResponse => n !== null);
       
-      return {
-        icerik: icerik || [],
-        durum: Number(response.durum),
-        aciklama: response.aciklama || 'İşlem Başarılı',
-        kod: Number(response.kod || 0)
-      };
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[BlogService] Failed to fetch legacy news:', error);
-      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
+      return this.createError(error.message) as any;
     }
   }
 
   /**
    * Get a single news article by slug.
    */
-  async getNewsBySlug(slug: string): Promise<ServiceResponse<News | null>> {
+  async getNewsBySlug(slug: string): Promise<ServiceResponse<NewsResponse | null>> {
     try {
-      const response = await this.client.get<any>(`/content/news/${slug}`);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik || null, response?.aciklama);
+      // Slugs are typically used for URL lookup, but if not available in bot API, we redirect to detail by URL
+      return this.getNewsDetail({ newsURL: slug });
     } catch (error: any) {
-      this.logger.error(`[BlogService] Failed to fetch news article ${slug}:`, error);
+      this.logger.error(`[BlogService] Failed to fetch news article by slug ${slug}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get a single news article by ID or URL (Legacy).
+   */
+  async getNewsDetail(opt: { newsId?: number, newsURL?: string }): Promise<ServiceResponse<NewsResponse | null>> {
+    try {
+      const formData = new FormData();
+      if (opt.newsId) formData.append('haberID', opt.newsId.toString());
+      if (opt.newsURL) formData.append('haberURL', opt.newsURL);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/detay/0/'), formData);
+      const icerik = this.handle<any>(response);
+      const mapped = NewsMapper.mapNews(icerik);
+      
+      return this.createSuccess(mapped || null, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[BlogService] Failed to fetch news detail:', error);
       return this.createError(error.message);
     }
   }
@@ -65,19 +79,24 @@ export class BlogService extends BaseService {
   /**
    * Search news articles.
    */
-  async searchNews(page: number, query: string, limit?: number): Promise<ServiceResponse<News[]>> {
+  async searchNews(page: number, query: string, limit?: number): Promise<ServiceResponse<NewsResponse[]>> {
     try {
-      const response = await this.client.get<any>('/content/news/search', {
-        params: { q: query, page, limit }
-      });
-      const icerik = this.handle<{ news: any[] }>(response);
-      return this.createSuccess(icerik?.news || [], response?.aciklama);
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      formData.append('haberadi', query);
+      if (limit !== undefined) {
+        formData.append('limit', limit.toString());
+      }
+
+      // Guessed legacy search path based on common patterns
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/haberler/arama/${page}/${limit || 0}/`), formData);
+      const icerik = this.handle<any[]>(response);
+      const mapped = NewsMapper.mapNewsList(icerik || []);
+      
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[BlogService] News search failed:', error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

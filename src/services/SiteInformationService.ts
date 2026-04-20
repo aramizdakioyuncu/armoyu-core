@@ -1,38 +1,157 @@
+import { SiteInformationResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { SiteContentService } from './site/SiteContentService';
-import { SiteSearchService } from './site/SiteSearchService';
-import { SiteStatsService } from './site/SiteStatsService';
 
 /**
- * Service for fetching site-wide information, content pages, statistics, and announcements.
+ * Service for general site information, metadata, and announcements.
  */
 export class SiteInformationService extends BaseService {
-  private readonly _content: SiteContentService;
-  private readonly _search: SiteSearchService;
-  private readonly _stats: SiteStatsService;
-
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
-    this._content = new SiteContentService(client, logger, usePreviousVersion);
-    this._search = new SiteSearchService(client, logger, usePreviousVersion);
-    this._stats = new SiteStatsService(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
-  // Content
-  getPageContent(p: string, c: string = 'home') { return this._content.getPageContent(p, c); }
-  getAboutContent(c: string = 'home') { return this._content.getAboutContent(c); }
-  getPrivacyPolicy(c: string = 'home') { return this._content.getPrivacyPolicy(c); }
-  getTermsOfService(c: string = 'home') { return this._content.getTermsOfService(c); }
+  /**
+   * Get general information about the platform (Legacy).
+   */
+  async getSiteInfo(): Promise<ServiceResponse<SiteInformationResponse>> {
+    try {
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ana/0/0/'), new FormData());
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch site info:', error);
+      return this.createError(error.message);
+    }
+  }
 
-  // Search
-  searchTags(p: number, params: any) { return this._search.searchTags(p, params); }
-  search(p: number, params: any) { return this._search.search(p, params); }
+  /**
+   * Get about information content.
+   */
+  async getAboutContent(category: string = 'home'): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      formData.append('kategori', category);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hakkimizda/0/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch about content:', error);
+      return this.createError(error.message);
+    }
+  }
 
-  // Stats and Messages
-  getStatistics(c: string = 'aktifoyuncu') { return this._stats.getStatistics(c); }
-  getSessionLogs() { return this._stats.getSessionLogs(); }
-  getSiteMessages(id?: number) { return this._stats.getSiteMessages(id); }
-  getSiteMessageDetail(id?: number) { return this._stats.getSiteMessageDetail(id); }
+  /**
+   * Get privacy policy content.
+   */
+  async getPrivacyPolicy(category: string = 'home'): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      formData.append('kategori', category);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gizlilik-politikasi/0/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch privacy policy:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get terms of service content.
+   */
+  async getTermsOfService(category: string = 'home'): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      formData.append('kategori', category);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kullanim-sozlesmesi/0/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch terms of service:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get site statistics.
+   */
+  async getStatistics(category: string = 'aktifoyuncu'): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      formData.append('kategori', category);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istatistikler/0/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch statistics:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get session logs for troubleshooting.
+   */
+  async getSessionLogs(): Promise<ServiceResponse<any[]>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/oturum-kayitlari/0/'), new FormData());
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch session logs:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get site wide messages/announcements for a user.
+   */
+  async getSiteMessages(userId?: number): Promise<ServiceResponse<any[]>> {
+    try {
+      const formData = new FormData();
+      if (userId) formData.append('oyuncubakid', userId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/mesajlarim/0/0/'), formData);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch site messages:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get detailed site message.
+   */
+  async getSiteMessageDetail(userId?: number): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      if (userId) formData.append('oyuncubakid', userId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/mesajbak/0/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch site message detail:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Search for tags/labels on the platform.
+   */
+  async searchTags(page: number, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<any[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (options?.limit) formData.append('limit', options.limit.toString());
+      if (options?.tag) formData.append('etiket', options.tag);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etiketler/0/0/'), formData);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to search tags:', error);
+      return this.createError(error.message);
+    }
+  }
 }

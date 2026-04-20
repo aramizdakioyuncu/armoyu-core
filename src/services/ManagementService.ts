@@ -4,39 +4,57 @@ import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Service for administrative and management tasks within the ARMOYU platform.
- * @checked 2026-04-12
+ * Service for administrative and management actions.
  */
 export class ManagementService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches management/admin panel content.
+   * Get platform administrative settings (Legacy).
    */
-  async getManagementContent(category: string = 'home'): Promise<ServiceResponse<any>> {
+  async getSettings(): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
-      const formData = new FormData();
-      formData.append('category', category);
-
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim-paneli/0/0/'), formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/ayarlar/0/'), new FormData());
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
-      this.logger.error(`[ManagementService] Fetching management content for ${category} failed:`, error);
+      this.logger.error('[ManagementService] Failed to fetch settings:', error);
       return this.createError(error.message);
     }
   }
 
   /**
-   * Fetches meeting records and details.
+   * Get management content based on category.
    */
-  async getMeetings(): Promise<ServiceResponse<any>> {
-    return this.getManagementContent('meeting');
+  async getManagementContent(category: string = 'home'): Promise<ServiceResponse<any>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('kategori', category);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/icerik/0/'), formData);
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[ManagementService] Failed to fetch management content:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get platform meetings list.
+   */
+  async getMeetings(): Promise<ServiceResponse<any[]>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/toplantilar/0/'), new FormData());
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[ManagementService] Failed to fetch meetings:', error);
+      return this.createError(error.message);
+    }
   }
 }
-
-
-

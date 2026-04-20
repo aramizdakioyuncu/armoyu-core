@@ -1,48 +1,57 @@
-import { User } from '../../../models/auth/User';
-import { UserBaseMapper } from './UserBaseMapper';
+import { UserProfileResponse, UserSocialsResponse } from '../../../models';
+import { BaseMapper } from '../BaseMapper';
 
 /**
- * Specialized mapper for User Profiles.
+ * Mapper for full User Profile details.
+ * Supports both standard legacy fields and the rich nested fields seen in modern legacy responses.
  */
-export class UserProfileMapper extends UserBaseMapper {
-  static mapProfile(raw: any): User {
-    if (!raw) return {} as User;
+export class UserProfileMapper extends BaseMapper {
+  static mapProfile(raw: any): UserProfileResponse {
+    const legacy = this.shouldReturnRaw<UserProfileResponse>(raw);
+    if (legacy) return legacy;
+    if (!raw) return {} as UserProfileResponse;
 
-    const socials = raw.socailAccounts || raw.socialAccounts || raw.socials || {};
-    
+    const detail = raw.detailInfo || {};
+    const stats = raw.istatistik || {};
+    const rank = raw.userRole || raw.rutbe || {};
+
     return {
-      ...this.mapCommonIdentity(raw),
-      firstName: raw.ad || raw.firstName,
-      lastName: raw.soyad || raw.lastName,
-      displayName: raw.adsoyad || raw.displayName,
-      ...this.mapCommonVisuals(raw),
-      ...this.mapCommonStats(raw),
-      ...this.mapProfileDetails(raw),
-      socials: {
-        discord: socials.discord || '',
-        steam: socials.steam || '',
-        instagram: socials.instagram || '',
-        youtube: socials.youtube || '',
-        twitch: socials.twitch || '',
-        linkedin: socials.linkedin || '',
-        facebook: socials.facebook || ''
+      id: this.toNumber(raw.playerID || raw.ID || raw.oyuncuID),
+      username: raw.username || raw.kullaniciadi,
+      displayName: raw.displayName || raw.adsoyad,
+      avatar: raw.avatar?.media_URL || this.toImageUrl(raw.oyuncuavatar),
+      banner: raw.banner?.media_URL || this.toImageUrl(raw.oyuncuarplan),
+      level: this.toNumber(raw.level || raw.seviye),
+      xp: this.toNumber(raw.levelXP || raw.xp),
+      xpNext: this.toNumber(raw.gecerli_xp),
+      points: this.toNumber(raw.points || raw.para),
+      gender: raw.cinsiyet,
+      location: raw.city || detail.province?.province_name,
+      status: raw.durum_notu || detail.about,
+      stats: {
+        friendsCount: this.toNumber(detail.friends || stats.toplam_arkadas),
+        postsCount: this.toNumber(detail.posts || stats.toplam_paylasim),
+        commentsCount: this.toNumber(stats.toplam_yorum),
+        groupsCount: this.toNumber(stats.toplam_grup)
       },
-      friends: raw.arkadasliste || []
+      rank: {
+        name: rank.roleName || rank.rutbe_ad,
+        logo: this.toImageUrl(rank.roleLogo || rank.rutbe_logo)
+      },
+      socials: this.mapSocials(raw.socailAccounts || raw.sosyalmedya)
     };
   }
 
-  static mapProfileDetails(raw: any) {
-    const detail = raw.detailInfo || {};
+  static mapSocials(raw: any): UserSocialsResponse {
+    if (!raw) return {};
     return {
-      about: detail.about || raw.hakkinda || raw.about,
-      registrationDate: raw.registeredDate || raw.kayittarih || raw.registrationDate,
-      lastLoginDate: detail.lastloginDate || raw.son_giris_tarih || raw.lastLoginDate,
-      rank: raw.roleName || raw.rutbe || raw.rank,
-      rankColor: raw.roleColor || raw.rutberenk || raw.rankColor,
-      isOnline: this.toBool(raw.isOnline),
-      isFriend: raw.arkadasdurum !== undefined ? this.toBool(raw.arkadasdurum) : undefined,
-      friendCount: this.toNumber(detail.friends || raw.arkadassayisi || raw.friendCount),
-      clans: raw.defaultGroup || raw.gruplar || raw.clans
+      instagram: raw.instagram,
+      twitter: raw.twitter || raw.x,
+      facebook: raw.facebook,
+      youtube: raw.youtube,
+      discord: raw.discord,
+      twitch: raw.twitch,
+      steam: raw.steam
     };
   }
 }

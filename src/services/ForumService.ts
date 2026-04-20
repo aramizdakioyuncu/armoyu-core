@@ -1,22 +1,20 @@
-import { Forum } from '../models/community/Forum';
+import { ForumResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
  * Service for managing forum categories, topics, and discussions.
- * @checked 2026-04-12
  */
 export class ForumService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
    * Get all forum categories.
    */
-  async getCategories(): Promise<ServiceResponse<Forum[]>> {
+  async getCategories(): Promise<ServiceResponse<ForumResponse[]>> {
     try {
       const response = await this.client.get<any>('/community/forums/categories');
       const icerik = this.handle<any[]>(response);
@@ -76,6 +74,3 @@ export class ForumService extends BaseService {
     }
   }
 }
-
-
-

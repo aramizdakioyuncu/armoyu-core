@@ -254,8 +254,9 @@ const CONFIG = {
     title: "ChatService",
     actions: [
       { id: "sendMessage", name: "Send Message", method: "POST", endpoint: "/0/0/sohbetgonder/0/0/", inputs: ["userId", "content", "type"], desc: "Send private/group message", auth: true },
+      { id: "getChats", name: "Get Inbox (Recent)", method: "POST", endpoint: "/0/0/sohbet/0/0/", inputs: ["page", "limit"], desc: "Fetch recent chat list", auth: true },
       { id: "getChatHistory", name: "Chat History", method: "POST", endpoint: "/0/0/sohbet/0/0/", inputs: ["userId", "page", "limit"], desc: "Fetch messages with a user", auth: true },
-      { id: "getFriendsChat", name: "Friends Chat", method: "POST", endpoint: "/0/0/sohbet/arkadaslarim/0/", inputs: ["page", "limit"], desc: "Fetch recent chat list", auth: true },
+      { id: "getFriends", name: "Get Friends List", method: "POST", endpoint: "/0/0/sohbet/arkadaslarim/0/", inputs: ["page", "limit"], desc: "Fetch friends available for chat", auth: true },
       { id: "getChatDetail", name: "Chat Detail", method: "POST", endpoint: "/0/0/sohbetdetay/0/0/", inputs: ["chatId", "type"], desc: "Fetch detailed messages", auth: true }
     ]
   },
@@ -546,52 +547,52 @@ export default function Dashboard() {
         if (action.id === 'getPosts') {
           result = await api.social.getPosts(
             inputs.sayfa ? Number(inputs.sayfa) : 1,
+            inputs.limit ? Number(inputs.limit) : 20,
             {
               postId: inputs.postID ? Number(inputs.postID) : undefined,
               userId: inputs.userId ? Number(inputs.userId) : undefined,
               username: inputs.username,
-              feature: inputs.feature,
-              category: inputs.category,
-              categoryDetail: inputs.categorydetail
+              filter: inputs.feature || inputs.category
             }
           );
         } else if (action.id === 'createPost') {
           const mediaIds = inputs['paylasimfoto[]'] ? inputs['paylasimfoto[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id)) : undefined;
           result = await api.social.createPost(inputs.sosyalicerik, mediaIds);
         } else if (action.id === 'deletePost') {
-          result = await api.social.deletePost(inputs.postID);
+          result = await api.social.deletePost(Number(inputs.postID));
         } else if (action.id === 'getLikers') {
-          result = await api.social.getLikers({
-            postId: inputs.postID,
-            commentId: inputs.yorumID
-          });
+          result = await api.social.getLikers(
+            Number(inputs.postID || inputs.userId),
+            (inputs.kategori as any) || 'post'
+          );
         } else if (action.id === 'removeLike') {
-          result = await api.social.removeLike({
-            postId: inputs.postID,
-            commentId: inputs.yorumID,
-            category: inputs.kategori
-          });
+          result = await api.social.removeLike(
+            Number(inputs.postID),
+            inputs.yorumID ? Number(inputs.yorumID) : undefined,
+            (inputs.kategori as any) || 'post'
+          );
         } else if (action.id === 'addLike') {
-          result = await api.social.addLike({
-            postId: inputs.postID,
-            category: inputs.kategori
-          });
+          result = await api.social.addLike(
+            Number(inputs.postID),
+            inputs.yorumID ? Number(inputs.yorumID) : undefined,
+            (inputs.kategori as any) || 'post'
+          );
         } else if (action.id === 'getComments') {
-          result = await api.social.getComments(inputs.postID);
+          result = await api.social.getComments(Number(inputs.postID));
         } else if (action.id === 'createComment') {
-          result = await api.social.createComment({
-            postId: inputs.postID,
-            content: inputs.yorumicerik,
-            category: inputs.kategori,
-            replyTo: inputs.kimeyanit
-          });
+          result = await api.social.createComment(
+            Number(inputs.postID),
+            inputs.yorumicerik,
+            inputs.kimeyanit ? Number(inputs.kimeyanit) : 0,
+            inputs.kategori || 'sosyal'
+          );
         } else if (action.id === 'deleteComment') {
-          result = await api.social.deleteComment(inputs.yorumID);
-        } else if (action.id === 'getSocialNotifications') {
-          result = await api.social.getSocialNotifications({
-            postId: inputs.postID,
-            category: inputs.bildirikategori
-          });
+          result = await api.social.deleteComment(Number(inputs.yorumID));
+        } else if (action.id === 'reportPost') {
+          result = await api.social.reportPost(
+            Number(inputs.postID),
+            inputs.bildirikategori
+          );
         }
       } else if (activeService === 'search') {
         if (action.id === 'globalSearch') {
@@ -690,11 +691,16 @@ export default function Dashboard() {
         }
       } else if (activeService === 'chat') {
         if (action.id === 'sendMessage') {
-          result = await api.chat.sendMessage({
-            userId: Number(inputs.userId),
-            content: inputs.content,
-            type: inputs.type
-          });
+          result = await api.chat.sendMessage(
+            Number(inputs.userId),
+            inputs.content,
+            (inputs.type as any) || 'ozel'
+          );
+        } else if (action.id === 'getChats') {
+          result = await api.chat.getChats(
+            inputs.page ? Number(inputs.page) : 1,
+            { limit: inputs.limit ? Number(inputs.limit) : undefined }
+          );
         } else if (action.id === 'getChatHistory') {
           result = await api.chat.getChatHistory(
             inputs.page ? Number(inputs.page) : 1,
@@ -703,18 +709,16 @@ export default function Dashboard() {
               limit: inputs.limit ? Number(inputs.limit) : undefined
             }
           );
-        } else if (action.id === 'getFriendsChat') {
-          result = await api.chat.getFriendsChat(
+        } else if (action.id === 'getFriends') {
+          result = await api.chat.getFriends(
             inputs.page ? Number(inputs.page) : 1,
-            {
-              limit: inputs.limit ? Number(inputs.limit) : undefined
-            }
+            { limit: inputs.limit ? Number(inputs.limit) : undefined }
           );
         } else if (action.id === 'getChatDetail') {
-          result = await api.chat.getChatDetail({
-            chatId: Number(inputs.chatId),
-            type: inputs.type
-          });
+          result = await api.chat.getChatDetail(
+            Number(inputs.chatId || inputs.userId),
+            (inputs.type as any) || 'ozel'
+          );
         }
       } else if (activeService === 'blocks') {
         if (action.id === 'getBlockedUsers') {

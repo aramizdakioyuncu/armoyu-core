@@ -1,26 +1,33 @@
-import { User } from '../../../models/auth/User';
-import { UserBaseMapper } from './UserBaseMapper';
+import { UserResponse } from '../../../models';
+import { BaseMapper } from '../BaseMapper';
 
 /**
  * Specialized mapper for User Social operations (Search, Friends List).
+ * Handles fields specific to social relationship responses.
+ * Dedicated to the Social/Friends Page.
  */
-export class UserSocialMapper extends UserBaseMapper {
-  static mapSocialUser(raw: any): User {
-    if (!raw) return {} as User;
+export class UserSocialMapper extends BaseMapper {
+  static mapSocialUser(raw: any): UserResponse {
+    const legacy = this.shouldReturnRaw<UserResponse>(raw);
+    if (legacy) return legacy;
+    if (!raw) return {} as UserResponse;
 
     return {
-      ...this.mapCommonIdentity(raw),
-      firstName: raw.ad || raw.firstName,
-      lastName: raw.soyad || raw.lastName,
-      displayName: raw.adsoyad || raw.displayName,
-      ...this.mapCommonVisuals(raw),
-      ...this.mapCommonStats(raw),
+      id: this.toNumber(raw.oyuncuID || raw.ID),
+      username: raw.oyuncukullaniciadi || raw.kullaniciadi || '',
+      displayName: raw.oyuncuadsoyad || raw.adsoyad || '',
+      firstName: raw.ad,
+      lastName: raw.soyad,
+      avatar: this.toImageUrl(raw.oyuncuavatar),
+      level: this.toNumber(raw.oyuncuseviye),
+      xp: this.toNumber(raw.oyuncuseviyexp),
+      points: this.toNumber(raw.puan),
+      popularity: this.toNumber(raw.oyuncupop),
       isFriend: raw.arkadasdurum !== undefined ? this.toBool(raw.arkadasdurum) : undefined
     };
   }
 
-  static mapSocialList(rawList: any[], usePreviousVersion: boolean = false): User[] {
-    if (usePreviousVersion) return rawList;
+  static mapSocialList(rawList: any[]): UserResponse[] {
     return (rawList || []).map(item => this.mapSocialUser(item));
   }
 }

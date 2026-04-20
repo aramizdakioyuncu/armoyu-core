@@ -1,57 +1,61 @@
+import { ProjectResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ProjectScore } from '../models/content/ProjectScore';
-import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Service for managing platform projects and leaderboards.
- * @checked 2026-04-12
+ * Service for management and display of platform projects.
  */
 export class ProjectService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the scores/leaderboard for projects (Legacy).
+   * Get all active projects.
    */
-  async getScoreList(page: number = 1): Promise<ServiceResponse<ProjectScore[]>> {
+  async getProjects(): Promise<ServiceResponse<ProjectResponse[]>> {
     try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-
-      const url = this.resolveBotPath(`/0/0/projeler/icerik-liste/${page}/`);
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/0/0/'), new FormData());
       const data = this.handle<any[]>(response);
-      
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[ProjectService] Failed to fetch project score list:', error);
+      this.logger.error('[ProjectService] Failed to fetch projects:', error);
       return this.createError(error.message);
     }
   }
 
   /**
-   * Saves a score for a specific project (Legacy).
+   * Get score list for a specific project.
    */
-  async saveScore(projectId: string | number, score: number | string): Promise<ServiceResponse<any>> {
+  async getScoreList(projectId: string | number): Promise<ServiceResponse<any[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('projeID', projectId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/skor-listesi/0/'), formData);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[ProjectService] Failed to fetch scores for project ${projectId}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Save score for a specific project.
+   */
+  async saveScore(projectId: string | number, score: string | number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('projeID', projectId.toString());
       formData.append('skor', score.toString());
-
-      const url = this.resolveBotPath('/0/0/projeler/icerik-kaydet/0/');
-      const response = await this.client.post<any>(url, formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/skor-kaydet/0/'), formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[ProjectService] Failed to save project score:', error);
+      this.logger.error(`[ProjectService] Failed to save score for project ${projectId}:`, error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

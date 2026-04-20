@@ -1,35 +1,32 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { BlockedUser } from '../models/social/user/BlockedUser';
 import { ServiceResponse } from '../api/ServiceResponse';
+import { BlockedUserResponse } from '../models';
+import { UserMapper } from '../utils/mappers';
 
 /**
- * Service for managing user blocks and blacklists (Legacy).
- * @checked 2026-04-12
+ * Service for managing user blocks and blacklists.
  */
 export class BlockService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the list of blocked users (Legacy).
+   * Get all blocked users.
    */
-  async getBlockedUsers(page: number, limit?: number): Promise<ServiceResponse<BlockedUser[]>> {
-    this.requireAuth();
+  async getBlockedUsers(page: number = 1, limit?: number): Promise<ServiceResponse<BlockedUserResponse[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      if (limit !== undefined) {
-        formData.append('limit', limit.toString());
-      }
+      if (limit) formData.append('limit', limit.toString());
 
-      const url = this.resolveBotPath(`/0/0/engel/${page}/${limit || 0}/`);
-      const response = await this.client.post<any>(url, formData);
-      const data = this.handle<any[]>(response);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/0/0/'), formData);
+      const data = this.handle<any>(response);
+      const mapped = UserMapper.mapBlockedList(data || []);
       
-      return this.createSuccess(data || [], response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[BlockService] Failed to fetch blocked users:', error);
       return this.createError(error.message);
@@ -37,18 +34,17 @@ export class BlockService extends BaseService {
   }
 
   /**
-   * Blocks a specific user (Legacy).
+   * Block a user.
    */
-  async blockUser(userId: number | string): Promise<ServiceResponse<any>> {
-    this.requireAuth();
+  async blockUser(userId: string | number): Promise<ServiceResponse<boolean>> {
     try {
+      this.requireAuth();
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const url = this.resolveBotPath(`/0/0/engel/ekle/${userId}/`);
-      const response = await this.client.post<any>(url, formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/ekle/0/'), formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BlockService] Failed to block user ${userId}:`, error);
       return this.createError(error.message);
@@ -56,24 +52,20 @@ export class BlockService extends BaseService {
   }
 
   /**
-   * Unblocks a specific user (Legacy).
+   * Unblock a user.
    */
-  async unblockUser(userId: number | string): Promise<ServiceResponse<any>> {
-    this.requireAuth();
+  async unblockUser(userId: string | number): Promise<ServiceResponse<boolean>> {
     try {
+      this.requireAuth();
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const url = this.resolveBotPath(`/0/0/engel/sil/${userId}/`);
-      const response = await this.client.post<any>(url, formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/sil/0/'), formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[BlockService] Failed to unblock user ${userId}:`, error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

@@ -1,8 +1,7 @@
-/**
- * Unique response interface for api.blog.getNews() and getNewsLegacy()
- */
+import { BaseResponse } from '../core/BaseResponse';
+import { NewsResponse } from './NewsResponse';
 
-export interface NewsItem {
+export interface NewsItemResponse {
   haberID: number;
   haberbaslik: string;
   resim: string;
@@ -19,9 +18,4 @@ export interface NewsItem {
   ozet: string;
 }
 
-export interface GetNewsResponse {
-  icerik: NewsItem[];
-  durum: number;
-  aciklama: string;
-  kod: number;
-}
+export interface GetNewsResponse extends BaseResponse<NewsResponse[]> {}

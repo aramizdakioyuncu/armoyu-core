@@ -4,10 +4,31 @@
  */
 export abstract class BaseMapper {
   /**
+   * global strict mode toggle.
+   * true (Default) -> Enforce Strict V1 mapping (returns null in shouldReturnRaw)
+   * false          -> Disable mapping, return RAW data (fallback)
+   */
+  private static strictMode: boolean = true;
+
+  /**
+   * Set the library-wide strict mode.
+   */
+  static setStrictMode(enabled: boolean): void {
+    this.strictMode = enabled;
+  }
+
+  /**
+   * Get the library-wide strict mode status.
+   */
+  static isStrict(): boolean {
+    return this.strictMode;
+  }
+
+  /**
    * Helper to normalize nullable numbers.
    */
-  protected static toNumber(value: any): number {
-    return value !== undefined && value !== null ? Number(value) : 0;
+  protected static toNumber(value: any, fallback: number = 0): number {
+    return value !== undefined && value !== null ? Number(value) : fallback;
   }
 
   /**
@@ -27,34 +48,27 @@ export abstract class BaseMapper {
 
   /**
    * Helper to safely extract an image URL from strings or ARMOYU media objects.
-   * Synched with armoyu-ui's robust logic.
    */
   protected static toImageUrl(value: any): string | undefined {
     if (!value) return undefined;
-    
-    // If it's already a string, return it
     if (typeof value === 'string') return value;
-    
-    // If it's an object, check all possible ARMOYU media keys
     if (typeof value === 'object') {
-      // Direct media keys
       const url = value.media_URL || value.media_bigURL || value.media_minURL || value.url;
       if (url && typeof url === 'string') return url;
-      
-      // Nested chatImage or player_avatar fallbacks
       const nestedUrl = value.player_avatar || value.chatImage?.media_URL;
       if (nestedUrl && typeof nestedUrl === 'string') return nestedUrl;
     }
-    
     return undefined;
   }
 
   /**
-   * Checks if we should return the raw data based on version preference.
+   * Logic for bypassing mapping:
+   * Returns 'raw' if strictMode is false.
+   * Returns 'null' if strictMode is true (forces the mapper to continue with manual mapping).
    */
-  protected static shouldReturnRaw<T>(raw: any, usePreviousVersion: boolean): T | null {
+  protected static shouldReturnRaw<T>(raw: any): T | null {
     if (!raw) return null;
-    if (usePreviousVersion) return raw as T;
+    if (!this.strictMode) return raw as T;
     return null;
   }
 }

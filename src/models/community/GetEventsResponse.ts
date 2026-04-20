@@ -1,8 +1,4 @@
-import { ArmoyuEvent } from './Event';
+import { BaseResponse } from '../core/BaseResponse';
+import { EventResponse } from './EventResponse';
 
-export interface GetEventsResponse {
-  icerik: ArmoyuEvent[];
-  durum: number;
-  aciklama: string;
-  kod: number;
-}
+export interface GetEventsResponse extends BaseResponse<EventResponse[]> {}

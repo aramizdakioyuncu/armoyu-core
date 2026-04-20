@@ -1,94 +1,62 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { TeamMember } from '../models/auth/TeamMember';
-import { StaffApplication } from '../models/auth/StaffApplication';
 import { ServiceResponse } from '../api/ServiceResponse';
+import { StaffUserResponse } from '../models';
+import { UserMapper } from '../utils/mappers';
 
 /**
- * Service for managing platform staff, applications, and official team members (Legacy).
- * @checked 2026-04-12
+ * Service for information about platform staff and administrators.
  */
 export class StaffService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the official team members (Legacy).
+   * Get all platform staff members and their roles.
    */
-  async getStaff(page: number, category?: string, limit?: number): Promise<ServiceResponse<TeamMember[]>> {
+  async getStaff(page: number = 1, category?: string, limit?: number): Promise<ServiceResponse<StaffUserResponse[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      if (category !== undefined) {
-        formData.append('category', category);
-      }
-      if (limit !== undefined) {
-        formData.append('limit', limit.toString());
-      }
+      if (limit !== undefined) formData.append('limit', limit.toString());
+      if (category !== undefined) formData.append('kategori', category);
 
-      const url = this.resolveBotPath(`/0/0/ekibimiz/${page}/${limit || 0}/`);
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ekibimiz/0/0/'), formData);
       const data = this.handle<any[]>(response);
+      const mapped = UserMapper.mapStaffList(data || []);
       
-      return this.createSuccess(data || [], response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[StaffService] Failed to fetch staff team:', error);
+      this.logger.error('[StaffService] Failed to fetch staff list:', error);
       return this.createError(error.message);
     }
   }
 
   /**
-   * Submits an application to join the team (Legacy).
+   * Alias for getStaff to maintain compatibility with existing tests.
    */
-  async apply(params: {
-    positionId: number | string,
-    whyJoin: string,
-    whyPosition: string,
-    timeCommitment: string
-  }): Promise<ServiceResponse<any>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('positionID', params.positionId.toString());
-      formData.append('whyjoin', params.whyJoin);
-      formData.append('whyposition', params.whyPosition);
-      formData.append('howmachtime', params.timeCommitment);
-
-      const url = this.resolveBotPath('/0/0/ekibimiz/katil-istek/0/');
-      const response = await this.client.post<any>(url, formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StaffService] Team application submission failed:', error);
-      return this.createError(error.message);
-    }
+  async getStaffList(page: number = 1): Promise<ServiceResponse<StaffUserResponse[]>> {
+    return this.getStaff(page);
   }
 
   /**
-   * Fetches the list of staff applications (Legacy).
+   * Get staff applications.
    */
-  async getApplications(page: number, limit?: number): Promise<ServiceResponse<StaffApplication[]>> {
+  async getApplications(page: number = 1, limit?: number): Promise<ServiceResponse<any[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      if (limit !== undefined) {
-        formData.append('limit', limit.toString());
-      }
+      if (limit !== undefined) formData.append('limit', limit.toString());
 
-      const url = this.resolveBotPath(`/0/0/ekibimiz/basvurular/${page}/`);
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/basvurular/0/'), formData);
       const data = this.handle<any[]>(response);
-      
-      return this.createSuccess(data || [], response?.aciklama);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[StaffService] Failed to fetch applications:', error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

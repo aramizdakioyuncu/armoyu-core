@@ -1,14 +1,17 @@
-export interface ArmoyuPostOwnerMedia {
+import { BaseResponse } from '../core/BaseResponse';
+
+export interface PostOwnerMediaResponse {
   media_bigURL: string;
   media_URL: string;
   media_minURL: string;
 }
 
-export interface ArmoyuPostOwner {
+export interface PostOwnerResponse {
   id: number;
   username: string;
   displayName: string;
   avatar: string;
+  banner?: string;
   url?: string;
   job?: string;
   jobURL?: string;
@@ -17,9 +20,9 @@ export interface ArmoyuPostOwner {
   displayname?: string;
 }
 
-export interface ArmoyuPostMedia {
+export interface PostMediaResponse {
   id: number;
-  owner: ArmoyuPostOwner;
+  owner: PostOwnerResponse;
   category: string;
   url: string;
   smallUrl: string;
@@ -27,7 +30,7 @@ export interface ArmoyuPostMedia {
   orientation: string;
 }
 
-export interface ArmoyuPostLiker {
+export interface PostLikerResponse {
   likeId: number;
   id: number;
   displayName: string;
@@ -37,7 +40,7 @@ export interface ArmoyuPostLiker {
   date: string;
 }
 
-export interface ArmoyuPostComment {
+export interface PostCommentResponse {
   postId: number;
   id: number;
   authorId: number;
@@ -58,15 +61,15 @@ export interface ArmoyuPostComment {
   isReported: boolean;
 }
 
-export interface ArmoyuPost {
+export interface PostResponse {
   id: number;
-  owner: ArmoyuPostOwner;
+  owner: PostOwnerResponse;
   content: string;
   location?: string;
   date: string;
   timeLabel?: string;
   editDate?: string | null;
-  topLikers: ArmoyuPostLiker[];
+  topLikers: PostLikerResponse[];
   likesCount: number;
   commentsCount: number;
   repostsCount: number;
@@ -82,15 +85,10 @@ export interface ArmoyuPost {
   isCommented: boolean;
   isReposted: boolean;
   isReported: boolean;
-  mappedMedia: ArmoyuPostMedia[];
-  paylasimfoto?: any[];
-  media?: ArmoyuPostMedia[];
-  topComments: ArmoyuPostComment[];
+  mappedMedia: PostMediaResponse[];
+  paylasimfoto?: PostMediaResponse[];
+  media?: PostMediaResponse[];
+  topComments: PostCommentResponse[];
 }
 
-export interface GetPostsResponse {
-  icerik: ArmoyuPost[];
-  kod: number;
-  durum: number;
-  aciklama: string;
-}
+export interface GetPostsResponse extends BaseResponse<PostResponse[]> {}

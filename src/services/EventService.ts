@@ -1,73 +1,108 @@
-import { CommunityMapper } from '../utils/mappers/CommunityMapper';
+import { EventResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
-import { ServiceResponse } from '../api/ServiceResponse';
-import { GetEventsResponse } from '../models/community/GetEventsResponse';
-import { ArmoyuEvent } from '../models/community/Event';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
+import { EventMapper } from '../utils/mappers';
 
 /**
- * Service for managing platform events and community gatherings.
+ * Service for managing platform events and activities.
  */
 export class EventService extends BaseService {
-  async getEvents(page: number = 1, params: any = {}): Promise<GetEventsResponse> {
-    try {
-      const fd = new FormData();
-      if (params.gameId) fd.append('oyunID', String(params.gameId));
-      if (params.status) fd.append('etkinlikdurum', String(params.status));
-      fd.append('sayfa', String(page));
-      if (params.limit) fd.append('limit', String(params.limit));
-
-      const res = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), fd);
-      const mapped = (this.handle<any[]>(res) || []).map(i => CommunityMapper.mapEvent(i, this.usePreviousVersion));
-      return { icerik: mapped, durum: Number(res.durum), aciklama: res.aciklama || 'İşlem Başarılı', kod: Number(res.kod || 0) };
-    } catch (error: any) {
-      return { icerik: [], durum: 0, aciklama: error.message, kod: 0 };
-    }
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
-  async getEventDetail(opt: { eventId?: number, eventURL?: string }): Promise<ServiceResponse<ArmoyuEvent | null>> {
+  /**
+   * Get all listed events with pagination.
+   */
+  async getEvents(page: number, options?: { limit?: number, gameId?: number, status?: string }): Promise<ServiceResponse<EventResponse[]>> {
     try {
-      const fd = new FormData();
-      if (opt.eventId) fd.append('eventID', String(opt.eventId));
-      if (opt.eventURL) fd.append('eventURL', opt.eventURL);
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      const limit = options?.limit || 20;
+      formData.append('limit', limit.toString());
+      if (options?.gameId) formData.append('oyunID', options.gameId.toString());
+      if (options?.status) formData.append('durum', options.status);
 
-      const res = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/detay/'), fd);
-      const mapped = CommunityMapper.mapEvent(this.handle(res), this.usePreviousVersion);
-      return this.createSuccess(mapped || null, res?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), formData);
+      const icerik = this.handle<any>(response);
+      
+      const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.etkinlikler || []);
+      const mapped = (rawList as any[]).map(item => EventMapper.mapEvent(item)).filter((n): n is EventResponse => n !== null);
+      
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
+      this.logger.error('[EventService] Failed to fetch events:', error);
       return this.createError(error.message);
     }
   }
 
+  /**
+   * Get detailed information for a specific event.
+   */
+  async getEventDetail(params: { eventId?: number }): Promise<ServiceResponse<any>> {
+    try {
+      if (!params.eventId) {
+        throw new Error('Event ID is required');
+      }
+      const formData = new FormData();
+      formData.append('eventID', params.eventId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikbak/0/0/'), formData);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(icerik, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[EventService] Failed to fetch event details for ${params.eventId}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Join an event.
+   */
   async joinEvent(eventId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const fd = new FormData(); fd.append('etkinlikID', String(eventId));
-      const res = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilim/0/'), fd);
-      return this.createSuccess(Number(res?.durum) === 1, res?.aciklama);
+      const formData = new FormData();
+      formData.append('eventID', eventId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katil/0/'), formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
+      this.logger.error(`[EventService] Failed to join event ${eventId}:`, error);
       return this.createError(error.message);
     }
   }
 
-  async respondToEvent(eventId: number, answer: 'evet' | 'hayir'): Promise<ServiceResponse<boolean>> {
+  /**
+   * Respond to an event invitation or status update.
+   */
+  async respondToEvent(eventId: number, response: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const fd = new FormData();
-      fd.append('etkinlikID', String(eventId));
-      fd.append('cevap', answer);
-      const res = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilma/0/'), fd);
-      return this.createSuccess(Number(res?.durum) === 1, res?.aciklama);
+      const formData = new FormData();
+      formData.append('eventID', eventId.toString());
+      formData.append('cevap', response);
+      const apiResponse = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/cevap/0/'), formData);
+      this.handle(apiResponse);
+      return this.createSuccess(true, apiResponse?.aciklama);
     } catch (error: any) {
+      this.logger.error(`[EventService] Failed to respond to event ${eventId}:`, error);
       return this.createError(error.message);
     }
   }
 
+  /**
+   * Get teams participating in an event.
+   */
   async getEventTeams(eventId: number): Promise<ServiceResponse<any[]>> {
     try {
-      const fd = new FormData(); fd.append('etkinlikID', String(eventId));
-      const res = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/takimlar/0/'), fd);
-      return this.createSuccess(this.handle<any[]>(res) || [], res?.aciklama);
+      const formData = new FormData();
+      formData.append('eventID', eventId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/takimlar/0/'), formData);
+      const icerik = this.handle<any>(response);
+      return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
+      this.logger.error(`[EventService] Failed to fetch event teams for ${eventId}:`, error);
       return this.createError(error.message);
     }
   }

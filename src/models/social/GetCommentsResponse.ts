@@ -1,8 +1,4 @@
-import { ArmoyuPostComment } from './GetPostsResponse';
+import { BaseResponse } from '../core/BaseResponse';
+import { PostCommentResponse } from './GetPostsResponse';
 
-export interface GetCommentsResponse {
-  icerik: ArmoyuPostComment[];
-  kod: number;
-  durum: number;
-  aciklama: string;
-}
+export interface GetCommentsResponse extends BaseResponse<PostCommentResponse[]> {}

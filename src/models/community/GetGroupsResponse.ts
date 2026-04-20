@@ -1,8 +1,4 @@
-import { Group } from './Group';
+import { BaseResponse } from '../core/BaseResponse';
+import { GroupResponse } from './GroupResponse';
 
-export interface GetGroupsResponse {
-  icerik: Group[];
-  durum: number;
-  aciklama: string;
-  kod: number;
-}
+export interface GetGroupsResponse extends BaseResponse<GroupResponse[]> {}

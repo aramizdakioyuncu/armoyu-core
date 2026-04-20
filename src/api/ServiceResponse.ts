@@ -1,22 +1,27 @@
+import { BaseResponse } from '../models/core/BaseResponse';
+
 /**
  * Standardized Response class for all ARMOYU Core services.
  * Wraps API responses to provide consistent success/error handling.
  */
-export class ServiceResponse<T> {
+export class ServiceResponse<T> implements BaseResponse<T> {
   /** Success status (1 for success, 0 or other for error) */
   durum: number;
   /** Response message or error description */
   aciklama: string;
   /** The actual data payload */
-  icerik: T | null;
-  /** Optional detailed status/error code */
-  kod?: number;
+  icerik: T | undefined;
+  /** Detailed status/error code */
+  aciklamadetay?: number;
+  /** Server timestamp */
+  zaman?: string;
 
-  constructor(durum: number, aciklama: string, icerik: T | null = null, kod?: number) {
+  constructor(durum: number, aciklama: string, icerik: T, aciklamadetay?: number, zaman?: string) {
     this.durum = durum;
     this.aciklama = aciklama;
     this.icerik = icerik;
-    this.kod = kod;
+    this.aciklamadetay = aciklamadetay;
+    this.zaman = zaman;
   }
 
   /**
@@ -29,10 +34,7 @@ export class ServiceResponse<T> {
   /**
    * Helper to create an error response.
    */
-  static error<T>(aciklama: string, kod: number = 0, icerik: T | null = null): ServiceResponse<T> {
-    return new ServiceResponse<T>(0, aciklama, icerik, kod);
+  static error<T>(aciklama: string, aciklamadetay: number = 0, icerik: T = null as any): ServiceResponse<T> {
+    return new ServiceResponse<T>(0, aciklama, icerik, aciklamadetay);
   }
 }
-
-
-

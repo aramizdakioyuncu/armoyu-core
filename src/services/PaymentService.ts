@@ -1,31 +1,26 @@
+import { InvoiceResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { Invoice } from '../models/shop/Invoice';
-import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Service for managing payments, invoices, and billing (Legacy).
- * @checked 2026-04-12
+ * Service for managing payments, transactions, and store billing.
  */
 export class PaymentService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the user's invoices (Legacy).
+   * Get invoices/payment history for the current user.
    */
-  async getInvoices(page: number = 1): Promise<ServiceResponse<Invoice[]>> {
+  async getInvoices(page: number = 1): Promise<ServiceResponse<InvoiceResponse[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      
-      const url = this.resolveBotPath(`/0/0/odemeler/faturalar/${page}/`);
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/faturalarim/0/0/'), formData);
       const data = this.handle<any[]>(response);
-      
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[PaymentService] Failed to fetch invoices:', error);
@@ -34,24 +29,9 @@ export class PaymentService extends BaseService {
   }
 
   /**
-   * Pays a specific invoice or item (Legacy).
+   * Alias for getInvoices for backward compatibility or different naming conventions.
    */
-  async payInvoice(paymentId: number | string): Promise<ServiceResponse<any>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('paymentID', paymentId.toString());
-
-      const url = this.resolveBotPath('/0/0/odemeler/ode/0/');
-      const response = await this.client.post<any>(url, formData);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[PaymentService] Failed to process payment ${paymentId}:`, error);
-      return this.createError(error.message);
-    }
+  async getTransactionHistory(): Promise<ServiceResponse<InvoiceResponse[]>> {
+    return this.getInvoices();
   }
 }
-
-
-

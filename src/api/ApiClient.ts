@@ -30,8 +30,16 @@ export class ApiClient {
   public readonly search: SearchService; public readonly socket: SocketService;
 
   constructor(config: ApiConfig) {
-    this.config = config; this.logger = config.logger || new ConsoleLogger();
-    const svc = (S: any) => new S(this, this.logger, this.config.usePreviousVersion);
+    this.config = config; 
+    this.logger = config.logger || new ConsoleLogger();
+
+    // Auto-prefix baseUrl for bot mode if API key is present
+    if (this.config.apiKey && !this.config.baseUrl.includes('/botlar/')) {
+        const cleanBase = this.config.baseUrl.endsWith('/') ? this.config.baseUrl.slice(0, -1) : this.config.baseUrl;
+        this.config.baseUrl = `${cleanBase}/botlar/${this.config.apiKey}`;
+    }
+
+    const svc = (S: any) => new S(this, this.logger);
     this.auth = svc(AuthService); this.users = svc(UserService); this.events = svc(EventService);
     this.groups = svc(GroupService); this.siteInfo = svc(SiteInformationService);
     this.management = svc(ManagementService); this.rules = svc(RuleService);

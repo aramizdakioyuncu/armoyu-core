@@ -1,8 +1,4 @@
-import { User } from '../auth/User';
+import { UserResponse } from '../auth/UserResponse';
+import { BaseResponse } from '../core/BaseResponse';
 
-export interface GetFriendsResponse {
-  icerik: User[];
-  durum: number;
-  aciklama: string;
-  kod: number;
-}
+export interface GetFriendsResponse extends BaseResponse<UserResponse[]> {}

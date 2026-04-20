@@ -1,4 +1,1 @@
-export * from '../../content/Game';
-
-
-
+export * from '../../content/GameResponse';

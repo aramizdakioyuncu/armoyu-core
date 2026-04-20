@@ -1,67 +1,35 @@
-import { SupportTicket } from '../models/social/support/SupportTicket';
-import { BaseService } from './BaseService';
+import { SupportTicketResponse, ServiceResponse } from '../models';
+import { SupportMapper } from '../utils/mappers/social/SupportMapper';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
+import { BaseService } from './BaseService';
 
 /**
- * Service for managing platform support tickets and user assistance.
- * @checked 2026-04-12
+ * Service for platform support, ticket management, and help center.
  */
 export class SupportService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Create a new support ticket.
+   * Get all support tickets filed by the user.
    */
-  async createTicket(subject: string, message: string, category: string): Promise<ServiceResponse<SupportTicket>> {
+  async getMyTickets(page: number = 1, limit?: number): Promise<ServiceResponse<SupportTicketResponse[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>('/social/support/tickets', {
-        subject,
-        message,
-        category
-      });
-      const icerik = this.handle<{ ticket: any }>(response);
-      return this.createSuccess(icerik?.ticket || null, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[SupportService] Failed to create ticket:', error);
-      return this.createError(error.message);
-    }
-  }
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) formData.append('limit', limit.toString());
 
-  /**
-   * Get all tickets for the authenticated user.
-   */
-  async getMyTickets(): Promise<ServiceResponse<SupportTicket[]>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.get<any>('/social/support/my-tickets');
-      const icerik = this.handle<{ tickets: any[] }>(response);
-      return this.createSuccess(icerik?.tickets || [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[SupportService] Failed to fetch user tickets:', error);
-      return this.createError(error.message);
-    }
-  }
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/destek/liste/0/'), formData);
+      const data = this.handle<any[]>(response);
+      const mapped = SupportMapper.mapTicketList(data || []);
 
-  /**
-   * Get a single ticket details and its messages.
-   */
-  async getTicketDetails(ticketId: string): Promise<ServiceResponse<SupportTicket | null>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.get<any>(`/social/support/tickets/${ticketId}`);
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik || null, response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
-      this.logger.error(`[SupportService] Failed to fetch ticket ${ticketId}:`, error);
+      this.logger.error('[SupportService] Failed to fetch tickets:', error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

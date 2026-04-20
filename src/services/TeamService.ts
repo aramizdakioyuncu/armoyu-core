@@ -1,40 +1,34 @@
+import { TeamResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { PlatformTeam } from '../models/content/PlatformTeam';
-import { ServiceResponse } from '../api/ServiceResponse';
+import { TeamMapper } from '../utils/mappers/community/TeamMapper';
 
 /**
- * Service for fetching platform-wide team and franchise information (Legacy).
- * @checked 2026-04-12
+ * Service for managing competitive teams and roster management.
  */
 export class TeamService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the list of teams.
+   * Get all active teams.
    */
-  async getTeams(page: number, favoriteTeamId?: number | string): Promise<ServiceResponse<PlatformTeam[]>> {
+  async getTeams(page: number = 1, limit?: string | number): Promise<ServiceResponse<TeamResponse[]>> {
     try {
       const formData = new FormData();
-      if (favoriteTeamId !== undefined) {
-        formData.append('favoritakimID', favoriteTeamId.toString());
-      }
       formData.append('sayfa', page.toString());
+      if (limit) formData.append('limit', limit.toString());
 
-      const url = this.resolveBotPath(`/0/0/takimlar/liste/${page}/`);
-      const response = await this.client.post<any>(url, formData);
+      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/takimlar/liste/${page}/`), formData);
       const data = this.handle<any[]>(response);
+      const mapped = TeamMapper.mapTeamList(data || []);
       
-      return this.createSuccess(data || [], response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[TeamService] Failed to fetch teams:', error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

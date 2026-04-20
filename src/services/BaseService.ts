@@ -1,63 +1,96 @@
 import { ApiClient } from '../api/ApiClient';
-import { StandardApi } from '../api/types';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Abstract base class for all services. Shared utilities for response handling and bot path resolution.
+ * Base class for all services providing common utilities.
  */
-export abstract class BaseService {
-  constructor(protected client: ApiClient, protected logger: ArmoyuLogger, protected usePreviousVersion: boolean = false) {}
+export class BaseService {
+  constructor(protected client: ApiClient, protected logger: ArmoyuLogger) {}
 
   /**
-   * Universal response handler for ARMOYU standard responses.
+   * Handle the standard API response structure.
    */
   protected handle<T>(response: any): T {
-    if (response && typeof response === 'object' && 'durum' in response) {
-      const standard = response as StandardApi<T>;
-      if (standard.durum != null && Number(standard.durum) === 1) return standard.icerik;
-      
-      const errorMsg = standard.aciklama || 'API Execution Error';
-      this.logger.error(`[BaseService] API Error (${standard.durum}): ${errorMsg}`, standard);
-      throw new Error(errorMsg);
+    if (typeof response === 'string') {
+      const isHtml = response.trim().startsWith('<!DOCTYPE') || response.trim().startsWith('<html');
+      if (isHtml) {
+        throw new Error('API Hatası (Format): Beklenmedik HTML cevabı alındı (URL yapısı veya Yetki hatası olabilir)');
+      }
     }
 
-    if (response && (typeof response === 'object' || Array.isArray(response))) return response as T;
+    const standard = response || {};
+    
+    // Legacy ARMOYU API uses 'durum' for success and 'icerik' for data
+    if (standard.durum != null && Number(standard.durum) === 1) {
+      return (standard.icerik !== undefined ? standard.icerik : standard.data) as T;
+    }
 
-    const message = (response && typeof response === 'object') ? (response.aciklama || JSON.stringify(response)) : String(response || 'Bilinmeyen API Hatası');
-    
-    // Log a snippet of the raw response for debugging format issues
-    const rawSnippet = typeof response === 'string' ? response.substring(0, 200) : 'Non-string response';
-    this.logger.error(`[BaseService] Invalid API Response Format: ${message}. Raw snippet: ${rawSnippet}`);
-    
-    throw new Error(`API Hatası (Format): ${message}`);
+    const errorMsg = standard.aciklama || 'API Execution Error';
+    this.logger.error(`[BaseService] API Error (${standard.durum}): ${errorMsg}`);
+    throw new Error(errorMsg);
   }
-
-  protected createSuccess<T>(data: T, message: string = 'İşlem Başarılı') { return ServiceResponse.success(data, message); }
-  protected createError<T>(message: string, code: number = 0) { return ServiceResponse.error<T>(message, code); }
 
   /**
-   * Builds the correct path for bot-based endpoints.
+   * Resolve a path to its bot-compatible format.
+   * Logic: Most endpoints use /0/0/ when Bearer header is present.
+   * Exception: Some legacy endpoints (oyuncubak, destek) STILL require token in URL.
    */
   protected resolveBotPath(path: string): string {
-    const apiKey = this.client.getApiKey();
-    const token = this.client.getToken();
-    let res = path;
-
-    if (apiKey && path.startsWith('/0/') && !path.includes('/botlar/')) {
-      if (!this.client.getBaseUrl().includes('/botlar/')) res = `/botlar/${apiKey}${path}`;
+    let cleanPath = path;
+    if (!cleanPath.startsWith('/')) {
+        cleanPath = '/' + cleanPath;
+    }
+    
+    // Strip existing /0/0/ or /0/{token}/0/ to re-standardize
+    const segments = cleanPath.split('/').filter(s => s !== '');
+    let corePath = cleanPath;
+    if (segments[0] === '0') {
+        // Starts with /0/TOKEN/0/... or /0/0/...
+        if (segments[2] === '0') {
+            corePath = '/' + segments.slice(3).join('/');
+        } else if (segments[1] === '0') {
+            corePath = '/' + segments.slice(2).join('/');
+        }
     }
 
-    const isAuth = res.includes('/giris/') || res.includes('/kayit-ol/') || res.includes('/sifremi-unuttum/') || res.endsWith('/0/0/0/');
-    if (token && res.includes('/0/0/') && !isAuth) res = res.replace('/0/0/', `/0/${token}/`);
+    // Ensure corePath ends with slash for consistency if requested
+    if (cleanPath.endsWith('/') && !corePath.endsWith('/')) {
+        corePath += '/';
+    }
 
-    return res;
+    // Identify exceptions that NEED token in URL
+    const tokenRequiredKeywords = ['oyuncubak', 'destek'];
+    const needsToken = tokenRequiredKeywords.some(kw => corePath.includes(kw));
+
+    if (needsToken) {
+        const config = (this.client as any).config;
+        const token = config.token || '0';
+        return `/0/${token}/0${corePath}`;
+    }
+    
+    // Default to clean /0/0/
+    return `/0/0${corePath}`;
   }
 
-  protected requireAuth(): void {
-    if (!this.client.getToken()) {
-      this.logger.error(`[BaseService] Authentication required.`);
-      throw new Error('Bu işlem için giriş yapmalısınız.');
+  protected createSuccess<T>(icerik: T, aciklama?: string) {
+    return {
+      durum: 1,
+      aciklama: aciklama || 'İşlem Başarılı',
+      icerik
+    };
+  }
+
+  protected createError(message: string) {
+    return {
+      durum: 0,
+      aciklama: message,
+      icerik: undefined
+    };
+  }
+
+  protected requireAuth() {
+    if (!(this.client as any).config.token) {
+      throw new Error('Kullanıcı Girişi Yapılmamış');
     }
   }
 }

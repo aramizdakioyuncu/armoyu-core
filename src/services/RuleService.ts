@@ -1,90 +1,50 @@
+import { RuleResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
-import { Rule } from '../models/core/Rule';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
 
 /**
- * Service for handling ARMOYU Rule-related API interactions.
- * @checked 2026-04-12
+ * Service for managing platform rules and information pages.
  */
 export class RuleService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger, usePreviousVersion: boolean = false) {
-    super(client, logger, usePreviousVersion);
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
   }
 
   /**
-   * Fetches the list of rules for a specific bot/context.
+   * Get all listed platform rules.
    */
-  async getRules(botId: string = '0'): Promise<ServiceResponse<Rule[]>> {
+  async getRules(page: number = 1, limit?: number): Promise<ServiceResponse<RuleResponse[]>> {
     try {
-      const url = this.resolveBotPath(`/0/0/kurallar/${botId}`);
-      const response = await this.client.post<any>(url);
-      const rulesData = this.handle<any[]>(response);
-      
-      return this.createSuccess(rulesData || [], response?.aciklama);
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit !== undefined) formData.append('limit', limit.toString());
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kurallar/liste/0/'), formData);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[RuleService] getRules failed:', error);
+      this.logger.error('[RuleService] Failed to fetch rules:', error);
       return this.createError(error.message);
     }
   }
 
   /**
-   * Create a new rule.
+   * Create a new platform rule.
    */
-  async createRule(botId: string = '0', text: string, penalty: string = ''): Promise<ServiceResponse<Rule>> {
+  async createRule(text: string, penalty: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const body = {
-        kuralicerik: text,
-        cezabaslangic: penalty
-      };
-      
-      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/ekle`);
-      const response = await this.client.post<any>(url, body);
-      const result = this.handle<any>(response);
-      return this.createSuccess(result || null, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[RuleService] createRule failed:', error);
-      return this.createError(error.message);
-    }
-  }
+      const formData = new FormData();
+      formData.append('metin', text);
+      formData.append('ceza', penalty);
 
-  /**
-   * Update an existing rule.
-   */
-  async updateRule(botId: string = '0', ruleId: number, data: Partial<Rule>): Promise<ServiceResponse<Rule>> {
-    this.requireAuth();
-    try {
-      const body: any = {};
-      if (data) Object.assign(body, data);
-      
-      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/duzenle/${ruleId}`);
-      const response = await this.client.post<any>(url, body);
-      const result = this.handle<any>(response);
-      return this.createSuccess(result || null, response?.aciklama);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kurallar/ekle/0/'), formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[RuleService] updateRule failed:', error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Delete a rule by its ID.
-   */
-  async deleteRule(botId: string = '0', ruleId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const url = this.resolveBotPath(`/0/0/kurallar/${botId}/sil/${ruleId}`);
-      const response = await this.client.post<any>(url);
-      const result = this.handle<any>(response);
-      return this.createSuccess(!!result, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[RuleService] deleteRule failed:', error);
+      this.logger.error('[RuleService] Failed to create rule:', error);
       return this.createError(error.message);
     }
   }
 }
-
-
-

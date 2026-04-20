@@ -1,5 +1,6 @@
 import { ApiClient, type ApiConfig } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
+import { BaseMapper } from '../utils/mappers/BaseMapper';
 import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, BusinessService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService } from '../services';
 
 /**
@@ -12,12 +13,18 @@ export class ArmoyuApi {
   constructor(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>) {
     if (!apiKey?.trim()) throw new Error('ArmoyuApi: API Key is required.');
     this.logger = config?.logger || new ConsoleLogger();
+    
+    // Set Global Mapper Mode (Strict by default)
+    const useStrict = config?.usePreviousVersion ?? true;
+    BaseMapper.setStrictMode(useStrict);
+
     this.client = new ApiClient({
       baseUrl: config?.baseUrl || 'https://api.aramizdakioyuncu.com',
       token: config?.token || null,
       apiKey,
       headers: config?.headers || {},
-      logger: this.logger
+      logger: this.logger,
+      usePreviousVersion: useStrict
     });
   }
 

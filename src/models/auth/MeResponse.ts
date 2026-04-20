@@ -1,10 +1,10 @@
-import { User } from './User';
-
 /**
- * Unique response interface for api.auth.me()
+ * Data interface for api.auth.me() icerik
  */
 export interface MeResponse {
-  icerik: User | null;
-  durum: number;
-  aciklama: string;
+  id: number;
+  username: string;
+  displayName: string;
+  avatar?: string;
+  status?: string;
 }
