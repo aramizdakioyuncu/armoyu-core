@@ -85,9 +85,16 @@ export class BaseService {
         return cleanPath.startsWith('/0/') ? cleanPath : `/0${cleanPath}`;
     }
 
-    // Identify exceptions that NEED token in URL (already handled above but for clarity)
+    // Strip any leading botlar/apiKey/0/0 or /0/0 prefix
     let corePath = cleanPath;
-    if (zeroSegments[0] === '0' && (zeroSegments[1] === '0' || zeroSegments[1] === token)) {
+    const apiKey = (this.client as any).config.apiKey || '0';
+    
+    // Pattern 1: /botlar/[apiKey]/0/0/cmd -> /cmd
+    if (zeroSegments[0] === 'botlar' && zeroSegments[1] === apiKey) {
+        corePath = '/' + zeroSegments.slice(4).join('/');
+    } 
+    // Pattern 2: /0/0/cmd -> /cmd
+    else if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
         corePath = '/' + zeroSegments.slice(2).join('/');
     }
     
@@ -95,7 +102,7 @@ export class BaseService {
     if (!corePath.startsWith('/')) corePath = '/' + corePath;
     if (cleanPath.endsWith('/') && !corePath.endsWith('/')) corePath += '/';
 
-    return `/0/${token}${corePath}`;
+    return `/botlar/${apiKey}/0/${token}${corePath}`;
   }
 
   protected createSuccess<T>(icerik: T, aciklama?: string, detail?: number) {
