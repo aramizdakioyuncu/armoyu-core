@@ -53,6 +53,10 @@ export class AuthService extends BaseService {
       formData.append('eposta', params.email || '');
       formData.append('sifre', params.password || '');
 
+      if (params.inviteCode) {
+        formData.append('davetkodu', params.inviteCode);
+      }
+
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/kayit-ol/'), formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
