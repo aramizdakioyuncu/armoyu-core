@@ -2,7 +2,7 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { RankingUserResponse, UserProfileResponse, UserResponse } from '../models';
+import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse } from '../models';
 import { UserMapper } from '../utils/mappers';
 
 /**
@@ -20,9 +20,10 @@ export class UserService extends BaseService {
   async getUserByUsername(username: string): Promise<ServiceResponse<UserProfileResponse>> {
     try {
       const formData = new FormData();
-      formData.append('kullaniciad', username);
+      formData.append('oyuncubakid', '0');
+      formData.append('oyuncubakusername', username);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/oyuncubak/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/0/0/'), formData);
       const icerik = this.handle<any>(response);
       const mapped = UserMapper.mapProfile(icerik);
       
@@ -194,6 +195,45 @@ export class UserService extends BaseService {
       return this.createSuccess(icerik?.davetkodu || '', response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to refresh invite code:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Search for users.
+   */
+  async searchUsers(query: string, page: number = 1): Promise<ServiceResponse<RankingUserResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('oyuncuadi', query);
+      formData.append('sayfa', page.toString());
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ara/0/0/'), formData);
+      const icerik = this.handle<any>(response);
+      
+      const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
+      const mapped = UserMapper.mapRankingList(rawList);
+      
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserService] Search failed for ${query}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Check an invite code to see who it belongs to.
+   */
+  async checkInviteCode(code: string): Promise<ServiceResponse<InviteCodeCheckResponse>> {
+    try {
+      const formData = new FormData();
+      formData.append('davetkodu', code);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetkodsorgula/0/'), formData);
+      const detail = response?.aciklamadetay;
+      const mapped = UserMapper.mapInviteCodeCheck(detail);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserService] Invite code check failed for ${code}:`, error);
       return this.createError(error.message);
     }
   }

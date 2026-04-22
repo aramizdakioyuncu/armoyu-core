@@ -28,8 +28,10 @@ export class LocationMapper extends BaseMapper {
 
   static mapCountry(raw: any): CountryResponse {
     return {
-      id: this.toNumber(raw.ulkeID || raw.ID),
-      name: raw.ulkeadi || raw.baslik || raw.ad
+      id: this.toNumber(raw.country_ID || raw.ulkeID || raw.ID),
+      name: raw.country_name || raw.ulkeadi || raw.baslik || raw.ad,
+      code: raw.country_code || raw.code || '',
+      phoneCode: raw.country_phoneCode || raw.phoneCode || 0
     };
   }
 
@@ -40,7 +42,9 @@ export class LocationMapper extends BaseMapper {
   static mapProvince(raw: any): ProvinceResponse {
     return {
       id: this.toNumber(raw.province_ID || raw.sehirID || raw.ID),
-      name: raw.province_name || raw.sehiradi || raw.baslik || raw.ad
+      name: raw.province_name || raw.sehiradi || raw.baslik || raw.ad,
+      plateCode: raw.province_plateCode || raw.plateCode || 0,
+      phoneCode: raw.province_phoneCode || raw.phoneCode || 0
     };
   }
 

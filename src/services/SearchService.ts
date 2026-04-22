@@ -15,13 +15,13 @@ export class SearchService extends BaseService {
   /**
    * Performs a global search across the platform (players, teams, groups).
    */
-  async globalSearch(query: string, page: number = 1, limit: number = 20): Promise<ServiceResponse<GlobalSearchResultResponse[]>> {
+  async globalSearch(query: string, page: number = 1, limit: number = 20, categoryDetail?: string): Promise<ServiceResponse<GlobalSearchResultResponse[]>> {
     try {
       const formData = new FormData();
       formData.append('oyuncuadi', query);
       formData.append('sayfa', String(page));
       formData.append('limit', String(limit));
-      formData.append('kategoridetay', ''); // Left empty as per user request
+      formData.append('kategoridetay', categoryDetail || '');
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
       const data = this.handle<any[]>(response);

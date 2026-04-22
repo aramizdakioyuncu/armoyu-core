@@ -23,15 +23,15 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ p
 async function handleProxy(req: NextRequest, pathSegments: string[]) {
   const apiKey = req.headers.get('x-api-key') || '';
   const endpoint = '/' + pathSegments.join('/');
-  
+
   if (!apiKey) {
     return NextResponse.json({ durum: 0, aciklama: 'X-API-KEY header missing' }, { status: 400 });
   }
 
   // Determine target URL - If endpoint already starts with /botlar, don't prepend it again
-  const targetDomain = 'https://api.aramizdakioyuncu.com';
+  const targetDomain = 'https://api.armoyu.com';
   let targetUrl = '';
-  
+
   if (endpoint.startsWith('/botlar/')) {
     targetUrl = `${targetDomain}${endpoint}`;
   } else {
@@ -40,10 +40,10 @@ async function handleProxy(req: NextRequest, pathSegments: string[]) {
 
   const method = req.method;
   const headers = new Headers();
-  
+
   // Whitelist of headers to forward to avoid encoding issues with browser-specific headers
   const allowedHeaders = ['authorization', 'content-type', 'x-api-key', 'accept', 'user-agent', 'x-requested-with'];
-  
+
   req.headers.forEach((value, key) => {
     if (allowedHeaders.includes(key.toLowerCase())) {
       headers.set(key, value);
@@ -77,7 +77,7 @@ async function handleProxy(req: NextRequest, pathSegments: string[]) {
 
     const response = await fetch(targetUrl, fetchOptions);
     const responseText = await response.text();
-    
+
     let responseData;
     try {
       responseData = JSON.parse(responseText);
@@ -88,11 +88,11 @@ async function handleProxy(req: NextRequest, pathSegments: string[]) {
     return NextResponse.json(responseData, { status: response.status });
   } catch (error: any) {
     console.error(`[Proxy Error] ${method} ${targetUrl}:`, error);
-    return NextResponse.json({ 
-      durum: 0, 
+    return NextResponse.json({
+      durum: 0,
       aciklama: `Proxy Error: ${error.message}`,
       targetUrl,
-      error: error.stack 
+      error: error.stack
     }, { status: 500 });
   }
 }

@@ -16,7 +16,10 @@ export enum MediaCategory {
   PROFILE = 'profile',
   POST = 'post',
   GROUP = 'group',
-  CHAT = 'chat'
+  CHAT = 'chat',
+  VIDEO = 'video',
+  MUSIC = 'muzik',
+  UNGROUPED = '-1'
 }
 
 

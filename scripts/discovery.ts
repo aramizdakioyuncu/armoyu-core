@@ -40,7 +40,7 @@ async function discover() {
   // 3. User Search
   try {
     console.log('[User] Searching for "berkay"...');
-    const userSearch = await api.users.search('berkay');
+    const userSearch = await api.users.searchUsers('berkay');
     results['user_search'] = userSearch;
   } catch (e) { console.error('[User] search failed'); }
 
@@ -80,7 +80,7 @@ async function discover() {
   try {
     console.log('[User] Searching for "berkay" on api.armoyu.com...');
     const backupApi = new ArmoyuApi(apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
-    const userSearch = await backupApi.users.search('berkay');
+    const userSearch = await backupApi.users.searchUsers('berkay');
     results['user_search_fallback'] = userSearch;
   } catch (e) { console.error('[User] search fallback failed'); }
 

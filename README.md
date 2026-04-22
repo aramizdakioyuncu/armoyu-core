@@ -12,7 +12,7 @@
 ## ✨ Features
 
 - **🛡️ 100% Type Safe**: Built from the ground up with TypeScript for a rock-solid developer experience.
-- **🧩 Modular Architecture**: 24+ specialized services covering everything from Chat to Staff management.
+- **🧩 Modular Architecture**: 28+ specialized services covering everything from Chat to Staff management.
 - **⚡ Real-time Ready**: Built-in support for SocketService for instant messaging and notifications.
 - **🔄 Legacy Bridge**: Seamlessly communicates with legacy bot APIs with automated path resolution and response handling.
 - **📦 Zero Bloat**: Minimal dependencies, focused purely on data and business logic.
@@ -67,8 +67,15 @@ const feed = await api.social.getPosts({ category: 'sosyal' });
 | **StoryService** | Social | Professional story/status management. |
 | **ChatService** | Communication | Real-time messaging and chat history. |
 | **UserService** | Profile | Global player profiles, Friendships, and Media. |
+| **MusicService** | Content | Audio search, Playlists, and Favorites. |
+| **ReelsService** | Content | Short-form video content management. |
+| **MediaService** | Content | User gallery, Photo rotation, and Cloud storage. |
+| **SearchService** | Search | Unified multi-content search (Players, Groups, Schools). |
+| **EventService** | Esports | Tournaments, Match details, and Participant rosters. |
+| **SiteInformationService** | Meta | Site-wide communications and Statistics. |
+| **ManagementService** | Admin | Internal platform management and monitoring. |
 | **StaffService** | Management | Official team list and recruitment applications. |
-| **LocationService** | Geography | Countries and Provinces/Cities lookups. |
+| **LocationService** | Geography | Global countries and Provinces/Cities lookups. |
 | **PaymentService** | Billing | Invoices, Payments, and Financial records. |
 | **PollService** | Community | Interactive surveys and voting management. |
 | **BlockService** | Security | User blacklists and interaction restrictions. |
@@ -76,7 +83,6 @@ const feed = await api.social.getPosts({ category: 'sosyal' });
 | **TeamService** | Content | Official sports and community teams. |
 | **ProjectService** | Content | Development projects and scoreboards. |
 | **BusinessService** | Economy | Workplace and school participation. |
-| **EventService** | Esports | Tournaments, Matches, and Participations. |
 | **ForumService** | Content | Community discussions and Category management. |
 | **GroupService** | Social | Clan management, Invites, and Group settings. |
 | **SupportService** | Meta | Platform tickets and User assistance. |

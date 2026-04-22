@@ -1,7 +1,7 @@
 import { ApiClient, type ApiConfig } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { BaseMapper } from '../utils/mappers/BaseMapper';
-import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, BusinessService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService } from '../services';
+import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, BusinessService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService, MusicService, ReelsService, MediaService } from '../services';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -54,6 +54,9 @@ export class ArmoyuApi {
   get locations() { return this.client.locations; }
   get payments() { return this.client.payments; }
   get management() { return this.client.management; }
+  get music() { return this.client.music; }
+  get reels() { return this.client.reels; }
+  get media() { return this.client.media; }
 
   setToken(t: string | null) { this.client.setToken(t); }
   setApiKey(k: string | null) { this.client.setApiKey(k); }

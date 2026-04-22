@@ -37,4 +37,7 @@ export interface EventResponse {
   rules?: string;
   foto?: string;
   isJoined?: boolean;
+  dlc?: any[];
+  files?: any[];
+  detail?: any[];
 }

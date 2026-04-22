@@ -24,3 +24,6 @@ export * from './SupportService';
 export * from './TeamService';
 export * from './BlockService';
 export * from './BusinessService';
+export * from './MusicService';
+export * from './ReelsService';
+export * from './MediaService';

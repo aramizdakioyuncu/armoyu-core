@@ -1,4 +1,4 @@
-import { SearchUserResponse, BlockedUserResponse, RankingUserResponse, StaffUserResponse } from '../../../models';
+import { SearchUserResponse, BlockedUserResponse, RankingUserResponse, StaffUserResponse, InviteCodeCheckResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 import { UserProfileMapper } from './UserProfileMapper';
 
@@ -72,6 +72,19 @@ export class UserMapper extends BaseMapper {
 
   static mapProfile(raw: any) {
     return UserProfileMapper.mapProfile(raw);
+  }
+
+  /**
+   * Specialized for Invite Code Check.
+   */
+  static mapInviteCodeCheck(raw: any): InviteCodeCheckResponse {
+    if (!raw) return {} as InviteCodeCheckResponse;
+
+    return {
+      userId: this.toNumber(raw.oyuncu_ID),
+      displayName: raw.oyuncu_displayName || '',
+      avatar: this.toImageUrl(raw.oyuncu_avatar) || ''
+    };
   }
 
   static mapSearchList(rawList: any[]): SearchUserResponse[] {

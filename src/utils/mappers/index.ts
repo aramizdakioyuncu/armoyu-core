@@ -25,6 +25,10 @@ export * from './education/EducationMapper';
 
 // Content
 export * from './content/NewsMapper';
+export * from './content/MusicMapper';
+export * from './content/ReelsMapper';
+export * from './content/MediaMapper';
+
 
 // Shop
 export * from './shop/ShopMapper';

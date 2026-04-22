@@ -13,7 +13,7 @@ export interface UserResponse {
   // Common IDs
   id?: number;
   username?: string;
-  
+
   // Basic Info
   firstName?: string;
   lastName?: string;
@@ -23,52 +23,68 @@ export interface UserResponse {
   about?: string;
   email?: string;
   isSocial?: boolean;
-  
+
   // Avatar & Media
   avatar?: string;
   avatarSmall?: string;
   avatarThumbnail?: string;
   banner?: string;
   wallpaper?: string;
-  
+
   // Status & Verification
   isOnline?: boolean;
   isFriend?: boolean;
   registrationDate?: string;
   lastLoginDate?: string;
-  
+
   // Profile specific info
   gender?: string;
   birthday?: string;
-  socials?: Record<string, string>;
-  city?: string;
-  country?: string;
-  jobTitle?: string;
   zodiac?: string;
-  
+  jobTitle?: string;
+  socials?: Record<string, string>;
+  // Geography & Details
+  location?: string;
+  city?: string;
+  province?: string;
+  country?: string;
+
   // Leveling & Stats
   level?: number;
+  levelColor?: string;
   xp?: number;
   xpNext?: number;
+  xpTarget?: number;
   rank?: string;
+  rankTitle?: string;
+  rankCategory?: string;
   rankImage?: string;
   rankColor?: string;
   points?: number;
   popularity?: number;
+  odp?: number | string;
+  memberNumber?: string;
+
+  // Stats
+  friendCount?: number;
+  postCount?: number;
+  awardCount?: number;
+  gameCount?: number;
+  mutualFriendsCount?: number;
   
-  // Geography & Details
-  location?: string;
-  
+  // Status Details
+  friendStatusText?: string;
+  lastSeen?: string;
+
   // Related Data
   clans?: TeamResponse[];
   groups?: GroupResponse[];
   friends?: UserResponse[];
-  friendCount?: number;
-  
+
   // Features
   favTeam?: TeamResponse;
   popularGames?: GameResponse[];
-  
+
   // Legacy compatibility fields (Optional)
   id_user?: string | number;
   user_id?: string | number;

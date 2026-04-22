@@ -6,11 +6,11 @@ import {
   ShoppingBag, Scale, LifeBuoy, Zap,
   Terminal, Globe, Info, Trash2, CheckCircle2, AlertCircle,
   Lock, Send, RefreshCw, LayoutGrid, Trophy, Radio, Award, Ban,
-  Camera, MapPin, UserCheck, CreditCard
+  Camera, MapPin, UserCheck, CreditCard, Music
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { ArmoyuApi } from '@armoyu/core';
+import { ArmoyuApi, MediaCategory } from '@armoyu/core';
 
 // --- Local Components ---
 import { Navbar } from '../../components/Navbar';
@@ -57,6 +57,8 @@ const SERVICE_ICONS: Record<string, any> = {
   locations: MapPin,
   staff: UserCheck,
   payments: CreditCard,
+  music: Music,
+  media: Camera,
 };
 
 // --- Helper Components ---
@@ -137,10 +139,10 @@ const CONFIG = {
       { id: "getFriendsList", name: "Get Friends List", method: "POST", endpoint: "/0/0/arkadaslarim/0/0/", inputs: ["oyuncubakid", "page", "limit"], desc: "Fetch friends for a player", auth: true },
       { id: "getInvitationsList", name: "Get Invitations", method: "POST", endpoint: "/0/0/davetliste/0/", inputs: ["page"], desc: "Fetch pending requests", auth: true },
       { id: "refreshInviteCode", name: "Refresh Invite Code", method: "POST", endpoint: "/0/0/davetkodyenile/0/", inputs: [], desc: "Regenerate your invite code", auth: true },
+      { id: "checkInviteCode", name: "Check Invite Code", method: "POST", endpoint: "/0/0/davetkodsorgula/0/", inputs: ["davetkodu"], desc: "Who does this code belong to?", auth: false },
       { id: "requestEmailVerificationUrl", name: "Request Email Verification", method: "POST", endpoint: "/0/0/profil/maildogrulamaURL/", inputs: ["userID"], desc: "Trigger verification email", auth: true },
       { id: "pokeFriend", name: "Poke Friend", method: "POST", endpoint: "/0/0/arkadas-durt/0/0/", inputs: ["oyuncubakid"], desc: "Nudge a friend", auth: true },
       { id: "setFavoriteTeam", name: "Set Favorite Team", method: "POST", endpoint: "/0/0/profil/favoritakimsec/0/", inputs: ["favoritakimID"], desc: "Update team preference", auth: true },
-      { id: "getUserMedia", name: "Get Media", method: "POST", endpoint: "/0/0/medya/0/0/", inputs: ["oyuncubakid", "limit", "page", "kategori"], desc: "Fetch player photos/videos", auth: true },
       { id: "getSocialProfile", name: "Social Profile", method: "POST", endpoint: "/0/0/sosyal/profil/0/", inputs: ["oyuncubakid"], desc: "Fetch social profile data", auth: true },
       { id: "getNotifications", name: "Get Notifications", method: "POST", endpoint: "/0/0/bildirim/0/0/", inputs: [], desc: "Fetch latest alerts", auth: true },
       { id: "getNotificationsHistory", name: "Notifications History", method: "POST", endpoint: "/0/0/bildirimler/0/0/", inputs: ["page", "limit", "kategori", "kategoridetay"], desc: "Fetch filtered alert history", auth: true },
@@ -148,9 +150,6 @@ const CONFIG = {
       { id: "resetAvatar", name: "Reset Avatar", method: "POST", endpoint: "/0/0/avatar-varsayilan/0/0/", inputs: [], desc: "Revert to default avatar", auth: true },
       { id: "resetBanner", name: "Reset Banner", method: "POST", endpoint: "/0/0/banner-varsayilan/0/0/", inputs: [], desc: "Revert to default banner", auth: true },
       { id: "updateBackground", name: "Update Background", method: "POST", endpoint: "/0/0/arkaplan-guncelle/0/0/", inputs: ["resim"], desc: "Upload new profile background", auth: true },
-      { id: "rotateMedia", name: "Rotate Media", method: "POST", endpoint: "/0/0/medya/donder/0/", inputs: ["fotografID", "derece"], desc: "Rotate a photo by degree", auth: true },
-      { id: "deleteMedia", name: "Delete Media", method: "POST", endpoint: "/0/0/medya/sil/0/", inputs: ["medyaID"], desc: "Remove a gallery item", auth: true },
-      { id: "uploadMedia", name: "Upload Media", method: "POST", endpoint: "/0/0/medya/yukle/0/", inputs: ["media[]", "category"], desc: "Upload photos/videos to gallery", auth: true },
       { id: "getNotificationSettings", name: "Get Notification Settings", method: "POST", endpoint: "/0/0/bildirimler/ayarlar/liste/", inputs: [], desc: "Fetch alert preferences", auth: true },
       { id: "updateNotificationSettings", name: "Update Notification Settings", method: "POST", endpoint: "/deneme/deneme/bildirimler/ayarlar/0/", inputs: ["notificationSettings"], desc: "Update alerts (e.g. key=value)", auth: true },
       { id: "getXpRankings", name: "XP Rankings", method: "POST", endpoint: "/0/0/xpsiralama/0/0/", inputs: ["sayfa"], desc: "View experience leaderboard", auth: true },
@@ -201,17 +200,45 @@ const CONFIG = {
   search: {
     title: "SearchService",
     actions: [
-      { id: "globalSearch", name: "Global Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["query"], desc: "Search across the entire platform", auth: false }
+      { id: "globalSearch", name: "Global Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["query", "page", "limit", "kategoridetay"], desc: "Search across the entire platform", auth: false }
+    ]
+  },
+  music: {
+    title: "MusicService",
+    actions: [
+      { id: "getSongs", name: "Get Songs", method: "POST", endpoint: "/0/0/muzikler/0/0/", inputs: ["page", "limit", "kategori"], desc: "Fetch list of songs", auth: true },
+      { id: "getFavoriteSongs", name: "Get Favorites", method: "POST", endpoint: "/0/0/muzikler/favoriler/0/", inputs: ["page", "limit"], desc: "Fetch favorite songs", auth: true },
+      { id: "getLiveSongs", name: "Get Live List", method: "POST", endpoint: "/0/0/muzikler/canli/0/", inputs: ["sayfa", "limit"], desc: "Fetch live playing list", auth: true },
+      { id: "searchSongs", name: "Search Songs", method: "POST", endpoint: "/0/0/muzikler/bul/0/", inputs: ["sarkibilgi"], desc: "Search songs by info", auth: true },
+      { id: "addSong", name: "Add Song", method: "POST", endpoint: "/0/0/muzikler/ekle/0/", inputs: ["muzikadi", "muziklink"], desc: "Add new song", auth: true },
+      { id: "addFavorite", name: "Add Favorite", method: "POST", endpoint: "/0/0/muzikler/favoriler/ekle/", inputs: ["muzikID"], desc: "Add song to favorites", auth: true },
+      { id: "removeFavorite", name: "Remove Favorite", method: "POST", endpoint: "/0/0/muzikler/favoriler/sil/", inputs: ["muzikID"], desc: "Remove song from favorites", auth: true },
+    ]
+  },
+  media: {
+    title: "MediaService",
+    actions: [
+      { id: "getGallery", name: "Get Gallery", method: "POST", endpoint: "/0/0/medya/0/0/", inputs: ["sayfa", "kategori"], desc: "Fetch user gallery", auth: true },
+      { id: "uploadMedia", name: "Upload Media", method: "POST", endpoint: "/0/0/medya/yukle/0/", inputs: ["media[]", "category"], desc: "Upload photos/videos", auth: true },
+      { id: "deleteMedia", name: "Delete Media", method: "POST", endpoint: "/0/0/medya/sil/0/", inputs: ["medyaID"], desc: "Remove gallery item", auth: true },
+      { id: "rotateMedia", name: "Rotate Media", method: "POST", endpoint: "/0/0/medya/donder/0/", inputs: ["fotografID", "derece"], desc: "Rotate photo", auth: true },
+    ]
+  },
+  reels: {
+    title: "ReelsService",
+    actions: [
+      { id: "getReels", name: "Get Reels", method: "POST", endpoint: "/0/0/reels/0/0/", inputs: ["sayfa", "limit"], desc: "Fetch list of reels", auth: true }
     ]
   },
   events: {
     title: "EventService",
     actions: [
       { id: "getEvents", name: "List Events", method: "POST", endpoint: "/0/0/etkinlikler/liste/0/", inputs: ["oyunID", "etkinlikdurum", "sayfa", "limit"], desc: "Fetch platform events with filters", auth: false },
-      { id: "getEventDetail", name: "Event Detail", method: "POST", endpoint: "/0/0/etkinlikler/detay/", inputs: ["eventID"], desc: "Get detailed event info", auth: false },
+      { id: "getEventDetail", name: "Event Detail", method: "POST", endpoint: "/0/0/etkinlikler/detay/", inputs: ["eventID", "eventURL"], desc: "Get detailed event info", auth: false },
       { id: "joinEvent", name: "Join Event", method: "POST", endpoint: "/0/0/etkinlikler/katilim/0/", inputs: ["eventId"], desc: "Toggle event participation", auth: true },
       { id: "respondToEvent", name: "Respond to Event", method: "POST", endpoint: "/0/0/etkinlikler/katilma/0/", inputs: ["eventId", "cevap"], desc: "Respond yes/no to event", auth: true },
-      { id: "getEventTeams", name: "List Event Teams", method: "POST", endpoint: "/0/0/etkinlikler/takimlar/0/", inputs: ["eventId"], desc: "Fetch teams in an event", auth: false }
+      { id: "getEventTeams", name: "List Event Teams", method: "POST", endpoint: "/0/0/etkinlikler/takimlar/0/", inputs: ["eventId"], desc: "Fetch teams in an event", auth: false },
+      { id: "getEventParticipants", name: "Get Participants", method: "POST", endpoint: "/0/0/etkinlikler/katilim/0/", inputs: ["etkinlikID"], desc: "Fetch players and groups in an event", auth: false }
     ]
   },
   siteInfo: {
@@ -393,44 +420,32 @@ export default function Dashboard() {
     try {
       let result: any;
       const api = apiRef.current;
+      const sid = activeService;
 
-      if (activeService === 'auth') {
+      if (sid === 'auth') {
         if (action.id === 'login') {
           const authResult = await api.auth.login(inputs.username, inputs.password);
           result = authResult;
-
           const newToken = authResult.icerik?.token;
           if (newToken) {
             setTestToken(newToken);
             localStorage.setItem('armoyu_test_token', newToken);
           }
-
           setTestUser(authResult.icerik?.user);
-          if (authResult.icerik?.user) {
-            localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.icerik.user));
-          }
+          if (authResult.icerik?.user) localStorage.setItem('armoyu_test_user', JSON.stringify(authResult.icerik.user));
         } else if (action.id === 'register') {
           result = await api.auth.register({
-            username: inputs.username,
-            firstName: inputs.firstName,
-            lastName: inputs.lastName,
-            email: inputs.email,
-            password: inputs.password
+            username: inputs.username, firstName: inputs.firstName, lastName: inputs.lastName,
+            email: inputs.email, password: inputs.password
           });
         } else if (action.id === 'forgotPassword') {
           result = await api.auth.forgotPassword({
-            username: inputs.username,
-            email: inputs.email,
-            birthday: inputs.birthday,
-            preference: inputs.preference
+            username: inputs.username, email: inputs.email, birthday: inputs.birthday, preference: inputs.preference
           });
         } else if (action.id === 'verifyPasswordReset') {
           result = await api.auth.verifyPasswordReset({
-            username: inputs.username,
-            email: inputs.email,
-            birthday: inputs.birthday,
-            code: inputs.code,
-            newPassword: inputs.newPassword
+            username: inputs.username, email: inputs.email, birthday: inputs.birthday,
+            code: inputs.code, newPassword: inputs.newPassword
           });
         } else if (action.id === 'me') {
           const profile = await api.auth.me();
@@ -438,7 +453,7 @@ export default function Dashboard() {
           setTestUser(profile.icerik);
           if (profile.icerik) localStorage.setItem('armoyu_test_user', JSON.stringify(profile.icerik));
         }
-      } else if (activeService === 'users') {
+      } else if (sid === 'users') {
         if (action.id === 'getUser') {
           result = await api.users.getUserByUsername(inputs.oyuncubakusername);
         } else if (action.id === 'addFriend') {
@@ -449,19 +464,12 @@ export default function Dashboard() {
           result = await api.users.respondToFriendRequest(Number(inputs.oyuncubakid), Number(inputs.cevap));
         } else if (action.id === 'updatePrivatePersonalInfo') {
           result = await api.users.updatePrivatePersonalInfo({
-            firstName: inputs.firstName,
-            lastName: inputs.lastName,
-            email: inputs.email,
-            birthday: inputs.birthday,
-            phoneNumber: inputs.phoneNumber,
-            countryID: inputs.countryID ? Number(inputs.countryID) : undefined,
-            provinceID: inputs.provinceID ? Number(inputs.provinceID) : undefined,
+            firstName: inputs.firstName, lastName: inputs.lastName, email: inputs.email, birthday: inputs.birthday,
+            phoneNumber: inputs.phoneNumber, countryID: Number(inputs.countryID), provinceID: Number(inputs.provinceID),
             passwordControl: inputs.passwordControl || ''
           });
         } else if (action.id === 'getUserSchools') {
           result = await api.users.getUserSchools(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
-        } else if (action.id === 'getSchoolDetail') {
-          result = await api.users.getSchoolDetail(Number(inputs.okulID));
         } else if (action.id === 'getFriendsList') {
           result = await api.users.getFriendsList(inputs.page ? Number(inputs.page) : 1, {
             userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
@@ -471,18 +479,12 @@ export default function Dashboard() {
           result = await api.users.getInvitationsList(inputs.page ? Number(inputs.page) : 1);
         } else if (action.id === 'refreshInviteCode') {
           result = await api.users.refreshInviteCode();
-        } else if (action.id === 'requestEmailVerificationUrl') {
-          result = await api.users.requestEmailVerificationUrl(inputs.userID ? Number(inputs.userID) : undefined);
+        } else if (action.id === 'checkInviteCode') {
+          result = await api.users.checkInviteCode(inputs.davetkodu);
         } else if (action.id === 'pokeFriend') {
           result = await api.users.pokeFriend(Number(inputs.oyuncubakid));
         } else if (action.id === 'setFavoriteTeam') {
           result = await api.users.setFavoriteTeam(Number(inputs.favoritakimID));
-        } else if (action.id === 'getUserMedia') {
-          result = await api.users.getUserMedia(inputs.page ? Number(inputs.page) : 1, {
-            userId: inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined,
-            limit: inputs.limit ? Number(inputs.limit) : 50,
-            category: inputs.kategori || 'all'
-          });
         } else if (action.id === 'getSocialProfile') {
           result = await api.users.getSocialProfile(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
         } else if (action.id === 'getNotifications') {
@@ -491,8 +493,7 @@ export default function Dashboard() {
           result = await api.users.getNotificationsHistory(
             inputs.page ? Number(inputs.page) : 1,
             inputs.limit ? Number(inputs.limit) : 20,
-            inputs.kategori,
-            inputs.kategoridetay
+            inputs.kategori, inputs.kategoridetay
           );
         } else if (action.id === 'updateAvatar') {
           const file = files.resim;
@@ -506,303 +507,156 @@ export default function Dashboard() {
           const file = files.resim;
           if (!file) throw new Error("Please select an image file first");
           result = await api.users.updateBackground(file);
-        } else if (action.id === 'rotateMedia') {
-          result = await api.users.rotateMedia(Number(inputs.fotografID), Number(inputs.derece));
-        } else if (action.id === 'deleteMedia') {
-          result = await api.users.deleteMedia(Number(inputs.medyaID));
-        } else if (action.id === 'uploadMedia') {
-          const mediaFiles = files['media[]'];
-          if (!mediaFiles) throw new Error("Please select at least one media file");
-          result = await api.users.uploadMedia(Array.isArray(mediaFiles) ? mediaFiles : [mediaFiles], inputs.category);
-        } else if (action.id === 'getNotificationSettings') {
-          result = await api.users.getNotificationSettings();
-        } else if (action.id === 'updateNotificationSettings') {
-          // Parse "key=value,key2=value2" or just "key=value"
-          const settings: Record<string, number> = {};
-          const pairs = inputs.notificationSettings.split(',').map(p => p.trim());
-          pairs.forEach(pair => {
-            const [key, value] = pair.split('=');
-            if (key && value !== undefined) settings[key] = Number(value);
-          });
-          result = await api.users.updateNotificationSettings(settings);
         } else if (action.id === 'getXpRankings') {
           result = await api.users.getXpRankings(inputs.sayfa ? Number(inputs.sayfa) : 1);
         } else if (action.id === 'getPopRankings') {
           result = await api.users.getPopRankings(inputs.sayfa ? Number(inputs.sayfa) : 1);
         }
-      } else if (activeService === 'rules') {
+      } else if (sid === 'rules') {
         if (action.id === 'getRules') {
           result = await api.rules.getRules();
         } else if (action.id === 'createRule') {
           result = await api.rules.createRule(inputs.text, inputs.penalty);
         }
-      } else if (activeService === 'blog') {
+      } else if (sid === 'blog') {
         if (action.id === 'getNews') {
-          result = await api.blog.getNewsLegacy(
-            inputs.sayfa ? Number(inputs.sayfa) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.blog.getNewsLegacy(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.limit ? Number(inputs.limit) : undefined);
         }
-      } else if (activeService === 'social') {
-        if (action.id === 'getPosts') {
-          result = await api.social.getPosts(
-            inputs.sayfa ? Number(inputs.sayfa) : 1,
-            inputs.limit ? Number(inputs.limit) : 20,
-            {
-              postId: inputs.postID ? Number(inputs.postID) : undefined,
-              userId: inputs.userId ? Number(inputs.userId) : undefined,
-              username: inputs.username,
-              filter: inputs.feature || inputs.category
-            }
-          );
-        } else if (action.id === 'createPost') {
-          const mediaIds = inputs['paylasimfoto[]'] ? inputs['paylasimfoto[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id)) : undefined;
-          result = await api.social.createPost(inputs.sosyalicerik, mediaIds);
-        } else if (action.id === 'deletePost') {
-          result = await api.social.deletePost(Number(inputs.postID));
-        } else if (action.id === 'getLikers') {
-          result = await api.social.getLikers(
-            Number(inputs.postID || inputs.userId),
-            (inputs.kategori as any) || 'post'
-          );
-        } else if (action.id === 'removeLike') {
-          result = await api.social.removeLike(
-            Number(inputs.postID),
-            inputs.yorumID ? Number(inputs.yorumID) : undefined,
-            (inputs.kategori as any) || 'post'
-          );
-        } else if (action.id === 'addLike') {
-          result = await api.social.addLike(
-            Number(inputs.postID),
-            inputs.yorumID ? Number(inputs.yorumID) : undefined,
-            (inputs.kategori as any) || 'post'
-          );
-        } else if (action.id === 'getComments') {
-          result = await api.social.getComments(Number(inputs.postID));
-        } else if (action.id === 'createComment') {
-          result = await api.social.createComment(
-            Number(inputs.postID),
-            inputs.yorumicerik,
-            inputs.kimeyanit ? Number(inputs.kimeyanit) : 0,
-            inputs.kategori || 'sosyal'
-          );
-        } else if (action.id === 'deleteComment') {
-          result = await api.social.deleteComment(Number(inputs.yorumID));
-        } else if (action.id === 'reportPost') {
-          result = await api.social.reportPost(
-            Number(inputs.postID),
-            inputs.bildirikategori
-          );
+      } else if (sid === 'music') {
+        if (action.id === 'getSongs') {
+          result = await api.music.getSongs(inputs.page ? Number(inputs.page) : 1, inputs.kategori || 'oynatilabilir', inputs.limit ? Number(inputs.limit) : 10);
+        } else if (action.id === 'getFavoriteSongs') {
+          result = await api.music.getFavoriteSongs(inputs.page ? Number(inputs.page) : 1, inputs.limit ? Number(inputs.limit) : 10);
+        } else if (action.id === 'getLiveSongs') {
+          result = await api.music.getLiveSongs(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.limit ? Number(inputs.limit) : 10);
+        } else if (action.id === 'searchSongs') {
+          result = await api.music.searchSongs(inputs.sarkibilgi);
+        } else if (action.id === 'addSong') {
+          result = await api.music.addSong(inputs.muzikadi, inputs.muziklink);
+        } else if (action.id === 'addFavorite') {
+          result = await api.music.addFavorite(Number(inputs.muzikID));
+        } else if (action.id === 'removeFavorite') {
+          result = await api.music.removeFavorite(Number(inputs.muzikID));
         }
-      } else if (activeService === 'search') {
-        if (action.id === 'globalSearch') {
-          result = await api.search.globalSearch(inputs.query);
+      } else if (sid === 'media') {
+        if (action.id === 'getGallery') {
+          result = await api.media.getGallery(inputs.sayfa ? Number(inputs.sayfa) : 1, (inputs.kategori as MediaCategory) || MediaCategory.ALL);
+        } else if (action.id === 'uploadMedia') {
+          const mediaFiles = files['media[]'];
+          if (!mediaFiles) throw new Error("Select media files");
+          result = await api.media.uploadMedia(Array.isArray(mediaFiles) ? mediaFiles : [mediaFiles], inputs.category);
+        } else if (action.id === 'deleteMedia') {
+          result = await api.media.deleteMedia(Number(inputs.medyaID));
+        } else if (action.id === 'rotateMedia') {
+          result = await api.media.rotateMedia(Number(inputs.fotografID), inputs.derece ? Number(inputs.derece) : 90);
         }
-      } else if (activeService === 'events') {
+      } else if (sid === 'chat') {
+        if (action.id === 'getChats') {
+          result = await api.chat.getChats(inputs.page ? Number(inputs.page) : 1, { limit: inputs.limit ? Number(inputs.limit) : 20 });
+        } else if (action.id === 'getFriends') {
+          result = await api.chat.getFriends(inputs.page ? Number(inputs.page) : 1, { limit: inputs.limit ? Number(inputs.limit) : 20 });
+        } else if (action.id === 'sendMessage') {
+          result = await api.chat.sendMessage(Number(inputs.userId || inputs.oyuncubakid), inputs.content || inputs.icerik, (inputs.type || inputs.turu) as any);
+        } else if (action.id === 'getChatHistory') {
+          result = await api.chat.getChatHistory(inputs.page ? Number(inputs.page) : 1, { userId: Number(inputs.userId), limit: inputs.limit ? Number(inputs.limit) : 20 });
+        } else if (action.id === 'getChatDetail') {
+          result = await api.chat.getChatDetail(Number(inputs.chatId || inputs.userId), (inputs.type || 'ozel') as any);
+        }
+      } else if (sid === 'events') {
         if (action.id === 'getEvents') {
-          result = await api.events.getEvents(inputs.sayfa ? Number(inputs.sayfa) : 1, {
-            gameId: inputs.oyunID ? Number(inputs.oyunID) : undefined,
-            status: inputs.etkinlikdurum,
-            limit: inputs.limit ? Number(inputs.limit) : undefined
-          });
+          result = await api.events.getEvents(inputs.sayfa ? Number(inputs.sayfa) : 1, { gameId: Number(inputs.oyunID), status: String(inputs.etkinlikdurum), limit: Number(inputs.limit) });
         } else if (action.id === 'getEventDetail') {
-          result = await api.events.getEventDetail({
-            eventId: inputs.eventID ? Number(inputs.eventID) : undefined
-          });
+          result = await api.events.getEventDetail({ eventId: Number(inputs.eventID), eventUrl: inputs.eventURL });
         } else if (action.id === 'joinEvent') {
           result = await api.events.joinEvent(Number(inputs.eventId));
         } else if (action.id === 'respondToEvent') {
-          result = await api.events.respondToEvent(Number(inputs.eventId), inputs.cevap as any);
-        } else if (action.id === 'getEventTeams') {
-          result = await api.events.getEventTeams(Number(inputs.eventId));
+          result = await api.events.respondToEvent(Number(inputs.eventId), String(inputs.cevap));
+        } else if (action.id === 'getEventParticipants') {
+          result = await api.events.getEventParticipants(Number(inputs.etkinlikID));
         }
-      } else if (activeService === 'siteInfo') {
+      } else if (sid === 'reels') {
+        if (action.id === 'getReels') {
+          result = await api.reels.getReels(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.limit ? Number(inputs.limit) : 10);
+        }
+      } else if (sid === 'social') {
+        if (action.id === 'getPosts') {
+          result = await api.social.getPosts(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.limit ? Number(inputs.limit) : 20, { postId: Number(inputs.postID), filter: inputs.feature });
+        } else if (action.id === 'createPost') {
+          const mediaIds = inputs['paylasimfoto[]']?.split(',').map(id => Number(id.trim())).filter(id => !isNaN(id));
+          result = await api.social.createPost(inputs.sosyalicerik, mediaIds);
+        } else if (action.id === 'addLike') {
+          result = await api.social.addLike(Number(inputs.postID), inputs.yorumID ? Number(inputs.yorumID) : undefined, inputs.kategori as any);
+        }
+      } else if (sid === 'search') {
+        if (action.id === 'globalSearch') {
+          result = await api.search.globalSearch(
+            inputs.query,
+            inputs.page ? Number(inputs.page) : 1,
+            inputs.limit ? Number(inputs.limit) : 20,
+            inputs.kategoridetay
+          );
+        }
+      } else if (sid === 'siteInfo') {
         if (action.id === 'getAboutContent') {
           result = await api.siteInfo.getAboutContent(inputs.category || 'home');
-        } else if (action.id === 'getPrivacyPolicy') {
-          result = await api.siteInfo.getPrivacyPolicy(inputs.category || 'home');
-        } else if (action.id === 'getTermsOfService') {
-          result = await api.siteInfo.getTermsOfService(inputs.category || 'home');
         } else if (action.id === 'getStatistics') {
           result = await api.siteInfo.getStatistics(inputs.category || 'aktifoyuncu');
-        } else if (action.id === 'getSessionLogs') {
-          result = await api.siteInfo.getSessionLogs();
-        } else if (action.id === 'getSiteMessages') {
-          result = await api.siteInfo.getSiteMessages(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
-        } else if (action.id === 'searchTags') {
-          result = await api.siteInfo.searchTags(inputs.page ? Number(inputs.page) : 1, {
-            tag: inputs.etiket,
-            limit: inputs.limit ? Number(inputs.limit) : undefined
-          });
-        } else if (action.id === 'getSiteMessageDetail') {
-          result = await api.siteInfo.getSiteMessageDetail(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
         }
-      } else if (activeService === 'groups') {
-        if (action.id === 'getUserGroups') {
-          result = await api.groups.getUserGroups(inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined);
-        } else if (action.id === 'getGroups') {
-          result = await api.groups.getGroups(inputs.sayfa ? Number(inputs.sayfa) : 1, {
-            category: inputs.kategori
-          });
+      } else if (sid === 'groups') {
+        if (action.id === 'getGroups') {
+          result = await api.groups.getGroups(inputs.sayfa ? Number(inputs.sayfa) : 1, { category: inputs.kategori });
         } else if (action.id === 'getGroupDetail') {
-          result = await api.groups.getGroupDetail({
-            groupId: inputs.grupID ? Number(inputs.grupID) : undefined,
-            groupName: inputs.groupname
-          });
-        } else if (action.id === 'inviteToGroup') {
-          const userIds = inputs['users[]'].split(',').map(id => Number(id.trim())).filter(id => !isNaN(id));
-          result = await api.groups.inviteToGroup(Number(inputs.grupID), userIds);
-        } else if (action.id === 'updateGroupMedia') {
-          const file = files.media;
-          if (!file) throw new Error("Please select a media file first");
-          result = await api.groups.updateGroupMedia(Number(inputs.groupID), inputs.category, Array.isArray(file) ? file[0] : file);
-        } else if (action.id === 'leaveGroup') {
-          result = await api.groups.leaveGroup(Number(inputs.grupID));
-        } else if (action.id === 'getGroupMembers') {
-          result = await api.groups.getGroupMembers(inputs.groupname);
-        } else if (action.id === 'kickFromGroup') {
-          result = await api.groups.kickFromGroup(Number(inputs.grupID), Number(inputs.userID));
-        } else if (action.id === 'updateGroupSettings') {
-          result = await api.groups.updateGroupSettings({
-            groupId: Number(inputs.grupID),
-            title: inputs.baslik,
-            tag: inputs.grupetiket,
-            description: inputs.aciklama,
-            discord: inputs.discordlink,
-            website: inputs.website,
-            recruitmentStatus: inputs.alimdurum
-          });
-        } else if (action.id === 'respondToInvitation') {
-          result = await api.groups.respondToInvitation(Number(inputs.grupID), Number(inputs.cevap));
+          result = await api.groups.getGroupDetail({ groupId: Number(inputs.grupID), groupName: inputs.groupname });
         }
-      } else if (activeService === 'business') {
-        if (action.id === 'getUserSchools') {
-          result = await api.business.getUserSchools(
-            inputs.sayfa ? Number(inputs.sayfa) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined,
-            inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined
-          );
-        } else if (action.id === 'getUserStations') {
-          result = await api.business.getUserStations(
-            inputs.sayfa ? Number(inputs.sayfa) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined,
-            inputs.oyuncubakid ? Number(inputs.oyuncubakid) : undefined
-          );
-        }
-      } else if (activeService === 'chat') {
-        if (action.id === 'sendMessage') {
-          result = await api.chat.sendMessage(
-            Number(inputs.userId),
-            inputs.content,
-            (inputs.type as any) || 'ozel'
-          );
-        } else if (action.id === 'getChats') {
-          result = await api.chat.getChats(
-            inputs.page ? Number(inputs.page) : 1,
-            { limit: inputs.limit ? Number(inputs.limit) : undefined }
-          );
-        } else if (action.id === 'getChatHistory') {
-          result = await api.chat.getChatHistory(
-            inputs.page ? Number(inputs.page) : 1,
-            {
-              userId: Number(inputs.userId),
-              limit: inputs.limit ? Number(inputs.limit) : undefined
-            }
-          );
-        } else if (action.id === 'getFriends') {
-          result = await api.chat.getFriends(
-            inputs.page ? Number(inputs.page) : 1,
-            { limit: inputs.limit ? Number(inputs.limit) : undefined }
-          );
-        } else if (action.id === 'getChatDetail') {
-          result = await api.chat.getChatDetail(
-            Number(inputs.chatId || inputs.userId),
-            (inputs.type as any) || 'ozel'
-          );
-        }
-      } else if (activeService === 'blocks') {
+      } else if (sid === 'blocks') {
         if (action.id === 'getBlockedUsers') {
-          result = await api.blocks.getBlockedUsers(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.blocks.getBlockedUsers(inputs.page ? Number(inputs.page) : 1, inputs.limit ? Number(inputs.limit) : undefined);
         } else if (action.id === 'blockUser') {
           result = await api.blocks.blockUser(inputs.userID);
         } else if (action.id === 'unblockUser') {
           result = await api.blocks.unblockUser(inputs.userID);
         }
-      } else if (activeService === 'management') {
+      } else if (sid === 'management') {
         if (action.id === 'getManagementContent') {
           result = await api.management.getManagementContent(inputs.category || 'home');
         } else if (action.id === 'getMeetings') {
           result = await api.management.getMeetings();
         }
-      } else if (activeService === 'stories') {
+      } else if (sid === 'stories') {
         if (action.id === 'getStories') {
-          result = await api.stories.getStories(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.stories.getStories(inputs.page ? Number(inputs.page) : 1, inputs.limit ? Number(inputs.limit) : undefined);
         } else if (action.id === 'getStoryViewers') {
-          result = await api.stories.getStoryViewers(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.storyId
-          );
+          result = await api.stories.getStoryViewers(inputs.page ? Number(inputs.page) : 1, inputs.storyId);
         } else if (action.id === 'getStoryLikers') {
-          result = await api.stories.getStoryLikers(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.storyId
-          );
+          result = await api.stories.getStoryLikers(inputs.page ? Number(inputs.page) : 1, inputs.storyId);
         }
-      } else if (activeService === 'locations') {
+      } else if (sid === 'locations') {
         if (action.id === 'getCountries') {
-          result = await api.locations.getCountries(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.locations.getCountries(inputs.page ? Number(inputs.page) : 1, inputs.limit ? Number(inputs.limit) : undefined);
         } else if (action.id === 'getProvinces') {
-          result = await api.locations.getProvinces(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.countryId,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.locations.getProvinces(inputs.page ? Number(inputs.page) : 1, inputs.countryId, inputs.limit ? Number(inputs.limit) : undefined);
         }
-      } else if (activeService === 'staff') {
+      } else if (sid === 'staff') {
         if (action.id === 'getStaff') {
-          result = await api.staff.getStaff(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.category,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.staff.getStaff(inputs.page ? Number(inputs.page) : 1, inputs.category, inputs.limit ? Number(inputs.limit) : undefined);
         } else if (action.id === 'getApplications') {
-          result = await api.staff.getApplications(
-            inputs.page ? Number(inputs.page) : 1,
-            inputs.limit ? Number(inputs.limit) : undefined
-          );
+          result = await api.staff.getApplications(inputs.page ? Number(inputs.page) : 1, inputs.limit ? Number(inputs.limit) : undefined);
         }
-      } else if (activeService === 'payments') {
+      } else if (sid === 'payments') {
         if (action.id === 'getInvoices') {
-          result = await api.payments.getInvoices(
-            inputs.page ? Number(inputs.page) : 1
-          );
+          result = await api.payments.getInvoices(inputs.page ? Number(inputs.page) : 1);
         }
-      } else if (activeService === 'search') {
+      } else if (sid === 'projects') {
         if (action.id === 'getScoreList') {
           result = await api.projects.getScoreList(inputs.sayfa ? Number(inputs.sayfa) : 1);
         } else if (action.id === 'saveScore') {
           result = await api.projects.saveScore(inputs.projeID, inputs.skor);
         }
-      } else if (activeService === 'projects') {
-        if (action.id === 'getScoreList') {
-          result = await api.projects.getScoreList(inputs.sayfa ? Number(inputs.sayfa) : 1);
-        } else if (action.id === 'saveScore') {
-          result = await api.projects.saveScore(inputs.projeID, inputs.skor);
-        }
-      } else if (activeService === 'teams') {
+      } else if (sid === 'teams') {
         if (action.id === 'getTeams') {
           result = await api.teams.getTeams(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.favoritakimID);
         }
-      } else if (activeService === 'stations') {
+      } else if (sid === 'stations') {
         if (action.id === 'getStations') {
           result = await api.stations.getStations(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.kategori);
         } else if (action.id === 'getStationEquipment') {
@@ -824,7 +678,8 @@ export default function Dashboard() {
 
       addLog(LogType.RESPONSE, `Success: ${action.name}`, null, {
         status: 1,
-        aciklama: rawResponse?.aciklama || "lem Baarl",
+        aciklama: rawResponse?.aciklama || "İşlem Başarılı",
+        aciklamadetay: rawResponse?.aciklamadetay,
         endpoint: action.endpoint
       });
     } catch (err: any) {
@@ -1040,7 +895,7 @@ export default function Dashboard() {
                       <ResultTree
                         data={
                           actionResults[action.id + activeService].view === 'mapped'
-                            ? JSON.parse(JSON.stringify(actionResults[action.id + activeService].mapped))
+                            ? (actionResults[action.id + activeService].mapped ? JSON.parse(JSON.stringify(actionResults[action.id + activeService].mapped)) : {})
                             : actionResults[action.id + activeService].raw
                         }
                         initialOpen={true}

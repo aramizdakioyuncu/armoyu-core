@@ -2,13 +2,14 @@ import { ChatResponse, ChatMessageResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
- * Mapper for Chat and Messaging related data structures.
- * Version-aware structure: Entry point delegates to specific version mappers.
+ * Mapper for Chat and Messaging.
+ * Specialized for each endpoint.
  */
 export class ChatMapper extends BaseMapper {
-  static mapChat(raw: any): ChatResponse {
-    const legacy = this.shouldReturnRaw<ChatResponse>(raw);
-    if (legacy) return legacy;
+  /**
+   * Specialized for Chat List (/0/0/sohbet/0/0/).
+   */
+  static mapChatItem(raw: any): ChatResponse {
     if (!raw) return {} as ChatResponse;
 
     return {
@@ -19,17 +20,28 @@ export class ChatMapper extends BaseMapper {
       lastLogin: raw.songiris,
       unreadCount: this.toNumber(raw.bildirim),
       type: raw.sohbetturu === 'grup' ? 'grup' : 'ozel',
-      avatar: this.toImageUrl(raw.chatImage?.media_URL || raw.chatImage?.media_minURL) || ''
+      avatar: this.toImageUrl(raw.chatImage?.media_URL || raw.chatImage?.media_minURL || raw.chatImage?.media_bigURL) || ''
     };
   }
 
-  static mapChatList(rawList: any[]): ChatResponse[] {
-    return (rawList || []).map(item => this.mapChat(item));
+  /**
+   * Specialized for Chat Inbox (/0/0/sohbet/0/0/).
+   */
+  static mapInboxList(rawList: any[]): ChatResponse[] {
+    return (rawList || []).map(item => this.mapChatItem(item));
   }
 
-  static mapMessage(raw: any): ChatMessageResponse {
-    const legacy = this.shouldReturnRaw<ChatMessageResponse>(raw);
-    if (legacy) return legacy;
+  /**
+   * Specialized for Friends List (/0/0/sohbet/arkadaslarim/0/).
+   */
+  static mapFriendList(rawList: any[]): ChatResponse[] {
+    return (rawList || []).map(item => this.mapChatItem(item));
+  }
+
+  /**
+   * Specialized for Chat Message.
+   */
+  static mapMessageItem(raw: any): ChatMessageResponse {
     if (!raw) return {} as ChatMessageResponse;
 
     return {
@@ -45,7 +57,17 @@ export class ChatMapper extends BaseMapper {
     };
   }
 
-  static mapMessageList(rawList: any[]): ChatMessageResponse[] {
-    return (rawList || []).map(item => this.mapMessage(item));
+  /**
+   * Specialized for Chat History.
+   */
+  static mapHistoryList(rawList: any[]): ChatMessageResponse[] {
+    return (rawList || []).map(item => this.mapMessageItem(item));
+  }
+
+  /**
+   * Specialized for Chat Detail (/0/0/sohbetdetay/0/0/).
+   */
+  static mapDetailList(rawList: any[]): ChatMessageResponse[] {
+    return (rawList || []).map(item => this.mapMessageItem(item));
   }
 }

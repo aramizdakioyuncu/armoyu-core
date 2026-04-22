@@ -48,8 +48,8 @@ export class ChatService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/${params.userId}/${page}/`), formData);
       const data = this.handle<any[]>(response);
-      const mappedData = ChatMapper.mapMessageList(data || []);
-      return this.createSuccess(mappedData, response?.aciklama);
+      const mappedData = ChatMapper.mapHistoryList(data || []);
+      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat history failed:`, error);
       return this.createError(error.message);
@@ -70,9 +70,9 @@ export class ChatService extends BaseService {
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapChatList(rawList);
+      const mappedData = ChatMapper.mapFriendList(rawList);
       
-      return this.createSuccess(mappedData, response?.aciklama);
+      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
       return this.createError(error.message);
@@ -94,9 +94,9 @@ export class ChatService extends BaseService {
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapChatList(rawList);
+      const mappedData = ChatMapper.mapInboxList(rawList);
       
-      return this.createSuccess(mappedData, response?.aciklama);
+      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chats failed:`, error);
       return this.createError(error.message);
@@ -104,7 +104,7 @@ export class ChatService extends BaseService {
   }
 
   /**
-   * Fetches the detailed information/messages for a specific chat (Legacy).
+   * Fetches the detailed information/messages for a specific chat.
    */
   async getChatDetail(chatId: number, type: 'ozel' | 'grup' = 'ozel'): Promise<ServiceResponse<ChatMessageResponse[]>> {
     this.requireAuth();
@@ -117,9 +117,9 @@ export class ChatService extends BaseService {
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapMessageList(rawList);
+      const mappedData = ChatMapper.mapDetailList(rawList);
       
-      return this.createSuccess(mappedData, response?.aciklama);
+      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat detail failed:`, error);
       return this.createError(error.message);

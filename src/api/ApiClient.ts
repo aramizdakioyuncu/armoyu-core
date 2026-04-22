@@ -2,7 +2,7 @@ import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { RequestInterceptor } from './RequestInterceptor';
 import { ResponseHandler } from './ResponseHandler';
 import { HttpMethod, ApiConfig } from './types';
-import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, BusinessService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService } from '../services';
+import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, BusinessService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService } from '../services';
 
 export { HttpMethod };
 export type { ApiConfig };
@@ -28,16 +28,13 @@ export class ApiClient {
   public readonly blog: BlogService; public readonly shop: ShopService;
   public readonly forum: ForumService; public readonly support: SupportService;
   public readonly search: SearchService; public readonly socket: SocketService;
+  public readonly media: MediaService;
+  public readonly music: MusicService;
+  public readonly reels: ReelsService;
 
   constructor(config: ApiConfig) {
     this.config = config; 
     this.logger = config.logger || new ConsoleLogger();
-
-    // Auto-prefix baseUrl for bot mode if API key is present
-    if (this.config.apiKey && !this.config.baseUrl.includes('/botlar/')) {
-        const cleanBase = this.config.baseUrl.endsWith('/') ? this.config.baseUrl.slice(0, -1) : this.config.baseUrl;
-        this.config.baseUrl = `${cleanBase}/botlar/${this.config.apiKey}`;
-    }
 
     const svc = (S: any) => new S(this, this.logger);
     this.auth = svc(AuthService); this.users = svc(UserService); this.events = svc(EventService);
@@ -52,6 +49,9 @@ export class ApiClient {
     this.blog = svc(BlogService); this.shop = svc(ShopService);
     this.forum = svc(ForumService); this.support = svc(SupportService);
     this.search = svc(SearchService); this.socket = new SocketService(this.logger);
+    this.media = svc(MediaService);
+    this.music = svc(MusicService);
+    this.reels = svc(ReelsService);
   }
 
   private async request<T>(endpoint: string, options: any = {}): Promise<T> {

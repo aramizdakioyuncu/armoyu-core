@@ -40,18 +40,20 @@ export class EventService extends BaseService {
   /**
    * Get detailed information for a specific event.
    */
-  async getEventDetail(params: { eventId?: number }): Promise<ServiceResponse<any>> {
+  async getEventDetail(params: { eventId?: number, eventUrl?: string }): Promise<ServiceResponse<EventResponse>> {
     try {
-      if (!params.eventId) {
-        throw new Error('Event ID is required');
-      }
       const formData = new FormData();
-      formData.append('eventID', params.eventId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikbak/0/0/'), formData);
+      if (params.eventId) formData.append('eventID', params.eventId.toString());
+      if (params.eventUrl) formData.append('eventURL', params.eventUrl);
+
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/detay/'), formData);
       const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const mapped = EventMapper.mapEvent(icerik);
+      
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
-      this.logger.error(`[EventService] Failed to fetch event details for ${params.eventId}:`, error);
+      const idStr = params.eventId || params.eventUrl || 'unknown';
+      this.logger.error(`[EventService] Failed to fetch event details for ${idStr}:`, error);
       return this.createError(error.message);
     }
   }
@@ -103,6 +105,24 @@ export class EventService extends BaseService {
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[EventService] Failed to fetch event teams for ${eventId}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get participants (players and groups) in an event.
+   */
+  async getEventParticipants(eventId: number): Promise<ServiceResponse<any>> {
+    try {
+      const formData = new FormData();
+      formData.append('etkinlikID', eventId.toString());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilim/0/'), formData);
+      const icerik = this.handle<any>(response);
+      const mapped = EventMapper.mapParticipants(icerik);
+      
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[EventService] Failed to fetch participants for ${eventId}:`, error);
       return this.createError(error.message);
     }
   }

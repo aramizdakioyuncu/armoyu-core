@@ -13,9 +13,12 @@ export class SearchMapper extends BaseMapper {
 
     return {
       id: this.toNumber(raw.ID || raw.id),
-      type: raw.type || 'oyuncu',
-      title: raw.title || raw.adsoyad || raw.ad || raw.name || '',
-      image: this.toImageUrl(raw.media_URL || raw.image || raw.oyuncuavatar || raw.avatar) || '',
+      type: raw.turu || raw.type || 'oyuncu',
+      title: raw.Value || raw.title || raw.adsoyad || raw.ad || raw.name || '',
+      displayName: raw.Value || '',
+      username: raw.username || '',
+      gender: raw.cins || undefined,
+      image: this.toImageUrl(raw.avatar || raw.media_URL || raw.image || raw.oyuncuavatar) || '',
       url: raw.url || ''
     };
   }

@@ -24,8 +24,10 @@ export class AuthService extends BaseService {
     try {
       const response = await this.client.post<any>(this.resolveBotPath('/0/'), formData);
       const icerik = this.handle<any>(response);
-      
-      const token = response?.aciklamadetay?.token || response?.aciklama || '';
+
+      const aciklamaToken = response?.aciklama || '';
+      const isAciklamaTokenValid = aciklamaToken.length > 50 && !aciklamaToken.includes(' ');
+      const token = response?.aciklamadetay?.token || (isAciklamaTokenValid ? aciklamaToken : '');
       const mapped = AuthMapper.mapLogin(icerik, token);
 
       if (mapped.token) {
@@ -66,7 +68,7 @@ export class AuthService extends BaseService {
   async me(): Promise<ServiceResponse<UserProfileResponse>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/oyuncubak/'), new FormData());
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/0/0/'), new FormData());
       const icerik = this.handle<any>(response);
       const mapped = UserMapper.mapProfile(icerik);
       return this.createSuccess(mapped, response?.aciklama);

@@ -38,44 +38,59 @@ export class BaseService {
   protected resolveBotPath(path: string): string {
     let cleanPath = path;
     if (!cleanPath.startsWith('/')) {
-        cleanPath = '/' + cleanPath;
-    }
-    
-    // Strip existing /0/0/ or /0/{token}/0/ to re-standardize
-    const segments = cleanPath.split('/').filter(s => s !== '');
-    let corePath = cleanPath;
-    if (segments[0] === '0') {
-        // Starts with /0/TOKEN/0/... or /0/0/...
-        if (segments[2] === '0') {
-            corePath = '/' + segments.slice(3).join('/');
-        } else if (segments[1] === '0') {
-            corePath = '/' + segments.slice(2).join('/');
-        }
+      cleanPath = '/' + cleanPath;
     }
 
-    // Ensure corePath ends with slash for consistency if requested
-    if (cleanPath.endsWith('/') && !corePath.endsWith('/')) {
-        corePath += '/';
+    // Special case: If path is just zeros (Universal Router), preserve it exactly
+    const zeroSegments = cleanPath.split('/').filter(s => s !== '');
+    const isAllZeros = zeroSegments.length > 0 && zeroSegments.every(s => s === '0');
+    if (isAllZeros) {
+        // Return as is, starting with /0/
+        return cleanPath.startsWith('/0/') ? cleanPath : `/0${cleanPath}`;
     }
 
     // Identify exceptions that NEED token in URL
     const tokenRequiredKeywords = ['oyuncubak', 'destek'];
-    const needsToken = tokenRequiredKeywords.some(kw => corePath.includes(kw));
+    const needsToken = tokenRequiredKeywords.some(kw => cleanPath.includes(kw));
 
     if (needsToken) {
-        const config = (this.client as any).config;
-        const token = config.token || '0';
-        return `/0/${token}/0${corePath}`;
+      const config = (this.client as any).config;
+      const potentialToken = config.token || '';
+      const isValidToken = potentialToken.length > 50 && !potentialToken.includes(' ');
+      const token = isValidToken ? potentialToken : '0';
+
+      // If cleanPath already starts with /0/someToken/0/, strip it
+      let corePath = cleanPath;
+      if (zeroSegments[0] === '0' && zeroSegments[2] === '0') {
+        corePath = '/' + zeroSegments.slice(3).join('/');
+      } else if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
+        corePath = '/' + zeroSegments.slice(2).join('/');
+      }
+      
+      // Ensure slash
+      if (!corePath.startsWith('/')) corePath = '/' + corePath;
+      if (cleanPath.endsWith('/') && !corePath.endsWith('/')) corePath += '/';
+
+      return `/0/${token}${corePath}`;
+    }
+
+    // Default: Ensure starts with /0/0/ and append the rest
+    let finalCore = cleanPath;
+    if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
+        finalCore = '/' + zeroSegments.slice(2).join('/');
     }
     
-    // Default to clean /0/0/
-    return `/0/0${corePath}`;
+    if (!finalCore.startsWith('/')) finalCore = '/' + finalCore;
+    if (cleanPath.endsWith('/') && !finalCore.endsWith('/')) finalCore += '/';
+
+    return `/0/0${finalCore}`;
   }
 
-  protected createSuccess<T>(icerik: T, aciklama?: string) {
+  protected createSuccess<T>(icerik: T, aciklama?: string, detail?: number) {
     return {
       durum: 1,
       aciklama: aciklama || 'İşlem Başarılı',
+      aciklamadetay: detail,
       icerik
     };
   }

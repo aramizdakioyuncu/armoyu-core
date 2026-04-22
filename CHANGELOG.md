@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.33] - 2026-04-22
+
+### ✨ Event System Modernization
+- **Modern Endpoint**: Migrated `getEventDetail` to the current `/etkinlikler/detay/` API.
+- **Dual Querying**: Added support for querying events by both `eventId` and `eventURL`.
+- **Participants List**: Implemented `getEventParticipants` with full mapping for both group hierarchies and individual players.
+- **Rich Models**: Added support for `dlc`, `files`, and `detail` fields in event responses.
+
+### 🔍 Global Search Refinement
+- **Multi-Content Results**: Standardized mapping for players, groups, and schools in a single unified list.
+- **Enhanced Data**: Populated `displayName`, `username`, and `gender` (mapped from `cins`) in search results.
+- **Categorical Detail**: Added `categoryDetail` support to `globalSearch` for precise platform-wide searching.
+
+### 📦 Stability & Architecture
+- **Media Mapping**: Standardized `MediaMapper` and added `MediaCategory` enum support.
+- **Service Audit**: Restored missing `UserService.searchUsers` and standardized mapper exports to resolve build resolution errors.
+- **Dashboard Fixes**: Patched a critical JSON parsing crash in the console dashboard for safer result rendering.
+
+
 ## [1.1.7] - 2026-04-12
 
 ### ✨ Library Expansion
