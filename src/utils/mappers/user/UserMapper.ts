@@ -1,10 +1,10 @@
-import { SearchUserResponse, BlockedUserResponse, RankingUserResponse, StaffUserResponse, InviteCodeCheckResponse } from '../../../models';
+import { SearchUserResponse, BlockedUserResponse, RankingUserResponse, StaffUserResponse, InviteCodeCheckResponse, UserProfileResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 import { UserProfileMapper } from './UserProfileMapper';
 
 /**
  * Main User Mapper (Facade).
- * Now strictly separated by Page/Endpoint with specialized models.
+ * Strictly separated by Page/Endpoint with specialized models matching the real API responses.
  */
 export class UserMapper extends BaseMapper {
   /**
@@ -22,19 +22,17 @@ export class UserMapper extends BaseMapper {
   }
 
   /**
-   * Specialized for Search results.
+   * Specialized for Global Search results (Mixed: players, groups, schools).
    */
   static mapSearchUser(raw: any): SearchUserResponse {
     if (!raw) return {} as SearchUserResponse;
 
     return {
       id: this.toNumber(raw.ID),
-      username: raw.kullaniciadi || '',
-      displayName: raw.adisoyadi || '',
-      avatar: this.toImageUrl(raw.oyuncuavatar) || '',
-      level: this.toNumber(raw.seviye),
-      points: this.toNumber(raw.para),
-      popularity: this.toNumber(raw.populer)
+      displayName: raw.Value || '',
+      username: raw.username || '',
+      avatar: this.toImageUrl(raw.avatar) || '',
+      type: raw.turu || ''
     };
   }
 
@@ -55,23 +53,51 @@ export class UserMapper extends BaseMapper {
   }
 
   /**
-   * Specialized for Ranking list.
+   * Specialized for XP Ranking list.
    */
-  static mapRankingUser(raw: any): RankingUserResponse {
+  static mapXpRankingUser(raw: any): RankingUserResponse {
     if (!raw) return {} as RankingUserResponse;
 
     return {
       rank: this.toNumber(raw.oyuncusiralama),
       id: this.toNumber(raw.oyuncuID),
       displayName: raw.oyuncuadsoyad || '',
-      username: raw.oyuncukullaniciad || '',
+      username: raw.oyuncukullaniciadi || '',
       avatar: this.toImageUrl(raw.oyuncuavatar) || '',
-      value: this.toNumber(raw.oyuncupara || raw.oyuncupopuler || raw.oyuncuxp)
+      value: this.toNumber(raw.oyuncuseviyesezonlukxp)
     };
   }
 
-  static mapProfile(raw: any) {
-    return UserProfileMapper.mapProfile(raw);
+  /**
+   * Specialized for Friends list.
+   */
+  static mapFriendUser(raw: any): RankingUserResponse {
+    if (!raw) return {} as RankingUserResponse;
+
+    return {
+      rank: this.toNumber(raw['#']),
+      id: this.toNumber(raw.oyuncuID),
+      displayName: raw.oyuncuad || '',
+      username: raw.oyuncukullaniciad || '',
+      avatar: this.toImageUrl(raw.oyuncuavatar) || '',
+      value: this.toNumber(raw.oyunculevel)
+    };
+  }
+
+  /**
+   * Specialized for POP Ranking list.
+   */
+  static mapPopRankingUser(raw: any): RankingUserResponse {
+    if (!raw) return {} as RankingUserResponse;
+
+    return {
+      rank: this.toNumber(raw.oyuncusiralama),
+      id: this.toNumber(raw.oyuncuID),
+      displayName: raw.oyuncuadsoyad || '',
+      username: raw.oyuncukullaniciadi || '',
+      avatar: this.toImageUrl(raw.oyuncuavatar) || '',
+      value: this.toNumber(raw.oyuncupop)
+    };
   }
 
   /**
@@ -87,6 +113,19 @@ export class UserMapper extends BaseMapper {
     };
   }
 
+  /**
+   * Full User Profile mapping.
+   */
+  static mapProfile(raw: any): UserProfileResponse {
+    return UserProfileMapper.mapProfile(raw);
+  }
+
+  // --- List Mappers ---
+
+  static mapStaffList(rawList: any[]): StaffUserResponse[] {
+    return (rawList || []).map(u => this.mapStaffUser(u));
+  }
+
   static mapSearchList(rawList: any[]): SearchUserResponse[] {
     return (rawList || []).map(u => this.mapSearchUser(u));
   }
@@ -95,11 +134,15 @@ export class UserMapper extends BaseMapper {
     return (rawList || []).map(u => this.mapBlockedUser(u));
   }
 
-  static mapRankingList(rawList: any[]): RankingUserResponse[] {
-    return (rawList || []).map(u => this.mapRankingUser(u));
+  static mapXpRankingList(rawList: any[]): RankingUserResponse[] {
+    return (rawList || []).map(u => this.mapXpRankingUser(u));
   }
 
-  static mapStaffList(rawList: any[]): StaffUserResponse[] {
-    return (rawList || []).map(u => this.mapStaffUser(u));
+  static mapPopRankingList(rawList: any[]): RankingUserResponse[] {
+    return (rawList || []).map(u => this.mapPopRankingUser(u));
+  }
+
+  static mapFriendList(rawList: any[]): RankingUserResponse[] {
+    return (rawList || []).map(u => this.mapFriendUser(u));
   }
 }

@@ -1,9 +1,10 @@
 export interface SearchUserResponse {
   id: number;
   displayName: string;
-  username: string;
+  username?: string;
   avatar: string;
-  level: number;
-  points: number;
-  popularity: number;
+  type?: string;
+  level?: number;
+  points?: number;
+  popularity?: number;
 }

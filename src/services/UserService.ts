@@ -2,7 +2,7 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse } from '../models';
+import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse, SearchUserResponse } from '../models';
 import { UserMapper } from '../utils/mappers';
 
 /**
@@ -26,7 +26,7 @@ export class UserService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/0/0/'), formData);
       const icerik = this.handle<any>(response);
       const mapped = UserMapper.mapProfile(icerik);
-      
+
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Failed to fetch profile for ${username}:`, error);
@@ -72,10 +72,10 @@ export class UserService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslarim/0/0/'), formData);
       const icerik = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
-      const mapped = (rawList as any[]).map(item => UserMapper.mapRankingUser(item));
-      
+      const mapped = UserMapper.mapXpRankingList(rawList);
+
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch friends list:', error);
@@ -199,27 +199,6 @@ export class UserService extends BaseService {
     }
   }
 
-  /**
-   * Search for users.
-   */
-  async searchUsers(query: string, page: number = 1): Promise<ServiceResponse<RankingUserResponse[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('oyuncuadi', query);
-      formData.append('sayfa', page.toString());
-
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ara/0/0/'), formData);
-      const icerik = this.handle<any>(response);
-      
-      const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
-      const mapped = UserMapper.mapRankingList(rawList);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[UserService] Search failed for ${query}:`, error);
-      return this.createError(error.message);
-    }
-  }
 
   /**
    * Check an invite code to see who it belongs to.
@@ -319,7 +298,7 @@ export class UserService extends BaseService {
       const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/0/0/'), formData);
       const icerik = this.handle<any>(response);
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.medyalar || []);
-      
+
       return this.createSuccess(rawList, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch media:', error);
@@ -517,7 +496,7 @@ export class UserService extends BaseService {
    * Get user media list (photos/videos).
    */
   async getUserMediaLegacy(page: number, options?: { userId?: number, limit?: number, category?: string }): Promise<ServiceResponse<any[]>> {
-      return this.getUserMedia(page, options);
+    return this.getUserMedia(page, options);
   }
 
   /**
@@ -533,10 +512,10 @@ export class UserService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/xpsiralama/0/0/`), formData);
       const icerik = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
-      const mapped = UserMapper.mapRankingList(rawList);
-      
+      const mapped = UserMapper.mapXpRankingList(rawList);
+
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch XP rankings:', error);
@@ -557,10 +536,10 @@ export class UserService extends BaseService {
 
       const response = await this.client.post<any>(this.resolveBotPath(`/0/0/popsiralama/0/0/`), formData);
       const icerik = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
-      const mapped = UserMapper.mapRankingList(rawList);
-      
+      const mapped = UserMapper.mapPopRankingList(rawList);
+
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch POP rankings:', error);

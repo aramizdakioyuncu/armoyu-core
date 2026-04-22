@@ -74,16 +74,28 @@ export class BaseService {
       return `/0/${token}${corePath}`;
     }
 
-    // Default: Ensure starts with /0/0/ and append the rest
-    let finalCore = cleanPath;
-    if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
-        finalCore = '/' + zeroSegments.slice(2).join('/');
+    // Default ARMOYU Bot Path Logic
+    const config = (this.client as any).config;
+    const potentialToken = config.token || '';
+    const isValidToken = potentialToken.length > 30 && !potentialToken.includes(' ');
+    const token = isValidToken ? potentialToken : '0';
+
+    // Universal Router Fix: If all segments are zeros or just the command
+    if (isAllZeros) {
+        return cleanPath.startsWith('/0/') ? cleanPath : `/0${cleanPath}`;
+    }
+
+    // Identify exceptions that NEED token in URL (already handled above but for clarity)
+    let corePath = cleanPath;
+    if (zeroSegments[0] === '0' && (zeroSegments[1] === '0' || zeroSegments[1] === token)) {
+        corePath = '/' + zeroSegments.slice(2).join('/');
     }
     
-    if (!finalCore.startsWith('/')) finalCore = '/' + finalCore;
-    if (cleanPath.endsWith('/') && !finalCore.endsWith('/')) finalCore += '/';
+    // Ensure slash
+    if (!corePath.startsWith('/')) corePath = '/' + corePath;
+    if (cleanPath.endsWith('/') && !corePath.endsWith('/')) corePath += '/';
 
-    return `/0/0${finalCore}`;
+    return `/0/${token}${corePath}`;
   }
 
   protected createSuccess<T>(icerik: T, aciklama?: string, detail?: number) {
