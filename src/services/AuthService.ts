@@ -22,7 +22,7 @@ export class AuthService extends BaseService {
     formData.append('password', sifre);
 
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/'), formData);
+      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/'), formData);
       const icerik = this.handle<any>(response);
 
       const aciklamaToken = response?.aciklama || '';
