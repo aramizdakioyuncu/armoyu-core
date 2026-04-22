@@ -22,7 +22,7 @@ export class MusicService extends BaseService {
       formData.append('limit', limit.toString());
       formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/0/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = MusicMapper.mapSongList(icerik);
 
@@ -46,7 +46,7 @@ export class MusicService extends BaseService {
       formData.append('sayfa', page.toString());
       formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/favoriler/0/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/favoriler/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = MusicMapper.mapFavoriteList(icerik);
 
@@ -69,7 +69,7 @@ export class MusicService extends BaseService {
       formData.append('muzikadi', name);
       formData.append('muziklink', link);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/ekle/0/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -90,7 +90,7 @@ export class MusicService extends BaseService {
       formData.append('sayfa', page.toString());
       formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/canli/0/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/canli/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = MusicMapper.mapLiveList(icerik);
 
@@ -112,7 +112,7 @@ export class MusicService extends BaseService {
       const formData = new FormData();
       formData.append('sarkibilgi', query);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/bul/0/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/bul/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = MusicMapper.mapSearchList(icerik);
 
@@ -131,7 +131,7 @@ export class MusicService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('muzikID', musicId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/favoriler/ekle/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/favoriler/ekle/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -148,7 +148,7 @@ export class MusicService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('muzikID', musicId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/muzikler/favoriler/sil/'), formData);
+      const response = await this.client.post<any>('/0/0/muzikler/favoriler/sil/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -157,3 +157,4 @@ export class MusicService extends BaseService {
     }
   }
 }
+

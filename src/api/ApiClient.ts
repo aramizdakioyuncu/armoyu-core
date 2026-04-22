@@ -55,14 +55,30 @@ export class ApiClient {
   }
 
   private async request<T>(endpoint: string, options: any = {}): Promise<T> {
-    const url = RequestInterceptor.buildUrl(this.config.baseUrl, endpoint, options.params);
+    const url = RequestInterceptor.buildUrl(this.config.baseUrl, endpoint, this.config, options.params);
     const { headers, body } = RequestInterceptor.prepareRequest(this.config, options, this.logger);
+    
+    const startTime = Date.now();
+    if (this.config.debugMode) {
+      this.logger.info(`[ARMOYU] [DEBUG] ${options.method || 'GET'} Request -> ${url}`);
+    }
+
     try {
       const resp = await fetch(url, { ...options, headers, body });
+      const duration = Date.now() - startTime;
+      
+      if (this.config.debugMode) {
+        this.logger.info(`[ARMOYU] [DEBUG] ${options.method || 'GET'} Response (${resp.status}) [${duration}ms] <- ${url}`);
+      }
+
       const rawData = await ResponseHandler.parseBody(resp);
       this.lastRaw = rawData;
       return ResponseHandler.processResponse<T>(resp, rawData);
     } catch (err) {
+      const duration = Date.now() - startTime;
+      if (this.config.debugMode) {
+        this.logger.error(`[ARMOYU] [DEBUG] ${options.method || 'GET'} FAILED [${duration}ms] <- ${url} - Error: ${err instanceof Error ? err.message : 'Network Error'}`);
+      }
       if (err instanceof ApiError) throw err;
       throw new ApiError(err instanceof Error ? err.message : 'Unknown Network Error');
     }

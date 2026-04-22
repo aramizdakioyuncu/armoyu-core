@@ -21,7 +21,7 @@ export class StoryService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/0/0/', formData);
       const data = this.handle<any[]>(response);
       const mapped = StoryMapper.mapStoryList(data || []);
       
@@ -48,7 +48,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/bakanlar/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/bakanlar/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -66,7 +66,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/beğenenler/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/beğenenler/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -84,7 +84,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('hikayemedya', mediaUrl);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/ekle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -102,7 +102,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -120,7 +120,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/gizle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/gizle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -138,7 +138,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('hikayeID', storyId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hikaye/bak/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hikaye/bak/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -147,3 +147,4 @@ export class StoryService extends BaseService {
     }
   }
 }
+

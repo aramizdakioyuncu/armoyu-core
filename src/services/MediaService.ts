@@ -20,7 +20,7 @@ export class MediaService extends BaseService {
       formData.append('sayfa', page.toString());
       formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/0/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = MediaMapper.mapGalleryList(icerik);
 
@@ -47,7 +47,7 @@ export class MediaService extends BaseService {
       }
       formData.append('category', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/yukle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/yukle/0/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -66,7 +66,7 @@ export class MediaService extends BaseService {
       const formData = new FormData();
       formData.append('medyaID', mediaId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/sil/0/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -87,7 +87,7 @@ export class MediaService extends BaseService {
       formData.append('fotografID', photoId.toString());
       formData.append('derece', degree.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/donder/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/donder/0/', formData);
       this.handle<any>(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -96,3 +96,4 @@ export class MediaService extends BaseService {
     }
   }
 }
+

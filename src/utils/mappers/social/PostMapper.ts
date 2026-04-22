@@ -37,7 +37,7 @@ export class PostMapper extends BaseMapper {
       isReposted: this.toBool(raw.benretweetledim),
       isReported: this.toBool(raw.bensikayet),
       mappedMedia: this.mapMediaList(raw.paylasimfoto || []),
-      topLikers: [],
+      topLikers: this.mapLikersList(raw.paylasimilkucbegenen || []),
       topComments: this.mapCommentList(raw.ilkucyorum || [])
     };
   }
@@ -47,8 +47,19 @@ export class PostMapper extends BaseMapper {
       id: this.toNumber(raw.owner_ID || raw.id),
       username: raw.username || '',
       displayName: raw.displayname || '',
-      avatar: this.toImageUrl(raw.avatar) || '',
-      banner: this.toImageUrl(raw.banner) || '',
+      avatar: raw.avatar?.media_URL || this.toImageUrl(raw.avatar) || '',
+      banner: raw.banner?.media_URL || this.toImageUrl(raw.banner) || '',
+      url: raw.URL || '',
+      job: raw.job || ''
+    };
+  }
+
+  private static mapMediaOwner(raw: any): PostOwnerResponse {
+    return {
+      id: this.toNumber(raw.owner_ID),
+      username: raw.owner_username || '',
+      displayName: raw.owner_displayname || '',
+      avatar: raw.owner_avatar?.media_URL || this.toImageUrl(raw.owner_avatar) || '',
       url: raw.URL || ''
     };
   }
@@ -57,7 +68,7 @@ export class PostMapper extends BaseMapper {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
       id: this.toNumber(item.fotoID),
-      owner: this.mapOwner(item.owner || {}),
+      owner: this.mapMediaOwner(item.owner || {}),
       category: item.paylasimkategori || '',
       url: this.toImageUrl(item.fotourl) || '',
       smallUrl: this.toImageUrl(item.fotoufakurl) || '',

@@ -22,7 +22,7 @@ export class BlockService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/engel/0/0/', formData);
       const data = this.handle<any>(response);
       const mapped = UserMapper.mapBlockedList(data || []);
       
@@ -42,7 +42,7 @@ export class BlockService extends BaseService {
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/engel/ekle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -60,7 +60,7 @@ export class BlockService extends BaseService {
       const formData = new FormData();
       formData.append('userID', userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/engel/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/engel/sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -69,3 +69,4 @@ export class BlockService extends BaseService {
     }
   }
 }
+

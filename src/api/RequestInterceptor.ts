@@ -5,12 +5,29 @@ import { ApiConfig, ApiRequestOptions } from './types';
  * Handles URL building and request preparation for the ApiClient.
  */
 export class RequestInterceptor {
-  static buildUrl(baseUrl: string, endpoint: string, params?: Record<string, any>): string {
+  static buildUrl(baseUrl: string, endpoint: string, config: ApiConfig, params?: Record<string, any>): string {
+    let cleanEndpoint = endpoint;
+
+    // Ensure leading slash
+    if (!cleanEndpoint.startsWith('/') && !cleanEndpoint.includes('://')) {
+      cleanEndpoint = '/' + cleanEndpoint;
+    }
+
+    // ARMOYU Bot Path Logic: Prepend /botlar/API_KEY for standard requests
+    // BUT: Skip it for auth/login to avoid "Link structure incorrect" errors there
+    if (!cleanEndpoint.includes('://') && !cleanEndpoint.startsWith('/botlar/')) {
+      const isAuthRequest = cleanEndpoint.includes('/auth/') || cleanEndpoint.includes('/login/') || cleanEndpoint === '/0/0/0/0/0/';
+      
+      if (!isAuthRequest) {
+        const apiKey = config.apiKey || '0';
+        cleanEndpoint = `/botlar/${apiKey}${cleanEndpoint}`;
+      }
+    }
+
     // Separate base path from existing query string if any
     const [basePath, baseQuery] = baseUrl.split('?');
     const cleanBase = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
-    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-    
+
     // Build combined path
     let fullPath = `${cleanBase}${cleanEndpoint}`;
     if (baseQuery) fullPath += `?${baseQuery}`;
@@ -33,7 +50,15 @@ export class RequestInterceptor {
     }
     const qs = searchParams.toString();
     const basePathOnly = fullPath.split('?')[0];
-    return qs ? `${basePathOnly}?${qs}` : basePathOnly;
+
+    // CRITICAL: Preserve trailing slash if it existed before query string
+    const finalUrl = qs ? `${basePathOnly}?${qs}` : basePathOnly;
+
+    if (config.debugMode) {
+      console.log(`[ApiClient] Built URL: ${finalUrl}`);
+    }
+
+    return finalUrl;
   }
 
   static prepareRequest(config: ApiConfig, options: ApiRequestOptions, logger: ArmoyuLogger) {

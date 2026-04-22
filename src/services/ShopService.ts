@@ -23,7 +23,7 @@ export class ShopService extends BaseService {
       if (options?.category) formData.append('kategori', options.category);
       if (options?.searchTerm) formData.append('arama', options.searchTerm);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/market/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/market/0/0/', formData);
       const data = this.handle<any[]>(response);
       const mappedData = ShopMapper.mapProductList(data || []);
       return this.createSuccess(mappedData, response?.aciklama);
@@ -40,7 +40,7 @@ export class ShopService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('urunID', productId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/market/detay/0/'), formData);
+      const response = await this.client.post<any>('/0/0/market/detay/0/', formData);
       const data = this.handle<any>(response);
       const mappedData = data ? ShopMapper.mapProduct(data) : null;
       return this.createSuccess(mappedData, response?.aciklama);
@@ -58,7 +58,7 @@ export class ShopService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('urunler', JSON.stringify(params.items));
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/market/satin-al/0/'), formData);
+      const response = await this.client.post<any>('/0/0/market/satin-al/0/', formData);
       const data = this.handle<any>(response);
       const mappedData = data ? ShopMapper.mapOrder(data) : ({} as OrderResponse);
       return this.createSuccess(mappedData, response?.aciklama);
@@ -68,3 +68,4 @@ export class ShopService extends BaseService {
     }
   }
 }
+

@@ -2,8 +2,8 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse, SearchUserResponse } from '../models';
-import { UserMapper } from '../utils/mappers';
+import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse, SearchUserResponse, MediaResponse } from '../models';
+import { UserMapper, MediaMapper } from '../utils/mappers';
 
 /**
  * Service for user management, profiles, and rankings.
@@ -23,7 +23,7 @@ export class UserService extends BaseService {
       formData.append('oyuncubakid', '0');
       formData.append('oyuncubakusername', username);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/0/0/0/', formData);
       const icerik = this.handle<any>(response);
       const mapped = UserMapper.mapProfile(icerik);
 
@@ -51,7 +51,7 @@ export class UserService extends BaseService {
       formData.append('tc', data.idNumber || '');
       formData.append('sifrekontrol', data.passwordControl || '');
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/ozelbilgi-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/ozelbilgi-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -70,7 +70,7 @@ export class UserService extends BaseService {
       if (options?.limit) formData.append('limit', options.limit.toString());
       if (options?.userId) formData.append('oyuncubakid', options.userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/arkadaslarim/0/0/', formData);
       const icerik = this.handle<any>(response);
 
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
@@ -91,7 +91,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslik/ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/arkadaslik/ekle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -108,7 +108,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslik/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/arkadaslik/sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -126,7 +126,7 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
       formData.append('cevap', response.toString());
-      const apiResponse = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslik/cevap/0/'), formData);
+      const apiResponse = await this.client.post<any>('/0/0/arkadaslik/cevap/0/', formData);
       this.handle(apiResponse);
       return this.createSuccess(true, apiResponse?.aciklama);
     } catch (error: any) {
@@ -142,7 +142,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/okullarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/okullarim/0/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
@@ -158,7 +158,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('okulID', schoolId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/okulbak/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/okulbak/0/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
@@ -175,7 +175,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetler/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/davetler/0/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
@@ -190,7 +190,7 @@ export class UserService extends BaseService {
   async refreshInviteCode(): Promise<ServiceResponse<string>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/davetkodu-yenile/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ayarlar/davetkodu-yenile/0/', new FormData());
       const icerik = this.handle<any>(response);
       return this.createSuccess(icerik?.davetkodu || '', response?.aciklama);
     } catch (error: any) {
@@ -207,7 +207,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('davetkodu', code);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/davetkodsorgula/0/'), formData);
+      const response = await this.client.post<any>('/0/0/davetkodsorgula/0/', formData);
       const detail = response?.aciklamadetay;
       const mapped = UserMapper.mapInviteCodeCheck(detail);
       return this.createSuccess(mapped, response?.aciklama);
@@ -225,7 +225,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/eposta-onay-istegi/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/eposta-onay-istegi/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -242,7 +242,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/arkadaslik/dort/0/'), formData);
+      const response = await this.client.post<any>('/0/0/arkadaslik/dort/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -259,7 +259,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('takimID', teamId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/takim-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/takim-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -275,7 +275,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/profil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/profil/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
@@ -287,7 +287,7 @@ export class UserService extends BaseService {
   /**
    * Get user media (photos/videos).
    */
-  async getUserMedia(page: number, options?: { userId?: number, limit?: number, category?: string }): Promise<ServiceResponse<any[]>> {
+  async getUserMedia(page: number, options?: { userId?: number, limit?: number, category?: string }): Promise<ServiceResponse<MediaResponse[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -295,11 +295,12 @@ export class UserService extends BaseService {
       if (options?.userId) formData.append('oyuncubakid', options.userId.toString());
       if (options?.category) formData.append('kategori', options.category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/0/0/', formData);
       const icerik = this.handle<any>(response);
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.medyalar || []);
+      const mapped = MediaMapper.mapGalleryList(rawList);
 
-      return this.createSuccess(rawList, response?.aciklama);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch media:', error);
       return this.createError(error.message);
@@ -318,7 +319,7 @@ export class UserService extends BaseService {
       if (category) formData.append('kategori', category);
       if (detail) formData.append('kategoridetay', detail);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/gecmis/0/'), formData);
+      const response = await this.client.post<any>('/0/0/bildirimler/gecmis/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
@@ -333,7 +334,7 @@ export class UserService extends BaseService {
   async getNotifications(): Promise<ServiceResponse<any[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/bildirimler/0/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/bildirimler/0/0/', new FormData());
       const icerik = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
@@ -350,7 +351,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('resim', Array.isArray(file) ? file[0] : file);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/profil-resmi-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/profil-resmi-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -365,7 +366,7 @@ export class UserService extends BaseService {
   async resetAvatar(): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/profil-resmi-sil/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ayarlar/profil-resmi-sil/0/', new FormData());
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -380,7 +381,7 @@ export class UserService extends BaseService {
   async resetBanner(): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/profil-arkaplan-sil/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ayarlar/profil-arkaplan-sil/0/', new FormData());
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -397,7 +398,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('resim', Array.isArray(file) ? file[0] : file);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/profil-arkaplan-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/profil-arkaplan-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -415,7 +416,7 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('fotografID', mediaId.toString());
       formData.append('derece', degree.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/dondur/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/dondur/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -432,7 +433,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('medyaID', mediaId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -451,7 +452,7 @@ export class UserService extends BaseService {
       files.forEach(f => formData.append('media[]', f));
       if (category) formData.append('category', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/medya/yukle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/medya/yukle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -466,7 +467,7 @@ export class UserService extends BaseService {
   async getNotificationSettings(): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/bildirim/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ayarlar/bildirim/0/', new FormData());
       const icerik = this.handle<any>(response);
       return this.createSuccess(icerik, response?.aciklama);
     } catch (error: any) {
@@ -483,7 +484,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       Object.entries(settings).forEach(([k, v]) => formData.append(k, v.toString()));
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/bildirim-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ayarlar/bildirim-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -495,7 +496,7 @@ export class UserService extends BaseService {
   /**
    * Get user media list (photos/videos).
    */
-  async getUserMediaLegacy(page: number, options?: { userId?: number, limit?: number, category?: string }): Promise<ServiceResponse<any[]>> {
+  async getUserMediaLegacy(page: number, options?: { userId?: number, limit?: number, category?: string }): Promise<ServiceResponse<MediaResponse[]>> {
     return this.getUserMedia(page, options);
   }
 
@@ -510,7 +511,7 @@ export class UserService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/xpsiralama/0/0/`), formData);
+      const response = await this.client.post<any>(`/0/0/xpsiralama/0/0/`, formData);
       const icerik = this.handle<any>(response);
 
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
@@ -534,7 +535,7 @@ export class UserService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/popsiralama/0/0/`), formData);
+      const response = await this.client.post<any>(`/0/0/popsiralama/0/0/`, formData);
       const icerik = this.handle<any>(response);
 
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.oyuncular || []);
@@ -547,3 +548,4 @@ export class UserService extends BaseService {
     }
   }
 }
+

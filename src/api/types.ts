@@ -9,6 +9,7 @@ export interface ApiConfig {
   headers?: Record<string, string>;
   logger?: ArmoyuLogger;
   usePreviousVersion?: boolean;
+  debugMode?: boolean;
 }
 
 export interface StandardApi<T> {

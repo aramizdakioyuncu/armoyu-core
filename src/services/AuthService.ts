@@ -22,7 +22,7 @@ export class AuthService extends BaseService {
     formData.append('password', sifre);
 
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/0/', formData);
       const icerik = this.handle<any>(response);
 
       const aciklamaToken = response?.aciklama || '';
@@ -57,7 +57,7 @@ export class AuthService extends BaseService {
         formData.append('davetkodu', params.inviteCode);
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kayit-ol/'), formData);
+      const response = await this.client.post<any>('/0/0/kayit-ol/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -72,7 +72,7 @@ export class AuthService extends BaseService {
   async me(): Promise<ServiceResponse<UserProfileResponse>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/0/0/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/0/0/0/', new FormData());
       const icerik = this.handle<any>(response);
       const mapped = UserMapper.mapProfile(icerik);
       return this.createSuccess(mapped, response?.aciklama);
@@ -89,7 +89,7 @@ export class AuthService extends BaseService {
     try {
       // In legacy API, logout is often just client-side token clear, 
       // but we send a request to /0/0/cikis/ if supported
-      await this.client.post<any>(this.resolveBotPath('/0/0/cikis/'), new FormData());
+      await this.client.post<any>('/0/0/cikis/', new FormData());
     } catch (error) {
       // Ignore network errors on logout
     }
@@ -108,7 +108,7 @@ export class AuthService extends BaseService {
       formData.append('dogumtarihi', params.birthday);
       formData.append('tercih', params.preference);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sifremi-unuttum/'), formData);
+      const response = await this.client.post<any>('/0/0/sifremi-unuttum/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -129,7 +129,7 @@ export class AuthService extends BaseService {
       formData.append('kod', params.code);
       formData.append('yenisifre', params.newPassword);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sifremi-unuttum-onayla/'), formData);
+      const response = await this.client.post<any>('/0/0/sifremi-unuttum-onayla/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -138,3 +138,4 @@ export class AuthService extends BaseService {
     }
   }
 }
+

@@ -40,7 +40,7 @@ async function discover() {
   // 3. User Search
   try {
     console.log('[User] Searching for "berkay"...');
-    const userSearch = await api.users.searchUsers('berkay');
+    const userSearch = await api.search.globalSearch('berkay');
     results['user_search'] = userSearch;
   } catch (e) { console.error('[User] search failed'); }
 
@@ -80,7 +80,7 @@ async function discover() {
   try {
     console.log('[User] Searching for "berkay" on api.armoyu.com...');
     const backupApi = new ArmoyuApi(apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
-    const userSearch = await backupApi.users.searchUsers('berkay');
+    const userSearch = await backupApi.search.globalSearch('berkay');
     results['user_search_fallback'] = userSearch;
   } catch (e) { console.error('[User] search fallback failed'); }
 
@@ -101,7 +101,7 @@ async function discover() {
   // 11. Trying Blog with POST just in case
   try {
     console.log('[Blog] Fetching news with POST (test)...');
-    const response = await (api as any).client.post( (api.blog as any).resolveBotPath('/haberler/0/0/0/'), new FormData());
+    const response = await (api as any).client.post((api.blog as any).resolveBotPath('/haberler/0/0/0/'), new FormData());
     results['blog_news_post_test'] = response;
   } catch (e) { console.error('[Blog] news POST test failed'); }
 
@@ -137,7 +137,7 @@ async function discover() {
   if (!fs.existsSync('./discovery')) {
     fs.mkdirSync('./discovery');
   }
-  
+
   fs.writeFileSync('./discovery/phase1.json', JSON.stringify(results, null, 2));
   console.log('--- Discovery Phase 1 Completed! Results saved to ./discovery/phase1.json ---');
 }

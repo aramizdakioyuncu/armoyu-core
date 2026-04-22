@@ -22,7 +22,7 @@ export class PollService extends BaseService {
       if (limit !== undefined) formData.append('limit', limit.toString());
       if (pollId !== undefined) formData.append('anketID', pollId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/anketler/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/anketler/liste/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = PollMapper.mapPollList(icerik || []);
       
@@ -43,7 +43,7 @@ export class PollService extends BaseService {
       formData.append('anketID', pollId.toString());
       formData.append('secenekID', optionId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/anketler/oykullan/0/'), formData);
+      const response = await this.client.post<any>('/0/0/anketler/yanitla/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -52,3 +52,4 @@ export class PollService extends BaseService {
     }
   }
 }
+

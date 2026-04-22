@@ -21,7 +21,7 @@ export class TeamService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/takimlar/liste/${page}/`), formData);
+      const response = await this.client.post<any>(`/0/0/takimlar/liste/${page}/`, formData);
       const data = this.handle<any[]>(response);
       const mapped = TeamMapper.mapTeamList(data || []);
       
@@ -32,3 +32,4 @@ export class TeamService extends BaseService {
     }
   }
 }
+

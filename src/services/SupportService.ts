@@ -22,7 +22,7 @@ export class SupportService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit !== undefined) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/destek/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/destek/liste/0/', formData);
       const data = this.handle<any[]>(response);
       const mapped = SupportMapper.mapTicketList(data || []);
 
@@ -33,3 +33,4 @@ export class SupportService extends BaseService {
     }
   }
 }
+

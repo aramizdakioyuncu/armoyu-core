@@ -17,7 +17,7 @@ export class ManagementService extends BaseService {
   async getSettings(): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/ayarlar/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/yonetim/ayarlar/0/', new FormData());
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -34,7 +34,7 @@ export class ManagementService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('kategori', category);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/icerik/0/'), formData);
+      const response = await this.client.post<any>('/0/0/yonetim/icerik/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -49,7 +49,7 @@ export class ManagementService extends BaseService {
   async getMeetings(): Promise<ServiceResponse<any[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/toplantilar/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/yonetim/toplantilar/0/', new FormData());
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -58,3 +58,4 @@ export class ManagementService extends BaseService {
     }
   }
 }
+

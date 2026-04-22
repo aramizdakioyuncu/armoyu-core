@@ -59,6 +59,7 @@ const SERVICE_ICONS: Record<string, any> = {
   payments: CreditCard,
   music: Music,
   media: Camera,
+  polls: Zap,
 };
 
 // --- Helper Components ---
@@ -329,6 +330,13 @@ const CONFIG = {
     actions: [
       { id: "getInvoices", name: "Get Invoices", method: "POST", endpoint: "/0/0/odemeler/faturalar/0/", inputs: ["page"], desc: "Fetch your billing list", auth: true }
     ]
+  },
+  polls: {
+    title: "PollService",
+    actions: [
+      { id: "getPolls", name: "List Polls", method: "POST", endpoint: "/0/0/anketler/liste/0/", inputs: ["sayfa", "limit", "anketID"], desc: "Fetch community surveys", auth: false },
+      { id: "vote", name: "Vote (Yanıtla)", method: "POST", endpoint: "/0/0/anketler/yanitla/0/", inputs: ["anketID", "secenekID"], desc: "Respond to a specific survey", auth: true }
+    ]
   }
 };
 
@@ -554,7 +562,7 @@ export default function Dashboard() {
         if (action.id === 'getChats') {
           result = await api.chat.getChats(inputs.page ? Number(inputs.page) : 1, { limit: inputs.limit ? Number(inputs.limit) : 20 });
         } else if (action.id === 'getFriends') {
-          result = await api.chat.getFriends(inputs.page ? Number(inputs.page) : 1, { limit: inputs.limit ? Number(inputs.limit) : 20 });
+          result = await api.chat.getFriendsChat(inputs.page ? Number(inputs.page) : 1, { limit: inputs.limit ? Number(inputs.limit) : 20 });
         } else if (action.id === 'sendMessage') {
           result = await api.chat.sendMessage(Number(inputs.userId || inputs.oyuncubakid), inputs.content || inputs.icerik, (inputs.type || inputs.turu) as any);
         } else if (action.id === 'getChatHistory') {
@@ -661,6 +669,16 @@ export default function Dashboard() {
           result = await api.stations.getStations(inputs.sayfa ? Number(inputs.sayfa) : 1, inputs.kategori);
         } else if (action.id === 'getStationEquipment') {
           result = await api.stations.getStationEquipment(inputs.istasyonID);
+        }
+      } else if (sid === 'polls') {
+        if (action.id === 'getPolls') {
+          result = await api.polls.getPolls(
+            inputs.sayfa ? Number(inputs.sayfa) : 1, 
+            inputs.limit ? Number(inputs.limit) : 20, 
+            inputs.anketID ? Number(inputs.anketID) : undefined
+          );
+        } else if (action.id === 'vote') {
+          result = await api.polls.vote(Number(inputs.anketID), Number(inputs.secenekID));
         }
       }
 

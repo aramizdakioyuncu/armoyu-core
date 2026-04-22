@@ -30,81 +30,6 @@ export class BaseService {
     throw new Error(errorMsg);
   }
 
-  /**
-   * Resolve a path to its bot-compatible format.
-   * Logic: Most endpoints use /0/0/ when Bearer header is present.
-   * Exception: Some legacy endpoints (oyuncubak, destek) STILL require token in URL.
-   */
-  protected resolveBotPath(path: string): string {
-    let cleanPath = path;
-    if (!cleanPath.startsWith('/')) {
-      cleanPath = '/' + cleanPath;
-    }
-
-    // Special case: If path is just zeros (Universal Router), preserve it exactly
-    const zeroSegments = cleanPath.split('/').filter(s => s !== '');
-    const isAllZeros = zeroSegments.length > 0 && zeroSegments.every(s => s === '0');
-    if (isAllZeros) {
-        // Return as is, starting with /0/
-        return cleanPath.startsWith('/0/') ? cleanPath : `/0${cleanPath}`;
-    }
-
-    // Identify exceptions that NEED token in URL
-    const tokenRequiredKeywords = ['oyuncubak', 'destek'];
-    const needsToken = tokenRequiredKeywords.some(kw => cleanPath.includes(kw));
-
-    if (needsToken) {
-      const config = (this.client as any).config;
-      const potentialToken = config.token || '';
-      const isValidToken = potentialToken.length > 50 && !potentialToken.includes(' ');
-      const token = isValidToken ? potentialToken : '0';
-
-      // If cleanPath already starts with /0/someToken/0/, strip it
-      let corePath = cleanPath;
-      if (zeroSegments[0] === '0' && zeroSegments[2] === '0') {
-        corePath = '/' + zeroSegments.slice(3).join('/');
-      } else if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
-        corePath = '/' + zeroSegments.slice(2).join('/');
-      }
-      
-      // Ensure slash
-      if (!corePath.startsWith('/')) corePath = '/' + corePath;
-      if (cleanPath.endsWith('/') && !corePath.endsWith('/')) corePath += '/';
-
-      return `/0/${token}${corePath}`;
-    }
-
-    // Default ARMOYU Bot Path Logic
-    const config = (this.client as any).config;
-    const potentialToken = config.token || '';
-    const isValidToken = potentialToken.length > 30 && !potentialToken.includes(' ');
-    const token = isValidToken ? potentialToken : '0';
-
-    // Universal Router Fix: If all segments are zeros or just the command
-    if (isAllZeros) {
-        return cleanPath.startsWith('/0/') ? cleanPath : `/0${cleanPath}`;
-    }
-
-    // Strip any leading botlar/apiKey/0/0 or /0/0 prefix
-    let corePath = cleanPath;
-    const apiKey = (this.client as any).config.apiKey || '0';
-    
-    // Pattern 1: /botlar/[apiKey]/0/0/cmd -> /cmd
-    if (zeroSegments[0] === 'botlar' && zeroSegments[1] === apiKey) {
-        corePath = '/' + zeroSegments.slice(4).join('/');
-    } 
-    // Pattern 2: /0/0/cmd -> /cmd
-    else if (zeroSegments[0] === '0' && zeroSegments[1] === '0') {
-        corePath = '/' + zeroSegments.slice(2).join('/');
-    }
-    
-    // Ensure slash
-    if (!corePath.startsWith('/')) corePath = '/' + corePath;
-    if (cleanPath.endsWith('/') && !corePath.endsWith('/')) corePath += '/';
-
-    return `/botlar/${apiKey}/0/${token}${corePath}`;
-  }
-
   protected createSuccess<T>(icerik: T, aciklama?: string, detail?: number) {
     return {
       durum: 1,
@@ -128,3 +53,4 @@ export class BaseService {
     }
   }
 }
+

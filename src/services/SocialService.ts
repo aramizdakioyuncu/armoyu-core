@@ -25,7 +25,7 @@ export class SocialService extends BaseService {
       if (options?.username) formData.append('oyuncubakusername', options.username);
       if (options?.filter) formData.append('paylasimozellik', options.filter);
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sosyal/liste/${page}/`), formData);
+      const response = await this.client.post<any>(`/0/0/sosyal/liste/${page}/`, formData);
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
@@ -46,7 +46,7 @@ export class SocialService extends BaseService {
       const formData = new FormData();
       formData.append('postID', postId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/liste/0/', formData);
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
@@ -68,7 +68,7 @@ export class SocialService extends BaseService {
       formData.append('category', 'yorum');
       formData.append('categorydetail', commentId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/liste/0/', formData);
       const data = this.handle<any>(response);
       
       const rawList = Array.isArray(data) ? data : [];
@@ -89,7 +89,7 @@ export class SocialService extends BaseService {
       const formData = new FormData();
       formData.append('postID', postId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorumlar/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/yorumlar/0/', formData);
       const data = this.handle<any>(response);
       const mapped = PostMapper.mapCommentList(Array.isArray(data) ? data : []);
       
@@ -114,7 +114,7 @@ export class SocialService extends BaseService {
         });
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/olustur/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/olustur/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -132,7 +132,7 @@ export class SocialService extends BaseService {
       const formData = new FormData();
       formData.append('postID', postId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -153,7 +153,7 @@ export class SocialService extends BaseService {
         formData.append('yorumID', id.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begenenler/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/begenenler/0/', formData);
       const data = this.handle<any>(response);
       const mapped = PostMapper.mapLikersList(Array.isArray(data) ? data : []);
       
@@ -174,7 +174,7 @@ export class SocialService extends BaseService {
       formData.append('postID', id.toString());
       formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begen/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/begen/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -194,7 +194,7 @@ export class SocialService extends BaseService {
       formData.append('yorumID', commentId?.toString() || '');
       formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begeni-ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/begeni-ekle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -214,7 +214,7 @@ export class SocialService extends BaseService {
       formData.append('yorumID', commentId?.toString() || '');
       formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/begeni-sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/begeni-sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -233,7 +233,7 @@ export class SocialService extends BaseService {
       formData.append('postID', postId.toString());
       formData.append('bildirikategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/bildirim/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/bildirim/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -254,7 +254,7 @@ export class SocialService extends BaseService {
       formData.append('kimeyanit', replyTo.toString());
       formData.append('yorumicerik', content);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-olustur/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/yorum-olustur/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -272,7 +272,7 @@ export class SocialService extends BaseService {
       const formData = new FormData();
       formData.append('yorumID', commentId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sosyal/yorum-sil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sosyal/yorum-sil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -281,3 +281,4 @@ export class SocialService extends BaseService {
     }
   }
 }
+

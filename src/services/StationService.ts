@@ -26,7 +26,7 @@ export class StationService extends BaseService {
         }
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istasyonlar/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/istasyonlar/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
@@ -42,7 +42,7 @@ export class StationService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('istasyonID', stationId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istasyonlar/ekipman-listesi/0/'), formData);
+      const response = await this.client.post<any>('/0/0/istasyonlar/ekipman-listesi/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -51,3 +51,4 @@ export class StationService extends BaseService {
     }
   }
 }
+

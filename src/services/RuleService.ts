@@ -20,7 +20,7 @@ export class RuleService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit !== undefined) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kurallar/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/kurallar/liste/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
@@ -39,7 +39,7 @@ export class RuleService extends BaseService {
       formData.append('metin', text);
       formData.append('ceza', penalty);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kurallar/ekle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/kurallar/ekle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -48,3 +48,4 @@ export class RuleService extends BaseService {
     }
   }
 }
+

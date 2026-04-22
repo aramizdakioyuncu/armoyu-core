@@ -31,7 +31,7 @@ export class GroupService extends BaseService {
       formData.append('limit', limit.toString());
       if (category) formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/liste/0/'), formData);
+      const response = await this.client.post<any>('/0/0/gruplar/liste/0/', formData);
       const icerik = this.handle<any>(response);
       
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.gruplar || []);
@@ -58,7 +58,7 @@ export class GroupService extends BaseService {
         formData.append('groupname', search || '');
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/gruplar/0/0/`), formData);
+      const response = await this.client.post<any>(`/0/0/gruplar/0/0/`, formData);
       const icerik = this.handle<any>(response);
       const mapped = GroupMapper.mapGroupDetail(icerik);
       
@@ -77,7 +77,7 @@ export class GroupService extends BaseService {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplarim/'), formData);
+      const response = await this.client.post<any>('/0/0/gruplarim/', formData);
       const icerik = this.handle<any>(response);
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.gruplar || []);
       const mapped = (rawList as any[]).map(item => GroupMapper.mapGroupListItem(item)).filter((n): n is GroupResponse => n !== null);
@@ -99,7 +99,7 @@ export class GroupService extends BaseService {
       formData.append('grupID', groupId.toString());
       userIds.forEach(id => formData.append('oyuncubakid[]', id.toString()));
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/davet/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/davet/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -116,7 +116,7 @@ export class GroupService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/katil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/katil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -133,7 +133,7 @@ export class GroupService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/ayril/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/ayril/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -151,7 +151,7 @@ export class GroupService extends BaseService {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/at/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/at/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -175,7 +175,7 @@ export class GroupService extends BaseService {
       formData.append('website', data.website || '');
       formData.append('alimdurum', data.recruitmentStatus || '1');
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/ayar-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/ayar-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -193,7 +193,7 @@ export class GroupService extends BaseService {
       const formData = new FormData();
       formData.append('grupID', groupId.toString());
       formData.append('cevap', response.toString());
-      const apiResponse = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/davet-cevap/0/'), formData);
+      const apiResponse = await this.client.post<any>('/0/0/grupyonetim/davet-cevap/0/', formData);
       this.handle(apiResponse);
       return this.createSuccess(true, apiResponse?.aciklama);
     } catch (error: any) {
@@ -213,7 +213,7 @@ export class GroupService extends BaseService {
       formData.append('kategori', category);
       formData.append('resim', file);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/grupyonetim/media-guncelle/0/'), formData);
+      const response = await this.client.post<any>('/0/0/grupyonetim/media-guncelle/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -230,7 +230,7 @@ export class GroupService extends BaseService {
       const formData = new FormData();
       formData.append('groupname', groupName);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gruplar/uyeler/0/'), formData);
+      const response = await this.client.post<any>('/0/0/gruplar/uyeler/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -239,3 +239,4 @@ export class GroupService extends BaseService {
     }
   }
 }
+

@@ -23,7 +23,7 @@ export class SearchService extends BaseService {
       formData.append('limit', String(limit));
       formData.append('kategoridetay', categoryDetail || '');
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/arama/${page}/${limit}/`), formData);
+      const response = await this.client.post<any>(`/0/0/arama/${page}/${limit}/`, formData);
       const data = this.handle<any[]>(response);
       const mapped = SearchMapper.mapSearchList(data || []);
       
@@ -34,3 +34,4 @@ export class SearchService extends BaseService {
     }
   }
 }
+

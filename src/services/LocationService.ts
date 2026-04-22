@@ -21,7 +21,7 @@ export class LocationService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ulkeler/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ulkeler/0/0/', formData);
       const data = this.handle<any[]>(response);
       const mapped = LocationMapper.mapCountryList(data || []);
 
@@ -42,7 +42,7 @@ export class LocationService extends BaseService {
       if (limit !== undefined) formData.append('limit', limit.toString());
       if (countryId !== undefined) formData.append('countryID', countryId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/iller/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/iller/0/0/', formData);
       const data = this.handle<any[]>(response);
       const mapped = LocationMapper.mapProvinceList(data || []);
 
@@ -53,3 +53,4 @@ export class LocationService extends BaseService {
     }
   }
 }
+

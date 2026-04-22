@@ -32,7 +32,7 @@ export class BlogService extends BaseService {
         formData.append('limit', limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/haberler/${page}/${limit || 0}/`), formData);
+      const response = await this.client.post<any>(`/0/0/haberler/${page}/${limit || 0}/`, formData);
       const data = this.handle<any[]>(response);
       const mapped = (data || []).map(i => NewsMapper.mapNews(i)).filter((n): n is NewsResponse => n !== null);
       
@@ -65,7 +65,7 @@ export class BlogService extends BaseService {
       if (opt.newsId) formData.append('haberID', opt.newsId.toString());
       if (opt.newsURL) formData.append('haberURL', opt.newsURL);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/haberler/detay/0/'), formData);
+      const response = await this.client.post<any>('/0/0/haberler/detay/0/', formData);
       const icerik = this.handle<any>(response);
       const mapped = NewsMapper.mapNews(icerik);
       
@@ -89,7 +89,7 @@ export class BlogService extends BaseService {
       }
 
       // Guessed legacy search path based on common patterns
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/haberler/arama/${page}/${limit || 0}/`), formData);
+      const response = await this.client.post<any>(`/0/0/haberler/arama/${page}/${limit || 0}/`, formData);
       const icerik = this.handle<any[]>(response);
       const mapped = NewsMapper.mapNewsList(icerik || []);
       
@@ -100,3 +100,4 @@ export class BlogService extends BaseService {
     }
   }
 }
+

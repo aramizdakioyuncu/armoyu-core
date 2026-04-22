@@ -23,7 +23,7 @@ export class StaffService extends BaseService {
       if (limit !== undefined) formData.append('limit', limit.toString());
       if (category !== undefined) formData.append('kategori', category);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ekibimiz/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/ekibimiz/0/0/', formData);
       const data = this.handle<any[]>(response);
       const mapped = UserMapper.mapStaffList(data || []);
       
@@ -51,7 +51,7 @@ export class StaffService extends BaseService {
       formData.append('sayfa', page.toString());
       if (limit !== undefined) formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/yonetim/basvurular/0/'), formData);
+      const response = await this.client.post<any>('/0/0/yonetim/basvurular/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -60,3 +60,4 @@ export class StaffService extends BaseService {
     }
   }
 }
+

@@ -24,7 +24,7 @@ export class EventService extends BaseService {
       if (options?.gameId) formData.append('oyunID', options.gameId.toString());
       if (options?.status) formData.append('durum', options.status);
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/etkinlikler/liste/${page}/`), formData);
+      const response = await this.client.post<any>(`/0/0/etkinlikler/liste/${page}/`, formData);
       const icerik = this.handle<any>(response);
       
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.etkinlikler || []);
@@ -46,7 +46,7 @@ export class EventService extends BaseService {
       if (params.eventId) formData.append('eventID', params.eventId.toString());
       if (params.eventUrl) formData.append('eventURL', params.eventUrl);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/detay/'), formData);
+      const response = await this.client.post<any>('/0/0/etkinlikler/detay/', formData);
       const icerik = this.handle<any>(response);
       const mapped = EventMapper.mapEvent(icerik);
       
@@ -66,7 +66,7 @@ export class EventService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('eventID', eventId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katil/0/'), formData);
+      const response = await this.client.post<any>('/0/0/etkinlikler/katil/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -84,7 +84,7 @@ export class EventService extends BaseService {
       const formData = new FormData();
       formData.append('eventID', eventId.toString());
       formData.append('cevap', response);
-      const apiResponse = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/cevap/0/'), formData);
+      const apiResponse = await this.client.post<any>('/0/0/etkinlikler/cevap/0/', formData);
       this.handle(apiResponse);
       return this.createSuccess(true, apiResponse?.aciklama);
     } catch (error: any) {
@@ -100,7 +100,7 @@ export class EventService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('eventID', eventId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/takimlar/0/'), formData);
+      const response = await this.client.post<any>('/0/0/etkinlikler/takimlar/0/', formData);
       const icerik = this.handle<any>(response);
       return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
     } catch (error: any) {
@@ -116,7 +116,7 @@ export class EventService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('etkinlikID', eventId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etkinlikler/katilim/0/'), formData);
+      const response = await this.client.post<any>('/0/0/etkinlikler/katilim/0/', formData);
       const icerik = this.handle<any>(response);
       const mapped = EventMapper.mapParticipants(icerik);
       
@@ -127,3 +127,4 @@ export class EventService extends BaseService {
     }
   }
 }
+

@@ -16,7 +16,7 @@ export class SiteInformationService extends BaseService {
    */
   async getSiteInfo(): Promise<ServiceResponse<SiteInformationResponse>> {
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ana/0/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ana/0/0/', new FormData());
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -32,7 +32,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('kategori', category);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/hakkimizda/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/hakkimizda/0/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -48,7 +48,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('kategori', category);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/gizlilik-politikasi/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/gizlilik-politikasi/0/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -64,7 +64,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('kategori', category);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/kullanim-sozlesmesi/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/kullanim-sozlesmesi/0/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -80,7 +80,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('kategori', category);
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istatistikler/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/istatistikler/0/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -95,7 +95,7 @@ export class SiteInformationService extends BaseService {
   async getSessionLogs(): Promise<ServiceResponse<any[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/ayarlar/oturum-kayitlari/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/ayarlar/oturum-kayitlari/0/', new FormData());
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -111,7 +111,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/mesajlarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/mesajlarim/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -127,7 +127,7 @@ export class SiteInformationService extends BaseService {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/mesajbak/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/mesajbak/0/0/', formData);
       const data = this.handle<any>(response);
       return this.createSuccess(data, response?.aciklama);
     } catch (error: any) {
@@ -146,7 +146,7 @@ export class SiteInformationService extends BaseService {
       if (options?.limit) formData.append('limit', options.limit.toString());
       if (options?.tag) formData.append('etiket', options.tag);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/etiketler/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/etiketler/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -155,3 +155,4 @@ export class SiteInformationService extends BaseService {
     }
   }
 }
+

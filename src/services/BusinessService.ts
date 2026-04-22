@@ -21,7 +21,7 @@ export class BusinessService extends BaseService {
       if (limit) formData.append('limit', limit.toString());
       if (userId) formData.append('oyuncubakid', userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/okullarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/okullarim/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -40,7 +40,7 @@ export class BusinessService extends BaseService {
       if (limit) formData.append('limit', limit.toString());
       if (userId) formData.append('oyuncubakid', userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/istasyonlarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/istasyonlarim/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -49,3 +49,4 @@ export class BusinessService extends BaseService {
     }
   }
 }
+

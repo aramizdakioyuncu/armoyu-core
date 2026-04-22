@@ -24,7 +24,7 @@ export class ChatService extends BaseService {
       formData.append('icerik', content);
       formData.append('turu', type);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbetgonder/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sohbetgonder/0/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -46,7 +46,7 @@ export class ChatService extends BaseService {
         formData.append('limit', params.limit.toString());
       }
 
-      const response = await this.client.post<any>(this.resolveBotPath(`/0/0/sohbet/${params.userId}/${page}/`), formData);
+      const response = await this.client.post<any>(`/0/0/sohbet/${params.userId}/${page}/`, formData);
       const data = this.handle<any[]>(response);
       const mappedData = ChatMapper.mapHistoryList(data || []);
       return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
@@ -59,25 +59,26 @@ export class ChatService extends BaseService {
   /**
    * Fetches the list of friends available for chat.
    */
-  async getFriends(page: number = 1, options?: { limit?: number }): Promise<ServiceResponse<ChatResponse[]>> {
+  async getFriendsChat(page: number = 1, options?: { limit?: number }): Promise<ServiceResponse<ChatResponse[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       if (options?.limit) formData.append('limit', options.limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/arkadaslarim/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sohbet/arkadaslarim/0/', formData);
       const data = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(data) ? data : [];
       const mappedData = ChatMapper.mapFriendList(rawList);
-      
+
       return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
       return this.createError(error.message);
     }
   }
+
 
   /**
    * Fetches the list of recent chats (Inbox).
@@ -90,12 +91,12 @@ export class ChatService extends BaseService {
       if (options?.limit) formData.append('limit', options.limit.toString());
       if (options?.userId) formData.append('oyuncubakid', options.userId.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbet/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sohbet/0/0/', formData);
       const data = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(data) ? data : [];
       const mappedData = ChatMapper.mapInboxList(rawList);
-      
+
       return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chats failed:`, error);
@@ -113,12 +114,12 @@ export class ChatService extends BaseService {
       formData.append('sohbetID', chatId.toString());
       formData.append('sohbetturu', type);
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/sohbetdetay/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/sohbetdetay/0/0/', formData);
       const data = this.handle<any>(response);
-      
+
       const rawList = Array.isArray(data) ? data : [];
       const mappedData = ChatMapper.mapDetailList(rawList);
-      
+
       return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
     } catch (error: any) {
       this.logger.error(`[ChatService] Fetching chat detail failed:`, error);
@@ -126,3 +127,4 @@ export class ChatService extends BaseService {
     }
   }
 }
+

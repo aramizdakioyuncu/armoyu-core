@@ -18,4 +18,5 @@ export interface MediaResponse {
     small: string;
     thumb: string;
   };
+  title: string;
 }

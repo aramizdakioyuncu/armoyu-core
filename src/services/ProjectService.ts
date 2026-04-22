@@ -16,7 +16,7 @@ export class ProjectService extends BaseService {
    */
   async getProjects(): Promise<ServiceResponse<ProjectResponse[]>> {
     try {
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/0/0/'), new FormData());
+      const response = await this.client.post<any>('/0/0/projeler/0/0/', new FormData());
       const data = this.handle<any[]>(response);
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
@@ -32,7 +32,7 @@ export class ProjectService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('projeID', projectId.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/skor-listesi/0/'), formData);
+      const response = await this.client.post<any>('/0/0/projeler/skor-listesi/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -50,7 +50,7 @@ export class ProjectService extends BaseService {
       const formData = new FormData();
       formData.append('projeID', projectId.toString());
       formData.append('skor', score.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/projeler/skor-kaydet/0/'), formData);
+      const response = await this.client.post<any>('/0/0/projeler/skor-kaydet/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -59,3 +59,4 @@ export class ProjectService extends BaseService {
     }
   }
 }
+

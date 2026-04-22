@@ -19,7 +19,7 @@ export class ReelsService extends BaseService {
       formData.append('sayfa', page.toString());
       formData.append('limit', limit.toString());
 
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/reels/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/reels/0/0/', formData);
       const icerik = this.handle<any[]>(response);
       const mapped = ReelsMapper.mapReelsList(icerik);
 
@@ -30,3 +30,4 @@ export class ReelsService extends BaseService {
     }
   }
 }
+

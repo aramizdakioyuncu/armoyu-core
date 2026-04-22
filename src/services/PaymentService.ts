@@ -19,7 +19,7 @@ export class PaymentService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      const response = await this.client.post<any>(this.resolveBotPath('/0/0/faturalarim/0/0/'), formData);
+      const response = await this.client.post<any>('/0/0/faturalarim/0/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(data || [], response?.aciklama);
     } catch (error: any) {
@@ -35,3 +35,4 @@ export class PaymentService extends BaseService {
     return this.getInvoices();
   }
 }
+

@@ -22,7 +22,10 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ p
 
 async function handleProxy(req: NextRequest, pathSegments: string[]) {
   const apiKey = req.headers.get('x-api-key') || '';
-  const endpoint = '/' + pathSegments.join('/');
+  
+  // Use raw pathname to preserve trailing slashes that Next.js pathSegments strip
+  const rawPath = req.nextUrl.pathname;
+  const endpoint = rawPath.replace('/api/proxy', '') || '/';
 
   if (!apiKey) {
     return NextResponse.json({ durum: 0, aciklama: 'X-API-KEY header missing' }, { status: 400 });
