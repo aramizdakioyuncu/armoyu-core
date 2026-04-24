@@ -61,6 +61,42 @@ export class UserService extends BaseService {
   }
 
   /**
+   * Update special personal information (Modern Profile Edit).
+   */
+  async updateSpecialPersonalInfo(data: {
+    ad?: string;
+    soyad?: string;
+    email?: string;
+    birthday?: string;
+    phoneNumber?: string;
+    countryID?: string | number;
+    provinceID?: string | number;
+    passwordControl: string;
+    v1?: string;
+  }): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('v1', data.v1 || '1');
+      formData.append('ad', data.ad || '');
+      formData.append('soyad', data.soyad || '');
+      formData.append('email', data.email || '');
+      formData.append('birthday', data.birthday || '');
+      formData.append('phoneNumber', data.phoneNumber || '');
+      formData.append('countryID', (data.countryID || '').toString());
+      formData.append('provinceID', (data.provinceID || '').toString());
+      formData.append('passwordControl', data.passwordControl);
+
+      const response = await this.client.post<any>('/0/0/profil/ozelbilgiler/0/', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserService] Update special personal info failed:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
    * Fetch friends list with pagination.
    */
   async getFriendsList(page: number, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<RankingUserResponse[]>> {

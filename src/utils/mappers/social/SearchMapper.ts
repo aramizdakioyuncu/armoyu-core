@@ -1,4 +1,4 @@
-import { GlobalSearchResultResponse } from '../../../models';
+import { GlobalSearchResultResponse, TagResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -25,5 +25,21 @@ export class SearchMapper extends BaseMapper {
 
   static mapSearchList(rawList: any[]): GlobalSearchResultResponse[] {
     return (rawList || []).map(item => this.mapSearchResult(item));
+  }
+
+  /**
+   * Maps tag search results.
+   */
+  static mapTag(raw: any): TagResponse {
+    return {
+      id: this.toNumber(raw.hashtag_ID),
+      value: raw.hashtag_value || '',
+      useCount: this.toNumber(raw.hashtag_numberofuses),
+      firstDate: raw.hashtag_firstdate || ''
+    };
+  }
+
+  static mapTagList(rawList: any[]): TagResponse[] {
+    return (rawList || []).map(item => this.mapTag(item));
   }
 }

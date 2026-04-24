@@ -78,11 +78,12 @@ export class StoryService extends BaseService {
   /**
    * Add a new story.
    */
-  async addStory(mediaUrl: string): Promise<ServiceResponse<boolean>> {
+  async addStory(mediaUrl: string, text?: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('hikayemedya', mediaUrl);
+      if (text) formData.append('hikayemetin', text);
 
       const response = await this.client.post<any>('/0/0/hikaye/ekle/0/', formData);
       this.handle(response);

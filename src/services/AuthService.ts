@@ -30,6 +30,10 @@ export class AuthService extends BaseService {
       const token = response?.aciklamadetay?.token || (isAciklamaTokenValid ? aciklamaToken : '');
       const mapped = AuthMapper.mapLogin(icerik, token);
 
+      if (!mapped.user.id || mapped.user.id === 0) {
+        throw new Error('Kullanıcı adı veya şifre hatalı (Sistem geçerli bir kullanıcı verisi alamadı).');
+      }
+
       if (mapped.token) {
         this.client.setToken(mapped.token);
       }

@@ -202,7 +202,8 @@ const CONFIG = {
   search: {
     title: "SearchService",
     actions: [
-      { id: "globalSearch", name: "Global Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["query", "page", "limit", "kategoridetay"], desc: "Search across the entire platform", auth: false }
+      { id: "globalSearch", name: "Global Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["query", "page", "limit", "kategoridetay"], desc: "Search across the entire platform", auth: false },
+      { id: "searchTags", name: "Search Tags", method: "POST", endpoint: "/0/0/etiketler/0/0/", inputs: ["etiket", "page", "limit"], desc: "Find content by keyword", auth: true }
     ]
   },
   music: {
@@ -252,7 +253,12 @@ const CONFIG = {
       { id: "getStatistics", name: "Statistics", method: "POST", endpoint: "/0/0/istatistik/0/0/", inputs: ["category"], desc: "Fetch platform metrics", auth: false },
       { id: "getSessionLogs", name: "Session Logs", method: "POST", endpoint: "/0/0/istatistik/0/0/", inputs: [], desc: "Fetch user login history", auth: true },
       { id: "getSiteMessages", name: "Site Messages", method: "POST", endpoint: "/0/0/sitemesaji/0/0/", inputs: ["oyuncubakid"], desc: "Fetch player messages", auth: true },
-      { id: "searchTags", name: "Search Tags", method: "POST", endpoint: "/0/0/etiketler/0/0/", inputs: ["etiket", "page", "limit"], desc: "Find content by keyword", auth: true },
+      { id: "getMarketCurrencies", name: "Market Currencies", method: "POST", endpoint: "/0/0/piyasa-kur/0/", inputs: [], desc: "Fetch exchange rates and gold prices", auth: false },
+      { id: "getLeagueStandings", name: "League Standings", method: "POST", endpoint: "/0/0/super-lig/0/", inputs: [], desc: "Fetch Turkish Super League standings", auth: false },
+      { id: "getWeather", name: "Weather Forecast", method: "POST", endpoint: "/0/0/hava-durumu/0/", inputs: [], desc: "Fetch current weather information", auth: false },
+      { id: "getDiscountedGames", name: "Discounted Games", method: "POST", endpoint: "/0/0/indirimdeki-oyunlar/0/", inputs: [], desc: "Fetch latest game deals", auth: false },
+      { id: "getNewMembers", name: "New Members", method: "POST", endpoint: "/0/0/yeni-uyeler/0/", inputs: [], desc: "Fetch recently joined users", auth: false },
+      { id: "getMinecraftStats", name: "Minecraft Stats", method: "POST", endpoint: "/0/0/minecraft-istatistik/0/", inputs: [], desc: "Fetch server leaderboard/kills", auth: false },
       { id: "search", name: "General Search", method: "POST", endpoint: "/0/0/arama/0/0/", inputs: ["oyuncuadi", "kategori", "kategoridetay", "page", "limit"], desc: "Search players, groups, etc.", auth: true },
       { id: "getSiteMessageDetail", name: "Site Message Detail", method: "POST", endpoint: "/0/0/sitemesajidetay/0/0/", inputs: [], desc: "Fetch detailed message content", auth: true }
     ]
@@ -309,7 +315,11 @@ const CONFIG = {
     actions: [
       { id: "getStories", name: "Get Stories", method: "POST", endpoint: "/0/0/hikaye/0/0/", inputs: ["page", "limit"], desc: "Fetch recent stories", auth: true },
       { id: "getStoryViewers", name: "Story Viewers", method: "POST", endpoint: "/0/0/hikaye/goruntuleyenler/0/", inputs: ["storyId", "page"], desc: "Fetch story viewers", auth: true },
-      { id: "getStoryLikers", name: "Story Likers", method: "POST", endpoint: "/0/0/hikaye/begenenler/0/", inputs: ["storyId", "page"], desc: "Fetch story likers", auth: true }
+      { id: "getStoryLikers", name: "Story Likers", method: "POST", endpoint: "/0/0/hikaye/begenenler/0/", inputs: ["storyId", "page"], desc: "Fetch story likers", auth: true },
+      { id: "addStory", name: "Add Story", method: "POST", endpoint: "/0/0/hikaye/ekle/0/", inputs: ["mediaUrl"], desc: "Post a new story", auth: true },
+      { id: "deleteStory", name: "Delete Story", method: "POST", endpoint: "/0/0/hikaye/sil/0/", inputs: ["storyId"], desc: "Remove your story", auth: true },
+      { id: "hideStory", name: "Hide Story", method: "POST", endpoint: "/0/0/hikaye/gizle/0/", inputs: ["storyId"], desc: "Hide story from others", auth: true },
+      { id: "viewStory", name: "View Story", method: "POST", endpoint: "/0/0/hikaye/bak/0/", inputs: ["storyId"], desc: "Mark story as seen", auth: true }
     ]
   },
   locations: {
@@ -611,12 +621,29 @@ export default function Dashboard() {
             inputs.limit ? Number(inputs.limit) : 20,
             inputs.kategoridetay
           );
+        } else if (action.id === 'searchTags') {
+          result = await api.search.searchTags(
+            inputs.page ? Number(inputs.page) : 1,
+            { tag: inputs.etiket, limit: inputs.limit ? Number(inputs.limit) : 20 }
+          );
         }
       } else if (sid === 'siteInfo') {
         if (action.id === 'getAboutContent') {
           result = await api.siteInfo.getAboutContent(inputs.category || 'home');
         } else if (action.id === 'getStatistics') {
           result = await api.siteInfo.getStatistics(inputs.category || 'aktifoyuncu');
+        } else if (action.id === 'getMarketCurrencies') {
+          result = await api.siteInfo.getMarketCurrencies();
+        } else if (action.id === 'getLeagueStandings') {
+          result = await api.siteInfo.getLeagueStandings();
+        } else if (action.id === 'getWeather') {
+          result = await api.siteInfo.getWeather();
+        } else if (action.id === 'getDiscountedGames') {
+          result = await api.siteInfo.getDiscountedGames();
+        } else if (action.id === 'getNewMembers') {
+          result = await api.siteInfo.getNewMembers();
+        } else if (action.id === 'getMinecraftStats') {
+          result = await api.siteInfo.getMinecraftStats();
         }
       } else if (sid === 'groups') {
         if (action.id === 'getGroups') {
@@ -645,6 +672,14 @@ export default function Dashboard() {
           result = await api.stories.getStoryViewers(inputs.page ? Number(inputs.page) : 1, inputs.storyId);
         } else if (action.id === 'getStoryLikers') {
           result = await api.stories.getStoryLikers(inputs.page ? Number(inputs.page) : 1, inputs.storyId);
+        } else if (action.id === 'addStory') {
+          result = await api.stories.addStory(inputs.mediaUrl);
+        } else if (action.id === 'deleteStory') {
+          result = await api.stories.deleteStory(Number(inputs.storyId));
+        } else if (action.id === 'hideStory') {
+          result = await api.stories.hideStory(Number(inputs.storyId));
+        } else if (action.id === 'viewStory') {
+          result = await api.stories.viewStory(Number(inputs.storyId));
         }
       } else if (sid === 'locations') {
         if (action.id === 'getCountries') {
@@ -785,7 +820,10 @@ export default function Dashboard() {
 
         <div className="flex-1 overflow-hidden flex">
           <section className="flex-1 overflow-y-auto p-8 space-y-6">
-            {(CONFIG as any)[activeService].actions.map((action: any) => (
+            {(CONFIG as any)[activeService].actions
+              .slice()
+              .sort((a: any, b: any) => a.name.localeCompare(b.name))
+              .map((action: any) => (
               <div key={action.id} className="glass rounded-2xl p-6 relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500/50 opacity-0 group-hover:opacity-100 transition-opacity" />
 

@@ -19,6 +19,7 @@ export class MediaMapper extends BaseMapper {
       owner: {
         id: this.toNumber(raw.media_ownerID || raw.fotosahipID || raw.media_owner_ID),
         username: raw.media_ownerusername || raw.media_owner_username || '',
+        displayName: raw.media_ownerdisplayname || raw.media_owner_displayname || raw.media_owneradsoyad || raw.media_ownerad || raw.media_owner_ad || raw.media_ownerusername || '',
         avatar: this.toImageUrl(raw.media_owneravatar || raw.media_owner_avatar) || ''
       },
       time: time,

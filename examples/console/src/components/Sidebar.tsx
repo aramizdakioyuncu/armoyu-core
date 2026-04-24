@@ -43,7 +43,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
         <p className="text-xs font-semibold text-gray-500 uppercase px-3 pb-2 tracking-wider">Services</p>
-        {Object.entries(config).map(([key, service]: [string, any]) => {
+        {Object.entries(config)
+          .sort(([keyA, sA]: any, [keyB, sB]: any) => sA.title.localeCompare(sB.title))
+          .map(([key, service]: [string, any]) => {
           const Icon = serviceIcons[key] || Zap;
           return (
             <button

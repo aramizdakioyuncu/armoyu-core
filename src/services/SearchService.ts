@@ -1,4 +1,4 @@
-import { GlobalSearchResultResponse, ServiceResponse } from '../models';
+import { GlobalSearchResultResponse, TagResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -30,6 +30,28 @@ export class SearchService extends BaseService {
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[SearchService] Global search failed:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Search for tags/labels on the platform.
+   * Useful for autocomplete when user types '#' in a post.
+   */
+  async searchTags(page: number = 1, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<TagResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (options?.limit) formData.append('limit', options.limit.toString());
+      if (options?.tag) formData.append('etiket', options.tag);
+
+      const response = await this.client.post<any>('/0/0/etiketler/0/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = SearchMapper.mapTagList(data || []);
+      
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SearchService] Failed to search tags:', error);
       return this.createError(error.message);
     }
   }

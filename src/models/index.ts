@@ -39,6 +39,7 @@ export * from './social/poll/PollOptionResponse';
 // Social - Search
 export * from './social/search/GlobalSearchResultResponse';
 export * from './social/search/SearchResultResponse';
+export * from './social/search/TagResponse';
 export * from './social/search/SearchEnums';
 
 // Social - User
@@ -89,6 +90,8 @@ export * from './core/SystemSettingsResponse';
 export * from './core/RuleResponse';
 export * from './core/CountryResponse';
 export * from './core/ProvinceResponse';
+// Site & Stats
+export * from './site';
 export type SiteInformationResponse = any;
 
 // Content

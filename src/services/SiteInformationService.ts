@@ -1,7 +1,8 @@
-import { SiteInformationResponse, ServiceResponse } from '../models';
+import { SiteInformationResponse, ServiceResponse, MarketCurrencyResponse, WeatherResponse, LeagueStandingResponse, DiscountedGameResponse, NewMemberResponse, MinecraftStatResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { MarketMapper, LeagueMapper, GeneralContentMapper } from '../utils/mappers';
 
 /**
  * Service for general site information, metadata, and announcements.
@@ -137,22 +138,103 @@ export class SiteInformationService extends BaseService {
   }
 
   /**
-   * Search for tags/labels on the platform.
+   * Get league standings (Süper Lig).
    */
-  async searchTags(page: number, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<any[]>> {
+  async getLeagueStandings(): Promise<ServiceResponse<LeagueStandingResponse[]>> {
     try {
       const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (options?.limit) formData.append('limit', options.limit.toString());
-      if (options?.tag) formData.append('etiket', options.tag);
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/super-lig/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = LeagueMapper.mapStandingList(data);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch league standings:', error);
+      return this.createError(error.message);
+    }
+  }
 
-      const response = await this.client.post<any>('/0/0/etiketler/0/0/', formData);
+  /**
+   * Get discounted games.
+   */
+  async getDiscountedGames(): Promise<ServiceResponse<DiscountedGameResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/indirimdeki-oyunlar/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = GeneralContentMapper.mapDiscountedGameList(data);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch discounted games:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get new members of the platform.
+   */
+  async getNewMembers(): Promise<ServiceResponse<NewMemberResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/yeni-uyeler/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = GeneralContentMapper.mapNewMemberList(data);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch new members:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get Minecraft server statistics.
+   */
+  async getMinecraftStats(): Promise<ServiceResponse<MinecraftStatResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/minecraft-istatistik/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = GeneralContentMapper.mapMinecraftStatList(data);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch Minecraft stats:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get market currencies and gold prices.
+   */
+  async getMarketCurrencies(): Promise<ServiceResponse<MarketCurrencyResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/piyasa-kur/0/', formData);
+      const data = this.handle<any[]>(response);
+      const mapped = MarketMapper.mapCurrencyList(data);
+      return this.createSuccess(mapped, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[SiteInformationService] Failed to fetch market currencies:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get weather information.
+   */
+  async getWeather(): Promise<ServiceResponse<WeatherResponse[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', '1');
+      const response = await this.client.post<any>('/0/0/hava-durumu/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
-      this.logger.error('[SiteInformationService] Failed to search tags:', error);
+      this.logger.error('[SiteInformationService] Failed to fetch weather:', error);
       return this.createError(error.message);
     }
   }
 }
-

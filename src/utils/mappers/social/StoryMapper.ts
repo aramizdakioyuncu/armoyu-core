@@ -11,25 +11,28 @@ export class StoryMapper extends BaseMapper {
     if (legacy) return legacy;
     if (!raw) return {} as StoryResponse;
 
+    const item = this.mapStoryItem(raw);
+
     return {
-      authorId: this.toNumber(raw.oyuncu_ID),
-      authorName: raw.oyuncu_adsoyad,
-      authorUsername: raw.oyuncu_kadi,
-      authorAvatar: this.toImageUrl(raw.oyuncu_avatar),
-      storyCount: this.toNumber(raw.hikaye_sayisi),
-      items: Array.isArray(raw.hikaye_icerik) ? raw.hikaye_icerik.map((item: any) => this.mapStoryItem(item)) : []
+      authorId: item.ownerId || 0,
+      authorName: item.authorName || '',
+      authorUsername: item.authorName || '',
+      authorAvatar: item.authorAvatar || '',
+      storyCount: 1,
+      items: [item]
     };
   }
 
   static mapStoryItem(raw: any): StoryItemResponse {
     return {
-      id: this.toNumber(raw.hikaye_ID),
+      id: this.toNumber(raw.hikayeID || raw.hikaye_ID),
       status: this.toNumber(raw.hikaye_durum),
-      ownerId: this.toNumber(raw.hikaye_sahip),
-      mediaUrl: this.toImageUrl(raw.hikaye_medya),
-      createdAt: raw.hikaye_zaman,
-      isLiked: this.toBool(raw.hikaye_benbegeni),
-      isViewed: this.toBool(raw.hikaye_bengoruntulenme)
+      ownerId: this.toNumber(raw.hikaye_sahip || raw.oyuncu_ID),
+      mediaUrl: this.toImageUrl(raw.hikayemedya || raw.hikaye_medya),
+      createdAt: raw.hikayezaman || raw.hikaye_zaman,
+      isMe: this.toBool(raw.hikayeben),
+      authorName: raw.oyuncuadi || raw.oyuncu_adsoyad,
+      authorAvatar: this.toImageUrl(raw.oyuncuavatar || raw.oyuncu_avatar)
     };
   }
 
