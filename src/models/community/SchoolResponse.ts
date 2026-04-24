@@ -1,17 +1,23 @@
 import { BaseResponse } from '../core/BaseResponse';
 
+/**
+ * Represents a School or Educational Institution.
+ */
 export interface SchoolResponse {
   id: number;
   name: string;
-  logo?: string;
+  logo: string;
   logo_small?: string;
   logo_mini?: string;
-  url?: string;
+  logoSmall?: string; // CamelCase fallback
+  logoTiny?: string;  // CamelCase fallback
+  url: string;
+  okul_URL?: string;  // Raw fallback
   type?: string;
   website?: string;
   city?: string;
   district?: string;
-  memberCount?: number;
+  memberCount: number;
   description?: string;
 }
 

@@ -16,12 +16,12 @@ export class EducationMapper extends BaseMapper {
 
     return {
       id: this.toNumber(raw.ID),
-      name: raw.Value,
-      logo: this.toImageUrl(raw.okul_logo),
+      name: raw.Value || '',
+      logo: this.toImageUrl(raw.okul_logo) || '',
       logo_small: this.toImageUrl(raw.okul_ufaklogo),
       logo_mini: this.toImageUrl(raw.okul_minnaklogo),
-      url: raw.okul_URL,
-      type: raw.okultip, // No example for this, but keeping if it was correct
+      url: raw.okul_URL || '',
+      type: raw.okultip,
       website: raw.okulweb, 
       city: raw.okulsehir,
       district: raw.okulilce,
@@ -37,7 +37,7 @@ export class EducationMapper extends BaseMapper {
     if (!raw) return null;
     return {
       id: this.toNumber(raw.ID),
-      name: raw.Value,
+      name: raw.Value || '',
       schoolId: this.toNumber(raw.okulID)
     };
   }
@@ -49,8 +49,8 @@ export class EducationMapper extends BaseMapper {
     if (!raw) return null;
     return {
       id: this.toNumber(raw.ID),
-      name: raw.Value,
-      facultyId: this.toNumber(raw.fakulteID)
+      name: raw.Value || '',
+      facultyId: raw.fakulteID ? this.toNumber(raw.fakulteID) : undefined
     };
   }
 }

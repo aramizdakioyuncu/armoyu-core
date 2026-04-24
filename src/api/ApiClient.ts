@@ -2,7 +2,7 @@ import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { RequestInterceptor } from './RequestInterceptor';
 import { ResponseHandler } from './ResponseHandler';
 import { HttpMethod, ApiConfig } from './types';
-import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, BusinessService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService } from '../services';
+import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, BusinessService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService } from '../services';
 
 export { HttpMethod };
 export type { ApiConfig };
@@ -31,6 +31,7 @@ export class ApiClient {
   public readonly media: MediaService;
   public readonly music: MusicService;
   public readonly reels: ReelsService;
+  public readonly education: EducationService;
 
   constructor(config: ApiConfig) {
     this.config = config; 
@@ -52,6 +53,7 @@ export class ApiClient {
     this.media = svc(MediaService);
     this.music = svc(MusicService);
     this.reels = svc(ReelsService);
+    this.education = svc(EducationService);
   }
 
   private async request<T>(endpoint: string, options: any = {}): Promise<T> {

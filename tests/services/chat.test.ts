@@ -6,7 +6,7 @@ async function runChatTest() {
 
   // Phase 1: Friends Chat List
   try {
-    const chatList = await api.chat.getFriends(1);
+    const chatList = await api.chat.getChats(1);
     logSuccess(`Friends chat list fetched! Count: ${chatList.icerik?.length}`);
   } catch (err: any) {
     logError('Friends chat list fetch failed', err);

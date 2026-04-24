@@ -6,7 +6,7 @@ import {
   ShoppingBag, Scale, LifeBuoy, Zap,
   Terminal, Globe, Info, Trash2, CheckCircle2, AlertCircle,
   Lock, Send, RefreshCw, LayoutGrid, Trophy, Radio, Award, Ban,
-  Camera, MapPin, UserCheck, CreditCard, Music
+  Camera, MapPin, UserCheck, CreditCard, Music, GraduationCap
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -60,6 +60,7 @@ const SERVICE_ICONS: Record<string, any> = {
   music: Music,
   media: Camera,
   polls: Zap,
+  education: GraduationCap
 };
 
 // --- Helper Components ---
@@ -336,6 +337,13 @@ const CONFIG = {
     actions: [
       { id: "getPolls", name: "List Polls", method: "POST", endpoint: "/0/0/anketler/liste/0/", inputs: ["sayfa", "limit", "anketID"], desc: "Fetch community surveys", auth: false },
       { id: "vote", name: "Vote (Yanıtla)", method: "POST", endpoint: "/0/0/anketler/yanitla/0/", inputs: ["anketID", "secenekID"], desc: "Respond to a specific survey", auth: true }
+    ]
+  },
+  education: {
+    title: "EducationService",
+    actions: [
+      { id: "getSchools", name: "List Schools", method: "POST", endpoint: "/0/0/okullar/0/0/", inputs: [], desc: "Fetch all registered schools", auth: false },
+      { id: "getClassrooms", name: "List Classrooms", method: "POST", endpoint: "/0/0/isyerleri/icerik/0/", inputs: ["hangisyeri"], desc: "Fetch classrooms for a specific school", auth: false }
     ]
   }
 };
@@ -679,6 +687,12 @@ export default function Dashboard() {
           );
         } else if (action.id === 'vote') {
           result = await api.polls.vote(Number(inputs.anketID), Number(inputs.secenekID));
+        }
+      } else if (sid === 'education') {
+        if (action.id === 'getSchools') {
+          result = await api.education.getSchools();
+        } else if (action.id === 'getClassrooms') {
+          result = await api.education.getClassrooms(Number(inputs.hangisyeri));
         }
       }
 

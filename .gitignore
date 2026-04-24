@@ -6,6 +6,8 @@ node_modules/
 # Testing
 coverage/
 scratch/
+tests/**/*.js
+tests/**/*.d.ts
 
 # Production
 dist/

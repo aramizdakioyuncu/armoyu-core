@@ -8,8 +8,8 @@ import { ArmoyuApi } from '../src/api/ArmoyuApi';
 async function test() {
   const apiKey = process.env.ARMOYU_API_KEY;
   const token = process.env.ARMOYU_TOKEN;
-  const testUser = process.env.ARMOYU_TEST_USERNAME || 'deneme';
-  const testPass = process.env.ARMOYU_TEST_PASSWORD || 'deneme';
+  const testUser = process.env.ARMOYU_TEST_USERNAME;
+  const testPass = process.env.ARMOYU_TEST_PASSWORD;
   const targetPhase = process.env.PHASE;
 
   if (!apiKey) {
@@ -29,7 +29,7 @@ async function test() {
   if (shouldRun('1')) {
     console.log(`--- Phase 1: Login (${testUser}/****) ---`);
     try {
-      const loginResult = await api.auth.login(testUser, testPass);
+      const loginResult = await api.auth.login(testUser!, testPass!);
       console.log('SUCCESS: Login completed!');
       console.log('User:', loginResult.icerik?.user.username);
     } catch (err: any) {
@@ -50,7 +50,7 @@ async function test() {
   if (shouldRun('2')) {
     console.log('\n--- Phase 2: Fetch User Profile (oyuncubak) ---');
     try {
-      const meResponse = await api.users.getUserByUsername(testUser);
+      const meResponse = await api.users.getUserByUsername(testUser!);
       console.log('SUCCESS: Profile fetched!');
       console.log('Profile Data (Mapped):', JSON.stringify(meResponse.icerik, null, 2));
     } catch (err: any) {
