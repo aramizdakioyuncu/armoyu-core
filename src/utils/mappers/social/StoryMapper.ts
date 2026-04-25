@@ -3,7 +3,14 @@ import { BaseMapper } from '../BaseMapper';
 
 /**
  * Mapper for Stories (Hikaye) related API responses.
- * Strict mapping: Targeting exact legacy fields for V1.
+ * 
+ * API Response Structure:
+ * Each item in icerik[] is an AUTHOR with nested stories:
+ * {
+ *   oyuncu_ID, oyuncu_adsoyad, oyuncu_kadi, oyuncu_avatar,
+ *   hikaye_sayisi,
+ *   hikaye_icerik: [{ hikaye_ID, hikaye_durum, hikaye_sahip, hikaye_zaman, hikaye_medya, ... }]
+ * }
  */
 export class StoryMapper extends BaseMapper {
   static mapStory(raw: any): StoryResponse {
@@ -11,27 +18,33 @@ export class StoryMapper extends BaseMapper {
     if (legacy) return legacy;
     if (!raw) return {} as StoryResponse;
 
-    const item = this.mapStoryItem(raw);
+    // hikaye_icerik dizisindeki her öğeyi StoryItemResponse'a çevir
+    const rawItems = Array.isArray(raw.hikaye_icerik) ? raw.hikaye_icerik : [];
+    const items = rawItems.map((item: any) => this.mapStoryItem(item));
 
     return {
-      authorId: item.ownerId || 0,
-      authorName: item.authorName || '',
-      authorUsername: item.authorName || '',
-      authorAvatar: item.authorAvatar || '',
-      storyCount: 1,
-      items: [item]
+      authorId: this.toNumber(raw.oyuncu_ID),
+      authorName: raw.oyuncu_adsoyad || '',
+      authorUsername: raw.oyuncu_kadi || raw.oyuncu_adsoyad || '',
+      authorAvatar: this.toImageUrl(raw.oyuncu_avatar) || '',
+      storyCount: this.toNumber(raw.hikaye_sayisi) || items.length,
+      items: items
     };
   }
 
   static mapStoryItem(raw: any): StoryItemResponse {
     return {
-      id: this.toNumber(raw.hikayeID || raw.hikaye_ID),
+      id: this.toNumber(raw.hikaye_ID || raw.hikayeID),
       status: this.toNumber(raw.hikaye_durum),
       ownerId: this.toNumber(raw.hikaye_sahip || raw.oyuncu_ID),
-      mediaUrl: this.toImageUrl(raw.hikayemedya || raw.hikaye_medya),
-      createdAt: raw.hikayezaman || raw.hikaye_zaman,
+      mediaUrl: this.toImageUrl(raw.hikaye_medya || raw.hikayemedya),
+      createdAt: raw.hikaye_zaman || raw.hikayezaman || '',
       isMe: this.toBool(raw.hikayeben),
-      authorName: raw.oyuncuadi || raw.oyuncu_adsoyad,
+      isSeen: this.toBool(raw.hikaye_bengoruntulenme), // Benim izlemem
+      isLiked: this.toBool(raw.hikaye_benbegeni), // Benim beğenmem
+      likeCount: this.toNumber(raw.hikaye_begeni || raw.hikayebegeni || 0),
+      viewCount: this.toNumber(raw.hikaye_goruntulenme || raw.hikayegoruntulenme || 0),
+      authorName: raw.oyuncuadi || raw.oyuncu_adsoyad || '',
       authorAvatar: this.toImageUrl(raw.oyuncuavatar || raw.oyuncu_avatar)
     };
   }

@@ -3,14 +3,14 @@ import { NewMemberResponse, MinecraftStatResponse, DiscountedGameResponse, TagRe
 export class GeneralContentMapper {
   static mapNewMember(item: any): NewMemberResponse {
     return {
-      id: Number(item['#']) || 0,
-      displayName: item.oyuncuadi || '',
-      avatar: item.oyuncuavatar || '',
-      level: Number(item.oyuncuseviye) || 0,
-      levelColor: item.oyuncuseviyerenk || '',
-      xp: Number(item.oyuncuxp) || 0,
-      profileLink: item.oyunculink || '',
-      isMe: item.oyuncuben === 1
+      id: Number(item.oyuncuid || item.id || item.ID || item['#']) || 0,
+      displayName: item.oyuncuadi || item.adsoyad || item.oyuncuadsoyad || '',
+      avatar: item.oyuncuavatar || item.avatar || '',
+      level: Number(item.oyuncuseviye || item.seviye) || 0,
+      levelColor: item.oyuncuseviyerenk || item.seviyerenk || '',
+      xp: Number(item.oyuncuxp || item.xp) || 0,
+      profileLink: item.oyunculink || item.link || '',
+      isMe: item.oyuncuben === 1 || item.ben === 1
     };
   }
 

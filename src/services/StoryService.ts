@@ -48,7 +48,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>('/0/0/hikaye/bakanlar/0/', formData);
+      const response = await this.client.post<any>('/0/0/hikaye/goruntuleyenler/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -66,7 +66,7 @@ export class StoryService extends BaseService {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
       formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>('/0/0/hikaye/beğenenler/0/', formData);
+      const response = await this.client.post<any>('/0/0/hikaye/begenenler/0/', formData);
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
@@ -126,6 +126,42 @@ export class StoryService extends BaseService {
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[StoryService] Failed to hide story ${storyId}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Like a story.
+   */
+  async likeStory(storyId: number): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('hikayeID', storyId.toString());
+
+      const response = await this.client.post<any>('/0/0/hikaye/begeni-ekle/0/', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[StoryService] Failed to like story ${storyId}:`, error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Unlike a story.
+   */
+  async unlikeStory(storyId: number): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('hikayeID', storyId.toString());
+
+      const response = await this.client.post<any>('/0/0/hikaye/begeni-sil/0/', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[StoryService] Failed to unlike story ${storyId}:`, error);
       return this.createError(error.message);
     }
   }

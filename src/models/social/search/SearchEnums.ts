@@ -13,12 +13,13 @@ export enum SearchType {
  * Categories for search.
  */
 export enum SearchCategory {
-  ALL = 'all',
-  USERS = 'users',
-  GROUPS = 'groups',
-  POSTS = 'posts',
-  FORUMS = 'forums',
-  NEWS = 'news'
+  ALL = '',
+  PLAYERS = 'oyuncular',
+  GROUPS = 'gruplar',
+  POSTS = 'paylasimlar',
+  FORUMS = 'forumlar',
+  NEWS = 'haberler',
+  WORKPLACES = 'isyerleri'
 }
 
 

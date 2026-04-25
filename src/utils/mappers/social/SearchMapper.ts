@@ -1,4 +1,4 @@
-import { GlobalSearchResultResponse, TagResponse } from '../../../models';
+import { GlobalSearchResultResponse, TagResponse, GlobalSearchRawResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -8,22 +8,22 @@ export class SearchMapper extends BaseMapper {
   /**
    * Maps search results for players, groups, etc.
    */
-  static mapSearchResult(raw: any): GlobalSearchResultResponse {
+  static mapSearchResult(raw: GlobalSearchRawResponse): GlobalSearchResultResponse {
     if (!raw) return { id: 0, type: 'unknown', title: '', image: '', url: '' } as GlobalSearchResultResponse;
 
     return {
-      id: this.toNumber(raw.ID || raw.id),
-      type: raw.turu || raw.type || 'oyuncu',
-      title: raw.Value || raw.title || raw.adsoyad || raw.ad || raw.name || '',
+      id: this.toNumber(raw.ID),
+      type: raw.turu || 'oyuncu',
+      title: raw.Value || '',
       displayName: raw.Value || '',
       username: raw.username || '',
       gender: raw.cins || undefined,
-      image: this.toImageUrl(raw.avatar || raw.media_URL || raw.image || raw.oyuncuavatar) || '',
+      image: this.toImageUrl(raw.avatar) || '',
       url: raw.url || ''
     };
   }
 
-  static mapSearchList(rawList: any[]): GlobalSearchResultResponse[] {
+  static mapSearchList(rawList: GlobalSearchRawResponse[]): GlobalSearchResultResponse[] {
     return (rawList || []).map(item => this.mapSearchResult(item));
   }
 

@@ -1,4 +1,4 @@
-import { GlobalSearchResultResponse, TagResponse, ServiceResponse } from '../models';
+import { GlobalSearchResultResponse, TagResponse, ServiceResponse, SearchCategory, GlobalSearchRawResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -15,16 +15,17 @@ export class SearchService extends BaseService {
   /**
    * Performs a global search across the platform (players, teams, groups).
    */
-  async globalSearch(query: string, page: number = 1, limit: number = 20, categoryDetail?: string): Promise<ServiceResponse<GlobalSearchResultResponse[]>> {
+  async globalSearch(query: string, page: number = 1, limit: number = 20, category?: SearchCategory, categoryDetail?: string): Promise<ServiceResponse<GlobalSearchResultResponse[]>> {
     try {
       const formData = new FormData();
       formData.append('oyuncuadi', query);
       formData.append('sayfa', String(page));
       formData.append('limit', String(limit));
+      formData.append('kategori', category || '');
       formData.append('kategoridetay', categoryDetail || '');
 
       const response = await this.client.post<any>(`/0/0/arama/${page}/${limit}/`, formData);
-      const data = this.handle<any[]>(response);
+      const data = this.handle<GlobalSearchRawResponse[]>(response);
       const mapped = SearchMapper.mapSearchList(data || []);
       
       return this.createSuccess(mapped, response?.aciklama);
