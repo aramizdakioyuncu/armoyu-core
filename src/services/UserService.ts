@@ -211,9 +211,10 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
-      const response = await this.client.post<any>('/0/0/davetler/0/0/', formData);
+      const response = await this.client.post<any>('/0/0/davetliste/0/', formData);
       const icerik = this.handle<any>(response);
-      return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
+      const mapped = UserMapper.mapInvitationList(Array.isArray(icerik) ? icerik : (icerik?.liste || []));
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch invitations:', error);
       return this.createError(error.message);
@@ -226,11 +227,28 @@ export class UserService extends BaseService {
   async refreshInviteCode(): Promise<ServiceResponse<string>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>('/0/0/ayarlar/davetkodu-yenile/0/', new FormData());
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik?.davetkodu || '', response?.aciklama);
+      const response = await this.client.post<any>('/0/0/davetkodyenile/0/', new FormData());
+      const code = response?.aciklamadetay || '';
+      return this.createSuccess(code, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to refresh invite code:', error);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Send verification email to a user (invited or self).
+   */
+  async sendVerificationEmail(userId: string | number): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('userID', userId.toString());
+      const response = await this.client.post<any>('/0/0/profil/maildogrulamaURL/', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserService] Failed to send verification email to ${userId}:`, error);
       return this.createError(error.message);
     }
   }

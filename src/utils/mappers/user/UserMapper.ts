@@ -142,7 +142,24 @@ export class UserMapper extends BaseMapper {
     return (rawList || []).map(u => this.mapPopRankingUser(u));
   }
 
-  static mapFriendList(rawList: any[]): RankingUserResponse[] {
-    return (rawList || []).map(u => this.mapFriendUser(u));
+  /**
+   * Specialized for Invitation list.
+   */
+  static mapInvitation(raw: any): any {
+    if (!raw) return {};
+
+    return {
+      rank: this.toNumber(raw['#']),
+      id: this.toNumber(raw.oyuncu_ID),
+      displayName: raw.oyuncu_displayname || '',
+      username: raw.oyuncu_username || '',
+      avatar: this.toImageUrl(raw.oyuncu_avatar) || '',
+      date: raw.oyuncu_zaman || '',
+      verified: raw.oyuncu_dogrulama === true
+    };
+  }
+
+  static mapInvitationList(rawList: any[]): any[] {
+    return (rawList || []).map(u => this.mapInvitation(u));
   }
 }
