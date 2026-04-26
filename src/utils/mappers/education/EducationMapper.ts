@@ -1,4 +1,4 @@
-import { SchoolResponse, FacultyResponse, ClassroomResponse } from '../../../models';
+import { SchoolDTO, ClassroomDTO, FacultyDTO, School, Classroom, Faculty } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -9,17 +9,17 @@ export class EducationMapper extends BaseMapper {
   /**
    * Maps raw school data.
    */
-  static mapSchool(raw: any, usePreviousVersion: boolean = false): SchoolResponse | null {
-    const legacy = this.shouldReturnRaw<SchoolResponse>(raw);
-    if (legacy) return legacy;
+  static mapSchool(raw: any, usePreviousVersion: boolean = false): School | null {
+    const legacy = this.shouldReturnRaw<SchoolDTO>(raw);
+    if (legacy) return new School(legacy);
     if (!raw) return null;
 
-    return {
+    return new School({
       id: this.toNumber(raw.ID),
       name: raw.Value || '',
       logo: this.toImageUrl(raw.okul_logo) || '',
-      logo_small: this.toImageUrl(raw.okul_ufaklogo),
-      logo_mini: this.toImageUrl(raw.okul_minnaklogo),
+      logoSmall: this.toImageUrl(raw.okul_ufaklogo),
+      logoMini: this.toImageUrl(raw.okul_minnaklogo),
       url: raw.okul_URL || '',
       type: raw.okultip,
       website: raw.okulweb, 
@@ -27,30 +27,30 @@ export class EducationMapper extends BaseMapper {
       district: raw.okulilce,
       memberCount: this.toNumber(raw.okul_uyesayisi),
       description: raw.okulaciklama
-    };
+    });
   }
 
   /**
    * Maps raw faculty data.
    */
-  static mapFaculty(raw: any, usePreviousVersion: boolean = false): FacultyResponse | null {
+  static mapFaculty(raw: any, usePreviousVersion: boolean = false): Faculty | null {
     if (!raw) return null;
-    return {
+    return new Faculty({
       id: this.toNumber(raw.ID),
       name: raw.Value || '',
       schoolId: this.toNumber(raw.okulID)
-    };
+    });
   }
 
   /**
    * Maps raw classroom data.
    */
-  static mapClassroom(raw: any, usePreviousVersion: boolean = false): ClassroomResponse | null {
+  static mapClassroom(raw: any, usePreviousVersion: boolean = false): Classroom | null {
     if (!raw) return null;
-    return {
+    return new Classroom({
       id: this.toNumber(raw.ID),
       name: raw.Value || '',
       facultyId: raw.fakulteID ? this.toNumber(raw.fakulteID) : undefined
-    };
+    });
   }
 }

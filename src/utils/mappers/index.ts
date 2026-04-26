@@ -18,6 +18,7 @@ export * from './social/SupportMapper';
 // Community
 export * from './community/GroupMapper';
 export * from './community/EventMapper';
+export * from './community/ForumMapper';
 export * from './social/SearchMapper';
 
 // Education
@@ -29,6 +30,7 @@ export * from './content/NewsMapper';
 export * from './content/MusicMapper';
 export * from './content/ReelsMapper';
 export * from './content/MediaMapper';
+export * from './content/ProjectMapper';
 
 
 // Shop

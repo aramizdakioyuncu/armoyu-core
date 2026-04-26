@@ -1,4 +1,4 @@
-import { EventResponse, ServiceResponse } from '../models';
+import { ArmoyuEvent, EventParticipantsDTO, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -15,7 +15,7 @@ export class EventService extends BaseService {
   /**
    * Get all listed events with pagination.
    */
-  async getEvents(page: number, options?: { limit?: number, gameId?: number, status?: string }): Promise<ServiceResponse<EventResponse[]>> {
+  async getEvents(page: number, options?: { limit?: number, gameId?: number, status?: string }): Promise<ServiceResponse<ArmoyuEvent[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -28,7 +28,7 @@ export class EventService extends BaseService {
       const icerik = this.handle<any>(response);
       
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.etkinlikler || []);
-      const mapped = (rawList as any[]).map(item => EventMapper.mapEvent(item)).filter((n): n is EventResponse => n !== null);
+      const mapped = (rawList as any[]).map(item => EventMapper.mapEvent(item)).filter((n): n is ArmoyuEvent => n !== null);
       
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
@@ -40,7 +40,7 @@ export class EventService extends BaseService {
   /**
    * Get detailed information for a specific event.
    */
-  async getEventDetail(params: { eventId?: number, eventUrl?: string }): Promise<ServiceResponse<EventResponse>> {
+  async getEventDetail(params: { eventId?: number, eventUrl?: string }): Promise<ServiceResponse<ArmoyuEvent | null>> {
     try {
       const formData = new FormData();
       if (params.eventId) formData.append('eventID', params.eventId.toString());
@@ -50,7 +50,7 @@ export class EventService extends BaseService {
       const icerik = this.handle<any>(response);
       const mapped = EventMapper.mapEvent(icerik);
       
-      return this.createSuccess(mapped, response?.aciklama);
+      return this.createSuccess(mapped || null, response?.aciklama);
     } catch (error: any) {
       const idStr = params.eventId || params.eventUrl || 'unknown';
       this.logger.error(`[EventService] Failed to fetch event details for ${idStr}:`, error);
@@ -112,7 +112,7 @@ export class EventService extends BaseService {
   /**
    * Get participants (players and groups) in an event.
    */
-  async getEventParticipants(eventId: number): Promise<ServiceResponse<any>> {
+  async getEventParticipants(eventId: number): Promise<ServiceResponse<EventParticipantsDTO>> {
     try {
       const formData = new FormData();
       formData.append('etkinlikID', eventId.toString());

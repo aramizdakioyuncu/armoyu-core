@@ -1,7 +1,8 @@
-import { ForumResponse, ServiceResponse } from '../models';
+import { ForumCategory, ForumTopic, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ForumMapper } from '../utils/mappers';
 
 /**
  * Service for managing forum categories, topics, and discussions.
@@ -14,11 +15,12 @@ export class ForumService extends BaseService {
   /**
    * Get all forum categories.
    */
-  async getCategories(): Promise<ServiceResponse<ForumResponse[]>> {
+  async getCategories(): Promise<ServiceResponse<ForumCategory[]>> {
     try {
       const response = await this.client.get<any>('/community/forums/categories');
       const icerik = this.handle<any[]>(response);
-      return this.createSuccess(icerik || [], response?.aciklama);
+      const mapped = ForumMapper.mapCategoryList(icerik || []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumService] Failed to fetch categories:', error);
       return this.createError(error.message);
@@ -28,13 +30,14 @@ export class ForumService extends BaseService {
   /**
    * Get topics for a specific category.
    */
-  async getTopics(categoryId: number, page: number = 1): Promise<ServiceResponse<any[]>> {
+  async getTopics(categoryId: number, page: number = 1): Promise<ServiceResponse<ForumTopic[]>> {
     try {
       const response = await this.client.get<any>(`/community/forums/categories/${categoryId}/topics`, {
         params: { page }
       });
       const data = this.handle<any[]>(response);
-      return this.createSuccess(data, response?.aciklama);
+      const mapped = ForumMapper.mapTopicList(data || []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
       return this.createError(error.message);

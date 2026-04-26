@@ -1,4 +1,4 @@
-import { GroupResponse, ServiceResponse } from '../models';
+import { Group, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -15,7 +15,7 @@ export class GroupService extends BaseService {
   /**
    * Get all groups with pagination.
    */
-  async getGroups(page: number, limitOrOptions?: number | { category?: string }, options?: { category?: string }): Promise<ServiceResponse<GroupResponse[]>> {
+  async getGroups(page: number, limitOrOptions?: number | { category?: string }, options?: { category?: string }): Promise<ServiceResponse<Group[]>> {
     try {
       let limit = 20;
       let category = options?.category;
@@ -35,7 +35,7 @@ export class GroupService extends BaseService {
       const icerik = this.handle<any>(response);
       
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.gruplar || []);
-      const mapped = (rawList as any[]).map(item => GroupMapper.mapGroupListItem(item)).filter((n): n is GroupResponse => n !== null);
+      const mapped = (rawList as any[]).map(item => GroupMapper.mapGroupListItem(item)).filter((n): n is Group => n !== null);
       
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
@@ -48,7 +48,7 @@ export class GroupService extends BaseService {
    * Get detailed information for a specific group.
    * Can accept either a group ID or a group URL (tag).
    */
-  async getGroupDetail(params: { groupId?: number, groupName?: string }): Promise<ServiceResponse<GroupResponse>> {
+  async getGroupDetail(params: { groupId?: number, groupName?: string }): Promise<ServiceResponse<Group>> {
     const search = params.groupId || params.groupName;
     try {
       const formData = new FormData();
@@ -72,7 +72,7 @@ export class GroupService extends BaseService {
   /**
    * Get groups that a user belongs to.
    */
-  async getUserGroups(userId?: number): Promise<ServiceResponse<GroupResponse[]>> {
+  async getUserGroups(userId?: number): Promise<ServiceResponse<Group[]>> {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
@@ -80,7 +80,7 @@ export class GroupService extends BaseService {
       const response = await this.client.post<any>('/0/0/gruplarim/', formData);
       const icerik = this.handle<any>(response);
       const rawList = Array.isArray(icerik) ? icerik : (icerik?.liste || icerik?.gruplar || []);
-      const mapped = (rawList as any[]).map(item => GroupMapper.mapGroupListItem(item)).filter((n): n is GroupResponse => n !== null);
+      const mapped = (rawList as any[]).map(item => GroupMapper.mapGroupListItem(item)).filter((n): n is Group => n !== null);
 
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {

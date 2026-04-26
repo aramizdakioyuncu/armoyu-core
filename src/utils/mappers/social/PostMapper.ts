@@ -1,4 +1,4 @@
-import { PostResponse, PostOwnerResponse, PostMediaResponse, PostCommentResponse, PostLikerResponse } from '../../../models';
+import { PostDTO, PostOwnerDTO, PostMediaDTO, PostCommentDTO, PostLikerDTO, Post, PostResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -8,7 +8,7 @@ export class PostMapper extends BaseMapper {
   /**
    * Specifically for the main Social Feed list.
    */
-  static mapFeedList(rawList: any[]): PostResponse[] {
+  static mapFeedList(rawList: any[]): Post[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => this.mapFeedPost(item));
   }
@@ -16,12 +16,12 @@ export class PostMapper extends BaseMapper {
   /**
    * Specifically for a single Social Post.
    */
-  static mapFeedPost(raw: any): PostResponse {
-    const legacy = this.shouldReturnRaw<PostResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as PostResponse;
+  static mapFeedPost(raw: any): Post {
+    const legacy = this.shouldReturnRaw<PostDTO>(raw);
+    if (legacy) return new Post(legacy);
+    if (!raw) return new Post({} as PostDTO);
 
-    return {
+    return new Post({
       id: this.toNumber(raw.postID),
       owner: this.mapOwner(raw.owner || {}),
       content: raw.paylasimicerik || '',
@@ -39,10 +39,10 @@ export class PostMapper extends BaseMapper {
       mappedMedia: this.mapMediaList(raw.paylasimfoto || []),
       topLikers: this.mapLikersList(raw.paylasimilkucbegenen || []),
       topComments: this.mapCommentList(raw.ilkucyorum || [])
-    };
+    });
   }
 
-  private static mapOwner(raw: any): PostOwnerResponse {
+  private static mapOwner(raw: any): PostOwnerDTO {
     return {
       id: this.toNumber(raw.owner_ID || raw.id),
       username: raw.username || '',
@@ -54,7 +54,7 @@ export class PostMapper extends BaseMapper {
     };
   }
 
-  private static mapMediaOwner(raw: any): PostOwnerResponse {
+  private static mapMediaOwner(raw: any): PostOwnerDTO {
     return {
       id: this.toNumber(raw.owner_ID),
       username: raw.owner_username || '',
@@ -64,7 +64,7 @@ export class PostMapper extends BaseMapper {
     };
   }
 
-  private static mapMediaList(rawList: any[]): PostMediaResponse[] {
+  private static mapMediaList(rawList: any[]): PostMediaDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
       id: this.toNumber(item.fotoID),
@@ -77,7 +77,7 @@ export class PostMapper extends BaseMapper {
     }));
   }
 
-  static mapLikersList(rawList: any[]): PostLikerResponse[] {
+  static mapLikersList(rawList: any[]): PostLikerDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
       likeId: this.toNumber(item.begeni_ID),
@@ -90,7 +90,7 @@ export class PostMapper extends BaseMapper {
     }));
   }
 
-  static mapCommentList(rawList: any[]): PostCommentResponse[] {
+  static mapCommentList(rawList: any[]): PostCommentDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
       postId: this.toNumber(item.paylasimID),

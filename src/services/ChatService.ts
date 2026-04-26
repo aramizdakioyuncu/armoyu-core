@@ -1,8 +1,8 @@
-import { ChatMessageResponse, ChatResponse } from '../models';
+import { Conversation, Message, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
+
 import { ChatMapper } from '../utils/mappers';
 
 /**
@@ -36,7 +36,7 @@ export class ChatService extends BaseService {
   /**
    * Fetches the chat history with a specific user (Legacy).
    */
-  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<ChatMessageResponse[]>> {
+  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -59,7 +59,7 @@ export class ChatService extends BaseService {
   /**
    * Fetches the list of friends available for chat.
    */
-  async getFriendsChat(page: number = 1, options?: { limit?: number }): Promise<ServiceResponse<ChatResponse[]>> {
+  async getFriendsChat(page: number = 1, options?: { limit?: number }): Promise<ServiceResponse<Conversation[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -83,7 +83,7 @@ export class ChatService extends BaseService {
   /**
    * Fetches the list of recent chats (Inbox).
    */
-  async getChats(page: number = 1, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<ChatResponse[]>> {
+  async getChats(page: number = 1, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<Conversation[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -107,7 +107,7 @@ export class ChatService extends BaseService {
   /**
    * Fetches the detailed information/messages for a specific chat.
    */
-  async getChatDetail(chatId: number, type: 'ozel' | 'grup' = 'ozel'): Promise<ServiceResponse<ChatMessageResponse[]>> {
+  async getChatDetail(chatId: number, type: 'ozel' | 'grup' = 'ozel'): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();

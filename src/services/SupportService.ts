@@ -1,5 +1,5 @@
-import { SupportTicketResponse, ServiceResponse } from '../models';
-import { SupportMapper } from '../utils/mappers/social/SupportMapper';
+import { SupportTicket, ServiceResponse } from '../models';
+import { SupportMapper } from '../utils/mappers';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { BaseService } from './BaseService';
@@ -15,7 +15,7 @@ export class SupportService extends BaseService {
   /**
    * Get all support tickets filed by the user.
    */
-  async getMyTickets(page: number = 1, limit?: number): Promise<ServiceResponse<SupportTicketResponse[]>> {
+  async getMyTickets(page: number = 1, limit?: number): Promise<ServiceResponse<SupportTicket[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();

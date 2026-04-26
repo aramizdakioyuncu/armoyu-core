@@ -1,4 +1,4 @@
-import { StoreItemResponse, ProductResponse, OrderResponse } from '../../../models';
+import { StoreItemResponse, ProductDTO, OrderDTO, Product, Order } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -20,32 +20,39 @@ export class ShopMapper extends BaseMapper {
     };
   }
 
-  static mapProduct(raw: any): ProductResponse {
-    const legacy = this.shouldReturnRaw<ProductResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as ProductResponse;
+  static mapProduct(raw: any): Product {
+    const legacy = this.shouldReturnRaw<ProductDTO>(raw);
+    if (legacy) return new Product(legacy);
+    if (!raw) return new Product({} as ProductDTO);
 
-    return {
+    return new Product({
       id: this.toNumber(raw.urunID || raw.id),
       name: raw.urunad || raw.name || '',
+      description: raw.urunaciklama || raw.description || '',
       price: this.toNumber(raw.urunfiyat || raw.price),
-      currency: raw.birim || '₺'
-    };
+      currency: raw.birim || '₺',
+      image: this.toImageUrl(raw.urunresim || raw.image) || '',
+      category: raw.urunkategori || raw.category || '',
+      stock: raw.stok !== undefined ? this.toNumber(raw.stok) : undefined,
+      url: raw.urunlink || raw.url
+    });
   }
 
-  static mapProductList(rawList: any[]): ProductResponse[] {
+  static mapProductList(rawList: any[]): Product[] {
     return (rawList || []).map(item => this.mapProduct(item));
   }
 
-  static mapOrder(raw: any): OrderResponse {
-    const legacy = this.shouldReturnRaw<OrderResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as OrderResponse;
+  static mapOrder(raw: any): Order {
+    const legacy = this.shouldReturnRaw<OrderDTO>(raw);
+    if (legacy) return new Order(legacy);
+    if (!raw) return new Order({} as OrderDTO);
 
-    return {
+    return new Order({
       id: this.toNumber(raw.siparisID || raw.id),
       total: this.toNumber(raw.toplam_tutar || raw.total),
-      status: raw.durum || 'pending'
-    };
+      status: raw.durum || 'pending',
+      date: raw.zaman || raw.date,
+      items: Array.isArray(raw.urunler) ? raw.urunler.map((u: any) => this.mapProduct(u)) : []
+    });
   }
 }

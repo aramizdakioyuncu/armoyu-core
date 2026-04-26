@@ -1,7 +1,7 @@
 import { UserResponse } from './UserResponse';
 import { CartItemResponse } from '../shop/CartItemResponse';
-import { ChatResponse } from '../social/chat/ChatResponse';
-import { NotificationResponse } from '../social/notification/NotificationResponse';
+import { ConversationDTO } from '../dto/social/ChatDTO';
+import { NotificationDTO } from '../dto/social/NotificationDTO';
 
 export interface SessionResponse {
   user?: UserResponse | null;
@@ -10,6 +10,6 @@ export interface SessionResponse {
   expiresAt?: number | null;
   cart?: CartItemResponse[];
   myArticles?: any[];
-  chatList?: ChatResponse[];
-  notifications?: NotificationResponse[];
+  chatList?: ConversationDTO[];
+  notifications?: NotificationDTO[];
 }

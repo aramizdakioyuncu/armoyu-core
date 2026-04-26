@@ -1,4 +1,4 @@
-import { GroupResponse } from '../community/GroupResponse';
+import { GroupDTO } from '../dto/community/GroupDTO';
 import { GameResponse } from '../content/GameResponse';
 import { TeamResponse } from '../community/TeamResponse';
 
@@ -78,7 +78,7 @@ export interface UserResponse {
 
   // Related Data
   clans?: TeamResponse[];
-  groups?: GroupResponse[];
+  groups?: GroupDTO[];
   friends?: UserResponse[];
 
   // Features

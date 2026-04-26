@@ -1,4 +1,5 @@
-import { ProjectResponse, ServiceResponse } from '../models';
+import { Project, ServiceResponse, ProjectScoreDTO } from '../models';
+import { ProjectMapper } from '../utils/mappers/content/ProjectMapper';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -14,11 +15,12 @@ export class ProjectService extends BaseService {
   /**
    * Get all active projects.
    */
-  async getProjects(): Promise<ServiceResponse<ProjectResponse[]>> {
+  async getProjects(): Promise<ServiceResponse<Project[]>> {
     try {
       const response = await this.client.post<any>('/0/0/projeler/0/0/', new FormData());
       const data = this.handle<any[]>(response);
-      return this.createSuccess(data || [], response?.aciklama);
+      const mapped = ProjectMapper.mapProjectList(data || []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ProjectService] Failed to fetch projects:', error);
       return this.createError(error.message);
@@ -28,13 +30,14 @@ export class ProjectService extends BaseService {
   /**
    * Get score list for a specific project.
    */
-  async getScoreList(projectId: string | number): Promise<ServiceResponse<any[]>> {
+  async getScoreList(projectId: string | number): Promise<ServiceResponse<ProjectScoreDTO[]>> {
     try {
       const formData = new FormData();
       formData.append('projeID', projectId.toString());
       const response = await this.client.post<any>('/0/0/projeler/skor-listesi/0/', formData);
       const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+      const mapped = ProjectMapper.mapScoreList(data || []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ProjectService] Failed to fetch scores for project ${projectId}:`, error);
       return this.createError(error.message);

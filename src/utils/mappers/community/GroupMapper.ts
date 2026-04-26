@@ -1,4 +1,4 @@
-import { GroupResponse } from '../../../models';
+import { GroupDTO, Group } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -9,12 +9,12 @@ export class GroupMapper extends BaseMapper {
   /**
    * Specifically for Group List pages.
    */
-  static mapGroupListItem(raw: any): GroupResponse {
-    const legacy = this.shouldReturnRaw<GroupResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as GroupResponse;
+  static mapGroupListItem(raw: any): Group {
+    const legacy = this.shouldReturnRaw<GroupDTO>(raw);
+    if (legacy) return new Group(legacy);
+    if (!raw) return new Group({} as GroupDTO);
 
-    return {
+    return new Group({
       id: this.toNumber(raw.grupID || raw.group_ID),
       name: raw.grupad || raw.group_name,
       displayName: raw.grupadi || raw.group_name,
@@ -23,22 +23,22 @@ export class GroupMapper extends BaseMapper {
       banner: this.toImageUrl(raw.gruparplan || raw.group_banner?.media_URL),
       memberCount: this.toNumber(raw.grupuyesayisi || raw.group_membercount),
       url: raw.grup_URL || raw.group_URL
-    } as GroupResponse;
+    });
   }
 
   /**
    * Specifically for Group Detail page.
    */
-  static mapGroupDetail(raw: any): GroupResponse {
-    const legacy = this.shouldReturnRaw<GroupResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as GroupResponse;
+  static mapGroupDetail(raw: any): Group {
+    const legacy = this.shouldReturnRaw<GroupDTO>(raw);
+    if (legacy) return new Group(legacy);
+    if (!raw) return new Group({} as GroupDTO);
 
     // Detail usually has richer nested objects
     const logoUrl = typeof raw.group_logo === 'object' ? (raw.group_logo.media_URL || raw.group_logo.media_minURL) : raw.gruplogo;
     const bannerUrl = typeof raw.group_banner === 'object' ? (raw.group_banner.media_URL || raw.group_banner.media_minURL) : raw.gruparplan;
 
-    return {
+    return new Group({
       id: this.toNumber(raw.group_ID || raw.grupID),
       name: raw.group_name || raw.grupad,
       displayName: raw.group_name || raw.grupadi,
@@ -58,10 +58,10 @@ export class GroupMapper extends BaseMapper {
         discord: raw.group_social?.group_discord || raw.discordlink,
         website: raw.group_social?.group_website || raw.website
       }
-    };
+    });
   }
 
-  static mapGroupList(rawList: any[]): GroupResponse[] {
+  static mapGroupList(rawList: any[]): Group[] {
     return (rawList || []).map(group => this.mapGroupListItem(group));
   }
 }

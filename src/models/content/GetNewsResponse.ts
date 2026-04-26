@@ -1,5 +1,5 @@
 import { BaseResponse } from '../core/BaseResponse';
-import { NewsResponse } from './NewsResponse';
+import { News } from '../entities/content/News';
 
 export interface NewsItemResponse {
   haberID: number;
@@ -18,4 +18,4 @@ export interface NewsItemResponse {
   ozet: string;
 }
 
-export interface GetNewsResponse extends BaseResponse<NewsResponse[]> {}
+export interface GetNewsResponse extends BaseResponse<News[]> {}

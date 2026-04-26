@@ -1,4 +1,4 @@
-import { GlobalSearchResultResponse, TagResponse, ServiceResponse, SearchCategory, GlobalSearchRawResponse } from '../models';
+import { SearchResult, Tag, ServiceResponse, SearchCategory, GlobalSearchRawResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -15,7 +15,7 @@ export class SearchService extends BaseService {
   /**
    * Performs a global search across the platform (players, teams, groups).
    */
-  async globalSearch(query: string, page: number = 1, limit: number = 20, category?: SearchCategory, categoryDetail?: string): Promise<ServiceResponse<GlobalSearchResultResponse[]>> {
+  async globalSearch(query: string, page: number = 1, limit: number = 20, category?: SearchCategory, categoryDetail?: string): Promise<ServiceResponse<SearchResult[]>> {
     try {
       const formData = new FormData();
       formData.append('oyuncuadi', query);
@@ -39,7 +39,7 @@ export class SearchService extends BaseService {
    * Search for tags/labels on the platform.
    * Useful for autocomplete when user types '#' in a post.
    */
-  async searchTags(page: number = 1, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<TagResponse[]>> {
+  async searchTags(page: number = 1, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<Tag[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

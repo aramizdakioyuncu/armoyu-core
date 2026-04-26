@@ -1,8 +1,7 @@
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ServiceResponse } from '../api/ServiceResponse';
-import { GetNewsResponse, NewsResponse } from '../models';
+import { GetNewsResponse, News, ServiceResponse } from '../models';
 import { NewsMapper } from '../utils/mappers';
 
 /**
@@ -34,7 +33,7 @@ export class BlogService extends BaseService {
 
       const response = await this.client.post<any>(`/0/0/haberler/${page}/${limit || 0}/`, formData);
       const data = this.handle<any[]>(response);
-      const mapped = (data || []).map(i => NewsMapper.mapNews(i)).filter((n): n is NewsResponse => n !== null);
+      const mapped = (data || []).map(i => NewsMapper.mapNews(i)).filter((n): n is News => n !== null);
       
       return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
@@ -46,7 +45,7 @@ export class BlogService extends BaseService {
   /**
    * Get a single news article by slug.
    */
-  async getNewsBySlug(slug: string): Promise<ServiceResponse<NewsResponse | null>> {
+  async getNewsBySlug(slug: string): Promise<ServiceResponse<News | null>> {
     try {
       // Slugs are typically used for URL lookup, but if not available in bot API, we redirect to detail by URL
       return this.getNewsDetail({ newsURL: slug });
@@ -59,7 +58,7 @@ export class BlogService extends BaseService {
   /**
    * Get a single news article by ID or URL (Legacy).
    */
-  async getNewsDetail(opt: { newsId?: number, newsURL?: string }): Promise<ServiceResponse<NewsResponse | null>> {
+  async getNewsDetail(opt: { newsId?: number, newsURL?: string }): Promise<ServiceResponse<News | null>> {
     try {
       const formData = new FormData();
       if (opt.newsId) formData.append('haberID', opt.newsId.toString());
@@ -79,7 +78,7 @@ export class BlogService extends BaseService {
   /**
    * Search news articles.
    */
-  async searchNews(page: number, query: string, limit?: number): Promise<ServiceResponse<NewsResponse[]>> {
+  async searchNews(page: number, query: string, limit?: number): Promise<ServiceResponse<News[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

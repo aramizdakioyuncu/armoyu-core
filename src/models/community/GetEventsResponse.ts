@@ -1,4 +1,4 @@
 import { BaseResponse } from '../core/BaseResponse';
-import { EventResponse } from './EventResponse';
+import { ArmoyuEvent } from '../entities/community/Event';
 
-export interface GetEventsResponse extends BaseResponse<EventResponse[]> {}
+export interface GetEventsResponse extends BaseResponse<ArmoyuEvent[]> {}

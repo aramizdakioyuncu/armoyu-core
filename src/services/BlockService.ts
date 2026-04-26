@@ -2,8 +2,8 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { BlockedUserResponse } from '../models';
-import { UserMapper } from '../utils/mappers';
+import { BlockedUserResponse, BlockedUser } from '../models';
+import { UserMapper } from '../utils/mappers/user/UserMapper';
 
 /**
  * Service for managing user blocks and blacklists.
@@ -16,7 +16,7 @@ export class BlockService extends BaseService {
   /**
    * Get all blocked users.
    */
-  async getBlockedUsers(page: number = 1, limit?: number): Promise<ServiceResponse<BlockedUserResponse[]>> {
+  async getBlockedUsers(page: number = 1, limit?: number): Promise<ServiceResponse<BlockedUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

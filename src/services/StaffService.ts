@@ -2,8 +2,8 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { StaffUserResponse } from '../models';
-import { UserMapper } from '../utils/mappers';
+import { StaffUserResponse, StaffUser } from '../models';
+import { UserMapper } from '../utils/mappers/user/UserMapper';
 
 /**
  * Service for information about platform staff and administrators.
@@ -16,7 +16,7 @@ export class StaffService extends BaseService {
   /**
    * Get all platform staff members and their roles.
    */
-  async getStaff(page: number = 1, category?: string, limit?: number): Promise<ServiceResponse<StaffUserResponse[]>> {
+  async getStaff(page: number = 1, category?: string, limit?: number): Promise<ServiceResponse<StaffUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -37,7 +37,7 @@ export class StaffService extends BaseService {
   /**
    * Alias for getStaff to maintain compatibility with existing tests.
    */
-  async getStaffList(page: number = 1): Promise<ServiceResponse<StaffUserResponse[]>> {
+  async getStaffList(page: number = 1): Promise<ServiceResponse<StaffUser[]>> {
     return this.getStaff(page);
   }
 

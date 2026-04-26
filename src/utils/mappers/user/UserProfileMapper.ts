@@ -1,4 +1,4 @@
-import { UserGameResponse, UserProfileResponse, UserSocialsResponse } from '../../../models';
+import { UserProfileDTO, UserSocialsDTO, UserGameDTO, User } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -6,10 +6,10 @@ import { BaseMapper } from '../BaseMapper';
  * Supports both standard legacy fields and the rich nested fields seen in modern legacy responses.
  */
 export class UserProfileMapper extends BaseMapper {
-  static mapProfile(raw: any): UserProfileResponse {
-    const legacy = this.shouldReturnRaw<UserProfileResponse>(raw);
-    if (legacy) return legacy;
-    if (!raw) return {} as UserProfileResponse;
+  static mapProfile(raw: any): User {
+    const legacy = this.shouldReturnRaw<UserProfileDTO>(raw);
+    if (legacy) return new User(legacy);
+    if (!raw) return new User({} as UserProfileDTO);
 
     const detail = raw.detailInfo || {};
     const stats = raw.istatistik || {};
@@ -17,7 +17,7 @@ export class UserProfileMapper extends BaseMapper {
     const favTeam = raw.favTeam || {};
     const job = raw.job || {};
 
-    return {
+    return new User({
       id: this.toNumber(raw.playerID || raw.ID || raw.oyuncuID),
       username: raw.username || raw.kullaniciadi || '',
       displayName: raw.displayName || raw.adsoyad || '',
@@ -68,10 +68,10 @@ export class UserProfileMapper extends BaseMapper {
         logo: this.toImageUrl(favTeam.team_logo) || ''
       },
       popularGames: this.mapGames(raw.popularGames)
-    };
+    });
   }
 
-  static mapSocials(raw: any): UserSocialsResponse {
+  static mapSocials(raw: any): UserSocialsDTO {
     if (!raw) return {};
     return {
       instagram: raw.instagram,
@@ -87,7 +87,7 @@ export class UserProfileMapper extends BaseMapper {
     };
   }
 
-  static mapGames(rawList: any[]): UserGameResponse[] {
+  static mapGames(rawList: any[]): UserGameDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(g => ({
       id: this.toNumber(g.game_ID),

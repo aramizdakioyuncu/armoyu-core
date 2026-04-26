@@ -1,4 +1,4 @@
-import { NewMemberResponse, MinecraftStatResponse, DiscountedGameResponse, TagResponse } from '../../../models';
+import { NewMemberResponse, MinecraftStatResponse, DiscountedGameResponse } from '../../../models';
 
 export class GeneralContentMapper {
   static mapNewMember(item: any): NewMemberResponse {

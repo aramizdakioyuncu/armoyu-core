@@ -1,8 +1,8 @@
-import { CountryResponse, ProvinceResponse, ServiceResponse } from '../models';
+import { Country, Province, ServiceResponse } from '../models';
+import { LocationMapper } from '../utils/mappers/core/LocationMapper';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { LocationMapper } from '../utils/mappers/core/LocationMapper';
 
 /**
  * Service for managing geographic locations and regional data.
@@ -15,7 +15,7 @@ export class LocationService extends BaseService {
   /**
    * Get all registered countries.
    */
-  async getCountries(page: number = 1, limit?: number): Promise<ServiceResponse<CountryResponse[]>> {
+  async getCountries(page: number = 1, limit?: number): Promise<ServiceResponse<Country[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -35,7 +35,7 @@ export class LocationService extends BaseService {
   /**
    * Get all registered provinces.
    */
-  async getProvinces(page: number = 1, countryId?: string | number, limit?: number): Promise<ServiceResponse<ProvinceResponse[]>> {
+  async getProvinces(page: number = 1, countryId?: string | number, limit?: number): Promise<ServiceResponse<Province[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

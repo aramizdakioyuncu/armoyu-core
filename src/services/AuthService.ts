@@ -1,4 +1,4 @@
-import { LoginResponse, ServiceResponse, UserProfileResponse } from '../models';
+import { LoginResponse, ServiceResponse, User } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -73,7 +73,7 @@ export class AuthService extends BaseService {
   /**
    * Get current user profile.
    */
-  async me(): Promise<ServiceResponse<UserProfileResponse>> {
+  async me(): Promise<ServiceResponse<User>> {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/0/0/0/0/0/', new FormData());

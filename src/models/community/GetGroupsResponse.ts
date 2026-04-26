@@ -1,4 +1,4 @@
 import { BaseResponse } from '../core/BaseResponse';
-import { GroupResponse } from './GroupResponse';
+import { GroupDTO } from '../dto/community/GroupDTO';
 
-export interface GetGroupsResponse extends BaseResponse<GroupResponse[]> {}
+export interface GetGroupsResponse extends BaseResponse<GroupDTO[]> {}

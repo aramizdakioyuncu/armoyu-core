@@ -1,4 +1,4 @@
-import { PostResponse, PostCommentResponse, ServiceResponse } from '../models';
+import { Post, PostCommentResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -16,7 +16,7 @@ export class SocialService extends BaseService {
   /**
    * Get the social feed for the current user.
    */
-  async getPosts(page: number = 1, limit: number = 20, options?: { postId?: number, userId?: number, username?: string, filter?: string }): Promise<ServiceResponse<PostResponse[]>> {
+  async getPosts(page: number = 1, limit: number = 20, options?: { postId?: number, userId?: number, username?: string, filter?: string }): Promise<ServiceResponse<Post[]>> {
     try {
       const formData = new FormData();
       formData.append('limit', limit.toString());
@@ -41,7 +41,7 @@ export class SocialService extends BaseService {
   /**
    * Get a specific social post by ID.
    */
-  async getPost(postId: number): Promise<ServiceResponse<PostResponse | null>> {
+  async getPost(postId: number): Promise<ServiceResponse<Post | null>> {
     try {
       const formData = new FormData();
       formData.append('postID', postId.toString());
@@ -62,7 +62,7 @@ export class SocialService extends BaseService {
   /**
    * Get a specific social post by a comment ID.
    */
-  async getPostByComment(commentId: number): Promise<ServiceResponse<PostResponse | null>> {
+  async getPostByComment(commentId: number): Promise<ServiceResponse<Post | null>> {
     try {
       const formData = new FormData();
       formData.append('category', 'yorum');

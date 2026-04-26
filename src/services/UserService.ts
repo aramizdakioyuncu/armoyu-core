@@ -2,8 +2,11 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { RankingUserResponse, UserProfileResponse, UserResponse, InviteCodeCheckResponse, SearchUserResponse, MediaResponse } from '../models';
-import { UserMapper, MediaMapper } from '../utils/mappers';
+import { RankingUserResponse, RankingUser, User, UserProfileDTO, UserResponse, InviteCodeCheckResponse, SearchUserResponse, MediaResponse, Notification, School } from '../models';
+import { UserMapper } from '../utils/mappers/user/UserMapper';
+import { MediaMapper } from '../utils/mappers/content/MediaMapper';
+import { NotificationMapper } from '../utils/mappers/social/NotificationMapper';
+import { EducationMapper } from '../utils/mappers/education/EducationMapper';
 
 /**
  * Service for user management, profiles, and rankings.
@@ -17,7 +20,7 @@ export class UserService extends BaseService {
   /**
    * Get user profile by username.
    */
-  async getUserByUsername(username: string): Promise<ServiceResponse<UserProfileResponse>> {
+  async getUserByUsername(username: string): Promise<ServiceResponse<User>> {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', '0');
@@ -99,7 +102,7 @@ export class UserService extends BaseService {
   /**
    * Fetch friends list with pagination.
    */
-  async getFriendsList(page: number, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<RankingUserResponse[]>> {
+  async getFriendsList(page: number, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -174,13 +177,14 @@ export class UserService extends BaseService {
   /**
    * Fetch school information for a user.
    */
-  async getUserSchools(userId?: number): Promise<ServiceResponse<any[]>> {
+  async getUserSchools(userId?: number): Promise<ServiceResponse<School[]>> {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());
       const response = await this.client.post<any>('/0/0/okullarim/0/0/', formData);
       const icerik = this.handle<any>(response);
-      return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
+      const mapped = (Array.isArray(icerik) ? icerik : []).map(i => EducationMapper.mapSchool(i)).filter((s): s is School => s !== null);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch schools:', error);
       return this.createError(error.message);
@@ -190,13 +194,14 @@ export class UserService extends BaseService {
   /**
    * Get details for a specific school.
    */
-  async getSchoolDetail(schoolId: number): Promise<ServiceResponse<any>> {
+  async getSchoolDetail(schoolId: number): Promise<ServiceResponse<School | null>> {
     try {
       const formData = new FormData();
       formData.append('okulID', schoolId.toString());
       const response = await this.client.post<any>('/0/0/okulbak/0/0/', formData);
       const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const mapped = EducationMapper.mapSchool(icerik);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[UserService] Failed to fetch school details for ${schoolId}:`, error);
       return this.createError(error.message);
@@ -364,7 +369,7 @@ export class UserService extends BaseService {
   /**
    * Get notification history.
    */
-  async getNotificationsHistory(page: number, limit: number = 20, category?: string, detail?: string): Promise<ServiceResponse<any[]>> {
+  async getNotificationsHistory(page: number, limit: number = 20, category?: string, detail?: string): Promise<ServiceResponse<Notification[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -375,7 +380,8 @@ export class UserService extends BaseService {
 
       const response = await this.client.post<any>('/0/0/bildirimler/gecmis/0/', formData);
       const icerik = this.handle<any>(response);
-      return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
+      const mapped = NotificationMapper.mapNotificationList(Array.isArray(icerik) ? icerik : []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch notification history:', error);
       return this.createError(error.message);
@@ -385,12 +391,13 @@ export class UserService extends BaseService {
   /**
    * Get current notifications.
    */
-  async getNotifications(): Promise<ServiceResponse<any[]>> {
+  async getNotifications(): Promise<ServiceResponse<Notification[]>> {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/0/0/bildirimler/0/0/', new FormData());
       const icerik = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(icerik) ? icerik : [], response?.aciklama);
+      const mapped = NotificationMapper.mapNotificationList(icerik || []);
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch notifications:', error);
       return this.createError(error.message);
@@ -557,7 +564,7 @@ export class UserService extends BaseService {
   /**
    * Get overall XP rankings.
    */
-  async getXpRankings(page: number, limit?: number): Promise<ServiceResponse<RankingUserResponse[]>> {
+  async getXpRankings(page: number, limit?: number): Promise<ServiceResponse<RankingUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -581,7 +588,7 @@ export class UserService extends BaseService {
   /**
    * Get overall Popularity rankings.
    */
-  async getPopRankings(page: number, limit?: number): Promise<ServiceResponse<RankingUserResponse[]>> {
+  async getPopRankings(page: number, limit?: number): Promise<ServiceResponse<RankingUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());

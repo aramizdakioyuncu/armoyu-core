@@ -1,4 +1,4 @@
-import { ProductResponse, OrderResponse, ServiceResponse } from '../models';
+import { Product, Order, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
@@ -15,7 +15,7 @@ export class ShopService extends BaseService {
   /**
    * Get all products with optional filters.
    */
-  async getProducts(page: number = 1, options?: { category?: string, searchTerm?: string, limit?: number }): Promise<ServiceResponse<ProductResponse[]>> {
+  async getProducts(page: number = 1, options?: { category?: string, searchTerm?: string, limit?: number }): Promise<ServiceResponse<Product[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -36,7 +36,7 @@ export class ShopService extends BaseService {
   /**
    * Get detailed information for a specific product.
    */
-  async getProductDetails(productId: string | number): Promise<ServiceResponse<ProductResponse | null>> {
+  async getProductDetails(productId: string | number): Promise<ServiceResponse<Product | null>> {
     try {
       const formData = new FormData();
       formData.append('urunID', productId.toString());
@@ -53,14 +53,14 @@ export class ShopService extends BaseService {
   /**
    * Create a new purchase order.
    */
-  async createOrder(params: { items: { productId: number; quantity: number }[] }): Promise<ServiceResponse<OrderResponse>> {
+  async createOrder(params: { items: { productId: number; quantity: number }[] }): Promise<ServiceResponse<Order>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('urunler', JSON.stringify(params.items));
       const response = await this.client.post<any>('/0/0/market/satin-al/0/', formData);
       const data = this.handle<any>(response);
-      const mappedData = data ? ShopMapper.mapOrder(data) : ({} as OrderResponse);
+      const mappedData = data ? ShopMapper.mapOrder(data) : ({} as Order);
       return this.createSuccess(mappedData, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ShopService] Order creation failed:', error);
