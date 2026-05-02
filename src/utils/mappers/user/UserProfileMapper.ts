@@ -41,7 +41,8 @@ export class UserProfileMapper extends BaseMapper {
       birthday: detail.birthdayDate || '',
       age: this.toNumber(detail.age),
       lastLogin: detail.lastloginDateV2 || '',
-      registeredDate: raw.registeredDate || '',
+      registeredDate: detail.kayit_tarihi || raw.registeredDate || '',
+      mutualFriendsCount: this.toNumber(raw.ortakarkadaslar),
       job: {
         name: raw.job?.job_name || '',
         shortName: raw.job?.job_shortName || ''
@@ -52,7 +53,7 @@ export class UserProfileMapper extends BaseMapper {
         commentsCount: this.toNumber(stats.toplam_yorum),
         groupsCount: this.toNumber(stats.toplam_grup),
         gamesCount: this.toNumber(raw.mevcutoyunsayisi),
-        commonFriendsCount: this.toNumber(raw.ortakarkadaslar)
+        mutualFriendsCount: this.toNumber(raw.ortakarkadaslar)
       },
       rank: {
         id: this.toNumber(rank.roleID),
@@ -67,7 +68,12 @@ export class UserProfileMapper extends BaseMapper {
         name: favTeam.team_name || '',
         logo: this.toImageUrl(favTeam.team_logo) || ''
       },
-      popularGames: this.mapGames(raw.popularGames)
+      popularGames: this.mapGames(raw.popularGames),
+      mutualFriends: Array.isArray(raw.ortakarkadasliste) ? raw.ortakarkadasliste.map((f: any) => ({
+        id: this.toNumber(f.oyuncuID || f.id),
+        username: f.oyuncukullaniciadi || f.username || '',
+        avatar: this.toImageUrl(f.oyuncuminnakavatar || f.avatar)
+      })) : []
     });
   }
 

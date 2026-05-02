@@ -25,6 +25,7 @@ export class User {
   age?: number;
   lastLogin?: string;
   registeredDate?: string;
+  mutualFriendsCount?: number;
   job?: {
     name: string;
     shortName: string;
@@ -35,12 +36,13 @@ export class User {
     commentsCount: number;
     groupsCount: number;
     gamesCount: number;
-    commonFriendsCount?: number;
+    mutualFriendsCount?: number;
   };
   rank: any;
   socials: UserSocialsDTO;
   favoriteTeam?: any;
   popularGames: any[];
+  mutualFriends?: any[];
 
   constructor(data: UserProfileDTO) {
     this.id = data.id;
@@ -67,12 +69,14 @@ export class User {
     this.age = data.age;
     this.lastLogin = data.lastLogin;
     this.registeredDate = data.registeredDate;
+    this.mutualFriendsCount = data.mutualFriendsCount;
     this.job = data.job;
     this.stats = data.stats;
     this.rank = data.rank;
     this.socials = data.socials;
     this.favoriteTeam = data.favoriteTeam;
     this.popularGames = data.popularGames;
+    this.mutualFriends = data.mutualFriends;
   }
 
   /**
@@ -135,12 +139,14 @@ export class User {
       age: this.age,
       lastLogin: this.lastLogin,
       registeredDate: this.registeredDate,
+      mutualFriendsCount: this.mutualFriendsCount,
       job: this.job,
       stats: this.stats,
       rank: this.rank,
       socials: this.socials,
       favoriteTeam: this.favoriteTeam,
-      popularGames: this.popularGames
+      popularGames: this.popularGames,
+      mutualFriends: this.mutualFriends
     };
   }
 }

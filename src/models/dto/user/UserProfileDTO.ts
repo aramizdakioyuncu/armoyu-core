@@ -60,6 +60,7 @@ export interface UserProfileDTO {
   age?: number;
   lastLogin?: string;
   registeredDate?: string;
+  mutualFriendsCount?: number;
   job?: {
     name: string;
     shortName: string;
@@ -70,10 +71,11 @@ export interface UserProfileDTO {
     commentsCount: number;
     groupsCount: number;
     gamesCount: number;
-    commonFriendsCount?: number;
+    mutualFriendsCount?: number;
   };
   rank: UserRankDTO;
   socials: UserSocialsDTO;
   favoriteTeam?: UserFavoriteTeamDTO;
   popularGames: UserGameDTO[];
+  mutualFriends?: any[];
 }

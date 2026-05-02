@@ -91,7 +91,7 @@ export class AuthMapper extends BaseMapper {
 
       friendStatusText: raw.arkadasdurumaciklama || '',
       isFriend: raw.arkadasdurum === '1' || raw.arkadasdurum === 1,
-      registrationDate: raw.registeredDate || '',
+      registrationDate: detail.kayit_tarihi || raw.registeredDate || raw.registrationDate || '',
       lastSeen: detail.lastloginDateV2 || '',
 
       favTeam: raw.favTeam ? {
@@ -109,6 +109,12 @@ export class AuthMapper extends BaseMapper {
         twitch: socials.twitch,
         steam: socials.steam
       },
+
+      mutualFriends: Array.isArray(raw.ortakarkadasliste) ? raw.ortakarkadasliste.map((f: any) => ({
+        id: this.toNumber(f.oyuncuID || f.id),
+        username: f.oyuncukullaniciadi || f.username || '',
+        avatar: this.toImageUrl(f.oyuncuminnakavatar || f.avatar)
+      })) : [],
 
       isSocial: !!(socials.instagram || socials.discord || socials.steam)
     };

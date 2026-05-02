@@ -80,6 +80,7 @@ export interface UserResponse {
   clans?: TeamResponse[];
   groups?: GroupDTO[];
   friends?: UserResponse[];
+  mutualFriends?: UserResponse[];
 
   // Features
   favTeam?: TeamResponse;
