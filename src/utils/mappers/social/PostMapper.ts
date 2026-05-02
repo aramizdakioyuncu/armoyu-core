@@ -36,6 +36,7 @@ export class PostMapper extends BaseMapper {
       isCommented: this.toBool(raw.benyorumladim),
       isReposted: this.toBool(raw.benretweetledim),
       isReported: this.toBool(raw.bensikayet),
+      device: (raw.device === 'mobil' || Number(raw.paylasimcihaz || raw.cihaz) === 1) ? 'mobile' : 'web',
       mappedMedia: this.mapMediaList(raw.paylasimfoto || []),
       topLikers: this.mapLikersList(raw.paylasimilkucbegenen || []),
       topComments: this.mapCommentList(raw.ilkucyorum || [])

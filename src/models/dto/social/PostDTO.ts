@@ -60,6 +60,7 @@ export interface PostDTO {
   isCommented: boolean;
   isReposted: boolean;
   isReported: boolean;
+  device?: 'mobile' | 'web';
   mappedMedia: PostMediaDTO[];
   topComments: PostCommentDTO[];
 }

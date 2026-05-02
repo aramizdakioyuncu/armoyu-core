@@ -267,6 +267,10 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('davetkodu', code);
       const response = await this.client.post<any>('/0/0/davetkodsorgula/0/', formData);
+      
+      // API durumunu kontrol et (durum != 1 ise hata fırlatır)
+      this.handle(response);
+      
       const detail = response?.aciklamadetay;
       const mapped = UserMapper.mapInviteCodeCheck(detail);
       return this.createSuccess(mapped, response?.aciklama);

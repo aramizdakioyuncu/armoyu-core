@@ -17,6 +17,7 @@ export class Post implements PostDTO {
   isCommented: boolean;
   isReposted: boolean;
   isReported: boolean;
+  device?: 'mobile' | 'web';
   mappedMedia: PostMediaDTO[];
   topComments: PostCommentDTO[];
 
@@ -37,6 +38,8 @@ export class Post implements PostDTO {
     this.isCommented = data.isCommented;
     this.isReposted = data.isReposted;
     this.isReported = data.isReported;
+    this.device = data.device;
+    this.timeLabel = data.timeLabel;
     this.mappedMedia = data.mappedMedia;
     this.topComments = data.topComments;
   }
@@ -98,6 +101,7 @@ export class Post implements PostDTO {
       isCommented: this.isCommented,
       isReposted: this.isReposted,
       isReported: this.isReported,
+      device: this.device,
       mappedMedia: this.mappedMedia,
       topComments: this.topComments
     };
