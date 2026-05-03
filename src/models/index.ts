@@ -50,7 +50,9 @@ export * from './social/search/SearchResultResponse';
 
 // Social - User
 export * from './dto/user/UserProfileDTO';
+export * from './dto/user/NotificationSettingsDTO';
 export * from './entities/user/User';
+export * from './entities/user/NotificationSettings';
 export * from './user/GetXpRankingsResponse';
 export * from './user/GetPopRankingsResponse';
 export * from './user/GetFriendsResponse';

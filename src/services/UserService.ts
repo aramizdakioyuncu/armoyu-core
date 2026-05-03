@@ -2,11 +2,12 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { RankingUserResponse, RankingUser, User, UserProfileDTO, UserResponse, InviteCodeCheckResponse, SearchUserResponse, MediaResponse, Notification, School } from '../models';
+import { RankingUserResponse, RankingUser, User, UserProfileDTO, UserResponse, InviteCodeCheckResponse, SearchUserResponse, MediaResponse, Notification, School, NotificationSettings } from '../models';
 import { UserMapper } from '../utils/mappers/user/UserMapper';
 import { MediaMapper } from '../utils/mappers/content/MediaMapper';
 import { NotificationMapper } from '../utils/mappers/social/NotificationMapper';
 import { EducationMapper } from '../utils/mappers/education/EducationMapper';
+import { NotificationSettingsMapper } from '../utils/mappers/user/NotificationSettingsMapper';
 
 /**
  * Service for user management, profiles, and rankings.
@@ -44,17 +45,17 @@ export class UserService extends BaseService {
     this.requireAuth();
     try {
       const formData = new FormData();
+      formData.append('v1', '1');
       formData.append('ad', data.firstName || '');
       formData.append('soyad', data.lastName || '');
-      formData.append('eposta', data.email || '');
-      formData.append('dogumtarihi', data.birthday || '');
-      formData.append('tel', data.phoneNumber || '');
-      formData.append('ulke', (data.countryID || 0).toString());
-      formData.append('sehir', (data.provinceID || 0).toString());
-      formData.append('tc', data.idNumber || '');
-      formData.append('sifrekontrol', data.passwordControl || '');
+      formData.append('email', data.email || '');
+      formData.append('birthday', data.birthday || '');
+      formData.append('phoneNumber', data.phoneNumber || '');
+      formData.append('countryID', (data.countryID || '').toString());
+      formData.append('provinceID', (data.provinceID || '').toString());
+      formData.append('passwordControl', data.passwordControl || '');
 
-      const response = await this.client.post<any>('/0/0/ayarlar/ozelbilgi-guncelle/0/', formData);
+      const response = await this.client.post<any>('/0/0/profil/ozelbilgiler/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -267,10 +268,10 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('davetkodu', code);
       const response = await this.client.post<any>('/0/0/davetkodsorgula/0/', formData);
-      
+
       // API durumunu kontrol et (durum != 1 ise hata fırlatır)
       this.handle(response);
-      
+
       const detail = response?.aciklamadetay;
       const mapped = UserMapper.mapInviteCodeCheck(detail);
       return this.createSuccess(mapped, response?.aciklama);
@@ -398,10 +399,14 @@ export class UserService extends BaseService {
   async getNotifications(): Promise<ServiceResponse<Notification[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>('/0/0/bildirimler/0/0/', new FormData());
-      const icerik = this.handle<any[]>(response);
+      // Sondaki slash kaldırıldı, bu API bazı uçlarda buna çok hassas (Link yapısı hatası sebebi)
+      const response = await this.client.post<any>('/0/0/bildirim/0/0', new FormData());
+
+      // API bu uç noktada durum/icerik sarmalayıcısı yerine direkt ham dizi dönebilir
+      const icerik = Array.isArray(response) ? response : this.handle<any[]>(response);
+
       const mapped = NotificationMapper.mapNotificationList(icerik || []);
-      return this.createSuccess(mapped, response?.aciklama);
+      return this.createSuccess(mapped, (response as any)?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch notifications:', error);
       return this.createError(error.message);
@@ -529,12 +534,13 @@ export class UserService extends BaseService {
   /**
    * Get user notification settings.
    */
-  async getNotificationSettings(): Promise<ServiceResponse<any>> {
+  async getNotificationSettings(): Promise<ServiceResponse<NotificationSettings>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>('/0/0/ayarlar/bildirim/0/', new FormData());
+      const response = await this.client.post<any>('/0/0/bildirimler/ayarlar/liste/', new FormData());
       const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
+      const mapped = NotificationSettingsMapper.mapSettings(icerik || {});
+      return this.createSuccess(mapped, response?.aciklama);
     } catch (error: any) {
       this.logger.error('[UserService] Failed to fetch notification settings:', error);
       return this.createError(error.message);

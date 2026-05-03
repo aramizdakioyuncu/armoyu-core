@@ -6,6 +6,7 @@ export * from './auth/AuthMapper';
 // User
 export * from './user/UserMapper';
 export * from './user/UserProfileMapper';
+export * from './user/NotificationSettingsMapper';
 
 // Social
 export * from './social/PostMapper';
@@ -28,8 +29,8 @@ export * from './education/EducationMapper';
 export * from './site';
 export * from './content/NewsMapper';
 export * from './content/MusicMapper';
-export * from './content/ReelsMapper';
 export * from './content/MediaMapper';
+export * from './content/ReelsMapper';
 export * from './content/ProjectMapper';
 
 

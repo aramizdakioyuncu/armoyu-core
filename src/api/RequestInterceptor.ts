@@ -17,7 +17,7 @@ export class RequestInterceptor {
     // BUT: Skip it for auth/login to avoid "Link structure incorrect" errors there
     if (!cleanEndpoint.includes('://') && !cleanEndpoint.startsWith('/botlar/')) {
       const isAuthRequest = cleanEndpoint.includes('/auth/') || cleanEndpoint.includes('/login/') || cleanEndpoint === '/0/0/0/0/0/';
-      
+
       if (!isAuthRequest) {
         const apiKey = config.apiKey || '0';
         cleanEndpoint = `/botlar/${apiKey}${cleanEndpoint}`;

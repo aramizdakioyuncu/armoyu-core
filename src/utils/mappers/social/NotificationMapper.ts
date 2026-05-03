@@ -20,13 +20,13 @@ export class NotificationMapper extends BaseMapper {
     return new Notification({
       id: this.toNumber(raw.bildirimID),
       type: raw.bildirimkategori,
-      content: raw.bildirim_icerik || raw.bildirimmetin,
+      content: raw.bildirimicerik || raw.bildirimmetin,
       date: raw.bildirimzaman,
-      isRead: this.toBool(raw.bildirimokundu),
+      isRead: this.toBool(raw.bildirimdurum === '0'), // Durum 0 ise okunmuş kabul edelim (API standardı genellikle böyledir)
       sender: {
-        id: this.toNumber(raw.bildirimgonderenid),
-        displayName: raw.bildirimgonderenadsoyad,
-        avatar: this.toImageUrl(raw.bildirimgonderenavatar) || ''
+        id: this.toNumber(raw.bildirimkimID),
+        displayName: raw.bildirimkimadsoyad,
+        avatar: this.toImageUrl(raw.bildirimkimavatar) || ''
       }
     });
   }
