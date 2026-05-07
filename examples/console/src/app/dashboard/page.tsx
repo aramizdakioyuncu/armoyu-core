@@ -619,7 +619,7 @@ export default function Dashboard() {
             inputs.query,
             inputs.page ? Number(inputs.page) : 1,
             inputs.limit ? Number(inputs.limit) : 20,
-            inputs.kategoridetay
+            inputs.kategoridetay as any
           );
         } else if (action.id === 'searchTags') {
           result = await api.search.searchTags(
