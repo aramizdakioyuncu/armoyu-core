@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Check for the armoyu_token cookie
   const token = request.cookies.get('armoyu_token')?.value;
   const isDashboard = request.nextUrl.pathname.startsWith('/dashboard');

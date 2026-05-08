@@ -1,6 +1,6 @@
 {
   "name": "@armoyu/core",
-  "version": "1.1.63",
+  "version": "1.1.64",
   "description": "Core business logic, models, and services for ARMOYU platforms.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -40,8 +40,10 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
     "@types/node": "^25.6.0",
     "esbuild": "^0.28.0",
+    "tailwindcss": "^4.3.0",
     "typescript": "^5.0.0"
   }
 }

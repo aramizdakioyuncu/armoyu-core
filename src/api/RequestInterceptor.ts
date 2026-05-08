@@ -14,8 +14,9 @@ export class RequestInterceptor {
     }
 
     // ARMOYU Bot Path Logic: Prepend /botlar/API_KEY for standard requests
-    // BUT: Skip it for auth/login to avoid "Link structure incorrect" errors there
-    if (!cleanEndpoint.includes('://') && !cleanEndpoint.startsWith('/botlar/')) {
+    // BUT: Skip if apiKey is missing, "proxy", or if it's an auth request
+    const hasApiKey = config.apiKey && config.apiKey !== 'proxy';
+    if (hasApiKey && !cleanEndpoint.includes('://') && !cleanEndpoint.startsWith('/botlar/')) {
       const isAuthRequest = cleanEndpoint.includes('/auth/') || cleanEndpoint.includes('/login/') || cleanEndpoint === '/0/0/0/0/0/';
 
       if (!isAuthRequest) {
@@ -63,7 +64,7 @@ export class RequestInterceptor {
 
   static prepareRequest(config: ApiConfig, options: ApiRequestOptions, logger: ArmoyuLogger) {
     const headers = new Headers(config.headers || {});
-    if (config.apiKey) headers.set('X-API-KEY', config.apiKey);
+    if (config.apiKey && config.apiKey !== 'proxy') headers.set('X-API-KEY', config.apiKey);
     if (config.token) headers.set('Authorization', `Bearer ${config.token}`);
     if (options.headers) new Headers(options.headers).forEach((v, k) => headers.set(k, v));
 

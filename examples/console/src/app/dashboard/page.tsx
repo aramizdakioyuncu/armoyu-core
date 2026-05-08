@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { ArmoyuApi, MediaCategory } from '@armoyu/core';
+import { ARMOYUCore, MediaCategory } from '@armoyu/core';
 
 // --- Local Components ---
 import { Navbar } from '../../components/Navbar';
@@ -376,7 +376,7 @@ export default function Dashboard() {
   const consoleEndRef = useRef<HTMLDivElement>(null);
 
   // Library instance
-  const apiRef = useRef<ArmoyuApi | null>(null);
+  const apiRef = useRef<ARMOYUCore | null>(null);
 
   useEffect(() => {
     const savedKey = localStorage.getItem('armoyu_api_key');
@@ -413,11 +413,11 @@ export default function Dashboard() {
         debug: (msg: string, ...args: any[]) => console.debug(`[SDK-DEBUG] ${msg}`, ...args)
       };
 
-      apiRef.current = new ArmoyuApi(apiKey, {
-        baseUrl: `/api/proxy`,
-        token: testToken,
+      apiRef.current = ARMOYUCore.initForProxy(`/api/proxy`, {
         logger: customLogger
       });
+      if (apiKey) apiRef.current.setApiKey(apiKey);
+      if (testToken) apiRef.current.setAuthToken(testToken);
     }
   }, [apiKey, testToken]);
 

@@ -6,26 +6,61 @@ import { AuthService, UserService, BlogService, ShopService, ForumService, Suppo
 /**
  * The main entry point for the ARMOYU platform API.
  */
-export class ArmoyuApi {
+export class ARMOYUCore {
   private client: ApiClient;
   private logger: ArmoyuLogger;
 
-  constructor(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>) {
-    if (!apiKey?.trim()) throw new Error('ArmoyuApi: API Key is required.');
-    this.logger = config?.logger || new ConsoleLogger();
+  constructor(apiKeyOrConfig?: string | Partial<ApiConfig>, config?: Partial<ApiConfig>) {
+    let finalConfig: Partial<ApiConfig> = {};
+    let apiKey: string | null = null;
+
+    if (typeof apiKeyOrConfig === 'string') {
+      apiKey = apiKeyOrConfig;
+      finalConfig = config || {};
+    } else if (apiKeyOrConfig && typeof apiKeyOrConfig === 'object') {
+      finalConfig = apiKeyOrConfig;
+      apiKey = finalConfig.apiKey || null;
+    }
+
+    this.logger = finalConfig.logger || new ConsoleLogger();
     
     // Set Global Mapper Mode (Strict by default)
-    const useStrict = config?.usePreviousVersion ?? true;
+    const useStrict = finalConfig.usePreviousVersion ?? true;
     BaseMapper.setStrictMode(useStrict);
 
     this.client = new ApiClient({
-      baseUrl: config?.baseUrl || 'https://api.aramizdakioyuncu.com',
-      token: config?.token || null,
-      apiKey,
-      headers: config?.headers || {},
+      baseUrl: finalConfig.baseUrl || 'https://api.aramizdakioyuncu.com',
+      token: finalConfig.token || null,
+      apiKey: apiKey,
+      headers: finalConfig.headers || {},
       logger: this.logger,
       usePreviousVersion: useStrict
     });
+  }
+
+  /**
+   * Initializes the API for use with a proxy server (no API key required on client).
+   */
+  static initForProxy(proxyUrl: string, config?: Partial<Omit<ApiConfig, 'baseUrl' | 'apiKey'>>): ARMOYUCore {
+    let finalBaseUrl = proxyUrl;
+    
+    // Auto-detect origin for relative paths in browser environment
+    if (typeof window !== 'undefined' && finalBaseUrl.startsWith('/')) {
+      finalBaseUrl = `${window.location.origin}${finalBaseUrl}`;
+    }
+
+    return new ARMOYUCore({
+      ...config,
+      baseUrl: finalBaseUrl,
+      apiKey: null
+    });
+  }
+
+  /**
+   * Initializes the API for direct bot use (API key included in requests).
+   */
+  static initForBot(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>): ARMOYUCore {
+    return new ARMOYUCore(apiKey, config);
   }
 
   // Delegated Services from ApiClient
@@ -59,8 +94,10 @@ export class ArmoyuApi {
   get media() { return this.client.media; }
   get education() { return this.client.education; }
 
-  setToken(t: string | null) { this.client.setToken(t); }
+  setAuthToken(t: string | null) { this.client.setAuthToken(t); }
   setApiKey(k: string | null) { this.client.setApiKey(k); }
+  getApiKey() { return this.client.getApiKey(); }
+  getBaseUrl() { return this.client.getBaseUrl(); }
   setConfig(c: any) { (this.client as any).config = { ...(this.client as any).config, ...c }; }
   
   get last() { return this.client.lastRaw; }

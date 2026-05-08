@@ -1,8 +1,9 @@
-import type { NextConfig } from "next";
+import path from 'path';
 
-const nextConfig: NextConfig = {
+const nextConfig: any = {
   transpilePackages: ['@armoyu/core'],
-  allowedDevOrigins: ['192.168.1.13', '192.168.1.11', 'localhost', '127.0.0.1']
+  allowedDevOrigins: ['localhost', '127.0.0.1'],
+  outputFileTracingRoot: path.resolve(__dirname, '../../'),
 };
 
 export default nextConfig;

@@ -3,7 +3,7 @@ export * from './models/index';
 
 // API Core
 export * from './api/ApiClient';
-export * from './api/ArmoyuApi';
+export * from './api/ARMOYUCore';
 export * from './api/Logger';
 
 // Services

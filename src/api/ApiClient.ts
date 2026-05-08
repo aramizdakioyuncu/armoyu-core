@@ -92,8 +92,8 @@ export class ApiClient {
   async patch<T>(e: string, b?: any, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.PATCH, body: b }); }
   async delete<T>(e: string, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.DELETE }); }
 
-  setToken(t: string | null) { this.config.token = t; }
-  getToken() { return this.config.token || null; }
+  setAuthToken(t: string | null) { this.config.token = t; }
+  getAuthToken() { return this.config.token || null; }
   setApiKey(k: string | null) { this.config.apiKey = k; }
   getApiKey() { return this.config.apiKey || null; }
   getBaseUrl() { return this.config.baseUrl; }

@@ -29,15 +29,23 @@ npm install @armoyu/core
 
 ## 🚀 Quick Start
 
-Initialize the ARMOYU API and start interacting with the platform in seconds.
+Initialize the ARMOYU API based on your environment.
 
+### 🌐 Option A: For Web Apps (Secure Proxy)
+Recommended for frontend applications to hide the API Key.
 ```typescript
-import { ArmoyuApi } from '@armoyu/core';
+import { ARMOYUCore } from "@armoyu/core";
 
-// 1. Initialize the API
-const api = new ArmoyuApi('YOUR_API_KEY', {
-  baseUrl: 'https://api.aramizdakioyuncu.com'
-});
+const api = ARMOYUCore.initForProxy("/api/proxy");
+```
+
+### 🤖 Option B: For Bots (Direct Access)
+Used in backend scripts or mobile apps where direct API access is needed.
+```typescript
+import { ARMOYUCore } from "@armoyu/core";
+
+const api = ARMOYUCore.initForBot("YOUR_API_KEY");
+```
 
 // 2. Authenticate
 const { user, session } = await api.auth.login('username', 'password');

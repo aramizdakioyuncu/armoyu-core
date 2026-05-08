@@ -1,4 +1,4 @@
-import { ArmoyuApi } from '../src/api/ArmoyuApi';
+import { ARMOYUCore } from '../src/api/ARMOYUCore';
 
 /**
  * Global API Test using Environment Variables
@@ -17,7 +17,7 @@ async function test() {
     return;
   }
 
-  const api = new ArmoyuApi(apiKey, {
+  const api = new ARMOYUCore(apiKey, {
     baseUrl: 'https://api.aramizdakioyuncu.com',
     token: null,
     usePreviousVersion: true
@@ -35,7 +35,7 @@ async function test() {
     } catch (err: any) {
       console.warn('⚠️ WARNING: Login failed:', err.message);
       if (token) {
-        api.setToken(token);
+        api.setAuthToken(token);
         console.log('Fallback Token set successfully.');
       } else {
         console.error('ERROR: No fallback token available in .env (ARMOYU_TOKEN).');
@@ -43,7 +43,7 @@ async function test() {
       }
     }
   } else if (token) {
-    api.setToken(token);
+    api.setAuthToken(token);
   }
 
   // --- Phase 2: User Profile ---

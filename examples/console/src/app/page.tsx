@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Shield, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { ArmoyuApi } from '@armoyu/core';
+import { ARMOYUCore } from '@armoyu/core';
 
 // --- Local Components ---
 import { Navbar } from '../components/Navbar';
@@ -16,7 +16,7 @@ export default function DevelopersPortalLanding() {
   const [apiKey, setApiKey] = useState('');
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const apiRef = useRef<ArmoyuApi | null>(null);
+  const apiRef = useRef<ARMOYUCore | null>(null);
 
   useEffect(() => {
     const savedKey = localStorage.getItem('armoyu_api_key');
@@ -27,11 +27,10 @@ export default function DevelopersPortalLanding() {
 
     // Initialize API for the portal login
     try {
-      apiRef.current = new ArmoyuApi(savedKey || 'portal-init', {
-        baseUrl: `/api/proxy`
-      });
+      apiRef.current = ARMOYUCore.initForProxy(`/api/proxy`);
+      if (savedKey) apiRef.current.setApiKey(savedKey);
     } catch {
-      // Fallback if needed, but mandatory key is enforced
+      // Fallback if needed
     }
   }, []);
 

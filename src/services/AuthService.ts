@@ -35,7 +35,7 @@ export class AuthService extends BaseService {
       }
 
       if (mapped.token) {
-        this.client.setToken(mapped.token);
+        this.client.setAuthToken(mapped.token);
       }
 
       return this.createSuccess(mapped, 'Giriş Başarılı');
@@ -97,7 +97,7 @@ export class AuthService extends BaseService {
     } catch (error) {
       // Ignore network errors on logout
     }
-    this.client.setToken('');
+    this.client.setAuthToken('');
     return this.createSuccess(true, 'Çıkış Yapıldı');
   }
 
