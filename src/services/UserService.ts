@@ -126,12 +126,21 @@ export class UserService extends BaseService {
   /**
    * Add a user to friends.
    */
+  /**
+   * Add a user to friends.
+   */
   async addFriend(userId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>('/0/0/arkadaslik/ekle/0/', formData);
+      const response = await this.client.post<any>('/0/0/arkadas-ol/0/0/', formData);
+      
+      const isSuccess = response && (response.durum === 1 || response.aciklama === 'İstek gönderilmiş!' || response.aciklama?.includes('gönderildi'));
+      if (isSuccess) {
+        return this.createSuccess(true, response?.aciklama);
+      }
+
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -148,7 +157,13 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>('/0/0/arkadaslik/sil/0/', formData);
+      const response = await this.client.post<any>('/0/0/arkadas-cikar/0/0/', formData);
+      
+      const isSuccess = response && (response.durum === 1 || response.aciklama?.includes('çıkarıldı') || response.aciklama?.includes('silindi'));
+      if (isSuccess) {
+        return this.createSuccess(true, response?.aciklama);
+      }
+
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -166,7 +181,13 @@ export class UserService extends BaseService {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
       formData.append('cevap', response.toString());
-      const apiResponse = await this.client.post<any>('/0/0/arkadaslik/cevap/0/', formData);
+      const apiResponse = await this.client.post<any>('/0/0/arkadas-cevap/0/0/', formData);
+      
+      const isSuccess = apiResponse && (apiResponse.durum === 1 || apiResponse.aciklama?.includes('kabul') || apiResponse.aciklama?.includes('red') || apiResponse.aciklama?.includes('güncellendi'));
+      if (isSuccess) {
+        return this.createSuccess(true, apiResponse?.aciklama);
+      }
+
       this.handle(apiResponse);
       return this.createSuccess(true, apiResponse?.aciklama);
     } catch (error: any) {
@@ -306,7 +327,7 @@ export class UserService extends BaseService {
     try {
       const formData = new FormData();
       formData.append('oyuncubakid', userId.toString());
-      const response = await this.client.post<any>('/0/0/arkadaslik/dort/0/', formData);
+      const response = await this.client.post<any>('/0/0/arkadas-durt/0/0/', formData);
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {

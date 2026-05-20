@@ -2,9 +2,13 @@ import { ArmoyuLogger, ConsoleLogger } from '../api/Logger';
 
 export type SocketEvent =
   | 'message'
+  | 'chat_message'
+  | 'chat_typing'
+  | 'chat_call'
   | 'status'
   | 'typing'
   | 'notification'
+  | 'register_user'
   | 'post'
   | 'post_like'
   | 'post_delete'
@@ -23,7 +27,7 @@ export class SocketService {
   private socket: any = null;
   public isConnected: boolean = false;
   private listeners: Map<SocketEvent, SocketListener[]> = new Map();
-  private socketUrl: string = 'https://socket.armoyu.com';
+  private socketUrl: string = (typeof process !== 'undefined' && (process.env?.NEXT_PUBLIC_ARMOYU_SOCKET_URL || process.env?.ARMOYU_SOCKET_URL)) || 'https://socket.armoyu.com';
   private logger: ArmoyuLogger;
 
   constructor(logger?: ArmoyuLogger) {
@@ -35,7 +39,17 @@ export class SocketService {
   }
 
   setSocketUrl(url: string) {
-    this.socketUrl = url;
+    if (this.socketUrl !== url) {
+      this.socketUrl = url;
+      this.logger.info(`Socket URL updated to: ${url}. Reconnecting...`);
+      if (this.socket) {
+        this.socket.disconnect();
+        this.socket = null;
+      }
+      if (typeof window !== 'undefined') {
+        this.connect();
+      }
+    }
   }
 
   private async connect() {
@@ -66,6 +80,9 @@ export class SocketService {
 
       const events: SocketEvent[] = [
         'message',
+        'chat_message',
+        'chat_typing',
+        'chat_call',
         'typing',
         'notification',
         'status',
