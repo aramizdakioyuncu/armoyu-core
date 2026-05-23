@@ -18,7 +18,7 @@ export class UserProfileMapper extends BaseMapper {
     const job = raw.job || {};
 
     return new User({
-      id: this.toNumber(raw.playerID || raw.ID || raw.oyuncuID),
+      id: this.toNumber(raw.playerID || raw.ID || raw.oyuncuID || raw.id),
       username: raw.username || raw.kullaniciadi || '',
       displayName: raw.displayName || raw.adsoyad || '',
       firstName: raw.firstName || '',

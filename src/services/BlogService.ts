@@ -2,101 +2,91 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { GetNewsResponse, News, ServiceResponse } from '../models';
-import { NewsMapper } from '../utils/mappers';
+import { BlogServiceV1 } from '../v1/BlogServiceV1';
+import { BlogServiceV2, CreateNewsParams, UpdateNewsParams } from '../v2/BlogServiceV2';
+
+export type { CreateNewsParams, UpdateNewsParams };
 
 /**
  * Service for managing platform news, blogs, and articles.
+ * Delegates to BlogServiceV1 (legacy FormData) or BlogServiceV2 (REST JSON).
  */
 export class BlogService extends BaseService {
+  private version: BlogServiceV1 | BlogServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new BlogServiceV1(client, logger)
+      : new BlogServiceV2(client, logger);
   }
 
   /**
    * Get all news articles.
    */
   async getNews(page: number, limit?: number): Promise<GetNewsResponse> {
-    // Redirecting to legacy for now as REST endpoint returns HTML
-    return this.getNewsLegacy(page, limit);
+    return this.version.getNews(page, limit);
   }
 
   /**
-   * Get news articles using the legacy bot-based endpoint.
+   * Get a single news article by ID or URL.
    */
-  async getNewsLegacy(page: number, limit?: number): Promise<GetNewsResponse> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit !== undefined) {
-        formData.append('limit', limit.toString());
-      }
-
-      const response = await this.client.post<any>(`/0/0/haberler/${page}/${limit || 0}/`, formData);
-      const data = this.handle<any[]>(response);
-      const mapped = (data || []).map(i => NewsMapper.mapNews(i)).filter((n): n is News => n !== null);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[BlogService] Failed to fetch legacy news:', error);
-      return this.createError(error.message) as any;
-    }
+  async getNewsDetail(opt: { newsId?: number; newsURL?: string }): Promise<ServiceResponse<News | null>> {
+    return this.version.getNewsDetail(opt);
   }
 
   /**
-   * Get a single news article by slug.
-   */
-  async getNewsBySlug(slug: string): Promise<ServiceResponse<News | null>> {
-    try {
-      // Slugs are typically used for URL lookup, but if not available in bot API, we redirect to detail by URL
-      return this.getNewsDetail({ newsURL: slug });
-    } catch (error: any) {
-      this.logger.error(`[BlogService] Failed to fetch news article by slug ${slug}:`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Get a single news article by ID or URL (Legacy).
-   */
-  async getNewsDetail(opt: { newsId?: number, newsURL?: string }): Promise<ServiceResponse<News | null>> {
-    try {
-      const formData = new FormData();
-      if (opt.newsId) formData.append('haberID', opt.newsId.toString());
-      if (opt.newsURL) formData.append('haberURL', opt.newsURL);
-
-      const response = await this.client.post<any>('/0/0/haberler/detay/0/', formData);
-      const icerik = this.handle<any>(response);
-      const mapped = NewsMapper.mapNews(icerik);
-      
-      return this.createSuccess(mapped || null, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[BlogService] Failed to fetch news detail:', error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Search news articles.
+   * Search news articles (V1 only; not yet available in V2).
    */
   async searchNews(page: number, query: string, limit?: number): Promise<ServiceResponse<News[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('haberadi', query);
-      if (limit !== undefined) {
-        formData.append('limit', limit.toString());
-      }
+    return this.version.searchNews(page, query, limit);
+  }
 
-      // Guessed legacy search path based on common patterns
-      const response = await this.client.post<any>(`/0/0/haberler/arama/${page}/${limit || 0}/`, formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = NewsMapper.mapNewsList(icerik || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[BlogService] News search failed:', error);
-      return this.createError(error.message);
+  /**
+   * Create a news article (V2 only).
+   */
+  async createNews(params: CreateNewsParams): Promise<ServiceResponse<News | null>> {
+    if (this.usePreviousVersion) {
+      return this.createError('createNews yalnızca V2 API\'sinde desteklenmektedir.');
     }
+    return (this.version as BlogServiceV2).createNews(params);
+  }
+
+  /**
+   * Update a news article (V2 only).
+   */
+  async updateNews(newsId: number, params: UpdateNewsParams): Promise<ServiceResponse<boolean>> {
+    if (this.usePreviousVersion) {
+      return this.createError('updateNews yalnızca V2 API\'sinde desteklenmektedir.');
+    }
+    return (this.version as BlogServiceV2).updateNews(newsId, params);
+  }
+
+  /**
+   * Delete (soft) a news article (V2 only).
+   */
+  async deleteNews(newsId: number): Promise<ServiceResponse<boolean>> {
+    if (this.usePreviousVersion) {
+      return this.createError('deleteNews yalnızca V2 API\'sinde desteklenmektedir.');
+    }
+    return (this.version as BlogServiceV2).deleteNews(newsId);
+  }
+
+  /**
+   * Get news using the legacy bot-based endpoint (V1 alias).
+   * @deprecated Use getNews() instead.
+   */
+  async getNewsLegacy(page: number, limit?: number): Promise<GetNewsResponse> {
+    if (this.usePreviousVersion) {
+      return (this.version as BlogServiceV1).getNews(page, limit);
+    }
+    return this.getNews(page, limit);
+  }
+
+  /**
+   * Get a single news article by slug (delegates to getNewsDetail).
+   */
+  async getNewsBySlug(slug: string): Promise<ServiceResponse<News | null>> {
+    return this.getNewsDetail({ newsURL: slug });
   }
 }
-

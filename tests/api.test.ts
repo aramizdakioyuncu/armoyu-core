@@ -1,4 +1,5 @@
 import { ARMOYUCore } from '../src/api/ARMOYUCore';
+import { ApiVersion } from '../src/api/ApiClient';
 
 /**
  * Global API Test using Environment Variables
@@ -17,10 +18,9 @@ async function test() {
     return;
   }
 
-  const api = new ARMOYUCore(apiKey, {
+  const api = new ARMOYUCore(ApiVersion.OLD, apiKey, {
     baseUrl: 'https://api.aramizdakioyuncu.com',
-    token: null,
-    usePreviousVersion: true
+    token: null
   });
 
   const shouldRun = (phase: string) => !targetPhase || targetPhase === phase;

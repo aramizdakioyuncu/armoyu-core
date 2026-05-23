@@ -1,145 +1,63 @@
-import { LoginResponse, ServiceResponse, User } from '../models';
+import { LoginResponse, ServiceResponse, User, PasswordResetPreference } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { AuthMapper, UserMapper } from '../utils/mappers';
+import { AuthServiceV1 } from '../v1/AuthServiceV1';
+import { AuthServiceV2 } from '../v2/AuthServiceV2';
 
 /**
  * Service for authentication, login, and registration.
- * Handles the special case of legacy login response where token is in 'aciklama' or 'aciklamadetay.token'.
+ * Delegates requests to AuthServiceV1 or AuthServiceV2 based on ApiVersion.
  */
 export class AuthService extends BaseService {
+  private version: AuthServiceV1 | AuthServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new AuthServiceV1(client, logger)
+      : new AuthServiceV2(client, logger);
   }
 
   /**
    * Log in with username and password.
    */
   async login(username: string, sifre: string): Promise<ServiceResponse<LoginResponse>> {
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', sifre);
-
-    try {
-      const response = await this.client.post<any>('/0/0/0/', formData);
-      const icerik = this.handle<any>(response);
-
-      const aciklamaToken = response?.aciklama || '';
-      const isAciklamaTokenValid = aciklamaToken.length > 50 && !aciklamaToken.includes(' ');
-      const token = response?.aciklamadetay?.token || (isAciklamaTokenValid ? aciklamaToken : '');
-      const mapped = AuthMapper.mapLogin(icerik, token);
-
-      if (!mapped.user.id || mapped.user.id === 0) {
-        throw new Error('Kullanıcı adı veya şifre hatalı (Sistem geçerli bir kullanıcı verisi alamadı).');
-      }
-
-      if (mapped.token) {
-        this.client.setAuthToken(mapped.token);
-      }
-
-      return this.createSuccess(mapped, 'Giriş Başarılı');
-    } catch (error: any) {
-      this.logger.error('[AuthService] Login failed:', error);
-      return this.createError(error.message);
-    }
+    return this.version.login(username, sifre);
   }
 
   /**
    * Register a new account.
    */
   async register(params: any): Promise<ServiceResponse<boolean>> {
-    try {
-      const formData = new FormData();
-      formData.append('username', params.username || '');
-      formData.append('ad', params.firstName || '');
-      formData.append('soyad', params.lastName || '');
-      formData.append('eposta', params.email || '');
-      formData.append('sifre', params.password || '');
-
-      if (params.inviteCode) {
-        formData.append('davetkodu', params.inviteCode);
-      }
-
-      const response = await this.client.post<any>('/0/0/kayit-ol/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[AuthService] Registration failed:', error);
-      return this.createError(error.message);
-    }
+    return this.version.register(params);
   }
 
   /**
    * Get current user profile.
    */
   async me(): Promise<ServiceResponse<User>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.post<any>('/0/0/0/0/0/', new FormData());
-      const icerik = this.handle<any>(response);
-      const mapped = UserMapper.mapProfile(icerik);
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[AuthService] Failed to fetch current profile:', error);
-      return this.createError(error.message);
-    }
+    return this.version.me();
   }
 
   /**
    * Log out and clear session.
    */
   async logout(): Promise<ServiceResponse<boolean>> {
-    try {
-      // In legacy API, logout is often just client-side token clear, 
-      // but we send a request to /0/0/cikis/ if supported
-      await this.client.post<any>('/0/0/cikis/', new FormData());
-    } catch (error) {
-      // Ignore network errors on logout
-    }
-    this.client.setAuthToken('');
-    return this.createSuccess(true, 'Çıkış Yapıldı');
+    return this.version.logout();
   }
 
   /**
    * Request password reset code.
    */
-  async forgotPassword(params: { username: string, email: string, birthday: string, preference: string }): Promise<ServiceResponse<boolean>> {
-    try {
-      const formData = new FormData();
-      formData.append('kullaniciad', params.username);
-      formData.append('eposta', params.email);
-      formData.append('dogumtarihi', params.birthday);
-      formData.append('tercih', params.preference);
-
-      const response = await this.client.post<any>('/0/0/sifremi-unuttum/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[AuthService] Forgot password request failed:', error);
-      return this.createError(error.message);
-    }
+  async forgotPassword(params: { username: string, email: string, birthday: string, preference: PasswordResetPreference | 'email' | 'sms' }): Promise<ServiceResponse<boolean>> {
+    return this.version.forgotPassword(params);
   }
 
   /**
    * Verify code and reset password.
    */
   async verifyPasswordReset(params: { username: string, email: string, birthday: string, code: string, newPassword: any }): Promise<ServiceResponse<boolean>> {
-    try {
-      const formData = new FormData();
-      formData.append('kullaniciad', params.username);
-      formData.append('eposta', params.email);
-      formData.append('dogumtarihi', params.birthday);
-      formData.append('kod', params.code);
-      formData.append('yenisifre', params.newPassword);
-
-      const response = await this.client.post<any>('/0/0/sifremi-unuttum-onayla/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[AuthService] Password reset verification failed:', error);
-      return this.createError(error.message);
-    }
+    return this.version.verifyPasswordReset(params);
   }
 }
-

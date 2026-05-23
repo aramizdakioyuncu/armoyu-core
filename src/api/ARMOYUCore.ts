@@ -1,7 +1,7 @@
-import { ApiClient, type ApiConfig } from './ApiClient';
+import { ApiClient, type ApiConfig, ApiVersion } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { BaseMapper } from '../utils/mappers/BaseMapper';
-import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, BusinessService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService, MusicService, ReelsService, MediaService, EducationService } from '../services';
+import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, SchoolService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService, MusicService, ReelsService, MediaService, EducationService } from '../services';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -10,7 +10,7 @@ export class ARMOYUCore {
   private client: ApiClient;
   private logger: ArmoyuLogger;
 
-  constructor(apiKeyOrConfig?: string | Partial<ApiConfig>, config?: Partial<ApiConfig>) {
+  constructor(version: ApiVersion, apiKeyOrConfig?: string | Partial<ApiConfig>, config?: Partial<ApiConfig>) {
     let finalConfig: Partial<ApiConfig> = {};
     let apiKey: string | null = null;
 
@@ -24,8 +24,8 @@ export class ARMOYUCore {
 
     this.logger = finalConfig.logger || new ConsoleLogger();
     
-    // Set Global Mapper Mode (Strict by default)
-    const useStrict = finalConfig.usePreviousVersion ?? true;
+    // 'old' maps to usePreviousVersion = true, 'current' maps to usePreviousVersion = false
+    const useStrict = version === ApiVersion.OLD;
     BaseMapper.setStrictMode(useStrict);
 
     this.client = new ApiClient({
@@ -34,14 +34,15 @@ export class ARMOYUCore {
       apiKey: apiKey,
       headers: finalConfig.headers || {},
       logger: this.logger,
-      usePreviousVersion: useStrict
+      usePreviousVersion: useStrict,
+      version: version
     });
   }
 
   /**
    * Initializes the API for use with a proxy server (no API key required on client).
    */
-  static initForProxy(proxyUrl: string, config?: Partial<Omit<ApiConfig, 'baseUrl' | 'apiKey'>>): ARMOYUCore {
+  static initForProxy(version: ApiVersion, proxyUrl: string, config?: Partial<Omit<ApiConfig, 'baseUrl' | 'apiKey' | 'version'>>): ARMOYUCore {
     let finalBaseUrl = proxyUrl;
     
     // Auto-detect origin for relative paths in browser environment
@@ -49,7 +50,7 @@ export class ARMOYUCore {
       finalBaseUrl = `${window.location.origin}${finalBaseUrl}`;
     }
 
-    return new ARMOYUCore({
+    return new ARMOYUCore(version, {
       ...config,
       baseUrl: finalBaseUrl,
       apiKey: null
@@ -59,8 +60,8 @@ export class ARMOYUCore {
   /**
    * Initializes the API for direct bot use (API key included in requests).
    */
-  static initForBot(apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey'>>): ARMOYUCore {
-    return new ARMOYUCore(apiKey, config);
+  static initForBot(version: ApiVersion, apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey' | 'version'>>): ARMOYUCore {
+    return new ARMOYUCore(version, apiKey, config);
   }
 
   // Delegated Services from ApiClient
@@ -78,7 +79,7 @@ export class ARMOYUCore {
   get groups() { return this.client.groups; }
   get social() { return this.client.social; }
   get chat() { return this.client.chat; }
-  get business() { return this.client.business; }
+  get schools() { return this.client.schools; }
   get projects() { return this.client.projects; }
   get stories() { return this.client.stories; }
   get polls() { return this.client.polls; }

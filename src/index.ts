@@ -23,7 +23,7 @@ export * from './services/SocialService';
 export * from './services/ChatService';
 export * from './services/SearchService';
 export * from './services/EventService';
-export * from './services/BusinessService';
+export * from './services/SchoolService';
 export * from './services/ProjectService';
 export * from './services/StoryService';
 export * from './services/PollService';

@@ -46,9 +46,29 @@ export class StationService extends BaseService {
       const data = this.handle<any[]>(response);
       return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
     } catch (error: any) {
-      this.logger.error(`[StationService] Failed to fetch equipment for station ${stationId}:`, error);
+      this.logger.error(`[StationService] Failed to fetch equipment for station ${stationId}:`, error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Get stations associated with a user.
+   */
+  async getUserStations(page: number, limit?: number, userId?: number): Promise<ServiceResponse<any[]>> {
+    try {
+      const formData = new FormData();
+      formData.append('sayfa', page.toString());
+      if (limit) formData.append('limit', limit.toString());
+      if (userId) formData.append('oyuncubakid', userId.toString());
+
+      const response = await this.client.post<any>('/0/0/istasyonlarim/0/0/', formData);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[StationService] Failed to fetch user stations:', error.message);
       return this.createError(error.message);
     }
   }
 }
+
 

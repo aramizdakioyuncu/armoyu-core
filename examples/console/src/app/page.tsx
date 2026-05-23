@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Shield, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { ARMOYUCore } from '@armoyu/core';
+import { ApiVersion, ARMOYUCore } from '@armoyu/core';
 
 // --- Local Components ---
 import { Navbar } from '../components/Navbar';
@@ -27,7 +27,7 @@ export default function DevelopersPortalLanding() {
 
     // Initialize API for the portal login
     try {
-      apiRef.current = ARMOYUCore.initForProxy(`/api/proxy`);
+      apiRef.current = ARMOYUCore.initForProxy(ApiVersion.OLD, `/api/proxy`);
       if (savedKey) apiRef.current.setApiKey(savedKey);
     } catch {
       // Fallback if needed

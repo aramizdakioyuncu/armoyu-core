@@ -1,10 +1,10 @@
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { RequestInterceptor } from './RequestInterceptor';
 import { ResponseHandler } from './ResponseHandler';
-import { HttpMethod, ApiConfig } from './types';
-import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, BusinessService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService } from '../services';
+import { HttpMethod, ApiConfig, ApiVersion } from './types';
+import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, SchoolService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService } from '../services';
 
-export { HttpMethod };
+export { HttpMethod, ApiVersion };
 export type { ApiConfig };
 export class ApiError extends Error {
   constructor(public message: string, public status?: number, public statusText?: string, public data?: any) {
@@ -19,7 +19,7 @@ export class ApiClient {
   public readonly auth: AuthService; public readonly users: UserService; public readonly events: EventService;
   public readonly groups: GroupService; public readonly siteInfo: SiteInformationService;
   public readonly management: ManagementService; public readonly rules: RuleService;
-  public readonly business: BusinessService; public readonly projects: ProjectService;
+  public readonly schools: SchoolService; public readonly projects: ProjectService;
   public readonly stories: StoryService; public readonly polls: PollService;
   public readonly blocks: BlockService; public readonly stations: StationService;
   public readonly teams: TeamService; public readonly staff: StaffService;
@@ -41,7 +41,7 @@ export class ApiClient {
     this.auth = svc(AuthService); this.users = svc(UserService); this.events = svc(EventService);
     this.groups = svc(GroupService); this.siteInfo = svc(SiteInformationService);
     this.management = svc(ManagementService); this.rules = svc(RuleService);
-    this.business = svc(BusinessService); this.projects = svc(ProjectService);
+    this.schools = svc(SchoolService); this.projects = svc(ProjectService);
     this.stories = svc(StoryService); this.polls = svc(PollService);
     this.blocks = svc(BlockService); this.stations = svc(StationService);
     this.teams = svc(TeamService); this.staff = svc(StaffService);
@@ -97,4 +97,6 @@ export class ApiClient {
   setApiKey(k: string | null) { this.config.apiKey = k; }
   getApiKey() { return this.config.apiKey || null; }
   getBaseUrl() { return this.config.baseUrl; }
+  get usePreviousVersion() { return this.config.usePreviousVersion ?? true; }
+  get version() { return this.config.version || ApiVersion.OLD; }
 }

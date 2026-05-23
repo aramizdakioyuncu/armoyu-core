@@ -1,4 +1,5 @@
-import { ArmoyuApi } from '../src/api/ArmoyuApi';
+import { ARMOYUCore } from '../src/api/ARMOYUCore';
+import { ApiVersion } from '../src/api/ApiClient';
 import * as fs from 'fs';
 
 /**
@@ -14,7 +15,7 @@ async function discover() {
     return;
   }
 
-  const api = new ArmoyuApi(apiKey, {
+  const api = new ARMOYUCore(ApiVersion.OLD, apiKey, {
     baseUrl: 'https://api.aramizdakioyuncu.com',
     token: token || null
   });
@@ -71,7 +72,7 @@ async function discover() {
   // 8. Trying Blog on api.armoyu.com
   try {
     console.log('[Blog] Fetching news from api.armoyu.com...');
-    const backupApi = new ArmoyuApi(apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
+    const backupApi = new ARMOYUCore(ApiVersion.OLD, apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
     const news = await backupApi.blog.getNews(1);
     results['blog_news_fallback'] = news;
   } catch (e) { console.error('[Blog] news fallback failed'); }
@@ -79,7 +80,7 @@ async function discover() {
   // 3. User Search (Retry on api.armoyu.com)
   try {
     console.log('[User] Searching for "berkay" on api.armoyu.com...');
-    const backupApi = new ArmoyuApi(apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
+    const backupApi = new ARMOYUCore(ApiVersion.OLD, apiKey, { baseUrl: 'https://api.armoyu.com', token: token || null });
     const userSearch = await backupApi.search.globalSearch('berkay');
     results['user_search_fallback'] = userSearch;
   } catch (e) { console.error('[User] search fallback failed'); }

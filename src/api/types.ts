@@ -2,6 +2,11 @@ import { ArmoyuLogger } from './Logger';
 
 export enum HttpMethod { GET = 'GET', POST = 'POST', PUT = 'PUT', PATCH = 'PATCH', DELETE = 'DELETE' }
 
+export enum ApiVersion {
+  CURRENT = 'current',
+  OLD = 'old'
+}
+
 export interface ApiConfig {
   baseUrl: string;
   token?: string | null;
@@ -9,6 +14,7 @@ export interface ApiConfig {
   headers?: Record<string, string>;
   logger?: ArmoyuLogger;
   usePreviousVersion?: boolean;
+  version?: ApiVersion;
   debugMode?: boolean;
 }
 

@@ -7,6 +7,10 @@ import { ArmoyuLogger } from '../api/Logger';
 export class BaseService {
   constructor(protected client: ApiClient, protected logger: ArmoyuLogger) {}
 
+  protected get usePreviousVersion(): boolean {
+    return this.client.usePreviousVersion;
+  }
+
   /**
    * Handle the standard API response structure.
    */

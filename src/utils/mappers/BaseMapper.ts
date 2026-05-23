@@ -67,8 +67,6 @@ export abstract class BaseMapper {
    * Returns 'null' if strictMode is true (forces the mapper to continue with manual mapping).
    */
   protected static shouldReturnRaw<T>(raw: any): T | null {
-    if (!raw) return null;
-    if (!this.strictMode) return raw as T;
     return null;
   }
 }

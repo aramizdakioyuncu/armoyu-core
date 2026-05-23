@@ -13,9 +13,9 @@ export enum AuthStatus {
  */
 export enum PasswordResetPreference {
   EMAIL = 'email',
-  PHONE = 'phone',
-  USER_INPUT = 'user_input'
+  SMS = 'sms'
 }
+
 
 
 

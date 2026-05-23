@@ -40,3 +40,6 @@ export * from './shop/ShopMapper';
 // Core
 export * from './core/LocationMapper';
 export * from './core/RuleMapper';
+
+// V2 Mappers
+export * from './mapperv2';

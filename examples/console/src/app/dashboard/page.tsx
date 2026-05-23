@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-import { ARMOYUCore, MediaCategory } from '@armoyu/core';
+import { ARMOYUCore, MediaCategory, ApiVersion } from '@armoyu/core';
 
 // --- Local Components ---
 import { Navbar } from '../../components/Navbar';
@@ -413,7 +413,7 @@ export default function Dashboard() {
         debug: (msg: string, ...args: any[]) => console.debug(`[SDK-DEBUG] ${msg}`, ...args)
       };
 
-      apiRef.current = ARMOYUCore.initForProxy(`/api/proxy`, {
+      apiRef.current = ARMOYUCore.initForProxy(ApiVersion.OLD, `/api/proxy`, {
         logger: customLogger
       });
       if (apiKey) apiRef.current.setApiKey(apiKey);
