@@ -2,34 +2,30 @@ import { TeamResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { TeamMapper } from '../utils/mappers/community/TeamMapper';
+import { TeamServiceV1, CreateTeamParams } from '../v1/TeamServiceV1';
+import { TeamServiceV2 } from '../v2/TeamServiceV2';
 
-/**
- * Service for managing competitive teams and roster management.
- */
+export { CreateTeamParams };
+
 export class TeamService extends BaseService {
+  private version: TeamServiceV1 | TeamServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new TeamServiceV1(client, logger)
+      : new TeamServiceV2(client, logger);
   }
 
-  /**
-   * Get all active teams.
-   */
   async getTeams(page: number = 1, limit?: string | number): Promise<ServiceResponse<TeamResponse[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit) formData.append('limit', limit.toString());
+    return this.version.getTeams(page, limit);
+  }
 
-      const response = await this.client.post<any>(`/0/0/takimlar/liste/${page}/`, formData);
-      const data = this.handle<any[]>(response);
-      const mapped = TeamMapper.mapTeamList(data || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[TeamService] Failed to fetch teams:', error);
-      return this.createError(error.message);
-    }
+  async createTeam(params: CreateTeamParams): Promise<ServiceResponse<TeamResponse>> {
+    return this.version.createTeam(params);
+  }
+
+  async deleteTeam(teamId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteTeam(teamId);
   }
 }
-

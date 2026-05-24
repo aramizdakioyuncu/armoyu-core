@@ -1,3 +1,11 @@
+export interface GroupMemberDTO {
+  id: number;
+  displayName: string;
+  username: string;
+  avatar?: string;
+  role?: string;
+}
+
 export interface GroupDTO {
   id: number;
   name: string;

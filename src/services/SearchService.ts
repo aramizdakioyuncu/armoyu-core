@@ -1,60 +1,31 @@
-import { SearchResult, Tag, ServiceResponse, SearchCategory, GlobalSearchRawResponse } from '../models';
+import { SearchResult, Tag, ServiceResponse, SearchCategory } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { SearchMapper } from '../utils/mappers';
+import { SearchServiceV1, SearchOptions } from '../v1/SearchServiceV1';
+import { SearchServiceV2 } from '../v2/SearchServiceV2';
 
-/**
- * Service for platform-wide search functionality.
- */
+export { SearchOptions };
+
 export class SearchService extends BaseService {
+  private version: SearchServiceV1 | SearchServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new SearchServiceV1(client, logger)
+      : new SearchServiceV2(client, logger);
   }
 
-  /**
-   * Performs a global search across the platform (players, teams, groups).
-   */
+  async search(query: string, page: number = 1, options?: SearchOptions): Promise<ServiceResponse<SearchResult[]>> {
+    return this.version.search(query, page, options);
+  }
+
   async globalSearch(query: string, page: number = 1, limit: number = 20, category?: SearchCategory, categoryDetail?: string): Promise<ServiceResponse<SearchResult[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('oyuncuadi', query);
-      formData.append('sayfa', String(page));
-      formData.append('limit', String(limit));
-      formData.append('kategori', category || '');
-      formData.append('kategoridetay', categoryDetail || '');
-
-      const response = await this.client.post<any>(`/0/0/arama/${page}/${limit}/`, formData);
-      const data = this.handle<GlobalSearchRawResponse[]>(response);
-      const mapped = SearchMapper.mapSearchList(data || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[SearchService] Global search failed:', error);
-      return this.createError(error.message);
-    }
+    return this.version.globalSearch(query, page, limit, category, categoryDetail);
   }
 
-  /**
-   * Search for tags/labels on the platform.
-   * Useful for autocomplete when user types '#' in a post.
-   */
-  async searchTags(page: number = 1, options?: { tag?: string, limit?: number }): Promise<ServiceResponse<Tag[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (options?.limit) formData.append('limit', options.limit.toString());
-      if (options?.tag) formData.append('etiket', options.tag);
-
-      const response = await this.client.post<any>('/0/0/etiketler/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = SearchMapper.mapTagList(data || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[SearchService] Failed to search tags:', error);
-      return this.createError(error.message);
-    }
+  async searchTags(page: number = 1, options?: { tag?: string; limit?: number }): Promise<ServiceResponse<Tag[]>> {
+    return this.version.searchTags(page, options);
   }
 }
-

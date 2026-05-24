@@ -13,6 +13,12 @@ export interface ProvinceDTO {
   phoneCode?: number;
 }
 
+export interface CountyDTO {
+  id: number;
+  name: string;
+  provinceId?: number;
+}
+
 export interface PlatformStatsDTO {
   activeUsers: number;
   totalUsers: number;

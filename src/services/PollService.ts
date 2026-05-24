@@ -2,54 +2,39 @@ import { PollResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { PollMapper } from '../utils/mappers';
+import { PollServiceV1 } from '../v1/PollServiceV1';
+import { PollServiceV2, CreatePollParams } from '../v2/PollServiceV2';
 
-/**
- * Service for platform-wide polling and user surveys.
- */
 export class PollService extends BaseService {
+  private version: PollServiceV1 | PollServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new PollServiceV1(client, logger)
+      : new PollServiceV2(client, logger);
   }
 
-  /**
-   * Get all active and archived polls.
-   */
   async getPolls(page: number = 1, limit?: number, pollId?: number): Promise<ServiceResponse<PollResponse[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit !== undefined) formData.append('limit', limit.toString());
-      if (pollId !== undefined) formData.append('anketID', pollId.toString());
-
-      const response = await this.client.post<any>('/0/0/anketler/liste/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = PollMapper.mapPollList(icerik || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[PollService] Failed to fetch polls:', error);
-      return this.createError(error.message);
+    if (this.version instanceof PollServiceV1) {
+      return this.version.getPolls(page, limit, pollId);
     }
+    return this.version.getPolls(page);
   }
 
-  /**
-   * Vote on a specific poll option.
-   */
-  async vote(pollId: number, optionId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('anketID', pollId.toString());
-      formData.append('secenekID', optionId.toString());
+  async getPoll(id: number): Promise<ServiceResponse<PollResponse>> {
+    return this.version.getPoll(id);
+  }
 
-      const response = await this.client.post<any>('/0/0/anketler/yanitla/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[PollService] Failed to vote on poll ${pollId}:`, error);
-      return this.createError(error.message);
-    }
+  async createPoll(params: CreatePollParams): Promise<ServiceResponse<PollResponse>> {
+    return this.version.createPoll(params);
+  }
+
+  async deletePoll(id: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deletePoll(id);
+  }
+
+  async vote(pollId: number, optionId: number): Promise<ServiceResponse<PollResponse | boolean>> {
+    return this.version.vote(pollId, optionId);
   }
 }
-

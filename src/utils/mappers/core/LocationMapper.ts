@@ -1,4 +1,4 @@
-import { PlatformStatsDTO, CountryDTO, ProvinceDTO, Country, Province } from '../../../models';
+import { PlatformStatsDTO, CountryDTO, ProvinceDTO, CountyDTO, Country, Province, County } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -59,6 +59,22 @@ export class LocationMapper extends BaseMapper {
 
   static mapProvinceList(rawList: any[]): Province[] {
     return (rawList || []).map(item => this.mapProvince(item));
+  }
+
+  static mapCounty(raw: any): County {
+    const legacy = this.shouldReturnRaw<CountyDTO>(raw);
+    if (legacy) return new County(legacy);
+    if (!raw) return new County({} as CountyDTO);
+
+    return new County({
+      id: this.toNumber(raw.county_ID || raw.ID),
+      name: raw.county_name || raw.baslik || raw.ad || '',
+      provinceId: raw.province_ID ? this.toNumber(raw.province_ID) : undefined
+    });
+  }
+
+  static mapCountyList(rawList: any[]): County[] {
+    return (rawList || []).map(item => this.mapCounty(item));
   }
 
   static mapLocation(raw: any): any {

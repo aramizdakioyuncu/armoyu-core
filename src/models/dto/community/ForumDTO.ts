@@ -9,11 +9,17 @@ export interface ForumCategoryDTO {
 
 export interface ForumTopicDTO {
   id: number;
+  type?: string;
   title: string;
-  content?: string;
-  authorId: number;
-  authorName: string;
+  url?: string;
+  status?: number;
   date: string;
+  content?: string;
+  category?: { id: number; name: string; slug: string };
+  creatorId: number;
+  creatorName: string;
+  creatorNicename?: string;
+  creatorAvatar?: string;
   viewCount: number;
   replyCount: number;
   isLocked: boolean;

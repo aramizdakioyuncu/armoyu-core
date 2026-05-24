@@ -1,4 +1,4 @@
-import { StoryResponse, StoryItemResponse } from '../../../models';
+import { StoryResponse, StoryItemResponse, StoryUserResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -51,5 +51,20 @@ export class StoryMapper extends BaseMapper {
 
   static mapStoryList(rawList: any[]): StoryResponse[] {
     return (rawList || []).map(item => this.mapStory(item));
+  }
+
+  static mapStoryUser(raw: any): StoryUserResponse {
+    if (!raw) return {} as StoryUserResponse;
+    return {
+      id: this.toNumber(raw.user_id),
+      username: raw.user_login || '',
+      displayName: raw.display_name || '',
+      avatar: this.toImageUrl(raw.avatar) || '',
+      date: raw.viewed_at || raw.liked_at || ''
+    };
+  }
+
+  static mapStoryUserList(rawList: any[]): StoryUserResponse[] {
+    return (rawList || []).map(item => this.mapStoryUser(item));
   }
 }

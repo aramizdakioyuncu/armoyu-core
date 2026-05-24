@@ -20,3 +20,12 @@ export interface MediaResponse {
   };
   title: string;
 }
+
+export interface MediaUploadResultDTO {
+  url: string;
+  key: string;
+  mediaId: number;
+  category: string;
+  fileType: string;
+  fileSize: string;
+}

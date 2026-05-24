@@ -12,3 +12,11 @@ export interface StoryItemResponse {
   status?: number;
   ownerId?: number;
 }
+
+export interface StoryUserResponse {
+  id: number;
+  username: string;
+  displayName: string;
+  avatar?: string;
+  date?: string;
+}

@@ -1,4 +1,5 @@
 import { ConversationDTO } from '../../dto/social/ChatDTO';
+import { ChatType } from '../../social/meta/ChatEnums';
 
 export class Conversation implements ConversationDTO {
   id: number;
@@ -7,7 +8,7 @@ export class Conversation implements ConversationDTO {
   lastMessage: string;
   lastLogin?: string;
   unreadCount: number;
-  type: 'ozel' | 'grup';
+  type: ChatType;
   avatar: string;
 
   constructor(data: ConversationDTO) {
@@ -39,7 +40,7 @@ export class Conversation implements ConversationDTO {
    * Returns true if the conversation is a group chat.
    */
   get isGroup(): boolean {
-    return this.type === 'grup';
+    return this.type === ChatType.GROUP;
   }
 
   /**

@@ -1,130 +1,70 @@
-import { Conversation, Message, ServiceResponse } from '../models';
+import { Conversation, Message, ServiceResponse, ChatType } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-
-import { ChatMapper } from '../utils/mappers';
+import { ChatServiceV1 } from '../v1/ChatServiceV1';
+import { ChatServiceV2 } from '../v2/ChatServiceV2';
 
 /**
  * Service for managing real-time chat and private messaging.
+ * Delegates requests to ChatServiceV1 or ChatServiceV2 based on ApiVersion.
  */
 export class ChatService extends BaseService {
+  private version: ChatServiceV1 | ChatServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new ChatServiceV1(client, logger)
+      : new ChatServiceV2(client, logger);
   }
 
   /**
-   * Sends a chat message to a user or group (Legacy).
+   * Sends a chat message to a user or group.
    */
-  async sendMessage(userId: number, content: string, type: 'ozel' | 'grup' = 'ozel'): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('oyuncubakid', userId.toString());
-      formData.append('icerik', content);
-      formData.append('turu', type);
-
-      const response = await this.client.post<any>('/0/0/sohbetgonder/0/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ChatService] Sending message failed:`, error);
-      return this.createError(error.message);
-    }
+  async sendMessage(userId: number, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
+    return this.version.sendMessage(userId, content, type);
   }
 
   /**
-   * Fetches the chat history with a specific user (Legacy).
+   * Fetches the chat history with a specific user.
    */
   async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<Message[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('oyuncubakid', params.userId.toString());
-      formData.append('sayfa', page.toString());
-      if (params.limit !== undefined) {
-        formData.append('limit', params.limit.toString());
-      }
-
-      const response = await this.client.post<any>(`/0/0/sohbet/${params.userId}/${page}/`, formData);
-      const data = this.handle<any[]>(response);
-      const mappedData = ChatMapper.mapHistoryList(data || []);
-      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error(`[ChatService] Fetching chat history failed:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.getChatHistory(page, params);
   }
 
   /**
    * Fetches the list of friends available for chat.
    */
   async getFriendsChat(page: number = 1, options?: { limit?: number }): Promise<ServiceResponse<Conversation[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (options?.limit) formData.append('limit', options.limit.toString());
-
-      const response = await this.client.post<any>('/0/0/sohbet/arkadaslarim/0/', formData);
-      const data = this.handle<any>(response);
-
-      const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapFriendList(rawList);
-
-      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error(`[ChatService] Fetching friends chat failed:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.getFriendsChat(page, options);
   }
-
 
   /**
    * Fetches the list of recent chats (Inbox).
    */
   async getChats(page: number = 1, options?: { userId?: number, limit?: number }): Promise<ServiceResponse<Conversation[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (options?.limit) formData.append('limit', options.limit.toString());
-      if (options?.userId) formData.append('oyuncubakid', options.userId.toString());
-
-      const response = await this.client.post<any>('/0/0/sohbet/0/0/', formData);
-      const data = this.handle<any>(response);
-
-      const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapInboxList(rawList);
-
-      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error(`[ChatService] Fetching chats failed:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.getChats(page, options);
   }
 
   /**
-   * Fetches the detailed information/messages for a specific chat.
+   * Fetches messages for a specific chat.
    */
-  async getChatDetail(chatId: number, type: 'ozel' | 'grup' = 'ozel'): Promise<ServiceResponse<Message[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sohbetID', chatId.toString());
-      formData.append('sohbetturu', type);
+  async getChatDetail(chatId: number, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
+    return this.version.getChatDetail(chatId, type);
+  }
 
-      const response = await this.client.post<any>('/0/0/sohbetdetay/0/0/', formData);
-      const data = this.handle<any>(response);
+  /**
+   * Edits a previously sent message. V1 returns an unsupported error.
+   */
+  async editMessage(messageId: number, message: string): Promise<ServiceResponse<boolean>> {
+    return this.version.editMessage(messageId, message);
+  }
 
-      const rawList = Array.isArray(data) ? data : [];
-      const mappedData = ChatMapper.mapDetailList(rawList);
-
-      return this.createSuccess(mappedData, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error(`[ChatService] Fetching chat detail failed:`, error);
-      return this.createError(error.message);
-    }
+  /**
+   * Deletes a sent message. V1 returns an unsupported error.
+   */
+  async deleteMessage(messageId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteMessage(messageId);
   }
 }
-

@@ -2,7 +2,7 @@ import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { RequestInterceptor } from './RequestInterceptor';
 import { ResponseHandler } from './ResponseHandler';
 import { HttpMethod, ApiConfig, ApiVersion } from './types';
-import { AuthService, UserService, EventService, GroupService, SiteInformationService, ManagementService, RuleService, SchoolService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService } from '../services';
+import { AuthService, UserService, EventService, GroupService, GroupMemberService, SiteInformationService, ManagementService, RuleService, SchoolService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService, WorkplaceService } from '../services';
 
 export { HttpMethod, ApiVersion };
 export type { ApiConfig };
@@ -17,7 +17,8 @@ export class ApiClient {
   private logger: ArmoyuLogger;
   public lastRaw: any = null;
   public readonly auth: AuthService; public readonly users: UserService; public readonly events: EventService;
-  public readonly groups: GroupService; public readonly siteInfo: SiteInformationService;
+  public readonly groups: GroupService; public readonly groupMembers: GroupMemberService;
+  public readonly siteInfo: SiteInformationService;
   public readonly management: ManagementService; public readonly rules: RuleService;
   public readonly schools: SchoolService; public readonly projects: ProjectService;
   public readonly stories: StoryService; public readonly polls: PollService;
@@ -32,6 +33,7 @@ export class ApiClient {
   public readonly music: MusicService;
   public readonly reels: ReelsService;
   public readonly education: EducationService;
+  public readonly workplaces: WorkplaceService;
 
   constructor(config: ApiConfig) {
     this.config = config; 
@@ -39,7 +41,8 @@ export class ApiClient {
 
     const svc = (S: any) => new S(this, this.logger);
     this.auth = svc(AuthService); this.users = svc(UserService); this.events = svc(EventService);
-    this.groups = svc(GroupService); this.siteInfo = svc(SiteInformationService);
+    this.groups = svc(GroupService); this.groupMembers = svc(GroupMemberService);
+    this.siteInfo = svc(SiteInformationService);
     this.management = svc(ManagementService); this.rules = svc(RuleService);
     this.schools = svc(SchoolService); this.projects = svc(ProjectService);
     this.stories = svc(StoryService); this.polls = svc(PollService);
@@ -54,6 +57,7 @@ export class ApiClient {
     this.music = svc(MusicService);
     this.reels = svc(ReelsService);
     this.education = svc(EducationService);
+    this.workplaces = svc(WorkplaceService);
   }
 
   private async request<T>(endpoint: string, options: any = {}): Promise<T> {
@@ -90,7 +94,7 @@ export class ApiClient {
   async post<T>(e: string, b?: any, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.POST, body: b }); }
   async put<T>(e: string, b?: any, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.PUT, body: b }); }
   async patch<T>(e: string, b?: any, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.PATCH, body: b }); }
-  async delete<T>(e: string, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.DELETE }); }
+  async delete<T>(e: string, b?: any, o?: any) { return this.request<T>(e, { ...o, method: HttpMethod.DELETE, body: b }); }
 
   setAuthToken(t: string | null) { this.config.token = t; }
   getAuthToken() { return this.config.token || null; }

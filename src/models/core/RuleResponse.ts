@@ -1,7 +1,10 @@
 export interface RuleResponse {
-  id?: string | number;
+  id: number;
+  content: string;
+  penalty?: string;
+  penaltySeconds?: number;
+  date?: string;
+  subRule?: string | null;
   title?: string;
-  content?: string;
-  category?: string;
   order?: number;
 }

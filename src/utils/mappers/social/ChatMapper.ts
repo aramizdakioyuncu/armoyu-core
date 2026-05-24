@@ -1,4 +1,4 @@
-import { ConversationDTO, MessageDTO, Conversation, Message } from '../../../models';
+import { ConversationDTO, MessageDTO, Conversation, Message, ChatType, MessageSide } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
 /**
@@ -19,7 +19,7 @@ export class ChatMapper extends BaseMapper {
       lastMessage: raw.sonmesaj || '',
       lastLogin: raw.songiris,
       unreadCount: this.toNumber(raw.bildirim),
-      type: raw.sohbetturu === 'grup' ? 'grup' : 'ozel',
+      type: raw.sohbetturu === 'grup' ? ChatType.GROUP : ChatType.PRIVATE,
       avatar: this.toImageUrl(raw.chatImage?.media_URL || raw.chatImage?.media_minURL || raw.chatImage?.media_bigURL) || ''
     });
   }
@@ -45,7 +45,7 @@ export class ChatMapper extends BaseMapper {
     if (!raw) return new Message({} as MessageDTO);
 
     return new Message({
-      side: raw.sohbetkim === 'ben' ? 'ben' : 'sen',
+      side: raw.sohbetkim === 'ben' ? MessageSide.ME : MessageSide.OTHER,
       authorName: raw.adsoyad || '',
       authorAvatar: this.toImageUrl(raw.avatar) || '',
       authorColor: raw.renkkodu,

@@ -1,160 +1,65 @@
 import { BaseService } from './BaseService';
-import { ServiceResponse } from '../api/ServiceResponse';
-import { SongResponse } from '../models';
-import { MusicMapper } from '../utils/mappers';
+import { SongResponse, ServiceResponse } from '../models';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
+import { MusicServiceV1 } from '../v1/MusicServiceV1';
+import { MusicServiceV2, UpdateSongParams } from '../v2/MusicServiceV2';
 
-/**
- * Service for Music & Songs.
- */
+export { UpdateSongParams };
+
 export class MusicService extends BaseService {
-  /**
-   * Get list of songs.
-   * @param page Page number
-   * @param category Category (e.g., 'oynatilabilir')
-   * @param limit Results per page
-   * @returns List of songs
-   */
-  async getSongs(page: number = 1, category: string = 'oynatilabilir', limit: number = 10): Promise<ServiceResponse<SongResponse[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('limit', limit.toString());
-      formData.append('kategori', category);
+  private version: MusicServiceV1 | MusicServiceV2;
 
-      const response = await this.client.post<any>('/0/0/muzikler/0/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = MusicMapper.mapSongList(icerik);
-
-      return this.createSuccess(mapped, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error('[MusicService] Failed to fetch songs:', error);
-      return this.createError(error.message);
-    }
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new MusicServiceV1(client, logger)
+      : new MusicServiceV2(client, logger);
   }
 
-  /**
-   * Get favorite songs.
-   * @param page Page number
-   * @param limit Items per page
-   * @returns List of favorite songs
-   */
+  async getSongs(page: number = 1, category: string = 'oynatilabilir', limit: number = 10, query?: string): Promise<ServiceResponse<SongResponse[]>> {
+    return this.version.getSongs(page, category, limit, query);
+  }
+
+  async getSongDetail(id: number): Promise<ServiceResponse<SongResponse>> {
+    return this.version.getSongDetail(id);
+  }
+
+  async searchSongs(query: string, page: number = 1, limit: number = 10): Promise<ServiceResponse<SongResponse[]>> {
+    return this.version.searchSongs(query, page, limit);
+  }
+
   async getFavoriteSongs(page: number = 1, limit: number = 10): Promise<ServiceResponse<SongResponse[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('limit', limit.toString());
-
-      const response = await this.client.post<any>('/0/0/muzikler/favoriler/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = MusicMapper.mapFavoriteList(icerik);
-
-      return this.createSuccess(mapped, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error('[MusicService] Failed to fetch favorite songs:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getFavoriteSongs(page, limit);
   }
 
-  /**
-   * Add a new song to the system.
-   * @param name Song name (muzikadi)
-   * @param link Song link/search query (muziklink)
-   */
-  async addSong(name: string, link: string): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('muzikadi', name);
-      formData.append('muziklink', link);
-
-      const response = await this.client.post<any>('/0/0/muzikler/ekle/0/', formData);
-      this.handle<any>(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[MusicService] Failed to add song "${name}":`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Get live playing/queue songs.
-   * @param page Page number
-   * @param limit Items per page
-   */
   async getLiveSongs(page: number = 1, limit: number = 10): Promise<ServiceResponse<SongResponse[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('limit', limit.toString());
-
-      const response = await this.client.post<any>('/0/0/muzikler/canli/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = MusicMapper.mapLiveList(icerik);
-
-      return this.createSuccess(mapped, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error('[MusicService] Failed to fetch live songs:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getLiveSongs(page, limit);
   }
 
-  /**
-   * Search for songs.
-   * @param query Search query (sarkibilgi)
-   * @returns List of found songs
-   */
-  async searchSongs(query: string): Promise<ServiceResponse<SongResponse[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sarkibilgi', query);
-
-      const response = await this.client.post<any>('/0/0/muzikler/bul/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = MusicMapper.mapSearchList(icerik);
-
-      return this.createSuccess(mapped, response?.aciklama, response?.aciklamadetay);
-    } catch (error: any) {
-      this.logger.error(`[MusicService] Search failed for "${query}":`, error);
-      return this.createError(error.message);
-    }
+  async addSong(name: string, link: string = ''): Promise<ServiceResponse<SongResponse | boolean>> {
+    return this.version.addSong(name, link);
   }
 
-  /**
-   * Add a song to favorites.
-   */
+  async updateSong(id: number, params: UpdateSongParams): Promise<ServiceResponse<boolean>> {
+    if (this.version instanceof MusicServiceV2) {
+      return this.version.updateSong(id, params);
+    }
+    return this.createError('updateSong is not supported in V1');
+  }
+
+  async deleteSong(id: number): Promise<ServiceResponse<boolean>> {
+    if (this.version instanceof MusicServiceV2) {
+      return this.version.deleteSong(id);
+    }
+    return this.createError('deleteSong is not supported in V1');
+  }
+
   async addFavorite(musicId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('muzikID', musicId.toString());
-      const response = await this.client.post<any>('/0/0/muzikler/favoriler/ekle/', formData);
-      this.handle<any>(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[MusicService] Failed to add song ${musicId} to favorites:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.addFavorite(musicId);
   }
 
-  /**
-   * Remove a song from favorites.
-   */
   async removeFavorite(musicId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('muzikID', musicId.toString());
-      const response = await this.client.post<any>('/0/0/muzikler/favoriler/sil/', formData);
-      this.handle<any>(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[MusicService] Failed to remove song ${musicId} from favorites:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.removeFavorite(musicId);
   }
 }
-

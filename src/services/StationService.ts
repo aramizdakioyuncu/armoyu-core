@@ -2,73 +2,28 @@ import { StationResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { StationServiceV1 } from '../v1/StationServiceV1';
+import { StationServiceV2 } from '../v2/StationServiceV2';
 
-/**
- * Service for information about physical stations or platform hubs.
- */
 export class StationService extends BaseService {
+  private version: StationServiceV1 | StationServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new StationServiceV1(client, logger)
+      : new StationServiceV2(client, logger);
   }
 
-  /**
-   * Get all hub/station locations.
-   */
   async getStations(page: number = 1, category?: string | number): Promise<ServiceResponse<StationResponse[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (category) {
-        if (typeof category === 'number') {
-          formData.append('limit', category.toString());
-        } else {
-          formData.append('kategori', category);
-        }
-      }
-
-      const response = await this.client.post<any>('/0/0/istasyonlar/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(data || [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StationService] Failed to fetch stations:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getStations(page, category);
   }
 
-  /**
-   * Get equipment list for a specific station.
-   */
   async getStationEquipment(stationId: string | number): Promise<ServiceResponse<any[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('istasyonID', stationId.toString());
-      const response = await this.client.post<any>('/0/0/istasyonlar/ekipman-listesi/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StationService] Failed to fetch equipment for station ${stationId}:`, error.message);
-      return this.createError(error.message);
-    }
+    return this.version.getStationEquipment(stationId);
   }
 
-  /**
-   * Get stations associated with a user.
-   */
   async getUserStations(page: number, limit?: number, userId?: number): Promise<ServiceResponse<any[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit) formData.append('limit', limit.toString());
-      if (userId) formData.append('oyuncubakid', userId.toString());
-
-      const response = await this.client.post<any>('/0/0/istasyonlarim/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StationService] Failed to fetch user stations:', error.message);
-      return this.createError(error.message);
-    }
+    return this.version.getUserStations(page, limit, userId);
   }
 }
-
-

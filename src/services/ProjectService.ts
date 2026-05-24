@@ -1,65 +1,57 @@
-import { Project, ServiceResponse, ProjectScoreDTO } from '../models';
-import { ProjectMapper } from '../utils/mappers/content/ProjectMapper';
+import { Project, ProjectScoreDTO, ProjectMemberDTO, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { ProjectServiceV1 } from '../v1/ProjectServiceV1';
+import { ProjectServiceV2, CreateProjectParams, UpdateProjectParams } from '../v2/ProjectServiceV2';
 
-/**
- * Service for management and display of platform projects.
- */
 export class ProjectService extends BaseService {
+  private version: ProjectServiceV1 | ProjectServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new ProjectServiceV1(client, logger)
+      : new ProjectServiceV2(client, logger);
   }
 
-  /**
-   * Get all active projects.
-   */
-  async getProjects(): Promise<ServiceResponse<Project[]>> {
-    try {
-      const response = await this.client.post<any>('/0/0/projeler/0/0/', new FormData());
-      const data = this.handle<any[]>(response);
-      const mapped = ProjectMapper.mapProjectList(data || []);
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ProjectService] Failed to fetch projects:', error);
-      return this.createError(error.message);
-    }
+  async getProjects(page: number = 1, limit: number = 10): Promise<ServiceResponse<Project[]>> {
+    return this.version.getProjects(page, limit);
   }
 
-  /**
-   * Get score list for a specific project.
-   */
+  async getProject(id: number): Promise<ServiceResponse<Project>> {
+    return this.version.getProject(id);
+  }
+
+  async createProject(params: CreateProjectParams): Promise<ServiceResponse<Project>> {
+    return this.version.createProject(params);
+  }
+
+  async updateProject(id: number, params: UpdateProjectParams): Promise<ServiceResponse<Project>> {
+    return this.version.updateProject(id, params);
+  }
+
+  async deleteProject(id: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteProject(id);
+  }
+
+  async getMembers(projectId: number): Promise<ServiceResponse<ProjectMemberDTO[]>> {
+    return this.version.getMembers(projectId);
+  }
+
+  async addMember(projectId: number, userId: number, roleId: number, type: string): Promise<ServiceResponse<boolean>> {
+    return this.version.addMember(projectId, userId, roleId, type);
+  }
+
+  async removeMember(projectId: number, rowId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.removeMember(projectId, rowId);
+  }
+
   async getScoreList(projectId: string | number): Promise<ServiceResponse<ProjectScoreDTO[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('projeID', projectId.toString());
-      const response = await this.client.post<any>('/0/0/projeler/skor-listesi/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = ProjectMapper.mapScoreList(data || []);
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ProjectService] Failed to fetch scores for project ${projectId}:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.getScoreList(projectId);
   }
 
-  /**
-   * Save score for a specific project.
-   */
   async saveScore(projectId: string | number, score: string | number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('projeID', projectId.toString());
-      formData.append('skor', score.toString());
-      const response = await this.client.post<any>('/0/0/projeler/skor-kaydet/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ProjectService] Failed to save score for project ${projectId}:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.saveScore(projectId, score);
   }
 }
-

@@ -1,56 +1,29 @@
-import { Country, Province, ServiceResponse } from '../models';
-import { LocationMapper } from '../utils/mappers/core/LocationMapper';
+import { Country, Province, County, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
+import { LocationServiceV1 } from '../v1/LocationServiceV1';
+import { LocationServiceV2 } from '../v2/LocationServiceV2';
 
-/**
- * Service for managing geographic locations and regional data.
- */
 export class LocationService extends BaseService {
+  private version: LocationServiceV1 | LocationServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new LocationServiceV1(client, logger)
+      : new LocationServiceV2(client, logger);
   }
 
-  /**
-   * Get all registered countries.
-   */
   async getCountries(page: number = 1, limit?: number): Promise<ServiceResponse<Country[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit) formData.append('limit', limit.toString());
-
-      const response = await this.client.post<any>('/0/0/ulkeler/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = LocationMapper.mapCountryList(data || []);
-
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[LocationService] Failed to fetch countries:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getCountries(page, limit);
   }
 
-  /**
-   * Get all registered provinces.
-   */
   async getProvinces(page: number = 1, countryId?: string | number, limit?: number): Promise<ServiceResponse<Province[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit !== undefined) formData.append('limit', limit.toString());
-      if (countryId !== undefined) formData.append('countryID', countryId.toString());
+    return this.version.getProvinces(page, countryId, limit);
+  }
 
-      const response = await this.client.post<any>('/0/0/iller/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = LocationMapper.mapProvinceList(data || []);
-
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[LocationService] Failed to fetch provinces:', error);
-      return this.createError(error.message);
-    }
+  async getCounties(page: number = 1, provinceId?: string | number, limit?: number): Promise<ServiceResponse<County[]>> {
+    return this.version.getCounties(page, provinceId, limit);
   }
 }
-

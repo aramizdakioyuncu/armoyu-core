@@ -1,33 +1,29 @@
 import { ReelsResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
-import { ReelsMapper } from '../utils/mappers';
+import { ApiClient } from '../api/ApiClient';
+import { ArmoyuLogger } from '../api/Logger';
+import { ReelsServiceV1 } from '../v1/ReelsServiceV1';
+import { ReelsServiceV2, CreateReelParams } from '../v2/ReelsServiceV2';
 
-/**
- * Service for Reels content.
- */
 export class ReelsService extends BaseService {
-  /**
-   * Get list of Reels.
-   * @param page Page number
-   * @param limit Items per page
-   * @returns List of reels
-   */
+  private version: ReelsServiceV1 | ReelsServiceV2;
+
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new ReelsServiceV1(client, logger)
+      : new ReelsServiceV2(client, logger);
+  }
+
   async getReels(page: number = 1, limit: number = 10): Promise<ServiceResponse<ReelsResponse[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('limit', limit.toString());
+    return this.version.getReels(page, limit);
+  }
 
-      const response = await this.client.post<any>('/0/0/reels/0/0/', formData);
-      const icerik = this.handle<any[]>(response);
-      const mapped = ReelsMapper.mapReelsList(icerik);
+  async createReel(params: CreateReelParams): Promise<ServiceResponse<ReelsResponse>> {
+    return this.version.createReel(params);
+  }
 
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ReelsService] Failed to fetch reels:', error);
-      return this.createError(error.message);
-    }
+  async deleteReel(id: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteReel(id);
   }
 }
-

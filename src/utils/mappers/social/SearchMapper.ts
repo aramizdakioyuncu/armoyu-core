@@ -29,6 +29,23 @@ export class SearchMapper extends BaseMapper {
     return (rawList || []).map(item => this.mapSearchResult(item));
   }
 
+  static mapSearchResultV2(raw: any): SearchResult {
+    if (!raw) return new SearchResult({ id: 0, type: 'unknown', title: '', image: '', url: '' } as GlobalSearchResultDTO);
+    return new SearchResult({
+      id: this.toNumber(raw.deger),
+      type: raw.tip || 'user',
+      title: raw.baslik || '',
+      displayName: raw.baslik || '',
+      username: '',
+      image: '',
+      url: ''
+    });
+  }
+
+  static mapSearchListV2(rawList: any[]): SearchResult[] {
+    return (rawList || []).map(item => this.mapSearchResultV2(item));
+  }
+
   /**
    * Maps tag search results.
    */

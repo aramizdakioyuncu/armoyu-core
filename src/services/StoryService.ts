@@ -1,187 +1,63 @@
-import { StoryResponse, ServiceResponse } from '../models';
+import { StoryResponse, StoryUserResponse, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { StoryMapper } from '../utils/mappers/social/StoryMapper';
+import { StoryServiceV1, CreateStoryParams } from '../v1/StoryServiceV1';
+import { StoryServiceV2 } from '../v2/StoryServiceV2';
 
-/**
- * Service for managing user stories and ephemeral content.
- */
+export { CreateStoryParams };
+
 export class StoryService extends BaseService {
+  private version: StoryServiceV1 | StoryServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new StoryServiceV1(client, logger)
+      : new StoryServiceV2(client, logger);
   }
 
-  /**
-   * Get all active stories.
-   */
   async getStories(page: number = 1, limit?: number): Promise<ServiceResponse<StoryResponse[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit) formData.append('limit', limit.toString());
-
-      const response = await this.client.post<any>('/0/0/hikaye/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = StoryMapper.mapStoryList(data || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StoryService] Failed to fetch active stories:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getStories(page, limit);
   }
 
-  /**
-   * Alias for getStories for compatibility.
-   */
   async getActiveStories(page: number = 1): Promise<ServiceResponse<StoryResponse[]>> {
-    return this.getStories(page);
+    return this.version.getStories(page);
   }
 
-  /**
-   * Get list of users who viewed a story.
-   */
-  async getStoryViewers(page: number, storyId: string | number): Promise<ServiceResponse<any[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>('/0/0/hikaye/goruntuleyenler/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to fetch story viewers for ${storyId}:`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Get list of users who liked a story.
-   */
-  async getStoryLikers(page: number, storyId: string | number): Promise<ServiceResponse<any[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      formData.append('hikayeID', storyId.toString());
-      const response = await this.client.post<any>('/0/0/hikaye/begenenler/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to fetch story likers for ${storyId}:`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Add a new story.
-   */
   async addStory(mediaUrl: string, text?: string): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayemedya', mediaUrl);
-      if (text) formData.append('hikayemetin', text);
-
-      const response = await this.client.post<any>('/0/0/hikaye/ekle/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StoryService] Failed to add story:', error);
-      return this.createError(error.message);
-    }
+    return this.version.addStory(mediaUrl, text);
   }
 
-  /**
-   * Delete a story.
-   */
+  async createStory(params: CreateStoryParams): Promise<ServiceResponse<boolean>> {
+    return this.version.createStory(params);
+  }
+
   async deleteStory(storyId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayeID', storyId.toString());
-
-      const response = await this.client.post<any>('/0/0/hikaye/sil/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to delete story ${storyId}:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.deleteStory(storyId);
   }
 
-  /**
-   * Hide a story from feed.
-   */
   async hideStory(storyId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayeID', storyId.toString());
-
-      const response = await this.client.post<any>('/0/0/hikaye/gizle/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to hide story ${storyId}:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.hideStory(storyId);
   }
 
-  /**
-   * Like a story.
-   */
-  async likeStory(storyId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayeID', storyId.toString());
-
-      const response = await this.client.post<any>('/0/0/hikaye/begeni-ekle/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to like story ${storyId}:`, error);
-      return this.createError(error.message);
-    }
+  async getStoryViewers(page: number, storyId: string | number): Promise<ServiceResponse<StoryUserResponse[]>> {
+    return this.version.getStoryViewers(page, storyId);
   }
 
-  /**
-   * Unlike a story.
-   */
-  async unlikeStory(storyId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayeID', storyId.toString());
-
-      const response = await this.client.post<any>('/0/0/hikaye/begeni-sil/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to unlike story ${storyId}:`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Mark a story as viewed.
-   */
   async viewStory(storyId: number): Promise<ServiceResponse<boolean>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('hikayeID', storyId.toString());
+    return this.version.viewStory(storyId);
+  }
 
-      const response = await this.client.post<any>('/0/0/hikaye/bak/0/', formData);
-      this.handle(response);
-      return this.createSuccess(true, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[StoryService] Failed to view story ${storyId}:`, error);
-      return this.createError(error.message);
-    }
+  async getStoryLikers(page: number, storyId: string | number): Promise<ServiceResponse<StoryUserResponse[]>> {
+    return this.version.getStoryLikers(page, storyId);
+  }
+
+  async likeStory(storyId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.likeStory(storyId);
+  }
+
+  async unlikeStory(storyId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.unlikeStory(storyId);
   }
 }
-

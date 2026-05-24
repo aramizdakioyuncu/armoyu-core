@@ -1,3 +1,5 @@
+import { ChatType, MessageSide } from '../../social/meta/ChatEnums';
+
 export interface ConversationDTO {
   id: number;
   username: string;
@@ -5,12 +7,12 @@ export interface ConversationDTO {
   lastMessage: string;
   lastLogin?: string;
   unreadCount: number;
-  type: 'ozel' | 'grup';
+  type: ChatType;
   avatar: string;
 }
 
 export interface MessageDTO {
-  side: 'ben' | 'sen';
+  side: MessageSide;
   authorName: string;
   authorAvatar: string;
   authorColor?: string;

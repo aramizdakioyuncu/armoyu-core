@@ -1,7 +1,6 @@
 import { ApiClient, type ApiConfig, ApiVersion } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { BaseMapper } from '../utils/mappers/BaseMapper';
-import { AuthService, UserService, BlogService, ShopService, ForumService, SupportService, RuleService, SocketService, SearchService, EventService, SiteInformationService, GroupService, SocialService, ChatService, SchoolService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, ManagementService, MusicService, ReelsService, MediaService, EducationService } from '../services';
 
 /**
  * The main entry point for the ARMOYU platform API.
@@ -77,6 +76,7 @@ export class ARMOYUCore {
   get events() { return this.client.events; }
   get siteInfo() { return this.client.siteInfo; }
   get groups() { return this.client.groups; }
+  get groupMembers() { return this.client.groupMembers; }
   get social() { return this.client.social; }
   get chat() { return this.client.chat; }
   get schools() { return this.client.schools; }
@@ -94,6 +94,7 @@ export class ARMOYUCore {
   get reels() { return this.client.reels; }
   get media() { return this.client.media; }
   get education() { return this.client.education; }
+  get workplaces() { return this.client.workplaces; }
 
   setAuthToken(t: string | null) { this.client.setAuthToken(t); }
   setApiKey(k: string | null) { this.client.setApiKey(k); }
@@ -107,5 +108,5 @@ export class ARMOYUCore {
   async post<T>(e: string, b?: any, o?: any) { return this.client.post<T>(e, b, o); }
   async put<T>(e: string, b?: any, o?: any) { return this.client.put<T>(e, b, o); }
   async patch<T>(e: string, b?: any, o?: any) { return this.client.patch<T>(e, b, o); }
-  async delete<T>(e: string, o?: any) { return this.client.delete<T>(e, o); }
+  async delete<T>(e: string, b?: any, o?: any) { return this.client.delete<T>(e, b, o); }
 }

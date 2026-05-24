@@ -1,6 +1,3 @@
-/**
- * Response model for a Reels item.
- */
 export interface ReelsResponse {
   id: number;
   owner: {
@@ -14,8 +11,11 @@ export interface ReelsResponse {
   media: {
     id: number;
     url: string;
+    high?: string;
+    norm?: string;
+    min?: string;
   };
   likeCount: number;
   commentCount: number;
-  status: number;
+  status: boolean | number;
 }

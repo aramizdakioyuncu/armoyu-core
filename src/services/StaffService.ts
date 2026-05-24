@@ -2,62 +2,29 @@ import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
 import { ServiceResponse } from '../api/ServiceResponse';
-import { StaffUserResponse, StaffUser } from '../models';
-import { UserMapper } from '../utils/mappers/user/UserMapper';
+import { StaffUser } from '../models';
+import { StaffServiceV1 } from '../v1/StaffServiceV1';
+import { StaffServiceV2 } from '../v2/StaffServiceV2';
 
-/**
- * Service for information about platform staff and administrators.
- */
 export class StaffService extends BaseService {
+  private version: StaffServiceV1 | StaffServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new StaffServiceV1(client, logger)
+      : new StaffServiceV2(client, logger);
   }
 
-  /**
-   * Get all platform staff members and their roles.
-   */
   async getStaff(page: number = 1, category?: string, limit?: number): Promise<ServiceResponse<StaffUser[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit !== undefined) formData.append('limit', limit.toString());
-      if (category !== undefined) formData.append('kategori', category);
-
-      const response = await this.client.post<any>('/0/0/ekibimiz/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mapped = UserMapper.mapStaffList(data || []);
-      
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StaffService] Failed to fetch staff list:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getStaff(page, category, limit);
   }
 
-  /**
-   * Alias for getStaff to maintain compatibility with existing tests.
-   */
   async getStaffList(page: number = 1): Promise<ServiceResponse<StaffUser[]>> {
-    return this.getStaff(page);
+    return this.version.getStaff(page);
   }
 
-  /**
-   * Get staff applications.
-   */
   async getApplications(page: number = 1, limit?: number): Promise<ServiceResponse<any[]>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (limit !== undefined) formData.append('limit', limit.toString());
-
-      const response = await this.client.post<any>('/0/0/yonetim/basvurular/0/', formData);
-      const data = this.handle<any[]>(response);
-      return this.createSuccess(Array.isArray(data) ? data : [], response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[StaffService] Failed to fetch applications:', error);
-      return this.createError(error.message);
-    }
+    return this.version.getApplications(page, limit);
   }
 }
-

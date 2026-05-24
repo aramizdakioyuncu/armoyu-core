@@ -1,9 +1,6 @@
-import { StoreItemResponse, ProductDTO, OrderDTO, Product, Order } from '../../../models';
+import { StoreItemResponse, ProductDTO, OrderDTO, Product, Order, ShopResponseDTO, ShopProductDTO, ShopProductOwnerDTO } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
-/**
- * Mapper for Shop and Store items.
- */
 export class ShopMapper extends BaseMapper {
   static mapStoreItem(raw: any): StoreItemResponse {
     const legacy = this.shouldReturnRaw<StoreItemResponse>(raw);
@@ -26,20 +23,67 @@ export class ShopMapper extends BaseMapper {
     if (!raw) return new Product({} as ProductDTO);
 
     return new Product({
-      id: this.toNumber(raw.urunID || raw.id),
-      name: raw.urunad || raw.name || '',
-      description: raw.urunaciklama || raw.description || '',
-      price: this.toNumber(raw.urunfiyat || raw.price),
+      id: this.toNumber(raw.product_ID ?? raw.urunID ?? raw.id),
+      name: raw.product_name || raw.urunad || raw.name || '',
+      description: raw.product_description || raw.urunaciklama || raw.description || '',
+      price: this.toNumber(raw.product_price ?? raw.urunfiyat ?? raw.price),
       currency: raw.birim || '₺',
       image: this.toImageUrl(raw.urunresim || raw.image) || '',
-      category: raw.urunkategori || raw.category || '',
+      category: raw.category?.category_name || raw.urunkategori || (typeof raw.category === 'string' ? raw.category : '') || '',
       stock: raw.stok !== undefined ? this.toNumber(raw.stok) : undefined,
-      url: raw.urunlink || raw.url
+      url: raw.product_url || raw.urunlink || raw.url
     });
   }
 
   static mapProductList(rawList: any[]): Product[] {
     return (rawList || []).map(item => this.mapProduct(item));
+  }
+
+  static mapShopProductOwner(raw: any): ShopProductOwnerDTO | null {
+    if (!raw) return null;
+    return {
+      id: this.toNumber(raw.owner_ID),
+      username: raw.username || '',
+      displayName: raw.displayname || '',
+      avatar: this.toImageUrl(raw.avatar?.media_minURL || raw.avatar?.media_URL || raw.avatar) || ''
+    };
+  }
+
+  static mapShopProduct(raw: any): ShopProductDTO {
+    if (!raw) return {} as ShopProductDTO;
+    return {
+      id: this.toNumber(raw.product_ID),
+      name: raw.product_name || '',
+      description: raw.product_description || '',
+      price: this.toNumber(raw.product_price),
+      shipping: this.toNumber(raw.product_shipping),
+      url: raw.product_url || '',
+      commentCount: this.toNumber(raw.product_comment_count),
+      imageIds: Array.isArray(raw.product_image_ids) ? raw.product_image_ids.map(Number) : [],
+      category: raw.category ? { id: this.toNumber(raw.category.category_ID), name: raw.category.category_name || '' } : undefined,
+      shop: raw.shop ? { id: this.toNumber(raw.shop.shop_ID), name: raw.shop.shop_name || '', logo: this.toImageUrl(raw.shop.shop_logo) || '' } : undefined,
+      owner: raw.owner !== undefined ? this.mapShopProductOwner(raw.owner) : undefined
+    };
+  }
+
+  static mapShopProductList(rawList: any[]): ShopProductDTO[] {
+    return (rawList || []).map(item => this.mapShopProduct(item));
+  }
+
+  static mapShop(raw: any): ShopResponseDTO {
+    if (!raw) return {} as ShopResponseDTO;
+    return {
+      id: this.toNumber(raw.shop_ID),
+      name: raw.shop_name || '',
+      description: raw.shop_description || '',
+      productCount: this.toNumber(raw.shop_product_count),
+      logo: this.toImageUrl(raw.shop_logo) || '',
+      products: Array.isArray(raw.products) ? raw.products.map((p: any) => this.mapShopProduct(p)) : undefined
+    };
+  }
+
+  static mapShopList(rawList: any[]): ShopResponseDTO[] {
+    return (rawList || []).map(item => this.mapShop(item));
   }
 
   static mapOrder(raw: any): Order {

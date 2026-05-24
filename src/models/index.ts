@@ -68,10 +68,13 @@ export * from './social/stats/LeaderboardResponse';
 // Social - Meta
 export * from './social/meta/AuthEnums';
 export * from './social/meta/MediaEnums';
+export * from './social/meta/ChatEnums';
+export * from './social/meta/WorkplaceEnums';
 
 // Community
 export * from './dto/community/GroupDTO';
 export * from './entities/community/Group';
+export * from './entities/community/GroupMember';
 export * from './dto/community/ForumDTO';
 export * from './entities/community/ForumCategory';
 export * from './entities/community/ForumTopic';
@@ -86,6 +89,8 @@ export * from './entities/community/Faculty';
 export * from './entities/community/Classroom';
 export * from './community/TeamResponse';
 export * from './community/WorkplaceResponse';
+export * from './dto/community/WorkplaceDTO';
+export * from './entities/community/Workplace';
 export * from './community/GiveawayResponse';
 export * from './community/StationResponse';
 export * from './community/SurveyResponse';
@@ -103,6 +108,11 @@ export * from './shop/CartItemResponse';
 export * from './dto/core/LocationDTO';
 export * from './entities/core/Country';
 export * from './entities/core/Province';
+export * from './entities/core/County';
+export * from './dto/core/ManagementDTO';
+export * from './entities/core/ManagementUser';
+export * from './entities/core/ManagementMeeting';
+export * from './core/meta/ManagementEnums';
 export * from './core/SystemSettingsResponse';
 export * from './core/RuleResponse';
 // Site & Stats

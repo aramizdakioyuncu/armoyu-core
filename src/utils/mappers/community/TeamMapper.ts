@@ -25,8 +25,8 @@ export class TeamMapper extends BaseMapper {
     if (!raw) return {} as TeamResponse;
 
     return {
-      id: this.toNumber(raw.takim_ID),
-      name: raw.takim_adi,
+      id: this.toNumber(raw.takim_ID || raw.takim_id),
+      name: raw.takim_adi || '',
       logo: this.toImageUrl(raw.takim_logo)
     };
   }

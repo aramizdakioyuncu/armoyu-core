@@ -2,79 +2,48 @@ import { ForumCategory, ForumTopic, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ForumMapper } from '../utils/mappers';
+import { ForumServiceV1 } from '../v1/ForumServiceV1';
+import { ForumServiceV2 } from '../v2/ForumServiceV2';
 
-/**
- * Service for managing forum categories, topics, and discussions.
- */
-export class ForumService extends BaseService {
-  constructor(client: ApiClient, logger: ArmoyuLogger) {
-    super(client, logger);
-  }
-
-  /**
-   * Get all forum categories.
-   */
-  async getCategories(): Promise<ServiceResponse<ForumCategory[]>> {
-    try {
-      const response = await this.client.get<any>('/community/forums/categories');
-      const icerik = this.handle<any[]>(response);
-      const mapped = ForumMapper.mapCategoryList(icerik || []);
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ForumService] Failed to fetch categories:', error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Get topics for a specific category.
-   */
-  async getTopics(categoryId: number, page: number = 1): Promise<ServiceResponse<ForumTopic[]>> {
-    try {
-      const response = await this.client.get<any>(`/community/forums/categories/${categoryId}/topics`, {
-        params: { page }
-      });
-      const data = this.handle<any[]>(response);
-      const mapped = ForumMapper.mapTopicList(data || []);
-      return this.createSuccess(mapped, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ForumService] Failed to fetch topics for category ${categoryId}:`, error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Create a new topic in a category.
-   */
-  async createTopic(categoryId: number, title: string, content: string): Promise<ServiceResponse<any>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.post<any>(`/community/forums/categories/${categoryId}/topics`, {
-        title,
-        content
-      });
-      const icerik = this.handle<any>(response);
-      return this.createSuccess(icerik, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ForumService] Topic creation failed:', error);
-      return this.createError(error.message);
-    }
-  }
-
-  /**
-   * Delete a topic by its ID.
-   */
-  async deleteTopic(topicId: number): Promise<ServiceResponse<void>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.delete<any>(`/community/forums/topics/${topicId}`);
-      this.handle(response);
-      return this.createSuccess(undefined, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ForumService] Failed to delete topic ${topicId}:`, error);
-      return this.createError(error.message);
-    }
-  }
+export interface CreateTopicParams {
+  title: string;
+  type: string;
+  categoryId: number;
+  content: string;
+  url?: string;
 }
 
+/**
+ * Service for managing forum topics and categories.
+ * Delegates requests to ForumServiceV1 or ForumServiceV2 based on ApiVersion.
+ */
+export class ForumService extends BaseService {
+  private version: ForumServiceV1 | ForumServiceV2;
+
+  constructor(client: ApiClient, logger: ArmoyuLogger) {
+    super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new ForumServiceV1(client, logger)
+      : new ForumServiceV2(client, logger);
+  }
+
+  async getTopics(page: number, options?: { limit?: number; categoryId?: number }): Promise<ServiceResponse<ForumTopic[]>> {
+    return this.version.getTopics(page, options);
+  }
+
+  async getTopicDetail(url: string): Promise<ServiceResponse<ForumTopic | null>> {
+    return this.version.getTopicDetail(url);
+  }
+
+  async createTopic(params: CreateTopicParams): Promise<ServiceResponse<ForumTopic>> {
+    return this.version.createTopic(params);
+  }
+
+  async deleteTopic(topicId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteTopic(topicId);
+  }
+
+  async getCategories(): Promise<ServiceResponse<ForumCategory[]>> {
+    return this.version.getCategories();
+  }
+}

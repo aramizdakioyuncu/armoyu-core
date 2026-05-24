@@ -1,7 +1,8 @@
 import { MessageDTO } from '../../dto/social/ChatDTO';
+import { MessageSide } from '../../social/meta/ChatEnums';
 
 export class Message implements MessageDTO {
-  side: 'ben' | 'sen';
+  side: MessageSide;
   authorName: string;
   authorAvatar: string;
   authorColor?: string;
@@ -27,7 +28,7 @@ export class Message implements MessageDTO {
    * Returns true if the message was sent by the current user.
    */
   get isMine(): boolean {
-    return this.side === 'ben';
+    return this.side === MessageSide.ME;
   }
 
   /**

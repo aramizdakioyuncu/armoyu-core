@@ -1,71 +1,64 @@
-import { Product, Order, ServiceResponse } from '../models';
+import { Product, Order, ShopResponseDTO, ShopProductDTO, ServiceResponse } from '../models';
 import { BaseService } from './BaseService';
 import { ApiClient } from '../api/ApiClient';
 import { ArmoyuLogger } from '../api/Logger';
-import { ShopMapper } from '../utils/mappers';
+import { ShopServiceV1 } from '../v1/ShopServiceV1';
+import { ShopServiceV2 } from '../v2/ShopServiceV2';
+import { UpdateShopParams, CreateProductParams } from '../models/dto/shop/ShopDTO';
 
-/**
- * Service for managing the platform store, products, and purchase orders.
- */
+export { UpdateShopParams, CreateProductParams };
+
 export class ShopService extends BaseService {
+  private version: ShopServiceV1 | ShopServiceV2;
+
   constructor(client: ApiClient, logger: ArmoyuLogger) {
     super(client, logger);
+    this.version = this.usePreviousVersion
+      ? new ShopServiceV1(client, logger)
+      : new ShopServiceV2(client, logger);
   }
 
-  /**
-   * Get all products with optional filters.
-   */
-  async getProducts(page: number = 1, options?: { category?: string, searchTerm?: string, limit?: number }): Promise<ServiceResponse<Product[]>> {
-    try {
-      const formData = new FormData();
-      formData.append('sayfa', page.toString());
-      if (options?.limit) formData.append('limit', options.limit.toString());
-      if (options?.category) formData.append('kategori', options.category);
-      if (options?.searchTerm) formData.append('arama', options.searchTerm);
-
-      const response = await this.client.post<any>('/0/0/market/0/0/', formData);
-      const data = this.handle<any[]>(response);
-      const mappedData = ShopMapper.mapProductList(data || []);
-      return this.createSuccess(mappedData, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ShopService] Failed to fetch products:', error);
-      return this.createError(error.message);
-    }
+  async getProducts(page: number = 1, options?: { category?: string; searchTerm?: string; limit?: number }): Promise<ServiceResponse<Product[]>> {
+    return this.version.getProducts(page, options);
   }
 
-  /**
-   * Get detailed information for a specific product.
-   */
   async getProductDetails(productId: string | number): Promise<ServiceResponse<Product | null>> {
-    try {
-      const formData = new FormData();
-      formData.append('urunID', productId.toString());
-      const response = await this.client.post<any>('/0/0/market/detay/0/', formData);
-      const data = this.handle<any>(response);
-      const mappedData = data ? ShopMapper.mapProduct(data) : null;
-      return this.createSuccess(mappedData, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error(`[ShopService] Failed to fetch product ${productId}:`, error);
-      return this.createError(error.message);
-    }
+    return this.version.getProductDetails(productId);
   }
 
-  /**
-   * Create a new purchase order.
-   */
   async createOrder(params: { items: { productId: number; quantity: number }[] }): Promise<ServiceResponse<Order>> {
-    this.requireAuth();
-    try {
-      const formData = new FormData();
-      formData.append('urunler', JSON.stringify(params.items));
-      const response = await this.client.post<any>('/0/0/market/satin-al/0/', formData);
-      const data = this.handle<any>(response);
-      const mappedData = data ? ShopMapper.mapOrder(data) : ({} as Order);
-      return this.createSuccess(mappedData, response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[ShopService] Order creation failed:', error);
-      return this.createError(error.message);
-    }
+    return this.version.createOrder(params);
+  }
+
+  async getShops(page: number = 1, limit?: number): Promise<ServiceResponse<ShopResponseDTO[]>> {
+    return this.version.getShops(page, limit);
+  }
+
+  async getShop(shopId: number): Promise<ServiceResponse<ShopResponseDTO | null>> {
+    return this.version.getShop(shopId);
+  }
+
+  async updateShop(shopId: number, params: UpdateShopParams): Promise<ServiceResponse<boolean>> {
+    return this.version.updateShop(shopId, params);
+  }
+
+  async deleteShop(shopId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteShop(shopId);
+  }
+
+  async getShopProducts(shopId: number, page: number = 1, limit?: number): Promise<ServiceResponse<ShopProductDTO[]>> {
+    return this.version.getShopProducts(shopId, page, limit);
+  }
+
+  async getProduct(productId: number): Promise<ServiceResponse<ShopProductDTO | null>> {
+    return this.version.getProduct(productId);
+  }
+
+  async createProduct(params: CreateProductParams): Promise<ServiceResponse<ShopProductDTO>> {
+    return this.version.createProduct(params);
+  }
+
+  async deleteProduct(productId: number): Promise<ServiceResponse<boolean>> {
+    return this.version.deleteProduct(productId);
   }
 }
-

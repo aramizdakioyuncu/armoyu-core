@@ -2,11 +2,17 @@ import { ForumTopicDTO } from '../../dto/community/ForumDTO';
 
 export class ForumTopic implements ForumTopicDTO {
   id: number;
+  type?: string;
   title: string;
-  content?: string;
-  authorId: number;
-  authorName: string;
+  url?: string;
+  status?: number;
   date: string;
+  content?: string;
+  category?: { id: number; name: string; slug: string };
+  creatorId: number;
+  creatorName: string;
+  creatorNicename?: string;
+  creatorAvatar?: string;
   viewCount: number;
   replyCount: number;
   isLocked: boolean;
@@ -14,49 +20,45 @@ export class ForumTopic implements ForumTopicDTO {
 
   constructor(data: ForumTopicDTO) {
     this.id = data.id;
+    this.type = data.type;
     this.title = data.title;
-    this.content = data.content;
-    this.authorId = data.authorId;
-    this.authorName = data.authorName;
+    this.url = data.url;
+    this.status = data.status;
     this.date = data.date;
+    this.content = data.content;
+    this.category = data.category;
+    this.creatorId = data.creatorId;
+    this.creatorName = data.creatorName;
+    this.creatorNicename = data.creatorNicename;
+    this.creatorAvatar = data.creatorAvatar;
     this.viewCount = data.viewCount;
     this.replyCount = data.replyCount;
     this.isLocked = data.isLocked;
     this.isPinned = data.isPinned;
   }
 
-  /**
-   * Returns the topic URL.
-   */
-  get topicUrl(): string {
-    return `/forum/konu/${this.id}`;
-  }
-
-  /**
-   * Returns true if the topic is popular (e.g., more than 100 views or 10 replies).
-   */
   get isPopular(): boolean {
     return this.viewCount > 100 || this.replyCount > 10;
   }
 
-  /**
-   * Factory method to create a ForumTopic from a DTO.
-   */
   static fromJSON(data: ForumTopicDTO): ForumTopic {
     return new ForumTopic(data);
   }
 
-  /**
-   * Converts the entity back to a DTO for API submission.
-   */
   toJSON(): ForumTopicDTO {
     return {
       id: this.id,
+      type: this.type,
       title: this.title,
-      content: this.content,
-      authorId: this.authorId,
-      authorName: this.authorName,
+      url: this.url,
+      status: this.status,
       date: this.date,
+      content: this.content,
+      category: this.category,
+      creatorId: this.creatorId,
+      creatorName: this.creatorName,
+      creatorNicename: this.creatorNicename,
+      creatorAvatar: this.creatorAvatar,
       viewCount: this.viewCount,
       replyCount: this.replyCount,
       isLocked: this.isLocked,

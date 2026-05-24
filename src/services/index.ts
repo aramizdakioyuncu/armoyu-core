@@ -2,6 +2,7 @@ export * from './BaseService';
 export * from './AuthService';
 export * from './UserService';
 export * from './GroupService';
+export * from './GroupMemberService';
 export * from './SocialService';
 export * from './EventService';
 export * from './BlogService';
@@ -28,4 +29,5 @@ export * from './MusicService';
 export * from './ReelsService';
 export * from './MediaService';
 export * from './EducationService';
+export * from './WorkplaceService';
 
