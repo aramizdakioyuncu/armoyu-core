@@ -6,6 +6,7 @@ import { UserResponse } from './UserResponse';
 export interface LoginResponse {
   user: UserResponse;
   token: string;
+  refreshToken?: string;
   session?: {
     id: number;
     ip: string;

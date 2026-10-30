@@ -32,7 +32,22 @@ export class StoryServiceV2 extends BaseService {
   }
 
   async addStory(_mediaUrl: string, _text?: string): Promise<ServiceResponse<boolean>> {
-    return this.createError('addStory is not supported in V2 — use createStory() with a media_id instead');
+    return this.createError('addStory is not supported in V2 — use uploadStory() instead');
+  }
+
+  async uploadStory(file: File, text?: string): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      if (text) formData.append('text', text);
+      const response = await this.client.post<any>('/v1/hikayeler', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[StoryServiceV2] Failed to upload story:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async deleteStory(storyId: number): Promise<ServiceResponse<boolean>> {

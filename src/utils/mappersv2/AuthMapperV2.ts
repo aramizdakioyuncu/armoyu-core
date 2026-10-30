@@ -19,38 +19,20 @@ export class AuthMapperV2 extends BaseMapper {
     const detail = raw.aciklamadetay || {};
     const token = detail.accessToken || raw.accessToken || '';
     
-    // Decode JWT to extract user information
-    let user: UserResponse = { id: 0, username: '', displayName: '', avatar: '' };
-    let sessionId = 0;
-    
-    if (token) {
-      try {
-        const parts = token.split('.');
-        if (parts.length === 3) {
-          const payload = parts[1];
-          const decodedStr = typeof Buffer !== 'undefined'
-            ? Buffer.from(payload, 'base64').toString('utf8')
-            : atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
-          const jwtPayload = JSON.parse(decodedStr);
-          
-          user = {
-            id: this.toNumber(jwtPayload.sub),
-            username: jwtPayload.username || '',
-            displayName: jwtPayload.username || '',
-            avatar: this.toImageUrl(jwtPayload.avatar) || ''
-          };
-          sessionId = this.toNumber(jwtPayload.session_id);
-        }
-      } catch (e) {
-        // Fallback if decode fails
-      }
-    }
+    const apiUser = raw.icerik?.user || {};
+    const user: UserResponse = {
+      id: this.toId(apiUser.id),
+      username: apiUser.username || '',
+      displayName: apiUser.displayName || '',
+      avatar: this.toImageUrl(apiUser.avatar) || ''
+    };
 
     return {
       user,
       token,
+      refreshToken: detail.refreshToken,
       session: {
-        id: sessionId,
+        id: 0,
         ip: '',
         device: '',
         date: ''

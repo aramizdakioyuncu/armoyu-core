@@ -48,7 +48,7 @@ export class PostMapper extends BaseMapper {
     if (!raw) return new Post({} as PostDTO);
 
     return new Post({
-      id: this.toNumber(raw.post_ID),
+      id: this.toId(raw.post_ID),
       owner: this.mapOwner(raw.owner || {}),
       content: raw.content || '',
       location: raw.location || undefined,
@@ -65,7 +65,7 @@ export class PostMapper extends BaseMapper {
       isReported: this.toBool(raw.reported_by_me),
       device: raw.device === 'mobil' ? 'mobile' : 'web',
       mappedMedia: this.mapMediaListV2(raw.media || []),
-      topLikers: this.mapLikersList(raw.first_likers || []),
+      topLikers: this.mapLikersListV2(raw.first_likers || []),
       topComments: this.mapCommentListV2(raw.first_comments || [])
     });
   }
@@ -74,7 +74,7 @@ export class PostMapper extends BaseMapper {
 
   private static mapOwner(raw: any): PostOwnerDTO {
     return {
-      id: this.toNumber(raw.owner_ID || raw.id),
+      id: this.toId(raw.owner_ID || raw.id),
       username: raw.username || '',
       displayName: raw.displayname || '',
       avatar: this.toImageUrl(raw.avatar) || '',
@@ -113,7 +113,7 @@ export class PostMapper extends BaseMapper {
 
   private static mapMediaOwnerV2(raw: any): PostOwnerDTO {
     return {
-      id: this.toNumber(raw.owner_ID),
+      id: this.toId(raw.owner_ID),
       username: raw.username || '',
       displayName: raw.displayname || '',
       avatar: this.toImageUrl(raw.avatar) || '',
@@ -124,7 +124,7 @@ export class PostMapper extends BaseMapper {
   private static mapMediaListV2(rawList: any[]): PostMediaDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
-      id: this.toNumber(item.media_ID),
+      id: this.toId(item.media_ID),
       owner: this.mapMediaOwnerV2(item.owner || {}),
       category: item.category || '',
       url: item.media_bigURL || '',
@@ -146,6 +146,19 @@ export class PostMapper extends BaseMapper {
       avatar: this.toImageUrl(item.begenenavatar || item.avatar) || '',
       url: item.URL || '',
       date: item.begenmezaman || item.begeni_zaman || ''
+    }));
+  }
+
+  static mapLikersListV2(rawList: any[]): PostLikerDTO[] {
+    if (!Array.isArray(rawList)) return [];
+    return rawList.map(item => ({
+      likeId: this.toId(item.like_ID),
+      id: this.toId(item.user_ID),
+      displayName: item.displayname || '',
+      username: item.username || '',
+      avatar: this.toImageUrl(item.avatar) || '',
+      url: item.profile_URL || '',
+      date: item.liked_at || ''
     }));
   }
 
@@ -174,9 +187,9 @@ export class PostMapper extends BaseMapper {
   static mapCommentListV2(rawList: any[]): PostCommentDTO[] {
     if (!Array.isArray(rawList)) return [];
     return rawList.map(item => ({
-      postId: this.toNumber(item.post_ID),
-      id: this.toNumber(item.comment_ID),
-      authorId: this.toNumber(item.user_ID),
+      postId: this.toId(item.post_ID),
+      id: this.toId(item.comment_ID),
+      authorId: this.toId(item.user_ID),
       authorUsername: item.username || '',
       authorDisplayName: item.displayname || '',
       authorAvatar: this.toImageUrl(item.avatar) || '',

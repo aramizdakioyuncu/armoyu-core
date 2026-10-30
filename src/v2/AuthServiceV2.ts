@@ -21,6 +21,7 @@ export class AuthServiceV2 extends BaseService {
 
       if (mapped.token) {
         this.client.setAuthToken(mapped.token);
+        this.client.setRefreshToken(mapped.refreshToken ?? null);
       }
 
       return this.createSuccess(mapped, 'Giriş Başarılı');
@@ -77,6 +78,7 @@ export class AuthServiceV2 extends BaseService {
       // Ignore network errors on logout
     }
     this.client.setAuthToken('');
+    this.client.setRefreshToken(null);
     return this.createSuccess(true, 'Çıkış Yapıldı');
   }
 

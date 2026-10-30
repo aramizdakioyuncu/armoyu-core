@@ -10,12 +10,18 @@ export enum ApiVersion {
 export interface ApiConfig {
   baseUrl: string;
   token?: string | null;
+  refreshToken?: string | null;
   apiKey?: string | null;
   headers?: Record<string, string>;
   logger?: ArmoyuLogger;
   usePreviousVersion?: boolean;
   version?: ApiVersion;
   debugMode?: boolean;
+}
+
+export interface SessionHandlers {
+  onRefreshed?: (accessToken: string, refreshToken: string) => void;
+  onExpired?: () => void;
 }
 
 export interface StandardApi<T> {

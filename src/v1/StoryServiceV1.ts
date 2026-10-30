@@ -22,6 +22,10 @@ export class StoryServiceV1 extends BaseService {
     }
   }
 
+  async uploadStory(_file: File, _text?: string): Promise<ServiceResponse<boolean>> {
+    return this.createError('uploadStory is only available in V2');
+  }
+
   async addStory(mediaUrl: string, text?: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {

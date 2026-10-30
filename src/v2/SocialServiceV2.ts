@@ -4,10 +4,11 @@ import { PostMapper } from '../utils/mappers/social/PostMapper';
 import { GetPostsOptions } from '../v1/SocialServiceV1';
 
 export class SocialServiceV2 extends BaseService {
-  async getPosts(page: number = 1, limit: number = 20, _options?: GetPostsOptions): Promise<ServiceResponse<Post[]>> {
+  async getPosts(page: number = 1, limit: number = 20, options?: GetPostsOptions): Promise<ServiceResponse<Post[]>> {
     this.requireAuth();
     try {
-      const response = await this.client.get<any>(`/v1/social?page=${page}&limit=${limit}`);
+      const userQuery = options?.userId ? `&userId=${options.userId}` : '';
+      const response = await this.client.get<any>(`/v1/social?page=${page}&limit=${limit}${userQuery}`);
       const data = this.handle<any[]>(response);
       return this.createSuccess(PostMapper.mapFeedListV2(data || []), response?.aciklama);
     } catch (error: any) {
@@ -32,8 +33,15 @@ export class SocialServiceV2 extends BaseService {
     return this.createError('getPostByComment is not supported in V2');
   }
 
-  async getComments(_postId: number): Promise<ServiceResponse<PostCommentResponse[]>> {
-    return this.createError('getComments is not supported in V2 yet');
+  async getComments(postId: number): Promise<ServiceResponse<PostCommentResponse[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/social/${postId}/comments`);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(PostMapper.mapCommentListV2(data || []) as PostCommentResponse[], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to fetch comments of ${postId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
   async createPost(content: string, mediaIds?: number[], location?: string): Promise<ServiceResponse<boolean>> {
@@ -70,7 +78,7 @@ export class SocialServiceV2 extends BaseService {
   async deletePost(postId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const response = await this.client.delete<any>('/v1/social', { postId });
+      const response = await this.client.delete<any>('/v1/social', { post_id: postId });
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
@@ -79,31 +87,72 @@ export class SocialServiceV2 extends BaseService {
     }
   }
 
-  async getLikers(_id: number, _type: 'post' | 'comment' = 'post'): Promise<ServiceResponse<any[]>> {
-    return this.createError('getLikers is not supported in V2 yet');
+  async getLikers(id: number, _type: 'post' | 'comment' = 'post'): Promise<ServiceResponse<any[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/social/${id}/likes`);
+      const data = this.handle<any[]>(response);
+      return this.createSuccess(PostMapper.mapLikersListV2(data || []), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to fetch likers of ${id}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async like(_id: number, _category: 'post' | 'postyorum' = 'post'): Promise<ServiceResponse<boolean>> {
-    return this.createError('like is not supported in V2 yet');
+  async like(id: number, category: 'post' | 'postyorum' = 'post'): Promise<ServiceResponse<boolean>> {
+    return this.addLike(id, undefined, category === 'post' ? 'post' : 'comment');
   }
 
-  async addLike(_postId: number, _commentId?: number, _category: 'post' | 'comment' = 'post'): Promise<ServiceResponse<boolean>> {
-    return this.createError('addLike is not supported in V2 yet');
+  async addLike(postId: number, _commentId?: number, category: 'post' | 'comment' = 'post'): Promise<ServiceResponse<boolean>> {
+    if (category === 'comment') return this.createError('Yorum beğenisi desteklenmiyor');
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(`/v1/social/${postId}/like`, {});
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to like ${postId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async removeLike(_postId: number, _commentId?: number, _category: 'post' | 'comment' = 'post'): Promise<ServiceResponse<boolean>> {
-    return this.createError('removeLike is not supported in V2 yet');
+  async removeLike(postId: number, _commentId?: number, category: 'post' | 'comment' = 'post'): Promise<ServiceResponse<boolean>> {
+    if (category === 'comment') return this.createError('Yorum beğenisi desteklenmiyor');
+    this.requireAuth();
+    try {
+      const response = await this.client.delete<any>(`/v1/social/${postId}/like`);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to unlike ${postId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
   async reportPost(_postId: number, _category: string = ''): Promise<ServiceResponse<boolean>> {
     return this.createError('reportPost is not supported in V2 yet');
   }
 
-  async createComment(_postId: number, _content: string, _replyTo: number = 0, _category: string = 'sosyal'): Promise<ServiceResponse<boolean>> {
-    return this.createError('createComment is not supported in V2 yet');
+  async createComment(postId: number, content: string, replyTo: number = 0, _category: string = 'sosyal'): Promise<ServiceResponse<any>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(`/v1/social/${postId}/comments`, { content, reply_to: replyTo || undefined });
+      const data = this.handle<any>(response);
+      return this.createSuccess(data, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to comment on ${postId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async deleteComment(_commentId: number): Promise<ServiceResponse<boolean>> {
-    return this.createError('deleteComment is not supported in V2 yet');
+  async deleteComment(commentId: number): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.delete<any>(`/v1/social/comments/${commentId}`);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[SocialServiceV2] Failed to delete comment ${commentId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 }

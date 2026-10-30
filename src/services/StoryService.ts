@@ -25,6 +25,10 @@ export class StoryService extends BaseService {
     return this.version.getStories(page);
   }
 
+  async uploadStory(file: File, text?: string): Promise<ServiceResponse<boolean>> {
+    return this.version.uploadStory(file, text);
+  }
+
   async addStory(mediaUrl: string, text?: string): Promise<ServiceResponse<boolean>> {
     return this.version.addStory(mediaUrl, text);
   }

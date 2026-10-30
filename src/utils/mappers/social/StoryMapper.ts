@@ -23,7 +23,7 @@ export class StoryMapper extends BaseMapper {
     const items = rawItems.map((item: any) => this.mapStoryItem(item));
 
     return {
-      authorId: this.toNumber(raw.oyuncu_ID),
+      authorId: this.toId(raw.oyuncu_ID),
       authorName: raw.oyuncu_adsoyad || '',
       authorUsername: raw.oyuncu_kadi || raw.oyuncu_adsoyad || '',
       authorAvatar: this.toImageUrl(raw.oyuncu_avatar) || '',
@@ -34,9 +34,9 @@ export class StoryMapper extends BaseMapper {
 
   static mapStoryItem(raw: any): StoryItemResponse {
     return {
-      id: this.toNumber(raw.hikaye_ID || raw.hikayeID),
+      id: this.toId(raw.hikaye_ID || raw.hikayeID),
       status: this.toNumber(raw.hikaye_durum),
-      ownerId: this.toNumber(raw.hikaye_sahip || raw.oyuncu_ID),
+      ownerId: this.toId(raw.hikaye_sahip || raw.oyuncu_ID),
       mediaUrl: this.toImageUrl(raw.hikaye_medya || raw.hikayemedya),
       createdAt: raw.hikaye_zaman || raw.hikayezaman || '',
       isMe: this.toBool(raw.hikayeben),
@@ -56,7 +56,7 @@ export class StoryMapper extends BaseMapper {
   static mapStoryUser(raw: any): StoryUserResponse {
     if (!raw) return {} as StoryUserResponse;
     return {
-      id: this.toNumber(raw.user_id),
+      id: this.toId(raw.user_id),
       username: raw.user_login || '',
       displayName: raw.display_name || '',
       avatar: this.toImageUrl(raw.avatar) || '',

@@ -32,6 +32,16 @@ export abstract class BaseMapper {
   }
 
   /**
+   * Helper for entity IDs: numeric (legacy API) or UUID (Phatsa). Typed any so number-typed models keep compiling.
+   * shortcut: model `id` tipleri hâlâ number; UI'daki Number(id) dönüşümleri temizlenince tipler string'e çekilecek
+   */
+  protected static toId(value: any, fallback: any = 0): any {
+    if (value === undefined || value === null || value === '') return fallback;
+    const numeric = Number(value);
+    return Number.isNaN(numeric) ? String(value) : numeric;
+  }
+
+  /**
    * Helper to normalize boolean flags from API (1/0 or actual bool).
    */
   protected static toBool(value: any): boolean {

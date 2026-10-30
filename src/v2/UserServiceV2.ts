@@ -111,8 +111,18 @@ export class UserServiceV2 extends BaseService {
     return this.createError('getNotifications is not supported in V2 yet');
   }
 
-  async updateAvatar(_file: File | File[]): Promise<ServiceResponse<boolean>> {
-    return this.createError('updateAvatar is not supported in V2 yet');
+  async updateAvatar(file: File | File[]): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('file', Array.isArray(file) ? file[0] : file);
+      const response = await this.client.post<any>('/v1/profile/avatar', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Avatar upload failed:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async resetAvatar(): Promise<ServiceResponse<boolean>> {

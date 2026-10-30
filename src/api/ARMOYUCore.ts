@@ -1,4 +1,4 @@
-import { ApiClient, type ApiConfig, ApiVersion } from './ApiClient';
+import { ApiClient, type ApiConfig, type SessionHandlers, ApiVersion } from './ApiClient';
 import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { BaseMapper } from '../utils/mappers/BaseMapper';
 
@@ -30,6 +30,7 @@ export class ARMOYUCore {
     this.client = new ApiClient({
       baseUrl: finalConfig.baseUrl || 'https://api.aramizdakioyuncu.com',
       token: finalConfig.token || null,
+      refreshToken: finalConfig.refreshToken || null,
       apiKey: apiKey,
       headers: finalConfig.headers || {},
       logger: this.logger,
@@ -62,6 +63,10 @@ export class ARMOYUCore {
   static initForBot(version: ApiVersion, apiKey: string, config?: Partial<Omit<ApiConfig, 'apiKey' | 'version'>>): ARMOYUCore {
     return new ARMOYUCore(version, apiKey, config);
   }
+
+  get version() { return this.client.version; }
+  setRefreshToken(token: string | null) { this.client.setRefreshToken(token); }
+  setSessionHandlers(handlers: SessionHandlers) { this.client.setSessionHandlers(handlers); }
 
   // Delegated Services from ApiClient
   get auth() { return this.client.auth; }
