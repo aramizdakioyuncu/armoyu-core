@@ -9,8 +9,11 @@ import { GroupMemberService } from './GroupMemberService';
 export interface CreateGroupParams {
   name: string;
   shortName: string;
-  categoryId: number;
-  categoryDetailId: number;
+  categoryId?: number;
+  categoryDetailId?: number;
+  category?: string;
+  description?: string;
+  logo?: string;
 }
 
 /**
@@ -37,6 +40,12 @@ export class GroupService extends BaseService {
 
   async getGroupDetail(params: { groupId?: number; groupUrl?: string }): Promise<ServiceResponse<Group>> {
     return this.version.getGroupDetail(params);
+  }
+
+  async getCategories(): Promise<ServiceResponse<string[]>> {
+    return this.usePreviousVersion
+      ? this.createError('getCategories is only available in V2')
+      : (this.version as GroupServiceV2).getCategories();
   }
 
   async getUserGroups(userId?: number): Promise<ServiceResponse<Group[]>> {

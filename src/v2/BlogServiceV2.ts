@@ -50,9 +50,10 @@ export class BlogServiceV2 extends BaseService {
    */
   async getNewsDetail(opt: { newsId?: number; newsURL?: string }): Promise<ServiceResponse<News | null>> {
     try {
-      if (!opt.newsId) throw new Error('V2 haber detayı için newsId gereklidir.');
+      const key = opt.newsId ?? opt.newsURL;
+      if (!key) throw new Error('V2 haber detayı için newsId veya newsURL gereklidir.');
 
-      const response = await this.client.get<any>(`/v1/haberler/${opt.newsId}`);
+      const response = await this.client.get<any>(`/v1/haberler/${encodeURIComponent(key)}`);
       const icerik = this.handle<any>(response);
       const mapped = NewsMapper.mapNews(icerik);
 

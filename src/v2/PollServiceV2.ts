@@ -11,7 +11,6 @@ export interface CreatePollParams {
 
 export class PollServiceV2 extends BaseService {
   async getPolls(page: number = 1): Promise<ServiceResponse<PollResponse[]>> {
-    this.requireAuth();
     try {
       const response = await this.client.get<any>(`/v1/surveys?page=${page}`);
       const data = this.handle<any[]>(response);
@@ -23,7 +22,6 @@ export class PollServiceV2 extends BaseService {
   }
 
   async getPoll(id: number): Promise<ServiceResponse<PollResponse>> {
-    this.requireAuth();
     try {
       const response = await this.client.get<any>(`/v1/surveys/${id}`);
       const data = this.handle<any>(response);

@@ -9,10 +9,10 @@ import { CreateGroupParams } from '../services/GroupService';
  * Endpoints:
  *   GET  /v1/group                    → list groups
  *   POST /v1/group                    → create group
- *   GET  /v1/group/{url}              → group detail by URL slug  (stub)
- *   GET  /v1/group/my                 → user's groups             (stub)
- *   POST /v1/group/{id}/join          → join group                (stub)
- *   POST /v1/group/{id}/leave         → leave group               (stub)
+ *   GET  /v1/group/{url}              → group detail by URL slug
+ *   GET  /v1/group/my                 → user's groups
+ *   POST /v1/group/{id}/join          → join group
+ *   POST /v1/group/{id}/leave         → leave group
  *   POST /v1/group/{id}/invite        → invite users              (stub)
  *   POST /v1/group/{id}/kick          → kick user                 (stub)
  *   PUT  /v1/group/{id}               → update settings           (stub)
@@ -44,7 +44,10 @@ export class GroupServiceV2 extends BaseService {
         name: params.name,
         shortName: params.shortName,
         categoryId: params.categoryId,
-        categoryDetailId: params.categoryDetailId
+        categoryDetailId: params.categoryDetailId,
+        category: params.category,
+        description: params.description,
+        logo: params.logo
       });
       const icerik = this.handle<any>(response);
       const mapped = GroupMapper.mapGroupCreated(icerik);
@@ -55,12 +58,39 @@ export class GroupServiceV2 extends BaseService {
     }
   }
 
-  async getGroupDetail(_params: { groupId?: number; groupUrl?: string }): Promise<ServiceResponse<Group>> {
-    return this.createError('GroupService getGroupDetail V2 endpoint is not yet defined.');
+  async getGroupDetail(params: { groupId?: number; groupUrl?: string }): Promise<ServiceResponse<Group>> {
+    try {
+      const key = params.groupId ?? params.groupUrl;
+      if (!key) return this.createError('groupId veya groupUrl gerekli.');
+      const response = await this.client.get<any>(`/v1/group/${encodeURIComponent(key)}`);
+      // Üye, sahip ve moderatör listeleri ham haliyle UI modeline gider
+      return this.createSuccess(this.handle<Group>(response), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[GroupServiceV2] Failed to fetch group detail:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async getUserGroups(_userId?: number): Promise<ServiceResponse<Group[]>> {
-    return this.createError('GroupService getUserGroups V2 endpoint is not yet defined.');
+    this.requireAuth();
+    try {
+      const response = await this.client.get<any>('/v1/group/my');
+      const icerik = this.handle<any[]>(response);
+      return this.createSuccess(GroupMapper.mapGroupList(icerik || []), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[GroupServiceV2] Failed to fetch user groups:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  async getCategories(): Promise<ServiceResponse<string[]>> {
+    try {
+      const response = await this.client.get<any>('/v1/group/categories');
+      return this.createSuccess(this.handle<string[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[GroupServiceV2] Failed to fetch categories:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async updateGroupSettings(groupId: number, data: { title?: string; tag?: string; description?: string; discord?: string; website?: string; recruitmentStatus?: string }): Promise<ServiceResponse<Group>> {

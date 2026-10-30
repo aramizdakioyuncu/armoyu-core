@@ -8,7 +8,7 @@ export class GroupMapper extends BaseMapper {
     if (!raw) return new Group({} as GroupDTO);
 
     return new Group({
-      id: this.toNumber(raw.grupID || raw.group_ID),
+      id: this.toId(raw.grupID || raw.group_ID),
       name: raw.grupad || raw.group_name || '',
       displayName: raw.grupadi || raw.group_name || '',
       tag: raw.grupetiket || raw.group_shortname,
@@ -34,7 +34,7 @@ export class GroupMapper extends BaseMapper {
     if (!raw) return new Group({} as GroupDTO);
 
     return new Group({
-      id: this.toNumber(raw.group_ID || raw.grupID),
+      id: this.toId(raw.group_ID || raw.grupID),
       name: raw.group_name || raw.grupad || '',
       displayName: raw.group_name || raw.grupadi || '',
       description: raw.group_description || raw.grupaciklama,
@@ -63,7 +63,7 @@ export class GroupMapper extends BaseMapper {
     if (!raw) return new Group({} as GroupDTO);
 
     return new Group({
-      id: this.toNumber(raw.adi),
+      id: this.toId(raw.adi),
       name: raw.baslik || '',
       displayName: raw.baslik || '',
       description: raw.acikla,
@@ -88,7 +88,7 @@ export class GroupMapper extends BaseMapper {
   static mapMember(raw: any): GroupMember {
     if (!raw) return new GroupMember({} as GroupMemberDTO);
     return new GroupMember({
-      id: this.toNumber(raw.player_ID),
+      id: this.toId(raw.player_ID),
       displayName: raw.player_displayname || '',
       username: raw.player_userlogin || '',
       avatar: this.toImageUrl(raw.player_avatar),

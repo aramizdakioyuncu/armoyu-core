@@ -5,7 +5,7 @@ export class EventMapperV2 extends BaseMapper {
   static mapParticipants(raw: any): EventParticipantsDTO {
     const list = Array.isArray(raw) ? raw : [];
     const individuals = list.map((p: any) => ({
-      id: this.toNumber(p.kim),
+      id: this.toId(p.kim),
       name: p.display_name || '',
       username: p.user_nicename || '',
       avatar: this.toImageUrl(p.avatar) || ''

@@ -12,8 +12,9 @@ export class NewsMapper extends BaseMapper {
     if (!raw) return new News({} as NewsDTO);
 
     return new News({
-      id: this.toNumber(raw.haberID),
+      id: this.toId(raw.haberID),
       title: raw.haberbaslik,
+      content: raw.icerik,
       summary: raw.ozet,
       category: raw.kategori,
       views: this.toNumber(raw.goruntulen),

@@ -12,7 +12,7 @@ export class PollMapper extends BaseMapper {
     if (!raw) return {} as PollResponse;
 
     return {
-      id: this.toNumber(raw.survey_ID),
+      id: this.toId(raw.survey_ID),
       question: raw.survey_question,
       description: raw.survey_description || '',
       type: raw.survey_type,

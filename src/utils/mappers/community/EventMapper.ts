@@ -12,7 +12,7 @@ export class EventMapper extends BaseMapper {
     if (!raw) return new ArmoyuEvent({} as EventDTO);
 
     return new ArmoyuEvent({
-      id: this.toNumber(raw.event_ID),
+      id: this.toId(raw.event_ID),
       name: raw.event_name || '',
       description: raw.event_description,
       category: raw.event_type,
@@ -32,7 +32,7 @@ export class EventMapper extends BaseMapper {
       groupPlayerLimit: this.toNumber(raw.event_participantgroupplayerlimit),
       rules: raw.event_rules,
       organizers: Array.isArray(raw.event_organizer) ? raw.event_organizer.map((o: any) => ({
-        id: this.toNumber(o.player_ID),
+        id: this.toId(o.player_ID),
         displayName: o.player_displayname || '',
         avatar: this.toImageUrl(o.player_avatar) || ''
       })) : [],

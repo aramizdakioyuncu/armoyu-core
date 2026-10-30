@@ -55,14 +55,28 @@ export class GroupMemberServiceV2 extends BaseService {
     }
   }
 
-  async join(_groupId: number): Promise<ServiceResponse<boolean>> {
+  async join(groupId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
-    return this.createError('GroupMemberService join V2 endpoint is not yet defined.');
+    try {
+      const response = await this.client.post<any>(`/v1/group/${groupId}/join`, {});
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[GroupMemberServiceV2] Failed to join group:', error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async leave(_groupId: number): Promise<ServiceResponse<boolean>> {
+  async leave(groupId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
-    return this.createError('GroupMemberService leave V2 endpoint is not yet defined.');
+    try {
+      const response = await this.client.post<any>(`/v1/group/${groupId}/leave`, {});
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[GroupMemberServiceV2] Failed to leave group:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async respondToInvitation(_groupId: number, _answer: number): Promise<ServiceResponse<boolean>> {

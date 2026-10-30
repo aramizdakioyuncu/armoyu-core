@@ -60,7 +60,7 @@ export class EventServiceV2 extends BaseService {
   async joinEvent(eventId: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
-      const response = await this.client.post<any>(`/v1/events/${eventId}/join`);
+      const response = await this.client.post<any>(`/v1/events/${eventId}/join`, {});
       this.handle(response);
       return this.createSuccess(true, response?.aciklama);
     } catch (error: any) {
