@@ -49,7 +49,7 @@ export class LocationMapper extends BaseMapper {
     if (!raw) return new Province({} as ProvinceDTO);
 
     return new Province({
-      id: this.toNumber(raw.province_ID || raw.sehirID || raw.ID),
+      id: this.toId(raw.province_ID || raw.sehirID || raw.ID),
       name: raw.province_name || raw.sehiradi || raw.baslik || raw.ad || '',
       countryId: raw.ulkeID ? this.toNumber(raw.ulkeID) : undefined,
       plateCode: this.toNumber(raw.province_plateCode || raw.plateCode),
@@ -67,9 +67,9 @@ export class LocationMapper extends BaseMapper {
     if (!raw) return new County({} as CountyDTO);
 
     return new County({
-      id: this.toNumber(raw.county_ID || raw.ID),
+      id: this.toId(raw.county_ID || raw.ID),
       name: raw.county_name || raw.baslik || raw.ad || '',
-      provinceId: raw.province_ID ? this.toNumber(raw.province_ID) : undefined
+      provinceId: raw.province_ID ? this.toId(raw.province_ID) : undefined
     });
   }
 

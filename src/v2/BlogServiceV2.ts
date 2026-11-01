@@ -123,6 +123,33 @@ export class BlogServiceV2 extends BaseService {
   }
 
   /**
+   * Get comments of a news article (V2).
+   */
+  async getComments(newsId: number): Promise<ServiceResponse<any[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/haberler/${newsId}/comments`);
+      return this.createSuccess(this.handle<any[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[BlogServiceV2] Failed to fetch comments of ${newsId}:`, error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
+   * Add a comment to a news article (V2).
+   */
+  async addComment(newsId: number, content: string): Promise<ServiceResponse<any>> {
+    try {
+      this.requireAuth();
+      const response = await this.client.post<any>(`/v1/haberler/${newsId}/comments`, { content });
+      return this.createSuccess(this.handle<any>(response), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[BlogServiceV2] Failed to comment on ${newsId}:`, error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  /**
    * Search not yet available in V2.
    */
   async searchNews(_page: number, _query: string, _limit?: number): Promise<ServiceResponse<News[]>> {

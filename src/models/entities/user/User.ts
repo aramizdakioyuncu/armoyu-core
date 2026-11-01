@@ -5,6 +5,8 @@ export class User {
   username: string;
   displayName: string;
   firstName?: string;
+  email?: string;
+  phone?: string;
   lastName?: string;
   avatar?: string;
   banner?: string;
@@ -49,6 +51,8 @@ export class User {
     this.username = data.username;
     this.displayName = data.displayName;
     this.firstName = data.firstName;
+    this.email = data.email;
+    this.phone = data.phone;
     this.lastName = data.lastName;
     this.avatar = data.avatar;
     this.banner = data.banner;

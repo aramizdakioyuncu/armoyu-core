@@ -22,6 +22,8 @@ export class UserProfileMapper extends BaseMapper {
       username: raw.username || raw.kullaniciadi || '',
       displayName: raw.displayName || raw.adsoyad || '',
       firstName: raw.firstName || '',
+      email: raw.email || undefined,
+      phone: raw.phone || undefined,
       lastName: raw.lastName || '',
       avatar: raw.avatar?.media_URL || this.toImageUrl(raw.oyuncuavatar) || '',
       banner: raw.banner?.media_URL || this.toImageUrl(raw.oyuncuarplan) || '',

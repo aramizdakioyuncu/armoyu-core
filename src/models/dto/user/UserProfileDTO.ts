@@ -41,6 +41,8 @@ export interface UserProfileDTO {
   displayName: string;
   firstName?: string;
   lastName?: string;
+  email?: string;
+  phone?: string;
   avatar?: string;
   banner?: string;
   wallpaper?: string;

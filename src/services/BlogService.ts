@@ -83,6 +83,18 @@ export class BlogService extends BaseService {
     return this.getNews(page, limit);
   }
 
+  async getComments(newsId: number): Promise<ServiceResponse<any[]>> {
+    return this.usePreviousVersion
+      ? this.createError('getComments is only available in V2')
+      : (this.version as BlogServiceV2).getComments(newsId);
+  }
+
+  async addComment(newsId: number, content: string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('addComment is only available in V2')
+      : (this.version as BlogServiceV2).addComment(newsId, content);
+  }
+
   /**
    * Get a single news article by slug (delegates to getNewsDetail).
    */

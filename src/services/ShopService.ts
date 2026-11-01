@@ -26,9 +26,20 @@ export class ShopService extends BaseService {
     return this.version.getProductDetails(productId);
   }
 
-  async createOrder(params: { items: { productId: number; quantity: number }[] }): Promise<ServiceResponse<Order>> {
+  async createOrder(params: any): Promise<ServiceResponse<Order>> {
     return this.version.createOrder(params);
   }
+
+  private onlyV2<T>(run: (service: ShopServiceV2) => Promise<ServiceResponse<T>>): Promise<ServiceResponse<T>> {
+    return this.usePreviousVersion
+      ? Promise.resolve(this.createError('Bu işlem yalnızca V2 API ile kullanılabilir') as ServiceResponse<T>)
+      : run(this.version as ShopServiceV2);
+  }
+
+  getCart() { return this.onlyV2((s) => s.getCart()); }
+  setCartItem(productId: string, quantity: number) { return this.onlyV2((s) => s.setCartItem(productId, quantity)); }
+  getOrders() { return this.onlyV2((s) => s.getOrders()); }
+  startPayment(orderId: string, urls: { successUrl: string; failUrl: string }) { return this.onlyV2((s) => s.startPayment(orderId, urls)); }
 
   async getShops(page: number = 1, limit?: number): Promise<ServiceResponse<ShopResponseDTO[]>> {
     return this.version.getShops(page, limit);
