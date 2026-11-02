@@ -30,4 +30,4 @@ export * from './ReelsService';
 export * from './MediaService';
 export * from './EducationService';
 export * from './WorkplaceService';
-
+export * from './GiveawayService';

@@ -99,8 +99,29 @@ export class UserServiceV2 extends BaseService {
     return this.createError('getSocialProfile is not supported in V2 yet');
   }
 
-  async getUserMedia(_page: number, _options?: { userId?: number; limit?: number; category?: string }): Promise<ServiceResponse<MediaResponse[]>> {
-    return this.createError('getUserMedia is not supported in V2 yet');
+  async getUserMedia(page: number, options?: { userId?: number; limit?: number; category?: string }): Promise<ServiceResponse<MediaResponse[]>> {
+    this.requireAuth();
+    try {
+      const query = new URLSearchParams({ page: page.toString() });
+      if (options?.limit) query.set('limit', options.limit.toString());
+      if (options?.category) query.set('category', options.category);
+      const response = await this.client.get<any>(`/v1/gallery/mine?${query}`);
+      return this.createSuccess(this.handle<MediaResponse[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch media:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  async getMediaUsage(): Promise<ServiceResponse<any>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.get<any>('/v1/gallery/usage');
+      return this.createSuccess(this.handle<any>(response), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch media usage:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async getNotificationsHistory(_page: number, _limit?: number, _category?: string, _detail?: string): Promise<ServiceResponse<Notification[]>> {
@@ -169,12 +190,32 @@ export class UserServiceV2 extends BaseService {
     return this.createError('rotateMedia is not supported in V2 yet');
   }
 
-  async deleteMedia(_mediaId: number): Promise<ServiceResponse<boolean>> {
-    return this.createError('deleteMedia is not supported in V2 yet');
+  async deleteMedia(mediaId: number): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.delete<any>(`/v1/gallery/items/${mediaId}`);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserServiceV2] Failed to delete media ${mediaId}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async uploadMedia(_files: File[], _category?: string): Promise<ServiceResponse<boolean>> {
-    return this.createError('uploadMedia is not supported in V2 yet');
+  /** category === 'public': dosya herkese açık olur */
+  async uploadMedia(files: File[], category?: string): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      files.forEach((file) => formData.append('files', file));
+      formData.append('is_public', String(category === 'public'));
+      const response = await this.client.post<any>('/v1/gallery/upload', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to upload media:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async getNotificationSettings(): Promise<ServiceResponse<NotificationSettings>> {

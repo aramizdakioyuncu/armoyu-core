@@ -46,4 +46,10 @@ export class ForumService extends BaseService {
   async getCategories(): Promise<ServiceResponse<ForumCategory[]>> {
     return this.version.getCategories();
   }
+
+  async createReply(topicId: string, content: string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('createReply is only available in V2')
+      : (this.version as ForumServiceV2).createReply(topicId, content);
+  }
 }

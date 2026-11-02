@@ -130,6 +130,12 @@ export class UserService extends BaseService {
     return this.version.rotateMedia(mediaId, degree);
   }
 
+  async getMediaUsage(): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('getMediaUsage is only available in V2')
+      : (this.version as UserServiceV2).getMediaUsage();
+  }
+
   async deleteMedia(mediaId: number): Promise<ServiceResponse<boolean>> {
     return this.version.deleteMedia(mediaId);
   }

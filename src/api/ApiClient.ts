@@ -2,7 +2,7 @@ import { ArmoyuLogger, ConsoleLogger } from './Logger';
 import { RequestInterceptor } from './RequestInterceptor';
 import { ResponseHandler } from './ResponseHandler';
 import { HttpMethod, ApiConfig, ApiVersion, SessionHandlers } from './types';
-import { AuthService, UserService, EventService, GroupService, GroupMemberService, SiteInformationService, ManagementService, RuleService, SchoolService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService, WorkplaceService } from '../services';
+import { AuthService, UserService, EventService, GroupService, GroupMemberService, SiteInformationService, ManagementService, RuleService, SchoolService, ChatService, SocialService, ProjectService, StoryService, PollService, BlockService, StationService, TeamService, StaffService, LocationService, PaymentService, BlogService, ShopService, ForumService, SupportService, SearchService, SocketService, MusicService, ReelsService, MediaService, EducationService, WorkplaceService, GiveawayService } from '../services';
 
 export { HttpMethod, ApiVersion };
 export type { ApiConfig, SessionHandlers };
@@ -36,6 +36,7 @@ export class ApiClient {
   public readonly reels: ReelsService;
   public readonly education: EducationService;
   public readonly workplaces: WorkplaceService;
+  public readonly giveaways: GiveawayService;
 
   constructor(config: ApiConfig) {
     this.config = config; 
@@ -60,6 +61,7 @@ export class ApiClient {
     this.reels = svc(ReelsService);
     this.education = svc(EducationService);
     this.workplaces = svc(WorkplaceService);
+    this.giveaways = svc(GiveawayService);
   }
 
   private canRefresh(endpoint: string): boolean {

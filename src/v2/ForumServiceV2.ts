@@ -1,6 +1,5 @@
 import { BaseService } from '../services/BaseService';
 import { ForumCategory, ForumTopic, ServiceResponse } from '../models';
-import { ForumMapper } from '../utils/mappers';
 import { CreateTopicParams } from '../services/ForumService';
 
 /**
@@ -21,9 +20,8 @@ export class ForumServiceV2 extends BaseService {
       if (options?.categoryId) query.set('categoryId', options.categoryId.toString());
 
       const response = await this.client.get<any>(`/v1/forum?${query}`);
-      const icerik = this.handle<any[]>(response);
-      const mapped = ForumMapper.mapTopicList(Array.isArray(icerik) ? icerik : []);
-      return this.createSuccess(mapped, response?.aciklama);
+      // Forum ekranları ham yanıtı kendi modeline çevirir; UUID'ler sayıya dönmesin
+      return this.createSuccess(this.handle<ForumTopic[]>(response) || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumServiceV2] Failed to fetch topics:', error.message);
       return this.createError(error.message);
@@ -32,10 +30,8 @@ export class ForumServiceV2 extends BaseService {
 
   async getTopicDetail(url: string): Promise<ServiceResponse<ForumTopic | null>> {
     try {
-      const response = await this.client.get<any>(`/v1/forum/${url}`);
-      const icerik = this.handle<any>(response);
-      const mapped = ForumMapper.mapTopic(icerik);
-      return this.createSuccess(mapped || null, response?.aciklama);
+      const response = await this.client.get<any>(`/v1/forum/${encodeURIComponent(url)}`);
+      return this.createSuccess(this.handle<ForumTopic>(response), response?.aciklama);
     } catch (error: any) {
       this.logger.error(`[ForumServiceV2] Failed to fetch topic detail for "${url}":`, error.message);
       return this.createError(error.message);
@@ -52,9 +48,7 @@ export class ForumServiceV2 extends BaseService {
         content: params.content,
         url: params.url
       });
-      const icerik = this.handle<any>(response);
-      const mapped = ForumMapper.mapTopic(icerik);
-      return this.createSuccess(mapped, response?.aciklama);
+      return this.createSuccess(this.handle<ForumTopic>(response), response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumServiceV2] Failed to create topic:', error.message);
       return this.createError(error.message);
@@ -73,12 +67,21 @@ export class ForumServiceV2 extends BaseService {
     }
   }
 
+  async createReply(topicId: string, content: string): Promise<ServiceResponse<any>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>(`/v1/forum/${topicId}/replies`, { content });
+      return this.createSuccess(this.handle<any>(response), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[ForumServiceV2] Failed to reply to ${topicId}:`, error.message);
+      return this.createError(error.message);
+    }
+  }
+
   async getCategories(): Promise<ServiceResponse<ForumCategory[]>> {
     try {
       const response = await this.client.get<any>('/v1/forum/categories');
-      const icerik = this.handle<any[]>(response);
-      const mapped = ForumMapper.mapCategoryList(Array.isArray(icerik) ? icerik : []);
-      return this.createSuccess(mapped, response?.aciklama);
+      return this.createSuccess(this.handle<ForumCategory[]>(response) || [], response?.aciklama);
     } catch (error: any) {
       this.logger.error('[ForumServiceV2] Failed to fetch categories:', error.message);
       return this.createError(error.message);

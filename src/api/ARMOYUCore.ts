@@ -100,6 +100,7 @@ export class ARMOYUCore {
   get media() { return this.client.media; }
   get education() { return this.client.education; }
   get workplaces() { return this.client.workplaces; }
+  get giveaways() { return this.client.giveaways; }
 
   setAuthToken(t: string | null) { this.client.setAuthToken(t); }
   setApiKey(k: string | null) { this.client.setApiKey(k); }
