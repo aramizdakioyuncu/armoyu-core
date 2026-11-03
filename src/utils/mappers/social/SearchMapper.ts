@@ -1,6 +1,8 @@
 import { GlobalSearchResultDTO, TagDTO, SearchResult, Tag, GlobalSearchRawResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
+const SEARCH_TYPES: Record<string, string> = { user: 'oyuncu', gruplar: 'grup', okullar: 'okul' };
+
 /**
  * Mapper for Global Search results.
  */
@@ -32,13 +34,14 @@ export class SearchMapper extends BaseMapper {
   static mapSearchResultV2(raw: any): SearchResult {
     if (!raw) return new SearchResult({ id: 0, type: 'unknown', title: '', image: '', url: '' } as GlobalSearchResultDTO);
     return new SearchResult({
-      id: this.toNumber(raw.deger),
-      type: raw.tip || 'user',
+      id: this.toId(raw.deger),
+      // Eski API'nin tür adları: arayüz oyuncu/grup/okul bekliyor
+      type: SEARCH_TYPES[raw.tip] || raw.tip || 'oyuncu',
       title: raw.baslik || '',
       displayName: raw.baslik || '',
-      username: '',
-      image: '',
-      url: ''
+      username: raw.username || '',
+      image: raw.image || '',
+      url: raw.url || ''
     });
   }
 

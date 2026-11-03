@@ -199,8 +199,19 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
-  async updateBackground(_file: File | File[]): Promise<ServiceResponse<boolean>> {
-    return this.createError('updateBackground is not supported in V2 yet');
+  /** Profil kapak fotoğrafı (V1'deki profil arka planı) */
+  async updateBackground(file: File | File[]): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const formData = new FormData();
+      formData.append('file', Array.isArray(file) ? file[0] : file);
+      const response = await this.client.post<any>('/v1/profile/banner', formData);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Banner upload failed:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async rotateMedia(_mediaId: number, _degree: number): Promise<ServiceResponse<boolean>> {
@@ -243,11 +254,26 @@ export class UserServiceV2 extends BaseService {
     return this.createError('updateNotificationSettings is not supported in V2 yet');
   }
 
-  async getXpRankings(_page: number, _limit?: number): Promise<ServiceResponse<RankingUser[]>> {
-    return this.createError('getXpRankings is not supported in V2 yet');
+  async getXpRankings(page: number, limit: number = 10): Promise<ServiceResponse<RankingUser[]>> {
+    return this.getRankings('level', page, limit);
   }
 
-  async getPopRankings(_page: number, _limit?: number): Promise<ServiceResponse<RankingUser[]>> {
-    return this.createError('getPopRankings is not supported in V2 yet');
+  async getPopRankings(page: number, limit: number = 10): Promise<ServiceResponse<RankingUser[]>> {
+    return this.getRankings('popularity', page, limit);
+  }
+
+  private async getRankings(type: 'level' | 'popularity', page: number, limit: number): Promise<ServiceResponse<RankingUser[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/profile/rankings/${type}?page=${page}&limit=${limit}`);
+      const list = this.handle<any[]>(response) || [];
+      return this.createSuccess(
+        // id UUID'dir; RankingUser tipi eski sayısal kimliği bekliyor
+        list.map((raw, i) => new RankingUser({ ...raw, rank: (page - 1) * limit + i + 1, id: raw.id as any })),
+        response?.aciklama,
+      );
+    } catch (error: any) {
+      this.logger.error(`[UserServiceV2] Failed to fetch ${type} rankings:`, error.message);
+      return this.createError(error.message);
+    }
   }
 }

@@ -18,8 +18,9 @@ export class SearchServiceV2 extends BaseService {
     }
   }
 
-  async globalSearch(_query: string, _page?: number, _limit?: number, _category?: SearchCategory, _categoryDetail?: string): Promise<ServiceResponse<SearchResult[]>> {
-    return this.createError('globalSearch is not supported in V2 — use search() instead');
+  async globalSearch(query: string, page: number = 1, limit: number = 20, _category?: SearchCategory, _categoryDetail?: string): Promise<ServiceResponse<SearchResult[]>> {
+    // shortcut: kategori filtresi V2'ye çevrilmiyor, tüm kategoriler aranır; kategorili arama gerekince eşlenecek
+    return this.search(query, page, { limit });
   }
 
   async searchTags(_page?: number, _options?: { tag?: string; limit?: number }): Promise<ServiceResponse<Tag[]>> {
