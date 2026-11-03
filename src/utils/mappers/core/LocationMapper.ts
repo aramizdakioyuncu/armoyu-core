@@ -32,7 +32,7 @@ export class LocationMapper extends BaseMapper {
     if (!raw) return new Country({} as CountryDTO);
 
     return new Country({
-      id: this.toNumber(raw.country_ID || raw.ulkeID || raw.ID),
+      id: this.toId(raw.country_ID || raw.ulkeID || raw.ID),
       name: raw.country_name || raw.ulkeadi || raw.baslik || raw.ad || '',
       code: raw.country_code || raw.code || '',
       phoneCode: this.toNumber(raw.country_phoneCode || raw.phoneCode)

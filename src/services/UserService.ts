@@ -130,6 +130,12 @@ export class UserService extends BaseService {
     return this.version.rotateMedia(mediaId, degree);
   }
 
+  async getPrivatePersonalInfo(): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('getPrivatePersonalInfo is only available in V2')
+      : (this.version as UserServiceV2).getPrivatePersonalInfo();
+  }
+
   async getMediaUsage(): Promise<ServiceResponse<any>> {
     return this.usePreviousVersion
       ? this.createError('getMediaUsage is only available in V2')

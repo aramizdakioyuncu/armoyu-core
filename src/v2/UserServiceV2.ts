@@ -43,6 +43,17 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
+  async getPrivatePersonalInfo(): Promise<ServiceResponse<any>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.get<any>('/v1/profile/ozelbilgiler');
+      return this.createSuccess(this.handle<any>(response), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch personal info:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
   async getFriendsList(_page: number, _options?: { userId?: number; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
     return this.createError('getFriendsList is not supported in V2 yet');
   }
