@@ -17,8 +17,14 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
-  async getUserByUsername(_username: string): Promise<ServiceResponse<User>> {
-    return this.createError('getUserByUsername is not supported in V2 yet');
+  async getUserByUsername(username: string): Promise<ServiceResponse<User>> {
+    try {
+      const response = await this.client.get<any>(`/v1/profile/by-username/${encodeURIComponent(username)}`);
+      return this.createSuccess(UserMapper.mapProfile(this.handle<any>(response)), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserServiceV2] Failed to fetch profile ${username}:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
   async updateSpecialPersonalInfo(data: UpdatePersonalInfoParams): Promise<ServiceResponse<boolean>> {
