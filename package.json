@@ -1,6 +1,6 @@
 {
   "name": "@armoyu/core",
-  "version": "1.1.66",
+  "version": "1.2.0",
   "description": "Core business logic, models, and services for ARMOYU platforms.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -51,12 +51,11 @@
     "test:event:list": "npx tsx --env-file=.env tests/event/list.test.ts",
     "test:event:detail": "npx tsx --env-file=.env tests/event/detail.test.ts",
     "test:event:participants": "npx tsx --env-file=.env tests/event/participants.test.ts",
-    "test:poll": "npx tsx --env-file=.env tests/services/poll.test.ts",
+    "test:poll": "npx tsx --env-file=.env tests/poll/surveys.test.ts",
     "test:support": "npx tsx --env-file=.env tests/services/support.test.ts",
     "test:staff": "npx tsx --env-file=.env tests/services/staff.test.ts",
     "test:rule": "npx tsx --env-file=.env tests/services/rule.test.ts",
     "test:payment": "npx tsx --env-file=.env tests/payment/invoices.test.ts",
-    "test:poll": "npx tsx --env-file=.env tests/poll/surveys.test.ts",
     "test:project": "npx tsx --env-file=.env tests/project/projects.test.ts",
     "test:reels": "npx tsx --env-file=.env tests/reels/reels.test.ts",
     "test:social:posts": "npx tsx --env-file=.env tests/social/posts.test.ts",
@@ -76,7 +75,8 @@
     "test:story": "npx tsx --env-file=.env tests/story/story.test.ts",
     "test:team": "npx tsx --env-file=.env tests/services/team.test.ts",
     "test:api": "npm run test:auth && npm run test:user && npm run test:community && npm run test:social && npm run test:blog && npm run test:chat && npm run test:block && npm run test:poll && npm run test:support && npm run test:staff && npm run test:rule && npm run test:location && npm run test:story && npm run test:team",
-    "test:debug": "npx tsx --env-file=.env tests/debug-filtering.test.ts"
+    "test:debug": "npx tsx --env-file=.env tests/debug-filtering.test.ts",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "build": "^0.1.4",
