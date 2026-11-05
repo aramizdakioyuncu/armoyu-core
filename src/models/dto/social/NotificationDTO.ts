@@ -11,4 +11,7 @@ export interface NotificationDTO {
   content: string;
   date: string;
   isRead: boolean;
+  /** Yeni API: başlık ve tıklanınca gidilecek site içi adres */
+  title?: string;
+  url?: string;
 }

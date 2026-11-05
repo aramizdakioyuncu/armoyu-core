@@ -223,8 +223,30 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
-  async getNotificationsHistory(_page: number, _limit?: number, _category?: string, _detail?: string): Promise<ServiceResponse<Notification[]>> {
-    return this.createError('getNotificationsHistory is not supported in V2 yet');
+  /** Bildirim geçmişi (sayfalı); ilk sayfada bekleyen arkadaşlık istekleri de var */
+  async getNotificationsHistory(page: number, limit: number = 20, _category?: string, _detail?: string): Promise<ServiceResponse<Notification[]>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.get<any>(`/v1/notification/inbox?page=${page}&limit=${limit}`);
+      const list = this.handle<any[]>(response) || [];
+      return this.createSuccess(list.map((n) => new Notification(n)), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch notification history:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  /** ids verilmezse hepsi okundu olur */
+  async markNotificationsRead(ids?: (string | number)[]): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.post<any>('/v1/notification/read', ids?.length ? { ids } : {});
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to mark notifications read:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   /** Profil soru-cevap (Phatsa Sorular): sahibi bekleyenler dahil hepsini, başkası yayınlanmış cevapları görür */
@@ -262,17 +284,9 @@ export class UserServiceV2 extends BaseService {
     return this.questionRequest('delete', `/${encodeURIComponent(questionId)}`);
   }
 
-  /** Bildirim zili; şimdilik bekleyen arkadaşlık istekleri (type: friend_request, sender.id = isteği gönderen) */
+  /** Bildirim zili: son 20 (bekleyen arkadaşlık istekleri type: friend_request, sender.id = isteği gönderen) */
   async getNotifications(): Promise<ServiceResponse<Notification[]>> {
-    this.requireAuth();
-    try {
-      const response = await this.client.get<any>('/v1/notification/inbox');
-      const list = this.handle<any[]>(response) || [];
-      return this.createSuccess(list.map((n) => new Notification(n)), response?.aciklama);
-    } catch (error: any) {
-      this.logger.error('[UserServiceV2] Failed to fetch notifications:', error.message);
-      return this.createError(error.message);
-    }
+    return this.getNotificationsHistory(1, 20);
   }
 
   async updateAvatar(file: File | File[]): Promise<ServiceResponse<boolean>> {

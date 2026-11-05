@@ -7,6 +7,8 @@ export class Notification implements NotificationDTO {
   content: string;
   date: string;
   isRead: boolean;
+  title?: string;
+  url?: string;
 
   constructor(data: NotificationDTO) {
     this.id = data.id;
@@ -15,6 +17,8 @@ export class Notification implements NotificationDTO {
     this.content = data.content;
     this.date = data.date;
     this.isRead = data.isRead;
+    this.title = data.title;
+    this.url = data.url;
   }
 
   /**

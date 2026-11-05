@@ -160,6 +160,12 @@ export class UserService extends BaseService {
       : (this.version as UserServiceV2).getPrivatePersonalInfo();
   }
 
+  async markNotificationsRead(ids?: (string | number)[]): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('markNotificationsRead is only available in V2')
+      : (this.version as UserServiceV2).markNotificationsRead(ids);
+  }
+
   async getTeams(): Promise<ServiceResponse<any>> {
     return this.usePreviousVersion
       ? this.createError('getTeams is only available in V2')
