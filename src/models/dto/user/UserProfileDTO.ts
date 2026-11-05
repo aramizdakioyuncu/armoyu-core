@@ -20,7 +20,7 @@ export interface UserRankDTO {
 }
 
 export interface UserFavoriteTeamDTO {
-  id?: number;
+  id?: number | string;
   name?: string;
   logo?: string;
 }
@@ -63,6 +63,8 @@ export interface UserProfileDTO {
   lastLogin?: string;
   registeredDate?: string;
   mutualFriendsCount?: number;
+  /** Görüntüleyenle ilişki: 0 yok, 1 arkadaş, 2 istek gönderilmiş, 3 gelen istek */
+  friendshipStatus?: number;
   job?: {
     name: string;
     shortName: string;
@@ -78,6 +80,10 @@ export interface UserProfileDTO {
   rank: UserRankDTO;
   socials: UserSocialsDTO;
   favoriteTeam?: UserFavoriteTeamDTO;
+  /** Ruh eşi (yalnızca arkadaş seçilebilir) */
+  soulmate?: { id: string; username: string; displayName: string; avatar: string } | null;
+  /** Eğitim bilgisi (Profiller 1.6.0) */
+  education?: { id: string; schoolName: string; kind: string; department: string; startYear: number | null; endYear: number | null }[];
   popularGames: UserGameDTO[];
   mutualFriends?: any[];
 }

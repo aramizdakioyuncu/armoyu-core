@@ -60,7 +60,7 @@ export class UserServiceV1 extends BaseService {
     }
   }
 
-  async getFriendsList(page: number, options?: { userId?: number; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
+  async getFriendsList(page: number, options?: { userId?: number | string; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
     try {
       const formData = new FormData();
       formData.append('sayfa', page.toString());
@@ -76,7 +76,7 @@ export class UserServiceV1 extends BaseService {
     }
   }
 
-  async addFriend(userId: number): Promise<ServiceResponse<boolean>> {
+  async addFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -92,7 +92,7 @@ export class UserServiceV1 extends BaseService {
     }
   }
 
-  async removeFriend(userId: number): Promise<ServiceResponse<boolean>> {
+  async removeFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -108,7 +108,7 @@ export class UserServiceV1 extends BaseService {
     }
   }
 
-  async respondToFriendRequest(userId: number, answer: number): Promise<ServiceResponse<boolean>> {
+  async respondToFriendRequest(userId: number | string, answer: number): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();

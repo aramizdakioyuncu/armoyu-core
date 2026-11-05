@@ -9,7 +9,7 @@ export class ChatServiceV1 extends BaseService {
   /**
    * Sends a chat message to a user or group (V1).
    */
-  async sendMessage(userId: number, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
+  async sendMessage(userId: number | string, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -29,7 +29,7 @@ export class ChatServiceV1 extends BaseService {
   /**
    * Fetches the chat history with a specific user (V1).
    */
-  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<Message[]>> {
+  async getChatHistory(page: number, params: { userId: number | string, limit?: number }): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();
@@ -93,7 +93,7 @@ export class ChatServiceV1 extends BaseService {
   /**
    * Fetches messages for a specific chat (V1).
    */
-  async getChatDetail(chatId: number, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
+  async getChatDetail(chatId: number | string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const formData = new FormData();

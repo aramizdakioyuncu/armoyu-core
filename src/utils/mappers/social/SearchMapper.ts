@@ -1,7 +1,7 @@
 import { GlobalSearchResultDTO, TagDTO, SearchResult, Tag, GlobalSearchRawResponse } from '../../../models';
 import { BaseMapper } from '../BaseMapper';
 
-const SEARCH_TYPES: Record<string, string> = { user: 'oyuncu', gruplar: 'grup', okullar: 'okul' };
+const SEARCH_TYPES: Record<string, string> = { user: 'oyuncu', gruplar: 'grup', okullar: 'okul', isyerleri: 'isyeri' };
 
 /**
  * Mapper for Global Search results.

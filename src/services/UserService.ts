@@ -34,19 +34,19 @@ export class UserService extends BaseService {
     return this.version.updateSpecialPersonalInfo(data);
   }
 
-  async getFriendsList(page: number, options?: { userId?: number; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
+  async getFriendsList(page: number, options?: { userId?: number | string; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
     return this.version.getFriendsList(page, options);
   }
 
-  async addFriend(userId: number): Promise<ServiceResponse<boolean>> {
+  async addFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
     return this.version.addFriend(userId);
   }
 
-  async removeFriend(userId: number): Promise<ServiceResponse<boolean>> {
+  async removeFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
     return this.version.removeFriend(userId);
   }
 
-  async respondToFriendRequest(userId: number, answer: number): Promise<ServiceResponse<boolean>> {
+  async respondToFriendRequest(userId: number | string, answer: number): Promise<ServiceResponse<boolean>> {
     return this.version.respondToFriendRequest(userId, answer);
   }
 
@@ -130,10 +130,70 @@ export class UserService extends BaseService {
     return this.version.rotateMedia(mediaId, degree);
   }
 
+  async getQuestions(userId: number | string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('getQuestions is only available in V2')
+      : (this.version as UserServiceV2).getQuestions(userId);
+  }
+
+  async askQuestion(userId: number | string, body: string, isAnonymous: boolean = true): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('askQuestion is only available in V2')
+      : (this.version as UserServiceV2).askQuestion(userId, body, isAnonymous);
+  }
+
+  async answerQuestion(questionId: string, answer: string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('answerQuestion is only available in V2')
+      : (this.version as UserServiceV2).answerQuestion(questionId, answer);
+  }
+
+  async deleteQuestion(questionId: string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('deleteQuestion is only available in V2')
+      : (this.version as UserServiceV2).deleteQuestion(questionId);
+  }
+
   async getPrivatePersonalInfo(): Promise<ServiceResponse<any>> {
     return this.usePreviousVersion
       ? this.createError('getPrivatePersonalInfo is only available in V2')
       : (this.version as UserServiceV2).getPrivatePersonalInfo();
+  }
+
+  async getTeams(): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('getTeams is only available in V2')
+      : (this.version as UserServiceV2).getTeams();
+  }
+
+  async updateProfileChoices(choices: { favoriteTeamId?: string | null; soulmateUserId?: string | null; bio?: string | null }): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('updateProfileChoices is only available in V2')
+      : (this.version as UserServiceV2).updateProfileChoices(choices);
+  }
+
+  async addEducation(education: { schoolName: string; kind?: string; department?: string; startYear?: number; endYear?: number }): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('addEducation is only available in V2')
+      : (this.version as UserServiceV2).addEducation(education);
+  }
+
+  async removeEducation(educationId: string): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('removeEducation is only available in V2')
+      : (this.version as UserServiceV2).removeEducation(educationId);
+  }
+
+  async getShowcase(userId: number | string, page: number = 1, limit: number = 24): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('getShowcase is only available in V2')
+      : (this.version as UserServiceV2).getShowcase(userId, page, limit);
+  }
+
+  async setShowcase(mediaId: string, show: boolean): Promise<ServiceResponse<any>> {
+    return this.usePreviousVersion
+      ? this.createError('setShowcase is only available in V2')
+      : (this.version as UserServiceV2).setShowcase(mediaId, show);
   }
 
   async getMediaUsage(): Promise<ServiceResponse<any>> {

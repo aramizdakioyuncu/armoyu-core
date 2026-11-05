@@ -41,7 +41,7 @@ export class GroupServiceV1 extends BaseService {
     }
   }
 
-  async getUserGroups(userId?: number): Promise<ServiceResponse<Group[]>> {
+  async getUserGroups(userId?: number | string): Promise<ServiceResponse<Group[]>> {
     try {
       const formData = new FormData();
       if (userId) formData.append('oyuncubakid', userId.toString());

@@ -20,7 +20,7 @@ export class ChatServiceV2 extends BaseService {
    * Fetches the chat history with a specific user (V2).
    * GET /v1/chat?you={userId}&page={page}&limit={limit}
    */
-  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<Message[]>> {
+  async getChatHistory(page: number, params: { userId: number | string, limit?: number }): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const query = new URLSearchParams({ you: params.userId.toString(), page: page.toString() });
@@ -39,7 +39,7 @@ export class ChatServiceV2 extends BaseService {
   /**
    * Sends a chat message to a user or group (V2).
    */
-  async sendMessage(userId: number, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
+  async sendMessage(userId: number | string, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const response = await this.client.post<any>('/v1/chat/send-message', {
@@ -97,7 +97,7 @@ export class ChatServiceV2 extends BaseService {
   /**
    * Fetches messages for a specific chat room (V2).
    */
-  async getChatDetail(chatId: number, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
+  async getChatDetail(chatId: number | string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
     this.requireAuth();
     try {
       const query = new URLSearchParams({ type });

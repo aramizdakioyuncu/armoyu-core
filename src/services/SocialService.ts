@@ -31,7 +31,7 @@ export class SocialService extends BaseService {
     return this.version.getComments(postId);
   }
 
-  async createPost(content: string, mediaIds?: number[], location?: string): Promise<ServiceResponse<boolean>> {
+  async createPost(content: string, mediaIds?: (number | string)[], location?: string): Promise<ServiceResponse<boolean>> {
     return this.version.createPost(content, mediaIds, location);
   }
 

@@ -48,7 +48,7 @@ export class GroupService extends BaseService {
       : (this.version as GroupServiceV2).getCategories();
   }
 
-  async getUserGroups(userId?: number): Promise<ServiceResponse<Group[]>> {
+  async getUserGroups(userId?: number | string): Promise<ServiceResponse<Group[]>> {
     return this.version.getUserGroups(userId);
   }
 

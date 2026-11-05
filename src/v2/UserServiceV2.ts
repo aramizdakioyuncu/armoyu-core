@@ -60,20 +60,43 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
-  async getFriendsList(_page: number, _options?: { userId?: number; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
-    return this.createError('getFriendsList is not supported in V2 yet');
+  /** Yalnızca kendi arkadaş listesi döner; başkasınınki boş (eklenti satır kuralı) */
+  async getFriendsList(page: number, options?: { userId?: number | string; limit?: number }): Promise<ServiceResponse<RankingUser[]>> {
+    this.requireAuth();
+    try {
+      const query = new URLSearchParams({ page: String(page), limit: String(options?.limit ?? 20) });
+      if (options?.userId) query.set('userId', String(options.userId));
+      const response = await this.client.get<any>(`/v1/profile/friends?${query}`);
+      return this.createSuccess(this.handle<any[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch friends:', error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async addFriend(_userId: number): Promise<ServiceResponse<boolean>> {
-    return this.createError('addFriend is not supported in V2 yet');
+  private async friendRequest(method: 'post' | 'put' | 'delete', body: Record<string, unknown>, label: string): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client[method]<any>('/v1/profile/friends', body);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error(`[UserServiceV2] ${label} failed:`, error.message);
+      return this.createError(error.message);
+    }
   }
 
-  async removeFriend(_userId: number): Promise<ServiceResponse<boolean>> {
-    return this.createError('removeFriend is not supported in V2 yet');
+  async addFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
+    return this.friendRequest('post', { userid: userId }, 'Friend request');
   }
 
-  async respondToFriendRequest(_userId: number, _answer: number): Promise<ServiceResponse<boolean>> {
-    return this.createError('respondToFriendRequest is not supported in V2 yet');
+  async removeFriend(userId: number | string): Promise<ServiceResponse<boolean>> {
+    return this.friendRequest('delete', { userid: userId }, 'Friend removal');
+  }
+
+  /** answer: 1 kabul, 0 ret */
+  async respondToFriendRequest(userId: number | string, answer: number): Promise<ServiceResponse<boolean>> {
+    return this.friendRequest('put', { userid: userId, answer }, 'Friend response');
   }
 
   async getUserSchools(_userId?: number): Promise<ServiceResponse<School[]>> {
@@ -130,6 +153,65 @@ export class UserServiceV2 extends BaseService {
     }
   }
 
+  /** Favori takım kataloğu (panelden yönetilir) */
+  async getTeams(): Promise<ServiceResponse<any[]>> {
+    try {
+      const response = await this.client.get<any>('/v1/profile/teams');
+      return this.createSuccess(this.handle<any[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch teams:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  private async profileWrite(method: 'post' | 'put' | 'delete', path: string, body?: Record<string, unknown>): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client[method]<any>(`/v1/profile${path}`, body);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Profile update failed:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  /** favoriteTeamId / soulmateUserId; null kaldırır, verilmeyen değişmez */
+  async updateProfileChoices(choices: { favoriteTeamId?: string | null; soulmateUserId?: string | null; bio?: string | null }): Promise<ServiceResponse<boolean>> {
+    return this.profileWrite('put', '/secimler', choices);
+  }
+
+  async addEducation(education: { schoolName: string; kind?: string; department?: string; startYear?: number; endYear?: number }): Promise<ServiceResponse<boolean>> {
+    return this.profileWrite('post', '/education', education);
+  }
+
+  async removeEducation(educationId: string): Promise<ServiceResponse<boolean>> {
+    return this.profileWrite('delete', `/education/${encodeURIComponent(educationId)}`);
+  }
+
+  /** Profil vitrini (Medya): kişinin vitrine koyduğu Bulut dosyaları */
+  async getShowcase(userId: number | string, page: number = 1, limit: number = 24): Promise<ServiceResponse<MediaResponse[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/gallery/showcase/${encodeURIComponent(String(userId))}?page=${page}&limit=${limit}`);
+      return this.createSuccess(this.handle<MediaResponse[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch showcase:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  async setShowcase(mediaId: string, show: boolean): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client.put<any>(`/v1/gallery/items/${encodeURIComponent(mediaId)}/showcase`, { show });
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to update showcase:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
   async getMediaUsage(): Promise<ServiceResponse<any>> {
     this.requireAuth();
     try {
@@ -145,8 +227,52 @@ export class UserServiceV2 extends BaseService {
     return this.createError('getNotificationsHistory is not supported in V2 yet');
   }
 
+  /** Profil soru-cevap (Phatsa Sorular): sahibi bekleyenler dahil hepsini, başkası yayınlanmış cevapları görür */
+  async getQuestions(userId: number | string): Promise<ServiceResponse<any[]>> {
+    try {
+      const response = await this.client.get<any>(`/v1/profile/questions/${encodeURIComponent(String(userId))}`);
+      return this.createSuccess(this.handle<any[]>(response) || [], response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch questions:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  private async questionRequest(method: 'post' | 'put' | 'delete', path: string, body?: Record<string, unknown>): Promise<ServiceResponse<boolean>> {
+    this.requireAuth();
+    try {
+      const response = await this.client[method]<any>(`/v1/profile/questions${path}`, body);
+      this.handle(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Question request failed:', error.message);
+      return this.createError(error.message);
+    }
+  }
+
+  async askQuestion(userId: number | string, body: string, isAnonymous: boolean = true): Promise<ServiceResponse<boolean>> {
+    return this.questionRequest('post', '', { receiverId: userId, body, isAnonymous });
+  }
+
+  async answerQuestion(questionId: string, answer: string): Promise<ServiceResponse<boolean>> {
+    return this.questionRequest('put', `/${encodeURIComponent(questionId)}`, { answer });
+  }
+
+  async deleteQuestion(questionId: string): Promise<ServiceResponse<boolean>> {
+    return this.questionRequest('delete', `/${encodeURIComponent(questionId)}`);
+  }
+
+  /** Bildirim zili; şimdilik bekleyen arkadaşlık istekleri (type: friend_request, sender.id = isteği gönderen) */
   async getNotifications(): Promise<ServiceResponse<Notification[]>> {
-    return this.createError('getNotifications is not supported in V2 yet');
+    this.requireAuth();
+    try {
+      const response = await this.client.get<any>('/v1/notification/inbox');
+      const list = this.handle<any[]>(response) || [];
+      return this.createSuccess(list.map((n) => new Notification(n)), response?.aciklama);
+    } catch (error: any) {
+      this.logger.error('[UserServiceV2] Failed to fetch notifications:', error.message);
+      return this.createError(error.message);
+    }
   }
 
   async updateAvatar(file: File | File[]): Promise<ServiceResponse<boolean>> {

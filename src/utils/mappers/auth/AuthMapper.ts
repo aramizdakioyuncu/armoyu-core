@@ -51,7 +51,8 @@ export class AuthMapper extends BaseMapper {
     const socials = raw.socailAccounts || raw.socials || {};
 
     return {
-      id: this.toNumber(raw.playerID || raw.ID || raw.oyuncuID),
+      // Yeni API kimliği id alanında ve UUID olarak verir; sayıya çevrilmez
+      id: this.toId(raw.playerID || raw.ID || raw.oyuncuID || raw.id),
       username: raw.username || raw.kullaniciadi || '',
       displayName: raw.adsoyad || raw.displayName || raw.adisoyadi || '',
       firstName: raw.firstName || '',

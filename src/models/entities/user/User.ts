@@ -28,6 +28,7 @@ export class User {
   lastLogin?: string;
   registeredDate?: string;
   mutualFriendsCount?: number;
+  friendshipStatus?: number;
   job?: {
     name: string;
     shortName: string;
@@ -43,6 +44,8 @@ export class User {
   rank: any;
   socials: UserSocialsDTO;
   favoriteTeam?: any;
+  soulmate?: UserProfileDTO['soulmate'];
+  education?: UserProfileDTO['education'];
   popularGames: any[];
   mutualFriends?: any[];
 
@@ -74,11 +77,14 @@ export class User {
     this.lastLogin = data.lastLogin;
     this.registeredDate = data.registeredDate;
     this.mutualFriendsCount = data.mutualFriendsCount;
+    this.friendshipStatus = data.friendshipStatus;
     this.job = data.job;
     this.stats = data.stats;
     this.rank = data.rank;
     this.socials = data.socials;
     this.favoriteTeam = data.favoriteTeam;
+    this.soulmate = data.soulmate;
+    this.education = data.education;
     this.popularGames = data.popularGames;
     this.mutualFriends = data.mutualFriends;
   }
@@ -144,11 +150,14 @@ export class User {
       lastLogin: this.lastLogin,
       registeredDate: this.registeredDate,
       mutualFriendsCount: this.mutualFriendsCount,
+      friendshipStatus: this.friendshipStatus,
       job: this.job,
       stats: this.stats,
       rank: this.rank,
       socials: this.socials,
       favoriteTeam: this.favoriteTeam,
+      soulmate: this.soulmate,
+      education: this.education,
       popularGames: this.popularGames,
       mutualFriends: this.mutualFriends
     };

@@ -73,7 +73,7 @@ export class SocialServiceV1 extends BaseService {
     }
   }
 
-  async createPost(content: string, mediaIds?: number[], _location?: string): Promise<ServiceResponse<boolean>> {
+  async createPost(content: string, mediaIds?: (number | string)[], _location?: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const formData = new FormData();

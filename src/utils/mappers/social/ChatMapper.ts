@@ -13,7 +13,7 @@ export class ChatMapper extends BaseMapper {
     if (!raw) return new Conversation({} as ConversationDTO);
 
     return new Conversation({
-      id: this.toNumber(raw.kullid),
+      id: this.toId(raw.kullid),
       username: raw.kulladi || '',
       displayName: raw.adisoyadi || '',
       lastMessage: raw.sonmesaj || '',

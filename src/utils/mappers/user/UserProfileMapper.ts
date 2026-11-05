@@ -33,7 +33,7 @@ export class UserProfileMapper extends BaseMapper {
       levelColor: raw.levelColor || '',
       points: this.toNumber(raw.points || raw.para),
       gender: raw.cinsiyet || '',
-      location: detail.province?.province_name || '',
+      location: detail.province?.province_name || detail.location || '',
       province: detail.province?.province_name || '',
       country: detail.country?.country_name || '',
       status: detail.about || '',
@@ -45,6 +45,7 @@ export class UserProfileMapper extends BaseMapper {
       lastLogin: detail.lastloginDateV2 || '',
       registeredDate: detail.kayit_tarihi || raw.registeredDate || '',
       mutualFriendsCount: this.toNumber(raw.ortakarkadaslar),
+      friendshipStatus: raw.arkadasdurum !== undefined ? this.toNumber(raw.arkadasdurum) : undefined,
       job: {
         name: raw.job?.job_name || '',
         shortName: raw.job?.job_shortName || ''
@@ -65,11 +66,14 @@ export class UserProfileMapper extends BaseMapper {
         logo: this.toImageUrl(rank.roleLogo) || ''
       },
       socials: this.mapSocials(raw.socailAccounts || raw.sosyalmedya),
-      favoriteTeam: {
-        id: this.toNumber(favTeam.team_ID),
-        name: favTeam.team_name || '',
-        logo: this.toImageUrl(favTeam.team_logo) || ''
-      },
+      // Takım seçilmemişse boş nesne değil undefined (arayüz "seçilmiş" sanmasın); yeni API favoriteTeam { id, name, logo } verir
+      favoriteTeam: raw.favoriteTeam
+        ? { id: raw.favoriteTeam.id, name: raw.favoriteTeam.name || '', logo: raw.favoriteTeam.logo || '' }
+        : (favTeam.team_ID || favTeam.team_name)
+          ? { id: this.toNumber(favTeam.team_ID), name: favTeam.team_name || '', logo: this.toImageUrl(favTeam.team_logo) || '' }
+          : undefined,
+      soulmate: raw.soulmate ?? null,
+      education: Array.isArray(raw.education) ? raw.education : [],
       popularGames: this.mapGames(raw.popularGames),
       mutualFriends: Array.isArray(raw.ortakarkadasliste) ? raw.ortakarkadasliste.map((f: any) => ({
         id: this.toNumber(f.oyuncuID || f.id),

@@ -22,14 +22,14 @@ export class ChatService extends BaseService {
   /**
    * Sends a chat message to a user or group.
    */
-  async sendMessage(userId: number, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
+  async sendMessage(userId: number | string, content: string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<boolean>> {
     return this.version.sendMessage(userId, content, type);
   }
 
   /**
    * Fetches the chat history with a specific user.
    */
-  async getChatHistory(page: number, params: { userId: number, limit?: number }): Promise<ServiceResponse<Message[]>> {
+  async getChatHistory(page: number, params: { userId: number | string, limit?: number }): Promise<ServiceResponse<Message[]>> {
     return this.version.getChatHistory(page, params);
   }
 
@@ -50,7 +50,7 @@ export class ChatService extends BaseService {
   /**
    * Fetches messages for a specific chat.
    */
-  async getChatDetail(chatId: number, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
+  async getChatDetail(chatId: number | string, type: ChatType = ChatType.PRIVATE): Promise<ServiceResponse<Message[]>> {
     return this.version.getChatDetail(chatId, type);
   }
 

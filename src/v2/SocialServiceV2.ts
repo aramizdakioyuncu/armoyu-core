@@ -7,7 +7,12 @@ export class SocialServiceV2 extends BaseService {
   async getPosts(page: number = 1, limit: number = 20, options?: GetPostsOptions): Promise<ServiceResponse<Post[]>> {
     this.requireAuth();
     try {
-      const userQuery = options?.userId ? `&userId=${options.userId}` : '';
+      // Profil sekmeleri kullanıcı adıyla ister; filter=etiketlenmis kişinin etiketlendiği paylaşımlar
+      const query = new URLSearchParams();
+      if (options?.userId) query.set('userId', String(options.userId));
+      if (options?.username) query.set('username', options.username);
+      if (options?.filter) query.set('filter', options.filter);
+      const userQuery = query.toString() ? `&${query}` : '';
       const response = await this.client.get<any>(`/v1/social?page=${page}&limit=${limit}${userQuery}`);
       const data = this.handle<any[]>(response);
       return this.createSuccess(PostMapper.mapFeedListV2(data || []), response?.aciklama);
@@ -44,7 +49,7 @@ export class SocialServiceV2 extends BaseService {
     }
   }
 
-  async createPost(content: string, mediaIds?: number[], location?: string): Promise<ServiceResponse<boolean>> {
+  async createPost(content: string, mediaIds?: (number | string)[], location?: string): Promise<ServiceResponse<boolean>> {
     this.requireAuth();
     try {
       const body: any = {

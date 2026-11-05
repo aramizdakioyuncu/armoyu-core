@@ -71,10 +71,11 @@ export class GroupServiceV2 extends BaseService {
     }
   }
 
-  async getUserGroups(_userId?: number): Promise<ServiceResponse<Group[]>> {
-    this.requireAuth();
+  /** userId verilirse o kişinin grupları; yoksa giriş yapanınki */
+  async getUserGroups(userId?: number | string): Promise<ServiceResponse<Group[]>> {
+    if (!userId) this.requireAuth();
     try {
-      const response = await this.client.get<any>('/v1/group/my');
+      const response = await this.client.get<any>(userId ? `/v1/group/my?userId=${encodeURIComponent(String(userId))}` : '/v1/group/my');
       const icerik = this.handle<any[]>(response);
       return this.createSuccess(GroupMapper.mapGroupList(icerik || []), response?.aciklama);
     } catch (error: any) {
