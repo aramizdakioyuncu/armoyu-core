@@ -25,7 +25,8 @@ export class PollMapper extends BaseMapper {
       options: Array.isArray(raw.survey_options) ? raw.survey_options.map((opt: any) => ({
         id: this.toNumber(opt.option_ID),
         answer: opt.option_answer,
-        votingPercentage: opt.option_votingPercentage
+        votingPercentage: opt.option_votingPercentage,
+        votes: this.toNumber(opt.option_votes)
       })) : [],
       owner: raw.survey_owner ? {
         id: this.toNumber(raw.survey_owner.owner_ID),
