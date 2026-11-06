@@ -38,7 +38,9 @@ export class UserServiceV2 extends BaseService {
         phoneNumber: data.phoneNumber || '',
         countryID: data.countryID ?? '',
         provinceID: data.provinceID ?? '',
-        passwordControl: data.passwordControl
+        passwordControl: data.passwordControl,
+        // Gönderilmezse backend cinsiyete dokunmaz
+        ...(data.gender !== undefined ? { gender: data.gender } : {})
       };
       const response = await this.client.put<any>('/v1/profile/ozelbilgiler', body);
       this.handle(response);

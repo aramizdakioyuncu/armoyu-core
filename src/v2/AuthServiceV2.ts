@@ -68,6 +68,39 @@ export class AuthServiceV2 extends BaseService {
     }
   }
 
+  /** E-posta doğrulandı mı (oturum gerekir) */
+  async emailVerification(): Promise<ServiceResponse<{ verified: boolean; email: string | null }>> {
+    try {
+      const response = await this.client.get<any>('/v1/auth/email-verification');
+      const icerik = this.handle<any>(response);
+      return this.createSuccess({ verified: !!icerik?.verified, email: icerik?.email ?? null }, response?.aciklama);
+    } catch (error: any) {
+      return this.createError(error.message);
+    }
+  }
+
+  /** Doğrulama bağlantısını yeniden gönderir (oturum gerekir) */
+  async resendVerification(): Promise<ServiceResponse<boolean>> {
+    try {
+      const response = await this.client.post<any>('/v1/auth/resend-verification', {});
+      this.handle<any>(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      return this.createError(error.message);
+    }
+  }
+
+  /** E-postadaki bağlantının token'ıyla doğrular */
+  async verifyEmail(token: string): Promise<ServiceResponse<boolean>> {
+    try {
+      const response = await this.client.post<any>('/v1/auth/verify-email', { token });
+      this.handle<any>(response);
+      return this.createSuccess(true, response?.aciklama);
+    } catch (error: any) {
+      return this.createError(error.message);
+    }
+  }
+
   /**
    * Log out and clear session (V2).
    */

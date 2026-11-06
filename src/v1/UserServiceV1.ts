@@ -15,6 +15,8 @@ export interface UpdatePersonalInfoParams {
   phoneNumber?: string;
   countryID?: string | number;
   provinceID?: string | number;
+  /** Yalnızca yeni API: female | male | nonbinary | other; boş seçimi kaldırır */
+  gender?: string;
   passwordControl: string;
   v1?: string;
 }

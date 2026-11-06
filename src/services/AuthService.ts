@@ -60,4 +60,19 @@ export class AuthService extends BaseService {
   async verifyPasswordReset(params: { username: string, email: string, birthday: string, code: string, newPassword: any }): Promise<ServiceResponse<boolean>> {
     return this.version.verifyPasswordReset(params);
   }
+
+  /** E-posta doğrulandı mı (yalnızca yeni API) */
+  async emailVerification(): Promise<ServiceResponse<{ verified: boolean; email: string | null }>> {
+    return this.version instanceof AuthServiceV2 ? this.version.emailVerification() : this.createError('Eski API desteklemiyor');
+  }
+
+  /** Doğrulama bağlantısını yeniden gönderir (yalnızca yeni API) */
+  async resendVerification(): Promise<ServiceResponse<boolean>> {
+    return this.version instanceof AuthServiceV2 ? this.version.resendVerification() : this.createError('Eski API desteklemiyor');
+  }
+
+  /** E-postadaki bağlantıyla doğrular (yalnızca yeni API) */
+  async verifyEmail(token: string): Promise<ServiceResponse<boolean>> {
+    return this.version instanceof AuthServiceV2 ? this.version.verifyEmail(token) : this.createError('Eski API desteklemiyor');
+  }
 }
