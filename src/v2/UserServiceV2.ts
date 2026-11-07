@@ -40,7 +40,11 @@ export class UserServiceV2 extends BaseService {
         provinceID: data.provinceID ?? '',
         passwordControl: data.passwordControl,
         // Gönderilmezse backend cinsiyete dokunmaz
-        ...(data.gender !== undefined ? { gender: data.gender } : {})
+        ...(data.gender !== undefined ? { gender: data.gender } : {}),
+        ...(data.occupation !== undefined ? { occupation: data.occupation } : {}),
+        ...(data.showBirthDate !== undefined ? { showBirthDate: data.showBirthDate } : {}),
+        ...(data.showZodiac !== undefined ? { showZodiac: data.showZodiac } : {}),
+        ...(data.showGender !== undefined ? { showGender: data.showGender } : {})
       };
       const response = await this.client.put<any>('/v1/profile/ozelbilgiler', body);
       this.handle(response);

@@ -17,6 +17,11 @@ export interface UpdatePersonalInfoParams {
   provinceID?: string | number;
   /** Yalnızca yeni API: female | male | nonbinary | other; boş seçimi kaldırır */
   gender?: string;
+  /** Yalnızca yeni API: meslek ve profilde gösterilsin mi ayarları */
+  occupation?: string;
+  showBirthDate?: boolean;
+  showZodiac?: boolean;
+  showGender?: boolean;
   passwordControl: string;
   v1?: string;
 }
